@@ -20,13 +20,13 @@
  * MODULES
  */
 // modules graphiques
-#include "modules/graphiques/*.h"
+#include "modules/graphiques/graphiques.h"
 // modules sonores
-#include "modules/sonores/*.h"
+#include "modules/sonores/sonores.h"
 // modules réseaux
-#include "modules/réseaux/*.h"
-// modules inc
-#include "modules/inc/*.h"
+#include "modules/reseaux/reseaux.h"
+// modules pattern P
+//#include "modules/P/P.h"
 
 
 
@@ -34,7 +34,6 @@
 /*
  * DECLARATIONS
  */
-
 // il existe 126 id de joueurs
 typedef short idJ;
 

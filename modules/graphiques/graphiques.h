@@ -2,8 +2,4 @@
 #define GRAPHIQUE_H_INCLUDED
 
 
-
 #endif
-
-
-
