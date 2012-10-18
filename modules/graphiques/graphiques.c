@@ -1,6 +1,2 @@
-#ifndef GRAPHIQUE_H_INCLUDED
-#define GRAPHIQUE_H_INCLUDED
+#include "graphiques.h"
 
-
-
-#endif

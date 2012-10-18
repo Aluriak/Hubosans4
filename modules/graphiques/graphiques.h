@@ -1,4 +1,9 @@
-#include "graphiques.h"
+#ifndef GRAPHIQUE_H_INCLUDED
+#define GRAPHIQUE_H_INCLUDED
+
+
+
+#endif
 
 
 
