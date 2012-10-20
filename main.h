@@ -16,20 +16,6 @@
 
 
 
-/*
- * MODULES
- */
-// modules graphiques
-#include "modules/graphiques/graphiques.h"
-// modules sonores
-#include "modules/sonores/sonores.h"
-// modules réseaux
-#include "modules/reseaux/reseaux.h"
-// modules pattern P
-//#include "modules/P/P.h"
-
-
-
 
 /*
  * DECLARATIONS
