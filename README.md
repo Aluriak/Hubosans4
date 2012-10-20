@@ -9,12 +9,10 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
 	* Pieces creuses
 	* Pieces bloquantes
 * Gestion du jeu à N joueurs (N > 1)
-
-* Matrice de N*M cases (gravite non optionnelle)
+* Matrice de N\*M cases (gravite non optionnelle)
 
 
 ##Caractéristiques techniques
-
 ###Programmation
 * Utilisation du compilateur gcc
 	* Moteur de jeu
@@ -36,6 +34,7 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
 * Stockage
 	* Serveur git, github.com
 
+
 ## Etapes du développement
 * Etape 1 : moteur du jeu + affichage terminal
     * utilisation des caractères , ·, O et X pour l'affichage des pièces (affichage en couleur grâce à la technologie printf)
@@ -46,7 +45,6 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
 * Etape 6 : cross platform
 
 Etape actuelle : 0.5
-
 
 
 ### Etape 1
