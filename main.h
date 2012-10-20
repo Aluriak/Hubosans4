@@ -20,11 +20,9 @@
 /*
  * DECLARATIONS
  */
-// il existe 126 id de joueurs
+// il existe 126 id de joueurs. Soit 126 joueurs au max 
+// les négatifs sont utilisés pour l'absence de joueur
 typedef short idJ;
-
-// une case peut être occupée par :
-typedef enum {VIDE, PLEINE, CREUSE, DOUBLE, BLOQUANTE} e_piece;
 
 
 // Coordonnées entières
@@ -36,20 +34,22 @@ typedef struct {
 
 // Case du plateau de jeu
 typedef struct {
-    coord c; // coordonnées de la case dans le jeu
-    idJ pieceCreuse; // joueur contrôlant la pièce creuse
-    idJ piecePleine; // joueur contrôlant la pièce pleine
-    e_piece p; // type de pièce effectivement présente dans la case
+    coord crd; // coordonnées de la case dans le jeu
+    idJ joueurPieceCreuse; // joueur contrôlant la pièce creuse, ou -1
+    idJ joueurPiecePleine; // joueur contrôlant la pièce pleine, ou -1
 } t_case;
 
 
+/* 
+ * STRUCT: T_CASE 
+ */
 // initialisation de la structure
-void t_case_init(t_case* c, int x, int y) {
-    c->x = x;
-    c->y = y;
-    pieceCreuse = -1;
-    piecePleine = -1;
-    p = VIDE;
+void t_case_init(t_case* t_case, int x, int y) {
+    t_case->crd.x = x;
+    t_case->crd.y = y;
+    t_case->joueurPieceCreuse = -1;
+    t_case->joueurPiecePleine = -1;
+    t_case->p = VIDE;
 }
 
 
