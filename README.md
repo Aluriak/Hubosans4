@@ -5,9 +5,9 @@
 ##Principes
 Le principe est le même que celui du puissance 4, avec quelques améliorations :
 * Gestion de 3 type de pieces
-	* Pieces pleines
-	* Pieces creuses
-	* Pieces bloquantes
+    * Pieces pleines
+    * Pieces creuses
+    * Pieces bloquantes
 * Gestion du jeu à N joueurs (N > 1)
 * Matrice de N\*M cases (gravite non optionnelle)
 
@@ -15,24 +15,28 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
 ##Caractéristiques techniques
 ###Programmation
 * Utilisation du compilateur gcc
-	* Moteur de jeu
-	* Sauvegarde de partie en cours
-	* Sauvegarde de donnees joueurs
-	* Scoring
+    * Moteur de jeu
+    * Sauvegarde de partie en cours
+    * Sauvegarde de donnees joueurs
+    * Scoring
 
 * Utilisation de la SDL lib
-	* Modules graphiques & sonores
-	* Modules reseaux
+    * Modules graphiques & sonores
+    * Modules reseaux
+
+* Utilisation de vim simplifiée
+    * projet.vim contient l'ouverture automatisé du projet
+	    avec la commande 'vim -c so\ projet.vim'
 
 
 ###Support
 * OS
-	* Linux (prioritaire)
-	* Windows (et encore)
-	* Mac (faut pas chier non plus ;] )
+    * Linux (prioritaire)
+    * Windows (et encore)
+    * Mac (faut pas chier non plus ;] )
 
 * Stockage
-	* Serveur git, github.com
+    * Serveur git, github.com : https://github.com/Aluriak/Hubosans4
 
 
 ## Etapes du développement
