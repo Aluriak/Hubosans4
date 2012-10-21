@@ -19,6 +19,6 @@ typedef enum {false, true} bool;
 /*
  * PROTOTYPES
  */
-    FLUX_ERREUR(char* source, char* erreur); // affiche dans stderr l'erreur envoyée
+    void FLUX_ERREUR(char* source, char* erreur); // affiche dans stderr l'erreur envoyée
 
 #endif
