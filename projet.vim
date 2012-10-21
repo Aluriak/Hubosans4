@@ -10,3 +10,5 @@ tabnew modules/IA/IA.h
 vsplit modules/IA/IA.c
 tabnew modules/reseau/reseau.h
 vsplit modules/reseau/reseau.c
+tabnew modules/systeme/systeme.h
+vsplit modules/systeme/systeme.c
