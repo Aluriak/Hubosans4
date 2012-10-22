@@ -38,20 +38,34 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
 * Stockage
     * Serveur git, github.com : https://github.com/Aluriak/Hubosans4
 
-
 ## Etapes du développement
 * Etape 1 : moteur du jeu + affichage terminal
-    * utilisation des caractères , ·, O et X pour l'affichage des pièces (affichage en couleur grâce à la technologie printf)
+    * utilisation des caractères ., 0 et X pour l'affichage des pièces
+    * affichage en couleur grâce à la technologie printf
 * Etape 2 : gestion scoring et sauvegarde
 * Etape 3 : IA
 * Etape 4 : interface graphique et sonore avec la SDL
 * Etape 5 : réseau
 * Etape 6 : cross platform
 
-Etape actuelle : 0.5
+Etape actuelle : 1
 
 
 ### Etape 1
 L'étape 1 est la base du projet, puisque le moteur du jeu, définit à cette étape, restera inchangé pour le reste du projet.
+
+#### Affichage dans le terminal
+
+Exemple d'affichage dans le terminal :
+
+  1  2  3  4  5  6  7
+ ----------------------
+||  |  |  |  |  |  |  ||
+||  |  |  |  |  |  |  ||
+||  |  |  |  |  |  |  ||
+||  |  |  |  |  |  |  ||
+||  |  |  |  |  |  |  ||
+||0.|XX|  |  |  |  |  ||
+ **********************
 
 
