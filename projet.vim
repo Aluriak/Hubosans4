@@ -2,8 +2,8 @@ e main.h
 vsplit main.c
 tabnew modules/moteur/moteur.h
 vsplit modules/moteur/moteur.c
-tabnew modules/graphique/graphique.h
-vsplit modules/graphique/graphique.c
+tabnew modules/graphique/TERM/graphique_TERM.h
+vsplit modules/graphique/TERM/graphique_TERM.c
 tabnew module/sonore/sonore.h
 vsplit module/sonore/sonore.c
 tabnew modules/IA/IA.h
