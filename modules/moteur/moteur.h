@@ -11,6 +11,11 @@
 /*
  * PREDECLARATIONS
  */
+// enumération du type de pièce dans une case
+typedef enum {VIDE, CREUSE, PLEINE, DOUBLE, BLOQUANTE} e_piece;
+// DOUBLE = CREUSE + PLEINE
+
+
 // structure de joueur
 typedef struct {
     int point; // nombre de points pour cette partie
@@ -51,6 +56,7 @@ typedef struct {
  */
 // STRUCT T_CASE
     void t_case_init(t_case* t_case, int x, int y); // initialisation de la structure
+    bool t_jeu_init(t_jeu *jeu, short nbjoueurs); // STRUCT T_JEU: initialisation de la structure. Retourne false en cas d'erreur
 
 
 
