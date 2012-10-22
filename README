@@ -40,7 +40,7 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
 
 ## Etapes du développement
 * Etape 1 : moteur du jeu + affichage terminal
-    * utilisation des caractères ., 0 et X pour l'affichage des pièces
+    * utilisation des caractères ., O et X pour l'affichage des pièces
     * affichage en couleur grâce à la technologie printf
 * Etape 2 : gestion scoring et sauvegarde
 * Etape 3 : IA
@@ -65,7 +65,7 @@ Exemple d'affichage dans le terminal :
 ||  |  |  |  |  |  |  ||
 ||  |  |  |  |  |  |  ||
 ||  |  |  |  |  |  |  ||
-||0.|XX|  |  |  |  |  ||
+||O.|XX|  |  |  |  |  ||
  **********************
 
 
