@@ -18,6 +18,7 @@
  * PROTOTYPES
  */
 
+    void afficherJeu_TERM(t_jeu* jeu); // affiche le jeu dans le terminal
 
 
 #endif
