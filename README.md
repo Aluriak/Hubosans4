@@ -33,7 +33,7 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
 * OS
     * Linux (prioritaire)
     * Windows (et encore)
-    * Mac (faut pas chier non plus ;] )
+    * Mac (no troll please)
 
 * Stockage
     * Serveur git, github.com : https://github.com/Aluriak/Hubosans4
