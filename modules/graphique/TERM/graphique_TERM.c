@@ -15,7 +15,7 @@ void TERM_clear() {
  */
 // configure la couleur de texte terminal
 // 	Envoyer "0" pour réinitialiser
-void TERM_confColor(char* clr) {
+void TERM_color(char* clr) {
     printf("\033[%sm", clr);
 }
 
@@ -46,7 +46,14 @@ void TERM_afficherJeu(t_jeu* jeu) {
 		cPleine = '.';
 	    if(jeu->plateau[i][j].typePiece == BLOQUANTE)
 		cCreuse = cPleine = 'X';
-	    printf("|%c%c|", cCreuse, cPleine);
+	    // couleur
+	    TERM_color(jeu->listeJoueur[val1].color);
+	    printf("|%c", cCreuse);
+	    // couleur
+	    TERM_color(jeu->listeJoueur[val2].color);
+	    printf("%c|", cPleine);
+	    // réinitialisation de la couleur
+	    TERM_color("0");
 	}
 	printf("|\n");
     }
