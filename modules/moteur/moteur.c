@@ -21,29 +21,36 @@ void t_case_init(t_case* t_case, int x, int y) {
  * STRUCT T_JEU
  */
 // STRUCT T_JEU: initialisation de la structure. Retourne false en cas d'erreur
-bool t_jeu_init(t_jeu *jeu, short nbjoueurs) {
-    if(nbjoueurs < 2) return false;
+t_jeu* t_jeu_init(short nbjoueurs) {
+    // création du jeu
+    t_jeu* jeu = malloc(sizeof(t_jeu));
+    // création de la table de joueur
+    if(nbjoueurs < 2) return NULL;
     jeu->nbJoueur = nbjoueurs;
-    // allocation de la liste de joueur
     jeu->listeJoueur = malloc(nbjoueurs * sizeof(t_joueur));
-    if(jeu->listeJoueur) {
+    if(jeu->listeJoueur == 0) {
 	FLUX_ERREUR("MODULE MOTEUR", "Allocation mémoire échouée à l'initialisation de la table de joueur");
-	return false;
+	return NULL;
     }
     // allocation du plateau de jeu
     jeu->nbCaseX = 7 + (nbjoueurs-2);
     jeu->nbCaseY = 6 + (nbjoueurs-2);
     // TODO
-    return true;
+    return jeu;
 }
 
 
 void t_jeu_free(t_jeu* jeu) {
     // libération des joueurs
     free(jeu->listeJoueur);
-    // libération du jeu
+    // libération du plateau
     // TODO
+    // libération du jeu
+    free(jeu);
 }
+
+
+
 
 
 

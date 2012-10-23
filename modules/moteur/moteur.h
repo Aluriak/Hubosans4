@@ -64,7 +64,7 @@ typedef struct {
  */
 // STRUCT T_CASE
     void t_case_init(t_case* t_case, int x, int y); // initialisation de la structure
-    bool t_jeu_init(t_jeu *jeu, short nbjoueurs); // STRUCT T_JEU: initialisation de la structure. Retourne false en cas d'erreur
+    t_jeu* t_jeu_init(short nbjoueurs); // STRUCT T_JEU: initialisation de la structure. Retourne l'adresse de la structure ou NULL
 
 
     // STRUCT T_JOUEUR
