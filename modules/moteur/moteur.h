@@ -6,6 +6,8 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+// modules
+#include "../systeme/systeme.h"
 
 
 /*
@@ -22,6 +24,11 @@ typedef struct {
     short idJ; // id reconnaissant le joueur
     // il existe 125 id de joueurs. Soit 125 joueurs au max 
     // zéro et les négatifs sont utilisés pour l'absence de joueur
+    // MAIS, pour des raisons de couleur, six joueurs maximum.
+    // les id vont de 1 (premier joueur) à 6 (dernier)
+    char color[3]; // valeur de couleur du joueur ("31" à "36")
+    // booléen à vrai si ce joueur est géré par l'IA
+    bool IA;
 } t_joueur;
 
 
@@ -46,7 +53,7 @@ typedef struct {
     t_case** plateau; // matrice de t_case
     int nbCaseX; // nombre de cases en X
     int nbCaseY; // nombre de cases en Y
-    t_joueur listeJoueur[]; // liste des joueurs
+    t_joueur* listeJoueur; // liste des joueurs
     short nbJoueur; // nombre de joueurs listés
 } t_jeu;
 
@@ -60,6 +67,8 @@ typedef struct {
     bool t_jeu_init(t_jeu *jeu, short nbjoueurs); // STRUCT T_JEU: initialisation de la structure. Retourne false en cas d'erreur
 
 
+    // STRUCT T_JOUEUR
+    void t_joueur_init(t_joueur *j, short id, bool ia); // initialise le joueur selon le nombre denjoueur initialisé auparavant
 
 
 
