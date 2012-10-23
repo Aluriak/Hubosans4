@@ -10,7 +10,7 @@ FINALNAME=hubosans4
 # EXECUTABLE #
 
 # création de l'exécutable
-$(FINALNAME) : *.o
+$(FINALNAME) : main.o
 	$(CC) -o $(FINALNAME) *.o
 
 
@@ -49,3 +49,7 @@ moteur.o: modules/moteur/*.c systeme.o
 # suppression des fichiers objets
 clean:
 	rm *.o 
+
+
+
+
