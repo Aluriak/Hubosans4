@@ -12,7 +12,7 @@ void t_case_init(t_case* t_case, int x, int y) {
     t_case->crd.y = y;
     t_case->joueurPieceCreuse = -1;
     t_case->joueurPiecePleine = -1;
-    t_case->p = VIDE;
+    t_case->typePiece = VIDE;
 }
 
 
@@ -34,6 +34,7 @@ bool t_jeu_init(t_jeu *jeu, short nbjoueurs) {
     jeu->nbCaseX = 7 + (nbjoueurs-2);
     jeu->nbCaseY = 6 + (nbjoueurs-2);
     // TODO
+    return true;
 }
 
 
@@ -41,7 +42,26 @@ void t_jeu_free(t_jeu* jeu) {
     // libération des joueurs
     free(jeu->listeJoueur);
     // libération du jeu
-
+    // TODO
 }
+
+
+
+/*
+ * STRUCT T_JOUEUR
+ */
+// initialise le joueur selon le nombre denjoueur initialisé auparavant
+void t_joueur_init(t_joueur *j, short id, bool ia) {
+    j->point = 0;
+    j->idJ = id;
+    // écriture d'un chiffre de couleur entre 31 (rouge) et 36 (cyan)
+    j->color[0] = '3';
+    // on détermine le dernier chiffre en fonction de l'idJ
+    j->color[1] = id+'0'; // transformation du chiffre en ascii
+    j->color[2] = '\0'; // fin de chaîne
+    // si il s'agit d'une IA
+    j->IA = ia;
+}
+
 
 
