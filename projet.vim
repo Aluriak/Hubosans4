@@ -4,8 +4,8 @@ tabnew modules/moteur/moteur.h
 vsplit modules/moteur/moteur.c
 tabnew modules/graphique/TERM/graphique_TERM.h
 vsplit modules/graphique/TERM/graphique_TERM.c
-tabnew module/sonore/sonore.h
-vsplit module/sonore/sonore.c
+tabnew modules/sonore/sonore.h
+vsplit modules/sonore/sonore.c
 tabnew modules/IA/IA.h
 vsplit modules/IA/IA.c
 tabnew modules/reseau/reseau.h
