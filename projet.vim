@@ -1,5 +1,7 @@
 e main.h
 vsplit main.c
+tabnew moteur/struct_jeu.c
+vsplit moteur/struct_case_joueur.c
 tabnew moteur/moteur.h
 vsplit moteur/moteur.c
 tabnew graphique/TERM/graphique_TERM.h
