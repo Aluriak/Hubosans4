@@ -4,8 +4,6 @@
 /*
  * BIBLIOTHEQUES
  */
-#include <stdio.h>
-#include <stdlib.h>
 // modules
 #include "../systeme/systeme.h"
 
@@ -27,7 +25,7 @@ typedef enum {VIDE, CREUSE, PLEINE, DOUBLE, BLOQUANTE} e_piece;
 
 // structure de joueur
 typedef struct {
-    int point; // nombre de points pour cette partie
+    int points; // nombre de points pour cette partie
     short idJ; // id reconnaissant le joueur
     // il existe 125 id de joueurs. Soit 125 joueurs au max 
     // zéro et les négatifs sont utilisés pour l'absence de joueur
