@@ -45,7 +45,16 @@ void TERM_afficherJeu(t_jeu* jeu) {
  */
 // Affiche l'en-tête du jeu, contenant instructions et indications
 void TERM_afficherEnTete(t_jeu* jeu) {
-    // TODO
+    int i = 0; // itérateur de boucle
+    for(i = 0; i < jeu->nbJoueur; i++) {
+	TERM_color(jeu->listeJoueur[i].couleur);
+	printf("Joueur %i : %i points\n", 
+		jeu->listeJoueur[i].idJ, 
+		jeu->listeJoueur[i].points
+		);
+    }
+    TERM_color(0);
+    printf("\n");
 }
 
 
