@@ -28,6 +28,10 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
     * projet.vim contient l'ouverture automatisé du projet
 	    avec la commande 'vim -c so\ projet.vim'
 
+###Dessin
+* Utilisation du logiciel Pinta (http://pinta-project.com)
+    * Dessin des éléments du jeu pour le module graphique SDL
+
 
 ###Support
 * OS
@@ -37,6 +41,7 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
 
 * Stockage
     * Serveur git, github.com : https://github.com/Aluriak/Hubosans4
+
 
 ## Etapes du développement
 * Etape 1 : moteur du jeu + affichage terminal
