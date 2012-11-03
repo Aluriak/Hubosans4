@@ -28,28 +28,14 @@ void TERM_color(int couleur) {
  */
 // affiche le jeu dans le terminal
 void TERM_afficherJeu(t_jeu* jeu) {
-    // initialisations
-    int i = 0, j = 0;
     // on efface l'écran
     TERM_clear();
-    // on affiche de nouveau le plateau
     // EN-TETE
     TERM_afficherEnTete(jeu);
     // PLATEAU
-    // pour chaque ligne
-    for(j = 0; j < jeu->nbCaseY; j++) {
-	printf("|");
-	// pour chaque colonne de la ligne j
-	for(i = 0; i < jeu->nbCaseX; i++) {
-	    TERM_afficherCase(jeu, i, j);
-	}
-	printf("|\n");
-    }
+    TERM_afficherPlateau(jeu);
     // PIED D'AFFICHAGE
-    printf(" ");
-    for(i = 0; i < jeu->nbCaseX*4; i++) 
-	printf("*");
-    printf("\n");
+    // TODO
 }
 
 
@@ -57,10 +43,19 @@ void TERM_afficherJeu(t_jeu* jeu) {
 /*
  * TERM AFFICHER EN TETE
  */
-// Affiche l'en-tête du jeu, contenant instructions, indications, 
-// 	et première partie du plateau de jeu
+// Affiche l'en-tête du jeu, contenant instructions et indications
 void TERM_afficherEnTete(t_jeu* jeu) {
-    int i = 0; // itérateur de boucle
+    // TODO
+}
+
+
+/*
+ * TERM AFFICHER PLATEAU
+ */
+// Affiche le plateau de jeu
+void TERM_afficherPlateau(t_jeu* jeu) {
+    int i = 0, j = 0; // itérateur de boucle
+    // Début du plateau de jeu
     printf("   ");
     for(i = 0; i < jeu->nbCaseX; i++) {
 	// on gère les cas à 5 ou 6 joueurs : il faut afficher correctement 
@@ -71,9 +66,22 @@ void TERM_afficherEnTete(t_jeu* jeu) {
 	    printf("%d  ", i+1);
     }
     printf("\n");
+    // Corps du plateau
+    // pour chaque ligne
+    for(j = 0; j < jeu->nbCaseY; j++) {
+	printf("|");
+	// pour chaque colonne de la ligne j
+	for(i = 0; i < jeu->nbCaseX; i++) {
+	    TERM_afficherCase(jeu, i, j);
+	}
+	printf("|\n");
+    }
+    // Pied du plateau
+    printf(" ");
+    for(i = 0; i < jeu->nbCaseX*4; i++) 
+	printf("*");
+    printf("\n");
 }
-
-
 
 
 
