@@ -34,8 +34,6 @@ void TERM_afficherJeu(t_jeu* jeu) {
     TERM_afficherEnTete(jeu);
     // PLATEAU
     TERM_afficherPlateau(jeu);
-    // PIED D'AFFICHAGE
-    // TODO
 }
 
 
@@ -127,3 +125,6 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     TERM_color(0);
     printf("|");
 }
+
+
+
