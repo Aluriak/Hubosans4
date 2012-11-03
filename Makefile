@@ -34,7 +34,7 @@ reseau.o: reseau/*.c systeme.o moteur.o
 	$(CC) $(FLAGS) -c reseau/*.c
 sonore.o: sonore/*.c systeme.o moteur.o
 	$(CC) $(FLAGS) -c sonore/*.c
-moteur.o: moteur/*.c systeme.o 
+moteur.o: moteur/*.c  systeme.o 
 	$(CC) $(FLAGS) -c moteur/*.c
 
 
