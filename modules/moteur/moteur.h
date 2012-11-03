@@ -11,6 +11,13 @@
 
 
 /*
+ * DEFINES
+ */
+#define NB_JOUEUR_MIN 2
+#define NB_JOUEUR_MAX 6
+
+
+/*
  * PREDECLARATIONS
  */
 // enumération du type de pièce dans une case
@@ -26,9 +33,8 @@ typedef struct {
     // zéro et les négatifs sont utilisés pour l'absence de joueur
     // MAIS, pour des raisons de couleur, six joueurs maximum.
     // les id vont de 1 (premier joueur) à 6 (dernier)
-    char color[3]; // valeur de couleur du joueur ("31" à "36")
-    // booléen à vrai si ce joueur est géré par l'IA
-    bool IA;
+    int couleur; // valeur de couleur du joueur (de 31 à 36)
+    bool IA; // booléen à vrai si ce joueur est géré par l'IA
 } t_joueur;
 
 
@@ -54,7 +60,8 @@ typedef struct {
     int nbCaseX; // nombre de cases en X
     int nbCaseY; // nombre de cases en Y
     t_joueur* listeJoueur; // liste des joueurs
-    short nbJoueur; // nombre de joueurs listés
+    t_joueur* oya; // pointeur vers l'oya (le joueur dont c'ets le tour)
+    short nbJoueur; // nombre de joueurs listés (l'id va de 1 à 6)
 } t_jeu;
 
 
@@ -64,10 +71,13 @@ typedef struct {
  */
 // STRUCT T_CASE
     void t_case_init(t_case* t_case, int x, int y); // initialisation de la structure
-    t_jeu* t_jeu_init(short nbjoueurs); // STRUCT T_JEU: initialisation de la structure. Retourne l'adresse de la structure ou NULL
+
+// STRUCT T_JEU
+    t_jeu* t_jeu_init(short nbjoueurs, short nbIA); // allocation et initialisation de la structure. Retourne l'adresse de la structure ou NULL
+    void t_jeu_free(t_jeu* jeu); // libère le t_jeu alloué dynamiquement
 
 
-    // STRUCT T_JOUEUR
+// STRUCT T_JOUEUR
     void t_joueur_init(t_joueur *j, short id, bool ia); // initialise le joueur selon le nombre denjoueur initialisé auparavant
 
 
