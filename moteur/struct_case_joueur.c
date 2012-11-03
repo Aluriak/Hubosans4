@@ -25,6 +25,7 @@ void t_case_init(t_case* t_case, int x, int y) {
 
 
 
+
 /*
  * STRUCT T_JOUEUR
  */

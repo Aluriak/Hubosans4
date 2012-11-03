@@ -67,16 +67,20 @@ typedef struct {
 /*
  * PROTOTYPES
  */
-// STRUCT T_CASE
+// STRUCT T_CASE (dans struct_case_joueur.c)
     void t_case_init(t_case* t_case, int x, int y); // initialisation de la structure
 
-// STRUCT T_JEU
+// STRUCT T_JOUEUR (dans struct_case_joueur.c)
+    void t_joueur_init(t_joueur *j, short id, bool ia); // initialise le joueur selon le nombre denjoueur initialisé auparavant
+
+// STRUCT T_JEU (dans struct_jeu.c)
     t_jeu* t_jeu_init(short nbjoueurs, short nbIA); // allocation et initialisation de la structure. Retourne l'adresse de la structure ou NULL
     void t_jeu_free(t_jeu* jeu); // libère le t_jeu alloué dynamiquement
+    // Sous-procédures
+	bool t_jeu_init_listeJoueur(t_jeu* jeu, short nbIA); // initialise la liste des joueurs du jeu, et renvois faux si un problème à été rencontré, après appel de FLUX_ERREUR()
+	bool t_jeu_init_plateau(t_jeu* jeu); // Initialise le plateau de jeu. Renvois faux si problème rencontré, après l'avoir fait savoir avec FLUX_ERREUR()
 
 
-// STRUCT T_JOUEUR
-    void t_joueur_init(t_joueur *j, short id, bool ia); // initialise le joueur selon le nombre denjoueur initialisé auparavant
 
 
 
