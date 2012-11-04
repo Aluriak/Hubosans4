@@ -47,10 +47,15 @@ void TERM_afficherEnTete(t_jeu* jeu) {
     int i = 0; // itérateur de boucle
     for(i = 0; i < jeu->nbJoueur; i++) {
 	TERM_color(jeu->listeJoueur[i].couleur);
-	printf("Joueur %i : %i points\n", 
+	printf("Joueur %i : %i points", 
 		jeu->listeJoueur[i].idJ, 
 		jeu->listeJoueur[i].points
 		);
+	// si c'est le joueur dont c'est le tour
+	if(jeu->oya == &jeu->listeJoueur[i]) {
+	    printf(" [Oya] ");
+	}
+	printf("\n");
     }
     TERM_color(0);
     printf("\n");
