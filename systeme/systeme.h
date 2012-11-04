@@ -6,6 +6,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <string.h>
 
 
@@ -20,5 +21,6 @@ typedef enum {false, true} bool;
  * PROTOTYPES
  */
     void FLUX_ERREUR(char* source, char* erreur); // affiche dans stderr l'erreur envoyée
+    int randN(int N); // renvois un nombre aléatoire entre 0 et N-1 (N > 0)
 
 #endif

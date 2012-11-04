@@ -32,7 +32,7 @@ t_jeu* t_jeu_init(short nbjoueurs, short nbIA) {
     // allocation du plateau de jeu
     if(!t_jeu_init_plateau(jeu)) 
 	return NULL;
-    // traitement erminé : on renvois le jeu
+    // traitement terminé : on renvois le jeu
     return jeu;
 }
 
@@ -65,6 +65,7 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, short nbIA) {
 	bool estIA = (j < 0); // si tous les joueurs humain ont été initialisés
 	t_joueur_init(&jeu->listeJoueur[i], i+1, estIA);
     }
+    t_jeu_choisirOya(jeu); // détermine un oya
     return true;
 }
 
@@ -130,6 +131,19 @@ void t_jeu_free(t_jeu* jeu) {
     free(jeu->plateau);
     // libération du jeu lui-même
     free(jeu);
+}
+
+
+
+/*
+ * T_JEU CHOISIR OYA
+ */
+// choisit un oya, et le point avec le pointeur attribut de t_jeu prévu à cet effet
+void t_jeu_choisirOya(t_jeu* jeu) {
+    // on prend un nombre aléatoire entre 0 et le nombre de joueur -1
+    int id = randN(jeu->nbJoueur);
+    // il s'agit de l'id de l'oya
+    jeu->oya = jeu->listeJoueur[id];
 }
 
 

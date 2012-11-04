@@ -23,6 +23,7 @@ void TERM_color(int couleur) {
 
 
 
+
 /*
  * TERM AFFICHER JEU
  */
@@ -54,6 +55,8 @@ void TERM_afficherEnTete(t_jeu* jeu) {
     TERM_color(0);
     printf("\n");
 }
+
+
 
 
 /*

@@ -33,13 +33,4 @@ void main_init() {
 
 
 
-/*
- * RAND N
- */
-// renvois un nombre aléatoire entre 0 et N-1 (N > 0)
-int randN(int N) {
-    return (int) (rand() / (double)RAND_MAX * (N-1));
-}
-
-
 

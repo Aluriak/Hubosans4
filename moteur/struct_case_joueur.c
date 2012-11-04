@@ -10,6 +10,7 @@ Les prototypes sont décris dans le header inclus précédemment
 
 
 
+
 /*
  * STRUCT T_CASE
  */
@@ -38,4 +39,6 @@ void t_joueur_init(t_joueur *j, short id, bool ia) {
     // si il s'agit d'une IA
     j->IA = ia;
 }
+
+
 

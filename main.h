@@ -29,7 +29,6 @@
  * PROTOTYPES
  */
     void main_init(); // gère les pré-initialisations du programme
-    int randN(int N); // renvois un nombre aléatoire entre 0 et N-1 (N > 0)
 
 
 
