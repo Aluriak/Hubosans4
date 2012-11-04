@@ -143,7 +143,7 @@ void t_jeu_choisirOya(t_jeu* jeu) {
     // on prend un nombre aléatoire entre 0 et le nombre de joueur -1
     int id = randN(jeu->nbJoueur);
     // il s'agit de l'id de l'oya
-    jeu->oya = jeu->listeJoueur[id];
+    jeu->oya = &(jeu->listeJoueur[id]);
 }
 
 
