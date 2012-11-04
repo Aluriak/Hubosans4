@@ -11,6 +11,12 @@
 
 
 /*
+ * DEFINES
+ */
+#define FILE_ERR "erreur.txt"
+
+
+/*
  * PREDECLARATIONS
  */
 // énumération booléenne
