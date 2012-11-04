@@ -2,6 +2,7 @@
 
 CC=gcc
 FLAGS=-Wall -Werror
+SDL=`sdl-config --cflags --libs`
 FINALNAME=hubosans4
 
 
