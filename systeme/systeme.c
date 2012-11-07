@@ -9,6 +9,10 @@
 // affiche dans stderr l'erreur envoyée
 void FLUX_ERREUR(char* source, char* erreur) {
     FILE* fileErr = fopen(FILE_ERR, "wa");
+    if(!fileErr) {
+	fprintf(stderr, "\nFICHIER ERREUR NON OUVERT\n");
+	exit(EXIT_FAILURE);
+    }
     fprintf(fileErr, "%s: %s", source, erreur);
     fclose(fileErr);
 }
