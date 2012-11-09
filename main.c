@@ -10,6 +10,7 @@
 int main(int argc, char* argv[]) {
     // pré-initialisation
     main_init();
+
     //*	DEBUG
     t_jeu *jeu = t_jeu_init(2, 1); // 2 joueurs, dont 1 IA
     if(jeu == NULL) return false;
@@ -17,6 +18,7 @@ int main(int argc, char* argv[]) {
     // libération du jeu
     free(jeu);
     //	DEBUG 	*/
+
     return EXIT_SUCCESS;
 }
 
