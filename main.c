@@ -29,8 +29,6 @@ int main(int argc, char* argv[]) {
 
 
     // libération du jeu
-    free(jeu);
-
     t_jeu_free(jeu);
     return EXIT_SUCCESS;
 }
