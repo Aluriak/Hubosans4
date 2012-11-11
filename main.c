@@ -11,13 +11,15 @@ int main(int argc, char* argv[]) {
     // pré-initialisation
     main_init();
 
-    //*	DEBUG
+    // initialisations
+    // création du jeu
     t_jeu *jeu = t_jeu_init(4, 3); // 4 joueurs, dont 3 IA
     if(jeu == NULL) return EXIT_SUCCESS;
     //t_joueur* gagnant = NULL;
 
-
+    // premier affichage
     TERM_afficherJeu(jeu);
+
     // jeu
     /*
     while(gagnant == NULL) {
@@ -25,8 +27,7 @@ int main(int argc, char* argv[]) {
 	gagnant = t_jeu_tourSuivant(jeu);
     }
     // arrivé ici, il y a puissance 4
-    // DEBUG */
-
+    // */
 
     // libération du jeu
     t_jeu_free(jeu);
