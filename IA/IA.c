@@ -18,9 +18,9 @@
 // 	- on joue à cet endroit
 void IA_effectuerTour(t_jeu *jeu, t_joueur* joueur) {
     // calcul des priorites
-    it_priorite* priorites = IA_calculPriorites(jeu, joueur);
+    t_priorite* priorites = IA_calculPriorites(jeu, joueur);
     // libérations
-    free(priorite);
+    free(priorites);
 }
 
 
@@ -34,12 +34,18 @@ void IA_effectuerTour(t_jeu *jeu, t_joueur* joueur) {
 t_priorite* IA_calculPriorites(t_jeu* jeu, t_joueur* joueur) {
     // initialisation
     int i = jeu->nbCaseX-1; // nombre de colonnes dans l'itérateur de boucle
+    int y = -1; // coordonnée y de la pièce étudiée 
     // création du tableau de priorité
     t_priorite* priorites = malloc(jeu->nbCaseX*sizeof(t_priorite));
     // pour chaque colonne
     for(; i >= 0; i--) {
 	// on teste pour la pièce creuse
+	// récupération de la coordonnée d'une pièce creuse lâchée en colonne i
+	y = IA_coordPieceJouee(jeu, CREUSE, i);
+	// étude de la priorite en (i;y)
+	priorites[i].creuse = IA_etudePriorite(jeu, joueur, i, y);
     }
+    return priorites;
 }
 
 
@@ -63,10 +69,10 @@ int IA_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
 	// 	(pièce bloquante, ou de même type que la pièce placée)
 	if(pieceCase == BLOQUANTE 
 		|| pieceCase == piecePlacee 
-		|| pieceCase = DOUBLE) {
+		|| pieceCase == DOUBLE) {
 	    // on détermine si on renvois -1 (pas de case précédente), 
 	    // 	ou l'id de la case précédente
-	    if(i == jeu->nbCaseY-1)	
+	    if(i == (jeu->nbCaseY-1))	
 		i = -1; // arrêt de la boucle;
 	    else
 		ligne = i+1; 
@@ -74,6 +80,19 @@ int IA_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
 	// sinon, on avance à la case d'après sans autre artifice
     }
     return ligne;
+}
+
+
+
+/*
+ * IA ETUDE PRIORITE
+ */
+// renvois la priorité à jouer dans la case (x;y) pour le joueur pointé.
+// la priorité est une valeur entre 0 (inutile) et 10 (prioritaire)
+int IA_etudePriorite(t_jeu* jeu, t_joueur* joueur, int x, int y) {
+    int priorite = 0; // priorité de la case
+    return priorite;
+      
 }
 
 
