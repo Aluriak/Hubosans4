@@ -32,6 +32,17 @@ t_jeu* t_jeu_init(short nbjoueurs, short nbIA) {
     // allocation du plateau de jeu
     if(!t_jeu_init_plateau(jeu)) 
 	return NULL;
+    /* DEBUG
+    jeu->plateau[0][0].joueurPieceCreuse = 1;
+    jeu->plateau[0][0].joueurPiecePleine = 1;
+    jeu->plateau[0][0].typePiece = DOUBLE;
+    jeu->plateau[1][0].joueurPieceCreuse = 2;
+    jeu->plateau[1][0].joueurPiecePleine = 3;
+    jeu->plateau[1][0].typePiece = DOUBLE;
+    jeu->plateau[0][1].joueurPieceCreuse = 4;
+    jeu->plateau[0][1].joueurPiecePleine = -1;
+    jeu->plateau[0][1].typePiece = CREUSE;
+    // DEBUG */
     // traitement terminé : on renvois le jeu
     return jeu;
 }
@@ -60,9 +71,10 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, short nbIA) {
 	return false;
     }
     // initialisation des joueurs
-    // 	j est utilisée pour déerminer si le joueur est une IA ou pas
-    for(i = jeu->nbJoueur-1, j = jeu->nbJoueur-nbIA; i >= 0; i--, j--) {
-	bool estIA = (j < 0); // si tous les joueurs humain ont été initialisés
+    // 	j est utilisée pour déterminer si le joueur est une IA ou pas
+    for(i = 0, j = jeu->nbJoueur-nbIA; i < jeu->nbJoueur; i++, j--) {
+	// si tous les joueurs humain ont été initialisés
+	bool estIA = (j <= 0); 
 	t_joueur_init(&jeu->listeJoueur[i], i+1, estIA);
     }
     t_jeu_choisirOya(jeu); // détermine un oya
