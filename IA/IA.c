@@ -17,8 +17,20 @@
 // 	- on identifie le couple (colonne, pion) de plus haute priorité
 // 	- on joue à cet endroit
 void IA_effectuerTour(t_jeu *jeu, t_joueur* joueur) {
+    // initialisations
+    int i = 0; // itérateurs de boucle
+    int prioMax = 0, inter; // priorité maximum et intermédiaire de traitement
     // calcul des priorites
     t_priorite* priorites = IA_calculPriorites(jeu, joueur);
+
+    // on recherche la plus haute priorité
+    prioMax = prio_max(priorites[0]);
+    for(i = 1; i < jeu->nbCaseX; i++) {
+	inter = prio_max(priorites[i]);
+	if(inter > prioMax)
+	    prioMax = inter;
+    }
+
     // libérations
     free(priorites);
 }
@@ -44,6 +56,12 @@ t_priorite* IA_calculPriorites(t_jeu* jeu, t_joueur* joueur) {
 	y = IA_coordPieceJouee(jeu, CREUSE, i);
 	// étude de la priorite en (i;y)
 	priorites[i].creuse = IA_etudePriorite(jeu, joueur, i, y);
+	// on recommence le calcul pour la pièce pleine
+	y = IA_coordPieceJouee(jeu, PLEINE, i);
+	priorites[i].pleine = IA_etudePriorite(jeu, joueur, i, y);
+	// et pour la pièce bloquante
+	y = IA_coordPieceJouee(jeu, BLOQUANTE, i);
+	priorites[i].bloquante = IA_etudePriorite(jeu, joueur, i, y);
     }
     return priorites;
 }
@@ -330,3 +348,32 @@ int IA_calculPriorite_diag_traitement(t_jeu* jeu,
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * PRIO MAX
+ */
+// retourne la valeur maximum contenu dans la structure
+int prio_max(t_priorite prio) {
+    return max(prio.creuse, max(prio.pleine, prio.bloquante));
+}

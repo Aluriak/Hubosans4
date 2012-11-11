@@ -33,6 +33,7 @@ typedef struct {
     int IA_calculPriorite_diag_traitement(t_jeu* jeu, int x, int y, coord min, coord max); // sous traitement de IA_calculPriorite_diag(3) : opère tous les calculs selon l'intervalle de case à étudier
 
 
+    int prio_max(t_priorite prio); // retourne la valeur maximum contenu dans la structure
 
 
 
