@@ -45,16 +45,21 @@ void TERM_afficherJeu(t_jeu* jeu) {
 // Affiche l'en-tête du jeu, contenant instructions et indications
 void TERM_afficherEnTete(t_jeu* jeu) {
     int i = 0; // itérateur de boucle
+    // pour chauqe joueur
     for(i = 0; i < jeu->nbJoueur; i++) {
 	TERM_color(jeu->listeJoueur[i].couleur);
 	printf("Joueur %i : %i points", 
 		jeu->listeJoueur[i].idJ, 
 		jeu->listeJoueur[i].points
 		);
+	// si c'est une IA
+	if(jeu->listeJoueur[i].IA) 
+	    printf("\t[IA]");
+	else 
+	    printf("\t[HM]");
 	// si c'est le joueur dont c'est le tour
-	if(jeu->oya == &jeu->listeJoueur[i]) {
-	    printf(" [Oya] ");
-	}
+	if(jeu->oya == &jeu->listeJoueur[i])
+	    printf("\t[Oya]");
 	printf("\n");
     }
     TERM_color(0);
