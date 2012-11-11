@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
     main_init();
 
     //*	DEBUG
-    t_jeu *jeu = t_jeu_init(2, 1); // 2 joueurs, dont 1 IA
+    t_jeu *jeu = t_jeu_init(4, 3); // 4 joueurs, dont 3 IA
     if(jeu == NULL) return EXIT_SUCCESS;
     //t_joueur* gagnant = NULL;
 
