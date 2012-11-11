@@ -73,4 +73,14 @@ Exemple d'affichage dans le terminal :
 ||O.|XX|  |  |  |  |  ||
  **********************
 
+Repère utilisé pour les cases :
 
+o-------------> x
+|(0;0)(1;0)
+|(0;1)(1;1)
+|
+|
+v y  
+
+
+ 
