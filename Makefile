@@ -19,7 +19,7 @@ $(FINALNAME) : main.o
 # FICHIERS OBJETS #
 
 # le fichier objet main est créé
-main.o: *.c graphique_TERM.o moteur.o systeme.o
+main.o: *.c graphique_TERM.o moteur.o systeme.o IA.o
 	$(CC) $(FLAGS) -c *.c
 
 # pour chaque module, on créé un fichier .o dans le répertoire courant
