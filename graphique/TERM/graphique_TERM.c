@@ -110,8 +110,8 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     int val1, val2;
     char cCreuse, cPleine;
     // récupération des idJoueurs 
-    val1 = jeu->plateau[i][j].joueurPieceCreuse;
-    val2 = jeu->plateau[i][j].joueurPiecePleine;
+    val1 = jeu->plateau[i][j].joueurPieceCreuse-1;
+    val2 = jeu->plateau[i][j].joueurPiecePleine-1;
     if(val1 != -1)
 	cCreuse = 'O';
     else 
