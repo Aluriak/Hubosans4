@@ -5,8 +5,8 @@
  * BIBLIOTHEQUES
  */
 // modules
-#include "../systeme/systeme.h"
-#include "../moteur/moteur.h"
+#include "../../systeme/systeme.h"
+#include "../../moteur/moteur.h"
 
 /*
  * PREDECLARATIONS
