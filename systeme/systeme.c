@@ -33,3 +33,34 @@ int randN(int N) {
 
 
 
+
+/*
+ * MAX
+ */
+// renvois a si a >= b, ou b
+int max(int a, int b) {
+    if(a >= b)
+	return a;
+    else
+	return b;
+}
+
+
+
+
+/*
+ * TAB MAX
+ */
+// renvois la valeur maximum contenue dans le tableau de taille T
+int tab_max(int* tab, int T) {
+    if(T <= 0) return 0;
+    int max = tab[0];
+    int i = 1;
+    for(; i < T; i++) {
+	if(tab[i] > max)
+	    max = tab[i];
+    }
+    return max;
+}
+
+

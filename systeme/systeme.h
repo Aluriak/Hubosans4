@@ -28,5 +28,7 @@ typedef enum {false, true} bool;
  */
     void FLUX_ERREUR(char* source, char* erreur); // affiche dans stderr l'erreur envoyée
     int randN(int N); // renvois un nombre aléatoire entre 0 et N-1 (N > 0)
+    int max(int a, int b); // renvois a si a >= b, ou b
+    int tab_max(int* tab, int T); // renvois la valeur maximum contenue dans le tableau de taille T
 
 #endif
