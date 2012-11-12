@@ -4,9 +4,22 @@
 ## MOTEUR
 
 
-
 ## GRAPHIQUE 
 ### TERM
+    
+void TERM\_afficherJeu(t\_jeu\* jeu);
+    * Affichage du jeu dans la sortie standard.
+    * Efface le contenu du terminal avec TERM\_clear() avant affichage
+
+
+void TERM\_clear();
+    * Efface le contenu du terminal (commande clear)
+    
+
+* void TERM\_color(int couleur);
+    * Configure la couleur de texte du terminal 
+	* Un nombre entre 0 et 6 est attendu
+	* 0 correspond à la couleur par défaut
 
 ### SDL
 TODO
