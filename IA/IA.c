@@ -61,8 +61,8 @@ t_action IA_effectuerTour(t_jeu *jeu, t_joueur* joueur) {
 
     // en cas d'action non trouvée
     if(action.colonne == -1) {
-	FLUX_ERREUR("IA", "L'IA a rencontré une configuration 
-		de jeu inattendue");
+	FLUX_ERREUR("IA", 
+		"L'IA a rencontré une configuration de jeu inattendue");
 	// action totalement aléatoire
 	action.colonne = randN(jeu->nbCaseX);
 	if(randN(1))
