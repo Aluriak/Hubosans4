@@ -34,6 +34,10 @@ typedef struct {
     // les id vont de 1 (premier joueur) à 6 (dernier)
     int couleur; // valeur de couleur du joueur (de 31 à 36)
     bool IA; // booléen à vrai si ce joueur est géré par l'IA
+    int intrepidite; // intrépidité du joueur lorsque jouée par l'IA. 
+    // Chiffre oscillant entre 0 et 10, avec 10 intrépidité maximum 
+    // 	(pièces bloquantes utilisées dés que possible) et 0 
+    // 		(pièces bloquantes utilisées rarement)
 } t_joueur;
 
 
@@ -68,7 +72,7 @@ typedef struct {
 // 	est tombée, et le type de la pièce.
 typedef struct {
     int colonne; // colonne où la pièce à été lâchée
-    e_piece typePice; // type de pièce
+    e_piece typePiece; // type de pièce
 } t_action;
 
 
