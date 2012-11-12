@@ -82,7 +82,33 @@ Ce module permet d'utiliser une IA déterministe, basée sur une étude ponctuel
     * lance l'étude du jeu puis fait jouer l'IA selon les résultats
 
 ## SYSTEME
-tout doux
+
+* void FLUX\_ERREUR(char\* source, char\* erreur);
+
+	* Affiche dans stderr l'erreur envoyée
+	* Elle prend en paramètre
+		* Un char correspondant à la source
+		* Un char correspondant au message à afficher
+
+* int randN(int N);
+
+	* Renvois un nombre aléatoire entre 0 et N-1 (N > 0)
+	* Elle prend un paramètre
+		* Un int correspondant au résultat du rand
+
+* int max(int a, int b);
+
+	* Renvois a si a >= b, ou b
+	* Elle prend en paramètre 
+		* Un int correspondant à la première valeur
+		* Un int correspondant à la deuxième valeur
+
+* int tab\_max(int\* tab, int T);
+
+	* Renvois la valeur maximum contenue dans le tableau de taille T
+	* Elle prend en paramètre
+		* Un pointeur sur un int correspondant au tableau
+		* Un int correspondant à la taille du tableau
 
 
 
