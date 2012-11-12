@@ -1,5 +1,6 @@
-# DOCUMENTATION
-
+# DOCUMENTATION DES MODULES
+Plusieurs modules sont utilisés pour ce projet.
+La documentation de ces modules est dressée ci-après.
 
 ## MOTEUR
 
