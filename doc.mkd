@@ -3,36 +3,36 @@ Plusieurs modules sont utilisés pour ce projet.
 La documentation de ces modules est dressée ci-après.
 
 ## MOTEUR
- 
-* void t\_case\_init(t\_case\* t\_case, int x, int y);
+#### Dépendances
+* Modules
+	* systeme
 
-	* Initialise la structure
-	* Elle prend en paramètre
+#### Méthodes
+* void t\_case\_init(t\_case\* t\_case, int x, int y);
+    * Initialise la structure
+    * Elle prend en paramètre
 		* Une matrice
-		* Deux int correspondant au nombre de cases en x et en y
+		* Deux int correspondant au nombre de cases en x et en y   
 
 * void t\_joueur\_init(t\_joueur \*j, int nbJ, int id, bool ia);
-
 	* Initialise le joueur selon le nombre de joueur initialisé auparavant
 	* Elle prend en paramètre
 		* Un pointeur sur une structure t_joueur
 		* Un int correspondant au nombre de joueurs
 		* Un int correspondant à l'id du joueur
-		* Un bool pour définir s'il s'agit d'un IA ou pas
+		* Un bool pour définir s'il s'agit d'un IA ou pas   
 
 * void t\_jeu\_init(t\_jeu\* jeu, short nbjoueurs, short nbIA);
-
 	* Allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
 	* Elle prend en paramètre
-		* Un pointeur sur une structure t_jeu
+		* Un pointeur sur la structure t_jeu à initialiser
 		* Un short correspondant au nombre de joueur
-		* Un short coorespondant au nombre d'IA
+		* Un short coorespondant au nombre d'IA   
 
 * void t\_jeu\_free(t\_jeu\* jeu);
-
-	* Libère le jeu alloué dynamiquement
+	* Effectue les libérations de la structure t_jeu, initialisée avec t_jeu_init(3)
 	* Elle prend en paramètre
-		* Une structure de type t_jeu
+		* Un pointeur vers la structure à libérer
 	
 
 ## GRAPHIQUE 
@@ -43,25 +43,25 @@ contrôle des couleurs et de l'affichage dans le terminal, pour un noyau linux.
 
 #### Dépendances
 * Modules
-    * systeme
-    * moteur
+	* systeme
+	* moteur
 
 
 
 #### Méthodes
 * void TERM\_afficherJeu(t\_jeu\* jeu);
-    * Affichage du jeu dans la sortie standard.
-    * Efface le contenu du terminal avec TERM\_clear() avant affichage
+	* Affichage du jeu dans la sortie standard.
+	* Efface le contenu du terminal avec TERM\_clear() avant affichage   
 
 
 * void TERM\_clear();
-    * Efface le contenu du terminal (commande clear)
+	* Efface le contenu du terminal (commande clear)   
     
 
 * void TERM\_color(int couleur);
-    * Configure la couleur de texte du terminal 
-    * Un nombre entre 0 et 6 est attendu
-    * 0 correspond à la couleur par défaut
+	* Configure la couleur de texte du terminal 
+		* Un nombre entre 0 et 6 est attendu
+		* 0 correspond à la couleur par défaut   
 
 
 
@@ -74,12 +74,12 @@ Ce module permet d'utiliser une IA déterministe, basée sur une étude ponctuel
 
 #### Dépendances
 * Modules
-    * systeme
-    * moteur
+	* systeme
+	* moteur
 
 #### Méthodes
 * void IA\_effectuerTour(t\_jeu \*jeu, t\_joueur\* joueur);
-    * lance l'étude du jeu puis fait jouer l'IA selon les résultats
+	* lance l'étude du jeu puis fait jouer l'IA selon les résultats
 
 ## SYSTEME
 
