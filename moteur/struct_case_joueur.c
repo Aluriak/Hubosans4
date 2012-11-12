@@ -31,7 +31,7 @@ void t_case_init(t_case* t_case, int x, int y) {
  * STRUCT T_JOUEUR
  */
 // initialise le joueur selon le nombre de joueur initialisé auparavant
-void t_joueur_init(t_joueur *j, int nbJ, int id, bool ia) {
+void t_joueur_init(t_joueur *j, int nbPieceBloquante, int id, bool ia) {
     j->points = 0;
     j->idJ = id;
     // on détermine la couleur du joueur
