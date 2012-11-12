@@ -3,36 +3,51 @@ Plusieurs modules sont utilisés pour ce projet.
 La documentation de ces modules est dressée ci-après.
 
 ## MOTEUR
+Module principal du projet, il gère tout le moteur de jeu.
+Il s'interface notamment avec les modules graphiques.
+
 #### Dépendances
 * Modules
 	* systeme
 
 #### Méthodes
+* t\_joueur\* MOTEUR\_tourSuivant(t\_jeu\* jeu) {
+	* Effectue tous les calculs pour opérer le tour suivant
+	* Elle prend en paramètres
+		* l'adresse du jeu à traiter
+
+* int MOTEUR\_coordPieceJouee(t\_jeu\* jeu, e\_piece piece, int colonne); 
+	* renvoit la coordonnée y d'une pièce de type piece lâchée dans la colonne indiquée
+	* Elle prend en paramètre
+		* l'adresse vers le jeu considéré
+		* le type de la pièce lâchée
+		* le numéro de la colonne où la pièce est lâchée
+
 * void t\_case\_init(t\_case\* t\_case, int x, int y);
 	* Initialise la structure
 	* Elle prend en paramètre
-		* Une matrice
-		* Deux int correspondant au nombre de cases en x et en y   
+		* l'adresse de la case à initialiser
+		* les coordonnées de la case en abscisses(colonnes) puis en ordonnées(lignes)
 
 * void t\_joueur\_init(t\_joueur \*j, int nbJ, int id, bool ia);
 	* Initialise le joueur selon le nombre de joueur initialisé auparavant
 	* Elle prend en paramètre
-		* Un pointeur sur une structure t_joueur
-		* Un int correspondant au nombre de joueurs
-		* Un int correspondant à l'id du joueur
-		* Un bool pour définir s'il s'agit d'un IA ou pas   
+		* l'adresse de la structure t_joueur à initialiser
+		* le nombre total de joueur dans le jeu
+		* l'id du joueur
+		* booléen à vrai si le joueur doit être géré par l'IA
 
 * void t\_jeu\_init(t\_jeu\* jeu, short nbjoueurs, short nbIA);
-	* Allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
+	* Allocation et initialisation de la structure t_jeu.
 	* Elle prend en paramètre
-		* Un pointeur sur la structure t_jeu à initialiser
-		* Un short correspondant au nombre de joueur
-		* Un short coorespondant au nombre d'IA   
+		* l'adresse de la structure t_jeu à initialiser
+		* le nombre total de joueur
+		* le nombre d'IA  
 
 * void t\_jeu\_free(t\_jeu\* jeu);
 	* Effectue les libérations de la structure t_jeu, initialisée avec t_jeu_init(3)
 	* Elle prend en paramètre
-		* Un pointeur vers la structure à libérer
+		* l'adresse de la structure à libérer
 	
 
 ## GRAPHIQUE 
@@ -46,13 +61,12 @@ contrôle des couleurs et de l'affichage dans le terminal, pour un noyau linux.
 	* systeme
 	* moteur
 
-
-
 #### Méthodes
 * void TERM\_afficherJeu(t\_jeu\* jeu);
 	* Affichage du jeu dans la sortie standard.
 	* Efface le contenu du terminal avec TERM\_clear() avant affichage   
-
+	* Elle prend en paramètre
+		* l'adresse du jeu à afficher
 
 * void TERM\_clear();
 	* Efface le contenu du terminal (commande clear)   
@@ -62,6 +76,8 @@ contrôle des couleurs et de l'affichage dans le terminal, pour un noyau linux.
 	* Configure la couleur de texte du terminal 
 		* Un nombre entre 0 et 6 est attendu
 		* 0 correspond à la couleur par défaut   
+	* Elle prend en paramètre
+		* la couleur à afficher (entre 0 et 6)
 
 
 
@@ -80,6 +96,9 @@ Ce module permet d'utiliser une IA déterministe, basée sur une étude ponctuel
 #### Méthodes
 * void IA\_effectuerTour(t\_jeu \*jeu, t\_joueur\* joueur);
 	* lance l'étude du jeu puis fait jouer l'IA selon les résultats
+	* Elle prend en paramètre
+		* l'adresse du jeu à étudier
+		* l'adresse du joueur qu'elle incarne
 
 ## SYSTEME
 tout doux

@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     // jeu
     /*
     while(gagnant == NULL) {
-	gagnant = t_jeu_tourSuivant(jeu);
+	gagnant = MOTEUR_tourSuivant(jeu);
 	TERM_afficherJeu(jeu);
     }
     // arrivé ici, il y a puissance 4
