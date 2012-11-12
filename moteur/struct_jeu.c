@@ -17,21 +17,18 @@ Les prototypes sont décris dans le header inclus précédemment
  * T_JEU INIT
  */
 // Allocation et initialisation de la structure. 
-// 	Retourne NULL en cas d'erreur, ou l'adresse de la structure allouée
-t_jeu* t_jeu_init(short nbjoueurs, short nbIA) {
-    // création du jeu
-    t_jeu* jeu = malloc(sizeof(t_jeu));
+void t_jeu_init(t_jeu* jeu, short nbjoueurs, short nbIA) {
     if(jeu == NULL) {
-	FLUX_ERREUR("MODULE MOTEUR", "Allocation mémoire échouée à l'initialisation du jeu");
-	return NULL;
+	FLUX_ERREUR("MODULE MOTEUR", "Structure de jeu inattendue");
+	return;
     }
     // Initialisation de la liste de joueurs
     jeu->nbJoueur = nbjoueurs;
     if(!t_jeu_init_listeJoueur(jeu, nbIA))
-	return NULL; // erreur déjà envoyée dans le flux stderr
+	return; // erreur déjà envoyée dans le flux stderr
     // allocation du plateau de jeu
     if(!t_jeu_init_plateau(jeu)) 
-	return NULL;
+	return; // erreur déjà traitée
     /* DEBUG
     jeu->plateau[0][0].joueurPieceCreuse = 1;
     jeu->plateau[0][0].joueurPiecePleine = 1;
@@ -43,8 +40,6 @@ t_jeu* t_jeu_init(short nbjoueurs, short nbIA) {
     jeu->plateau[0][1].joueurPiecePleine = -1;
     jeu->plateau[0][1].typePiece = CREUSE;
     // DEBUG */
-    // traitement terminé : on renvois le jeu
-    return jeu;
 }
 
 
@@ -77,7 +72,8 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, short nbIA) {
 	bool estIA = (j <= 0); 
 	t_joueur_init(&jeu->listeJoueur[i], jeu->nbJoueur, i+1, estIA);
     }
-    t_jeu_choisirOya(jeu); // détermine un oya
+    // détermine un oya
+    t_jeu_choisirOya(jeu); 
     return true;
 }
 
@@ -141,8 +137,6 @@ void t_jeu_free(t_jeu* jeu) {
     }
     // libération tableau de colonnes
     free(jeu->plateau);
-    // libération du jeu lui-même
-    free(jeu);
 }
 
 

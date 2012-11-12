@@ -114,14 +114,14 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     // initialisations
     int val1, val2;
     char cCreuse, cPleine;
-    // récupération des idJoueurs 
+    // récupération des idJoueurs pour avoir leur place dans le tableau
     val1 = jeu->plateau[i][j].joueurPieceCreuse-1;
     val2 = jeu->plateau[i][j].joueurPiecePleine-1;
-    if(val1 != -1)
+    if(val1 >= 0)
 	cCreuse = 'O';
     else 
 	cCreuse = ' ';
-    if(val2 != -1)
+    if(val2 >= 0)
 	cPleine = '.';
     else 
 	cPleine = ' ';
@@ -129,10 +129,12 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
 	cCreuse = cPleine = 'X';
     // couleur
     printf("|");
-    TERM_color(jeu->listeJoueur[val1].couleur);
+    if(val1 >= 0)
+	TERM_color(jeu->listeJoueur[val1].couleur);
     printf("%c", cCreuse);
     // couleur
-    TERM_color(jeu->listeJoueur[val2].couleur);
+    if(val2 >= 0)
+	TERM_color(jeu->listeJoueur[val2].couleur);
     printf("%c", cPleine);
     // réinitialisation de la couleur
     TERM_color(0);

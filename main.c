@@ -13,24 +13,24 @@ int main(int argc, char* argv[]) {
 
     // initialisations
     // création du jeu
-    t_jeu *jeu = t_jeu_init(4, 3); // 4 joueurs, dont 3 IA
-    if(jeu == NULL) return EXIT_SUCCESS;
+    t_jeu jeu;
+    t_jeu_init(&jeu, 4, 3); // 4 joueurs, dont 3 IA
     //t_joueur* gagnant = NULL;
 
     // premier affichage
-    TERM_afficherJeu(jeu);
+    TERM_afficherJeu(&jeu);
 
     // jeu
     /*
     while(gagnant == NULL) {
-	TERM_afficherJeu(jeu);
 	gagnant = t_jeu_tourSuivant(jeu);
+	TERM_afficherJeu(jeu);
     }
     // arrivé ici, il y a puissance 4
     // */
 
     // libération du jeu
-    t_jeu_free(jeu);
+    t_jeu_free(&jeu);
     return EXIT_SUCCESS;
 }
 
