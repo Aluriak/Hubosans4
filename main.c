@@ -16,7 +16,11 @@ int main(int argc, char* argv[]) {
     t_jeu jeu;
     t_jeu_init(&jeu, 4, 3); // 4 joueurs, dont 3 IA
 
-    /*
+
+    //* DEBUG
+    TERM_afficherJeu(jeu);
+    // DEBUG */
+    /* 
     t_joueur* gagnant = NULL;
     t_action action;
 
