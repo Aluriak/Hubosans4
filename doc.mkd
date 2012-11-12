@@ -9,8 +9,8 @@ La documentation de ces modules est dressée ci-après.
 
 #### Méthodes
 * void t\_case\_init(t\_case\* t\_case, int x, int y);
-    * Initialise la structure
-    * Elle prend en paramètre
+	* Initialise la structure
+	* Elle prend en paramètre
 		* Une matrice
 		* Deux int correspondant au nombre de cases en x et en y   
 
