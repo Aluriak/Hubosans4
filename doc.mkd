@@ -1,5 +1,6 @@
-# DOCUMENTATION
-
+# DOCUMENTATION DES MODULES
+Plusieurs modules sont utilisés pour ce projet.
+La documentation de ces modules est dressée ci-après.
 
 ## MOTEUR
  
@@ -36,15 +37,49 @@
 
 ## GRAPHIQUE 
 ### TERM
+Ce module gère l'affichage de la structure de jeu définie dans le module moteur.
+Il propose l'affichage du jeu, ainsi que deux fonctions utilitaires pour le 
+contrôle des couleurs et de l'affichage dans le terminal, pour un noyau linux.
+
+#### Dépendances
+* Modules
+    * systeme
+    * moteur
+
+
+
+#### Méthodes
+* void TERM\_afficherJeu(t\_jeu\* jeu);
+    * Affichage du jeu dans la sortie standard.
+    * Efface le contenu du terminal avec TERM\_clear() avant affichage
+
+
+* void TERM\_clear();
+    * Efface le contenu du terminal (commande clear)
+    
+
+* void TERM\_color(int couleur);
+    * Configure la couleur de texte du terminal 
+    * Un nombre entre 0 et 6 est attendu
+    * 0 correspond à la couleur par défaut
+
+
 
 ### SDL
 TODO
 
 
 ## IA
-TODO
+Ce module permet d'utiliser une IA déterministe, basée sur une étude ponctuelle du plateau de jeu.
 
+#### Dépendances
+* Modules
+    * systeme
+    * moteur
 
+#### Méthodes
+* void IA\_effectuerTour(t\_jeu \*jeu, t\_joueur\* joueur);
+    * lance l'étude du jeu puis fait jouer l'IA selon les résultats
 
 ## SYSTEME
 tout doux
