@@ -27,6 +27,7 @@ typedef enum {VIDE, CREUSE, PLEINE, DOUBLE, BLOQUANTE} e_piece;
 typedef struct {
     int points; // nombre de points pour cette partie
     short idJ; // id reconnaissant le joueur
+    int nbPieceBloquante; // nb de pièces bloquantes possédées par le joueur
     // il existe 125 id de joueurs. Soit 125 joueurs au max 
     // zéro et les négatifs sont utilisés pour l'absence de joueur
     // MAIS, pour des raisons de couleur, six joueurs maximum.
@@ -71,7 +72,7 @@ typedef struct {
     void t_case_init(t_case* t_case, int x, int y); // initialisation de la structure
 
 // STRUCT T_JOUEUR (dans struct_case_joueur.c)
-    void t_joueur_init(t_joueur *j, int id, bool ia); // initialise le joueur selon le nombre denjoueur initialisé auparavant
+    void t_joueur_init(t_joueur *j, int nbJ, int id, bool ia); // initialise le joueur selon le nombre denjoueur initialisé auparavant
 
 // STRUCT T_JEU (dans struct_jeu.c)
     t_jeu* t_jeu_init(short nbjoueurs, short nbIA); // allocation et initialisation de la structure. Retourne l'adresse de la structure ou NULL

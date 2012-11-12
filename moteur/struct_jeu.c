@@ -75,7 +75,7 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, short nbIA) {
     for(i = 0, j = jeu->nbJoueur-nbIA; i < jeu->nbJoueur; i++, j--) {
 	// si tous les joueurs humain ont été initialisés
 	bool estIA = (j <= 0); 
-	t_joueur_init(&jeu->listeJoueur[i], i+1, estIA);
+	t_joueur_init(&jeu->listeJoueur[i], jeu->nbJoueur, i+1, estIA);
     }
     t_jeu_choisirOya(jeu); // détermine un oya
     return true;
