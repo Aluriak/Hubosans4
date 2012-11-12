@@ -8,7 +8,7 @@ La documentation de ces modules est dressée ci-après.
 	* systeme
 
 #### Méthodes
-* void t\_case\_init(t\_case\* t\_case, int x, int y)\;
+* void t\_case\_init(t\_case\* t\_case, int x, int y)
 	* Initialise la structure
 	* Elle prend en paramètre
 		* Une matrice
