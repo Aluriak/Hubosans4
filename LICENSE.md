@@ -1,9 +1,9 @@
-___HUBOSANS4___
+# HUBOSANS4
 HuboSans4 est sous licence GNU/GPLv3. 
 
 
 
 
 
-___LICENCES___
+# LICENCES
 Licence GNU GPL v3 :	http://www.gnu.org/licenses/gpl.html
