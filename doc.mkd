@@ -2,8 +2,37 @@
 
 
 ## MOTEUR
+ 
+* void t\_case\_init(t\_case\* t\_case, int x, int y);
 
+	* Initialise la structure
+	* Elle prend en paramètre
+		* Une matrice
+		* Deux int correspondant au nombre de cases en x et en y
 
+* void t\_joueur\_init(t\_joueur \*j, int nbJ, int id, bool ia);
+
+	* Initialise le joueur selon le nombre de joueur initialisé auparavant
+	* Elle prend en paramètre
+		* Un pointeur sur une structure t_joueur
+		* Un int correspondant au nombre de joueurs
+		* Un int correspondant à l'id du joueur
+		* Un bool pour définir s'il s'agit d'un IA ou pas
+
+* void t\_jeu\_init(t\_jeu\* jeu, short nbjoueurs, short nbIA);
+
+	* Allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
+	* Elle prend en paramètre
+		* Un pointeur sur une structure t_jeu
+		* Un short correspondant au nombre de joueur
+		* Un short coorespondant au nombre d'IA
+
+* void t\_jeu\_free(t\_jeu\* jeu);
+
+	* Libère le jeu alloué dynamiquement
+	* Elle prend en paramètre
+		* Une structure de type t_jeu
+	
 
 ## GRAPHIQUE 
 ### TERM
