@@ -38,6 +38,8 @@ void t_joueur_init(t_joueur *j, int nbPieceBloquante, int id, bool ia) {
     j->couleur = 30+id; // l'id vas de 1 à 6
     // si il s'agit d'une IA
     j->IA = ia;
+    // intrépidité du joueur, définie aléatoirement.
+    j->intrepidite = 1+randN(10);
 }
 
 
