@@ -58,7 +58,7 @@ void TERM_afficherEnTete(t_jeu* jeu) {
 	else 
 	    printf("\t[HM]");
 	// si c'est le joueur dont c'est le tour
-	if(jeu->oya == &jeu->listeJoueur[i])
+	if(jeu->oya == jeu->listeJoueur[i].idJ)
 	    printf("\t[Oya]");
 	printf("\n");
     }
