@@ -29,8 +29,8 @@ contrôle des couleurs et de l'affichage dans le terminal, pour un noyau linux.
 
 * void TERM\_color(int couleur);
     * Configure la couleur de texte du terminal 
-	- Un nombre entre 0 et 6 est attendu
-	- 0 correspond à la couleur par défaut
+	* Un nombre entre 0 et 6 est attendu
+	* 0 correspond à la couleur par défaut
 
 
 
