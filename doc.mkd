@@ -3,8 +3,12 @@ Plusieurs modules sont utilisés pour ce projet.
 La documentation de ces modules est dressée ci-après.
 
 ## MOTEUR
- 
-* void t\_case\_init(t\_case\* t\_case, int x, int y);
+#### Dépendances
+* Modules
+	* systeme
+
+#### Méthodes
+* void t\_case\_init(t\_case\* t\_case, int x, int y)\;
 	* Initialise la structure
 	* Elle prend en paramètre
 		* Une matrice
@@ -21,14 +25,14 @@ La documentation de ces modules est dressée ci-après.
 * void t\_jeu\_init(t\_jeu\* jeu, short nbjoueurs, short nbIA);
 	* Allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
 	* Elle prend en paramètre
-		* Un pointeur sur une structure t_jeu
+		* Un pointeur sur la structure t_jeu à initialiser
 		* Un short correspondant au nombre de joueur
 		* Un short coorespondant au nombre d'IA   
 
 * void t\_jeu\_free(t\_jeu\* jeu);
-	* Libère le jeu alloué dynamiquement
+	* Effectue les libérations de la structure t_jeu, initialisée avec t_jeu_init(3)
 	* Elle prend en paramètre
-		* Une structure de type t_jeu   
+		* Un pointeur vers la structure à libérer
 	
 
 ## GRAPHIQUE 
