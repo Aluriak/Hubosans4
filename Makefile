@@ -51,6 +51,10 @@ moteur.o: moteur/*.c  systeme.o
 clean:
 	rm *.o 
 
+# suppression de tous les fichiers produits
+cleanALL:
+	rm *.o
+	rm $(FINALNAME)
 
 
 
