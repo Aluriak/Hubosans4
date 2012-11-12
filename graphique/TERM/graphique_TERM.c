@@ -143,3 +143,21 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
 
 
 
+
+
+
+
+
+/*
+ * TERM ENTREE UTILISATEUR
+ */
+// demande à l'oya du jeu ce qu'il désire jouer, et renvois le résultat sous 
+// 	forme d'une action
+t_action TERM_entreeUtilisateur(t_jeu *jeu) {
+    t_action action;
+    return action;
+}
+
+
+
+

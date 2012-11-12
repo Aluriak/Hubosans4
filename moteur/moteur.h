@@ -64,6 +64,14 @@ typedef struct {
 } t_jeu;
 
 
+// structure d'action. Contient une action de jeu : une colonne où la pièce 
+// 	est tombée, et le type de la pièce.
+typedef struct {
+    int colonne; // colonne où la pièce à été lâchée
+    e_piece typePice; // type de pièce
+} t_action;
+
+
 
 /*
  * PROTOTYPES
