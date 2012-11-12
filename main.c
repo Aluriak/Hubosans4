@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 
 
     //* DEBUG
-    TERM_afficherJeu(jeu);
+    TERM_afficherJeu(&jeu);
     // DEBUG */
     /* 
     t_joueur* gagnant = NULL;
@@ -26,9 +26,9 @@ int main(int argc, char* argv[]) {
 
     // jeu
     while(gagnant == NULL) {
-	TERM_afficherJeu(jeu);
-	action = TERM_entreeUtilisateur(jeu);
-	gagnant = MOTEUR_tourSuivant(jeu, action);
+	TERM_afficherJeu(&jeu);
+	action = TERM_entreeUtilisateur(&jeu);
+	gagnant = MOTEUR_tourSuivant(&jeu, action);
     }
     // arrivé ici, il y a puissance 4
     // */
