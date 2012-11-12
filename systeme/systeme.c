@@ -9,10 +9,7 @@
 // affiche dans stderr l'erreur envoyée
 void FLUX_ERREUR(char* source, char* erreur) {
     FILE* fileErr = fopen(FILE_ERR, "wa");
-    if(!fileErr) {
-	fprintf(stderr, "\nFICHIER ERREUR NON OUVERT\n");
-	exit(EXIT_FAILURE);
-    }
+    assert(fileErr); // erreur ouverture fichier
     fprintf(fileErr, "%s: %s", source, erreur);
     fclose(fileErr);
 }
@@ -62,5 +59,6 @@ int tab_max(int* tab, int T) {
     }
     return max;
 }
+
 
 
