@@ -45,15 +45,22 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
 
 ## Etapes du développement
 * Etape 1 : moteur du jeu + affichage terminal
-    * utilisation des caractères ., O et X pour l'affichage des pièces
-    * affichage en couleur grâce à la technologie printf
+    * moteur
+	* 80%
+    * affichage terminal
+	* 60%
 * Etape 2 : gestion scoring et sauvegarde
+    * 00%
 * Etape 3 : IA
+    * 50%
 * Etape 4 : interface graphique et sonore avec la SDL
+    * 00%
 * Etape 5 : réseau
+    * 00%
 * Etape 6 : cross platform
+    * 00%
 
-Etape actuelle : 1
+Etape prioritaire actuelle : 1
 
 
 ### Etape 1
