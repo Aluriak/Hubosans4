@@ -6,13 +6,17 @@
 
 ## GRAPHIQUE 
 ### TERM
-    
-void TERM\_afficherJeu(t\_jeu\* jeu);
+Ce module gère l'affichage de la structure de jeu définie dans le module moteur.
+Il propose l'affichage du jeu, ainsi que deux fonctions utilitaires pour le 
+contrôle des couleurs et de l'affichage dans le terminal, pour un noyau linux.
+
+
+* void TERM\_afficherJeu(t\_jeu\* jeu);
     * Affichage du jeu dans la sortie standard.
     * Efface le contenu du terminal avec TERM\_clear() avant affichage
 
 
-void TERM\_clear();
+* void TERM\_clear();
     * Efface le contenu du terminal (commande clear)
     
 
@@ -20,6 +24,8 @@ void TERM\_clear();
     * Configure la couleur de texte du terminal 
 	* Un nombre entre 0 et 6 est attendu
 	* 0 correspond à la couleur par défaut
+
+
 
 ### SDL
 TODO
