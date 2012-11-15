@@ -155,6 +155,10 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
 // 	forme d'une action
 t_action TERM_entreeUtilisateur(t_jeu *jeu) {
     t_action action;
+    printf("Entrez coordonnées y de la piece : "); //Uniquement pour le test, embellire une fois testé =)
+    scanf("%i",&action.colonne);
+    printf("Entrez type de piece : "); // idem =)
+    scanf("%i",&action.typepiece);
     return action;
 }
 
