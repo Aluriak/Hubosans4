@@ -109,8 +109,9 @@ Ce module permet d'utiliser une IA déterministe, basée sur une étude ponctuel
 	* moteur
 
 #### Méthodes
-* void IA\_effectuerTour(t\_jeu \*jeu, t\_joueur\* joueur);
+* t\_action IA\_effectuerTour(t\_jeu \*jeu, t\_joueur\* joueur);
 	* lance l'étude du jeu puis fait jouer l'IA selon les résultats
+	* retourne l'action choisie par l'IA
 	* Elle prend en paramètre
 		* l'adresse du jeu à étudier
 		* l'adresse du joueur qu'elle incarne

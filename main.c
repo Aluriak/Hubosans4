@@ -16,15 +16,19 @@ int main(int argc, char* argv[]) {
     t_jeu jeu;
     t_jeu_init(&jeu, 4, 3); // 4 joueurs, dont 3 IA
 
-    /*
+
+    //* DEBUG
+    TERM_afficherJeu(&jeu);
+    // DEBUG */
+    /* 
     t_joueur* gagnant = NULL;
     t_action action;
 
     // jeu
     while(gagnant == NULL) {
-	TERM_afficherJeu(jeu);
-	action = TERM_entreeUtilisateur(jeu);
-	gagnant = MOTEUR_tourSuivant(jeu, action);
+	TERM_afficherJeu(&jeu);
+	action = TERM_entreeUtilisateur(&jeu);
+	gagnant = MOTEUR_tourSuivant(&jeu, action);
     }
     // arrivé ici, il y a puissance 4
     // */

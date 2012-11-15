@@ -26,7 +26,7 @@ typedef enum {VIDE, CREUSE, PLEINE, DOUBLE, BLOQUANTE} e_piece;
 // structure de joueur
 typedef struct {
     int points; // nombre de points pour cette partie
-    short idJ; // id reconnaissant le joueur
+    int idJ; // id reconnaissant le joueur
     int nbPieceBloquante; // nb de pièces bloquantes possédées par le joueur
     // il existe 125 id de joueurs. Soit 125 joueurs au max 
     // zéro et les négatifs sont utilisés pour l'absence de joueur
@@ -34,6 +34,10 @@ typedef struct {
     // les id vont de 1 (premier joueur) à 6 (dernier)
     int couleur; // valeur de couleur du joueur (de 31 à 36)
     bool IA; // booléen à vrai si ce joueur est géré par l'IA
+    int intrepidite; // intrépidité du joueur lorsque jouée par l'IA. 
+    // Chiffre oscillant entre 0 et 10, avec 10 intrépidité maximum 
+    // 	(pièces bloquantes utilisées dés que possible) et 0 
+    // 		(pièces bloquantes utilisées rarement)
 } t_joueur;
 
 
@@ -59,7 +63,7 @@ typedef struct {
     int nbCaseX; // nombre de cases en X
     int nbCaseY; // nombre de cases en Y
     t_joueur* listeJoueur; // liste des joueurs
-    int oya; // id de l'oya dans la liste de joueur
+    int oya; // id du joueur étant l'oya
     short nbJoueur; // nombre de joueurs listés (l'id va de 1 à 6)
 } t_jeu;
 
@@ -68,7 +72,7 @@ typedef struct {
 // 	est tombée, et le type de la pièce.
 typedef struct {
     int colonne; // colonne où la pièce à été lâchée
-    e_piece typePice; // type de pièce
+    e_piece typePiece; // type de pièce
 } t_action;
 
 
@@ -84,7 +88,7 @@ typedef struct {
     void t_case_init(t_case* t_case, int x, int y); // initialisation de la structure
 
 // STRUCT T_JOUEUR (dans struct_case_joueur.c)
-    void t_joueur_init(t_joueur *j, int nbJ, int id, bool ia); // initialise le joueur selon le nombre de joueur initialisé auparavant
+    void t_joueur_init(t_joueur *j, int nbPieceBloquante, int id, bool ia); // initialise le joueur
 
 // STRUCT T_JEU (dans struct_jeu.c)
     void t_jeu_init(t_jeu* jeu, short nbjoueurs, short nbIA); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
