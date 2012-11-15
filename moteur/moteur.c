@@ -7,7 +7,23 @@
  */
 // effectue le tour suivant du jeu, et renvois l'adresse du joueur 
 // 	ayant fait un puissance 4 ce tour ou NULL.
+//Les étapes de calculs sont les suivantes :
+//	- On identifie le couple (colonne,pion) renvoyé par action
+//	- On modifie jeu en fonction d'action
+//		- En testant si aucun conflit n'est présent
+//		- En vérifiant si !puissance4
 t_joueur* MOTEUR_tourSuivant(t_jeu* jeu) {
+	int i = 0; //itérateur de boucle
+	/*
+	 * if(jeux->(action.colonne)==vide)
+	 * {
+	 * 	placé piece
+	 * }
+	 *
+	
+
+
+
     return NULL;
 }
 
