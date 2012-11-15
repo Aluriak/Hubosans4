@@ -58,7 +58,7 @@ void TERM_afficherEnTete(t_jeu* jeu) {
 	else 
 	    printf("\t[HM]");
 	// si c'est le joueur dont c'est le tour
-	if(jeu->oya == &jeu->listeJoueur[i])
+	if(jeu->oya == jeu->listeJoueur[i].idJ)
 	    printf("\t[Oya]");
 	printf("\n");
     }
@@ -140,6 +140,24 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     TERM_color(0);
     printf("|");
 }
+
+
+
+
+
+
+
+
+/*
+ * TERM ENTREE UTILISATEUR
+ */
+// demande à l'oya du jeu ce qu'il désire jouer, et renvois le résultat sous 
+// 	forme d'une action
+t_action TERM_entreeUtilisateur(t_jeu *jeu) {
+    t_action action;
+    return action;
+}
+
 
 
 
