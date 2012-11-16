@@ -14,6 +14,7 @@
 //		- En vérifiant si !puissance4
 t_joueur* MOTEUR_tourSuivant(t_jeu* jeu) {
 	int i = 0; //itérateur de boucle
+
 	/*
 	 * if(jeux->(action.colonne)==vide)
 	 * {
