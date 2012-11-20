@@ -157,11 +157,18 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
     t_action action;
     action.colonne=-1;
     action.typePiece=VIDE;
+    char pieceUser = ' ';
     do{
 	    printf("Coordonnées & Type de piece : "); 
-	    scanf("%i%c",&action.colonne, &action.typePiece);
-       }while((action.colonne<0 || action.colonne >= jeu->ncCaseX) ||
-      		(action.typePiece==VIDE));
+	    scanf("%i%c",&action.colonne, &pieceUser);
+	    if(tolower(pieceUser) == 'b')
+		action.typePiece = BLOQUANTE;
+	    else if (tolower(pieceUser) == 'c')
+		action.typePiece = CREUSE;
+	    else if(tolower(pieceUser) == 'p')
+		action.typePiece = PLEINE;
+       }while((action.colonne<0 || action.colonne >= jeu->nbCaseX) ||
+      		(action.typePiece != (VIDE|BLOQUANTE|CREUSE|PLEINE)));
     return action;
 }
 

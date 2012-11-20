@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     //* DEBUG
     TERM_afficherJeu(&jeu);
     // DEBUG */
-    /* 
+    //* 
     t_joueur* gagnant = NULL;
     t_action action;
 

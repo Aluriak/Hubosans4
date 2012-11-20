@@ -81,7 +81,7 @@ typedef struct {
  * PROTOTYPES
  */
 // MOTEUR
-    t_joueur* MOTEUR_tourSuivant(t_jeu* jeu); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
+    t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
     int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piece, int colonne); // renvois la coordonnee y d'une pièce placée dans la colonne. Ou -1 si pièce impossible à mettre (atteinte le limite haute)
 
 // STRUCT T_CASE (dans struct_case_joueur.c)

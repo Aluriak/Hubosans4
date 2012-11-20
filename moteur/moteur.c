@@ -12,19 +12,13 @@
 //	- On modifie jeu en fonction d'action
 //		- En testant si aucun conflit n'est présent
 //		- En vérifiant si !puissance4
-t_joueur* MOTEUR_tourSuivant(t_jeu* jeu) {
-	int i = 0; //itérateur de boucle
-
-	/*
-	 * if(jeux->(action.colonne)==vide)
-	 * {
-	 * 	placé piece
-	 * }
-	 *
-	
-
-
-
+t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
+    //int i = 0; //itérateur de boucle
+    //si le type de pièce de l'action est VIDE, alors on considère que 
+    //	l'utilisateur à voulut sauvegarder la partie.
+    //	la colonne correspond au slot de sauvegarde
+    //	nom d'un slot : saveN.sv (avec N le numéro de slot)
+    //oya++;
     return NULL;
 }
 
