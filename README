@@ -7,7 +7,7 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
 * Gestion de 3 type de pieces
     * Pieces pleines
     * Pieces creuses
-    * Pieces bloquantes
+    * Pieces bloquantes (chaque joueur en a un nombre limité, égal au nombre de joueurs)
 * Gestion du jeu à N joueurs (N > 1)
 * Matrice de N*M cases (gravite non optionnelle)
 
