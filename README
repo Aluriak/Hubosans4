@@ -59,6 +59,9 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
     * 00%
 * Etape 6 : cross platform
     * 00%
+* Etape Annexe : Redmine & depot git parallele
+    --> Developpement d'un script bash qui automatise la syncro
+    * 00%
 
 Etape prioritaire actuelle : 1
 
