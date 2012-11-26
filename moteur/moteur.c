@@ -19,6 +19,30 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
     //	la colonne correspond au slot de sauvegarde
     //	nom d'un slot : saveN.sv (avec N le numéro de slot)
     //oya++;
+
+    // On s'occupe des sauvegardes
+    FILE * file_save;
+    if(action.typePiece==NULL) // action.typePiece est NULL, donc sauvegarde
+    {
+    	// On compte le nombre de chiffres dans le string
+    	char * str = action.colonne; // Contient la chaine à analyser
+	char slot_num[3]; // Contient le numéro du slot
+	int i=0; // itérateur de boucle
+	// On récupère le nombre de chiffres de str dans slot_num 	
+	do
+	{
+		slot_num[i]=str[i];
+		i++;
+	}while(isdigit(slot_num[i]));
+	// Création de la chaine de caractère pour le nom final
+	char save[10] = "save";
+	char end_save[3] = ".sv";
+	// Fusion des chaines de caractères
+	strcat(save, slot_num);
+	strcat(save, en_save);
+	// Création du fichier 
+	file_save = fopen(save, "w");
+	}
     return NULL;
 }
 
