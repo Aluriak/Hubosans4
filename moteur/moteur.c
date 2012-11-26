@@ -42,8 +42,12 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 	strcat(save, en_save);
 	// Création du fichier 
 	file_save = fopen(save, "w");
+	// A compléter, envoie du jeu dans fichier de sauvegarde
 	}
+     // On s'occupe de jouer la piece
+     
     return NULL;
+
 }
 
 
