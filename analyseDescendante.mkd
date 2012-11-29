@@ -2,10 +2,10 @@
 
 ## Architecture modulaire
 Pour le moment, seuls quatre modules sont utilisés : 
-main
-|-> moteur
-|   |-> systeme
-|-> graphique TERM
+main\
+|-> moteur\
+|   |-> systeme\
+|-> graphique TERM\
 |   |-> systeme
 |-> IA
     |-> systeme
