@@ -82,7 +82,6 @@ int str2int(char * str, int nb_carac)
 	// Tant que tmp n'a pas lu tout les chiffres
 	for(i=0;i<nb_carac;i++)
 	{
-		printf("tour %i: str[i] = %c\n", i, str[i]);
 		tmp=str[i]; // On récupère la valeur de str[i] pour traitement
 		tmp -= 48; // On retire 48 pour obtenir la valeur en int
 		resultat += tmp*pow(10, nb_carac-1-i); 
