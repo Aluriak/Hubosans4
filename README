@@ -83,7 +83,7 @@ Enregistrement des parties à la demande de l'utilisateur
 ### Etape 3
 La seule IA pour le moment traitée est déterministe. 
 Elle n'évolue pas, elle identifie juste des situations auxquelles elle réagis automaiquement.
-Piste d'évolution : algorithmes in-max et alpha-beta
+Piste d'évolution : algorithmes min-max et alpha-beta
 
 
 ### Affichage dans le terminal
