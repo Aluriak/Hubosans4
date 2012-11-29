@@ -1,14 +1,14 @@
 # ANALYSE DESCENDANTE DU PROJET
 
 ## Architecture modulaire
-Pour le moment, seuls quatre modules sont utilisés : 
-main\
-|-> moteur\
-|   |-> systeme\
-|-> graphique TERM\
-|   |-> systeme
-|-> IA
-    |-> systeme
+Pour le moment, seuls quatre modules sont utilisés :   
+main  
+|-> moteur  
+|   |-> systeme  
+|-> graphique TERM  
+|   |-> systeme  
+|-> IA  
+    |-> systeme  
 
 Le module systeme regroupe toutes les inclusions et définitions communes.
 Il est donc intégré par tous les modules et le programme main.
@@ -19,6 +19,7 @@ Les modules sont interfaçés de telle manière qu'une seule structure de commun
 Les modules graphiques et d'intelligence artificielle créé des actions, qui sont envoyées au moteur par l'intermédiaire du main. 
     C'est en effet le main qui effectue tous les appels de méthodes d'accès, et s'occupe de l'acheminement des actions.
     Cela permet de garder un contrôle des modules utilisés, puisque seul le main est impliqué dans le choix de ces modules. 
+    Ainsi, le moteur, l'affichage graphique et l'intelligence artificielle ne sont pas dépendant les uns des autres.
     Ce contrôle sera utile lors du choix par l'utilisateur de la SDL ou du terminal pour l'affichage du jeu.
 
 ### Moteur
