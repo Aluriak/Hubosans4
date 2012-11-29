@@ -47,14 +47,14 @@ moteur.o: moteur/*.c  systeme.o
 
 # COMMANDES
 
-# suppression des fichiers objets
+# suppression de tous les fichiers
 clean:
 	rm *.o 
-
-# suppression de tous les fichiers produits
-cleanALL:
-	rm *.o
 	rm $(FINALNAME)
+
+# suppression de tous les fichiers objets
+cleanO:
+	rm *.o
 
 
 
