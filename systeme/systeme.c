@@ -61,10 +61,27 @@ int tab_max(int* tab, int T) {
 }
 
 
+
+
+/*
+ * A POW B
+ */
+// retourne a^b, si b >= 0. 1 sinon
+int apowb(int a, int b) {
+    int c = 1;
+    while(b > 0) {
+	a *= a;
+	b--;
+    }
+    return c;
+}
+// */
+
+
 /*
  * STR2INT
  */
-//renvois un entier positif à partir d'une chaine de caractère ne contenant que des entiers positifs
+// renvois un entier positif à partir d'une chaine de caractère ne contenant que des entiers positifs
 //Valeurs ASCII :
 //	dec chr   dec chr
 //	----------------
@@ -80,12 +97,11 @@ int str2int(char * str, int nb_carac)
 	int resultat = 0; // Variable retournée contenant la valeur de str
 	char tmp; // Variable tampon
 	// Tant que tmp n'a pas lu tout les chiffres
-	for(i=0;i<nb_carac;i++)
-	{
+	for(i=0;i<nb_carac;i++) {
 		printf("tour %i: str[i] = %c\n", i, str[i]);
 		tmp=str[i]; // On récupère la valeur de str[i] pour traitement
 		tmp -= 48; // On retire 48 pour obtenir la valeur en int
-		resultat += tmp*pow(10, nb_carac-1-i); 
+		resultat += tmp*apowb(10, nb_carac-1-i); 
 	}
 	return resultat;
 }
