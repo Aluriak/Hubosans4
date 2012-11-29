@@ -30,5 +30,6 @@ Il existe deux modes d'affichage dans la sortie standard:
 	void TERM_afficherPlateau(t_jeu* jeu); // Affiche le plateau de jeu
 	void TERM_afficherCase(t_jeu* jeu, int i, int j); // affiche la case du jeu aux coordonnées (i;j), avec formatage couleur
     t_action TERM_entreeUtilisateur(t_jeu *jeu); // demande à l'oya du jeu ce qu'il désire jouer, et renvois le résultat sous forme d'une action
+    t_jeu* TERM_afficherMenu(); // affiche le menu principal et gère l'entrée utilisateur pour la configuration du jeu, et retourne la structure de jeu en conséquence
 
 #endif

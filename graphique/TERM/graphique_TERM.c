@@ -175,3 +175,38 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
 
 
 
+
+
+
+/*
+ * TERM AFFICHER MENU
+ */
+// affiche le menu principal et gère l'entrée utilisateur pour la configuration du jeu, et retourne la structure de jeu en conséquence
+t_jeu* TERM_afficherMenu() {
+    // initialisations
+    t_jeu *jeu = malloc(sizeof(t_jeu)); // allocation du jeu
+    int nbJoueur = -1, nbIA = -1; // joueurs total et IA
+    // Menu
+    printf("== HUBOSANS4 ==\n");
+    // nombre de joueurs
+    while(nbJoueur < 2 || nbJoueur > 6) {
+	printf("Nombre de joueurs total (2 à 6) : ");
+	scanf("%d", &nbJoueur);
+    }
+    // nombre d'IA
+    while(nbIA < 0 || nbIA > nbJoueur) {
+	printf("Nombre d'ia parmis les %i joueurs (max %i) : ", 
+		nbJoueur, nbJoueur);
+	scanf("%d", &nbIA);
+    }
+    printf("\nInitialisation du jeu...");
+    // initialisation du jeu
+    t_jeu_init(jeu, nbJoueurs, nbIA); // 4 joueurs, dont 3 IA
+    printf("OK !\n");
+    // retourne le jeu
+    return jeu;
+}
+
+
+
+
