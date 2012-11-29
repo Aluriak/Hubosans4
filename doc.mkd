@@ -4,17 +4,18 @@ La documentation de ces modules est dressée ci-après.
 
 ## MOTEUR
 Module principal du projet, il gère tout le moteur de jeu.
-Il s'interface notamment avec les modules graphiques.
+Il s'interface via les structures d'actions.
 
 #### Dépendances
 * Modules
 	* systeme
 
 #### Méthodes
-* t\_joueur\* MOTEUR\_tourSuivant(t\_jeu\* jeu) { 
-	* Effectue tous les calculs pour opérer le tour suivant
+* t\_joueur\* MOTEUR\_tourSuivant(t\_jeu\* jeu, t\_action action) { 
+	* Effectue tous les calculs pour opérer le tour suivant suivant l'action de l'Oya
 	* Elle prend en paramètres
 		* l'adresse du jeu à traiter
+		* l'action de l'Oya
 	* Thomas
 
 * int MOTEUR\_coordPieceJouee(t\_jeu\* jeu, e\_piece piece, int colonne); 
@@ -117,6 +118,8 @@ Ce module permet d'utiliser une IA déterministe, basée sur une étude ponctuel
 		* l'adresse du joueur qu'elle incarne
 	* Lucas
 
+
+
 ## SYSTEME
 
 * void FLUX\_ERREUR(char\* source, char\* erreur);
@@ -146,6 +149,11 @@ Ce module permet d'utiliser une IA déterministe, basée sur une étude ponctuel
 		* la taille du tableau
 	* Lucas
 
+* int str2int(char\* str, int nb\_carac);
+	* Renvois un entier positif basé sur la lecture des nb\_carac premier caractères de la string
+	* Elle prend en paramètres 
+		* la chaîne à étudier
+		* le nombre de caractère à considérer
 
 
 
