@@ -12,7 +12,12 @@
  * PREDECLARATIONS
  */
 
-
+/*
+Il existe deux modes d'affichage dans la sortie standard:
+- ALPHA, où une case est divisée en deux : une partie creuse, une partie pleine
+- BETA, où une case n'est affichée que dans une case, avec le background pour 
+    la partie creuse, et un zéro pour la partie pleine
+// */
 
 /*
  * PROTOTYPES
