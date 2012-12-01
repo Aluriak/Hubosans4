@@ -1,0 +1,53 @@
+# ANALYSE DESCENDANTE DU PROJET
+
+## Architecture modulaire
+Pour le moment, seuls quatre modules sont utilisés :   
+main  
+|-> moteur  
+|   |-> systeme  
+|-> graphique TERM  
+|   |-> systeme  
+|-> IA  
+    |-> systeme  
+
+Le module systeme regroupe toutes les inclusions et définitions communes.
+Il est donc intégré par tous les modules et le programme main.
+
+
+## Interfaçage des modules
+Les modules sont interfaçés de telle manière qu'une seule structure de communication soit nécessaire : les actions.
+Les modules graphiques et d'intelligence artificielle créé des actions, qui sont envoyées au moteur par l'intermédiaire du main. 
+    C'est en effet le main qui effectue tous les appels de méthodes d'accès, et s'occupe de l'acheminement des actions.
+    Cela permet de garder un contrôle des modules utilisés, puisque seul le main est impliqué dans le choix de ces modules. 
+    Ainsi, le moteur, l'affichage graphique et l'intelligence artificielle ne sont pas dépendant les uns des autres.
+    Ce contrôle sera utile lors du choix par l'utilisateur de la SDL ou du terminal pour l'affichage du jeu.
+
+### Moteur
+Le moteur est le centre du programme. Il gère les structures de données et les modifie selon les actions des joueurs.
+Sauf à l'initialisation, les actions de joueur sont les seules entrées admises par le moteur. 
+    Il réagis selon elle et opère les changement de données à leur réception.
+C'est donc aux modules IA et graphique d'envoyer une action de joueur, selon les demandes de l'utilisateur (graphique), ou les calculs de l'ordinateur (IA)
+
+Simplement, le moteur possède une méthode d'accès demandant une action de joueur. Lorsqu'elle est appelée, 
+    le moteur effectue les traitements nécessaires sur le jeu, ou opère la sauvegarde si l'utilisateur en demandait une, 
+    en faisant jouer l'Oya. Cela fait, le joueur suivant deviens l'Oya, si l'action est un ajout de pièce. (sauvegarder ne remplace pas un tour de jeu !)
+
+
+### Graphique TERM
+L'affichage dans la sortie standard est utilisé pour ce module.
+Les couleurs de terminal sont utilisées pour différencier les six joueurs.
+A chaque appel de la méthode d'affichage, trois étapes d'affichage sont réalisées : 
+- affichage du header de jeu, notamment la liste des joueurs, leur état et leur nature.
+- le plateau de jeu est parcouru pour en afficher les cases, selon les pièces présentes et le joueur les ayant jouées.
+- une action est demandée au joueur. Si il s'agit d'une IA, la méthode qui lui est associée est appelée.
+
+
+### IA
+L'IA est pour le moment seulement déterministe. Elle étudie les priorités de la situation actuelle pour jouer ce qui l'arrange le plus. (application de 
+    l'algorithme minimax avec une vision à 0 coups d'avance)
+Simplement, elle donne une priorité entre 0(inutile) et 10(prioritaire) à chaque colonne, pour chaque type de pièce. Elle retiens ensuite la valeur maximum 
+    atteinte, et parcours de gauche à droite le jeu pour trouver la première occurence de cette priorité, et joue le coup associé.
+Cette IA est d'une extrème simplicité, et très simple à tromper.
+
+
+

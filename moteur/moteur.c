@@ -18,22 +18,19 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
     //	l'utilisateur à voulut sauvegarder la partie.
     //	la colonne correspond au slot de sauvegarde
     //	nom d'un slot : saveN.sv (avec N le numéro de slot)
-    //oya++;
 
     // On s'occupe des sauvegardes
     FILE * file_save;
-    if(action.typePiece==NULL) // action.typePiece est NULL, donc sauvegarde
-    {
+    if(action.typePiece == VIDE) { // action.typePiece est NULL, donc sauvegarde
     	// On compte le nombre de chiffres dans le string
     	char * str = action.colonne; // Contient la chaine à analyser
 	char slot_num[3]; // Contient le numéro du slot
 	int i=0; // itérateur de boucle
 	// On récupère le nombre de chiffres de str dans slot_num 	
-	do
-	{
+	do {
 		slot_num[i]=str[i];
 		i++;
-	}while(isdigit(slot_num[i]));
+	} while(isdigit(slot_num[i]));
 	// Création de la chaine de caractère pour le nom final
 	char save[10] = "save";
 	char end_save[3] = ".sv";
@@ -43,9 +40,13 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 	// Création du fichier 
 	file_save = fopen(save, "w");
 	// A compléter, envoie du jeu dans fichier de sauvegarde
-	}
-     // On s'occupe de jouer la piece
+    }
+    // sinon, c'est une pièce à jouer
+    else {
+	// TODO
+    }
      
+    // TODO: passage du tour au joueur suivant
     return NULL;
 
 }
