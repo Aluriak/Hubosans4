@@ -1,0 +1,33 @@
+# PROTOCOLE DE COMMUNICATION RESEAU
+## CONNECTION:
+Le réseau se fera en achitecture client serveur. Deux options pour le jeu 
+    en ligne : rejoindre partie ou créer partie.
+Lors de la création, un serveur est créé, et renseigne une IP servant à la 
+    connection au jeu pour les joueur rejoignant une partie.
+
+
+## SERVEUR:
+Le serveur effectuera deux choses : il jouera un rôle de client pour le 
+    joueur l'ayant lancé, et attendra les actions des joueurs 
+    dans leur ordre d'appel. 
+Le serveur communiquera d'abord les valeurs d'intialisation du jeu. 
+    (nombre de joueurs, d'IA, Oya)
+Ensuite, lors du jeu, la communication entre serveur et client se basera sur 
+    des échanges d'actions. 
+    - Le serveur attend une action à l'oya.
+    - Celui-ci en renvois une. 
+    - Le serveur l'interprète, et envoie cette action à tous les clients.
+    - A ce moment, l'oya passe au joueur suivant, et le serveur recommence.
+
+
+## CLIENT:
+Les clients se baseront sur un comportement simple :
+    - connection au serveur
+    - demande des caractéristiques du jeu
+    - vérifications logiques
+    - attente du reçu d'une action ou d'une directive
+    - si c'est une action, le client fait jouer l'oya, et passe l'oya au joueur
+	suivant. Si le joueur suivant s'avère être celui du client, ce dernier 
+	envois une action au serveur.
+    - si c'est une directive, le client l'applique (fin du jeu, 
+	ou une demande d'action de la part du serveur)
