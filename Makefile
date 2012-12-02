@@ -2,7 +2,7 @@
 
 CC=gcc
 FLAGS=-Wall -Werror
-SDL=`sdl-config --cflags --libs`
+SDL=-lSDL -lSDL_image -lSDL_net
 FINALNAME=hubosans4
 
 
@@ -57,4 +57,7 @@ cleanO:
 	rm *.o
 
 
+rapport:
+	pdflatex rapport.tex
+	rm rapport.aux rapport.log
 
