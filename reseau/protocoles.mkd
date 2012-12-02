@@ -24,10 +24,16 @@ Ensuite, lors du jeu, la communication entre serveur et client se basera sur
 Les clients se baseront sur un comportement simple :
     - connection au serveur
     - demande des caractéristiques du jeu
-    - vérifications logiques
+    - vérifications et initialisations logiques
     - attente du reçu d'une action ou d'une directive
     - si c'est une action, le client fait jouer l'oya, et passe l'oya au joueur
 	suivant. Si le joueur suivant s'avère être celui du client, ce dernier 
 	envois une action au serveur.
     - si c'est une directive, le client l'applique (fin du jeu, 
 	ou une demande d'action de la part du serveur)
+
+
+## OBJECTIFS
+La gestion réseau ne doit pas être invasive et doit correspondre à son rôle premier :
+Assurer une communication. Il est hors de question que la partie réseau ait un impact
+sur l'affichage ou le traitement.
