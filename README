@@ -52,21 +52,25 @@ Le principe est le même que celui du puissance 4, avec quelques améliorations 
     * affichage terminal
 	* affichage du jeu : lucas
 	* entrée utilisateur : thomas
-	* 70%
+	* 100%
 * Etape 2 : gestion scoring et sauvegarde
     * 00%
+    * thomas
 * Etape 3 : IA
     * IA déterministe : lucas
     * 50%
 * Etape 4 : interface graphique et sonore avec la SDL
     * 00%
+    * lucas & thomas
 * Etape 5 : réseau
-    * 00%
+    * 10%
+    * lucas
 * Etape 6 : cross platform
     * 00%
 * Etape Annexe : Redmine & depot git parallele
     --> Developpement d'un script bash qui automatise la syncro
     * 00%
+    * thomas
 
 Etape prioritaire actuelle : 1
 
