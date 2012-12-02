@@ -1,5 +1,5 @@
 # PROTOCOLE DE COMMUNICATION RESEAU
-## CONNECTION:
+## ARCHITECTURE:
 Le réseau se fera en achitecture client serveur. Deux options pour le jeu 
     en ligne : rejoindre partie ou créer partie.
 Lors de la création, un serveur est créé, et renseigne une IP servant à la 
