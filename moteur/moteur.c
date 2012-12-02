@@ -23,7 +23,7 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
     FILE * file_save;
     if(action.typePiece == VIDE) { // action.typePiece est NULL, donc sauvegarde
     	// On compte le nombre de chiffres dans le string
-    	char * str = action.colonne; // Contient la chaine à analyser
+    	char *str = action.colonne; // Contient la chaine à analyser
 	char slot_num[3]; // Contient le numéro du slot
 	int i=0; // itérateur de boucle
 	// On récupère le nombre de chiffres de str dans slot_num 	
@@ -36,19 +36,27 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 	char end_save[3] = ".sv";
 	// Fusion des chaines de caractères
 	strcat(save, slot_num);
-	strcat(save, en_save);
+	strcat(save, end_save);
 	// Création du fichier 
 	file_save = fopen(save, "w");
 	// A compléter, envoie du jeu dans fichier de sauvegarde
     }
     // sinon, c'est une pièce à jouer
     else {
-	// TODO
+    	int ligne = MOTEUR_coordPieceJouee(jeu, action.typePiece, action.colonne);
+	int oya = jeu->oya;
+    	if(ligne == -1)
+    	{
+		// A corriger, le moteur n'affiche rien ! :o
+		printf("Unable to put piece here !");
+    	}
+    	else
+    	{
+    		jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
+		oya++;
+    	}	
     }
-     
-    // TODO: passage du tour au joueur suivant
     return NULL;
-
 }
 
 

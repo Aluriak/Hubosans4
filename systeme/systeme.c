@@ -97,13 +97,7 @@ int str2int(char * str, int nb_carac)
 	int resultat = 0; // Variable retournée contenant la valeur de str
 	char tmp; // Variable tampon
 	// Tant que tmp n'a pas lu tout les chiffres
-<<<<<<< HEAD
-	for(i=0;i<nb_carac;i++)
-	{
-=======
 	for(i=0;i<nb_carac;i++) {
-		printf("tour %i: str[i] = %c\n", i, str[i]);
->>>>>>> 374ed958695b070ca96492d6d3cc68e3b079a31e
 		tmp=str[i]; // On récupère la valeur de str[i] pour traitement
 		tmp -= 48; // On retire 48 pour obtenir la valeur en int
 		resultat += tmp*apowb(10, nb_carac-1-i); 
