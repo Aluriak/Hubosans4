@@ -23,7 +23,7 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
     FILE * file_save;
     if(action.typePiece == VIDE) { // action.typePiece est NULL, donc sauvegarde
     	// On compte le nombre de chiffres dans le string
-    	char *str = action.colonne; // Contient la chaine à analyser
+    	char * str = action.colonne; // Contient la chaine à analyser
 	char slot_num[3]; // Contient le numéro du slot
 	int i=0; // itérateur de boucle
 	// On récupère le nombre de chiffres de str dans slot_num 	
@@ -39,6 +39,12 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 	strcat(save, end_save);
 	// Création du fichier 
 	file_save = fopen(save, "w");
+	// On commence par sauvegarder tout ce qui est hors du plateau de jeu
+	
+	//Structure de joueur
+	
+
+
 	// TODO: A compléter, envoie du jeu dans fichier de sauvegarde
 	// Ne pas oublier une gestion d'erreur
     }
@@ -52,9 +58,30 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
     	}
     	else {
     		jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-		// ne pas oublier qu'il y a plusieurs attributs dans une t_case...
-		// Woot The Fuck ?!
-		oya++;
+		// On vérifie si le joueur à joué une pièce blocante
+		if(action.typePiece==BLOQUANTE) // Si oui, on décrémente
+		{
+			joueur->nbPieceBloquante--;
+		}
+		// On enregistre qui à joué la piece CREUSE
+		else if(action.typePiece==CREUSE)
+		{
+			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
+		}
+		// On enregistre qui à joué la piece PLEINE
+		else if(action.typePiece==PLEINE)
+		{
+			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
+		}
+		// On passe au joueur suivant, ou au premier si le dernier joueur de la liste vient de jouer, afin de ne pas dépasser le nombre de joueurs prévu
+		if(oya==jeu->nbJoueurs)
+		{
+			oya==1;
+		}
+		else
+		{
+			oya++;
+		}
     	}	
     }
     return NULL;
