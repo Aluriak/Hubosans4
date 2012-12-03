@@ -7,33 +7,36 @@ Lors de la création, un serveur est créé, et renseigne une IP servant à la
 
 
 ## SERVEUR:
-Le serveur effectuera deux choses : il jouera un rôle de client pour le 
-    joueur l'ayant lancé, et attendra les actions des joueurs 
-    dans leur ordre d'appel. 
-Le serveur communiquera d'abord les valeurs d'intialisation du jeu. 
-    (nombre de joueurs, d'IA, Oya)
-Ensuite, lors du jeu, la communication entre serveur et client se basera sur 
-    des échanges d'actions. 
-    - Le serveur attend une action à l'oya.
-    - Celui-ci en renvois une. 
-    - Le serveur l'interprète, et envoie cette action à tous les clients.
-    - A ce moment, l'oya passe au joueur suivant, et le serveur recommence.
+Le serveur effectuera les tâches suivantes
+- initialisation du jeu
+- attente de la connexion des clients
+- transmission des caractéristiques aux clients
+- boucle de traitement du jeu
+    - attente de l'action de l'oya
+    - transmission de l'action à tous les clients
+    - break si gagnant annoncé
+- transmission de la directive de fin de jeu à tous les clients
 
 
 ## CLIENT:
 Les clients se baseront sur un comportement simple :
-    - connection au serveur
-    - demande des caractéristiques du jeu
-    - vérifications et initialisations logiques
-    - attente du reçu d'une action ou d'une directive
-    - si c'est une action, le client fait jouer l'oya, et passe l'oya au joueur
-	suivant. Si le joueur suivant s'avère être celui du client, ce dernier 
-	envois une action au serveur.
-    - si c'est une directive, le client l'applique (fin du jeu, 
-	ou une demande d'action de la part du serveur)
+- connection au serveur
+- attente des caractéristiques du jeu
+- vérifications et initialisations logiques
+- boucle de traitement du jeu
+    - si le client est l'oya
+	- envois d'une action au serveur
+    - sinon
+	- attente du reçu d'une action ou d'une directive
+    - break si gagnant annoncé
+- fin du jeu, déconnexion du serveur
 
 
 ## OBJECTIFS
 La gestion réseau ne doit pas être invasive et doit correspondre à son rôle premier :
 Assurer une communication. Il est hors de question que la partie réseau ait un impact
 sur l'affichage ou le traitement.
+Le serveur ne sera qu'un support de communication pour le passage des actions des joueurs.
+
+
+
