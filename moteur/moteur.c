@@ -39,20 +39,21 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 	strcat(save, end_save);
 	// Création du fichier 
 	file_save = fopen(save, "w");
-	// A compléter, envoie du jeu dans fichier de sauvegarde
+	// TODO: A compléter, envoie du jeu dans fichier de sauvegarde
+	// Ne pas oublier une gestion d'erreur
     }
     // sinon, c'est une pièce à jouer
     else {
     	int ligne = MOTEUR_coordPieceJouee(jeu, action.typePiece, action.colonne);
 	int oya = jeu->oya;
-    	if(ligne == -1)
-    	{
+    	if(ligne == -1) {
 		// A corriger, le moteur n'affiche rien ! :o
 		printf("Unable to put piece here !");
     	}
-    	else
-    	{
+    	else {
     		jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
+		// ne pas oublier qu'il y a plusieurs attributs dans une t_case...
+		// Woot The Fuck ?!
 		oya++;
     	}	
     }
