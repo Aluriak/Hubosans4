@@ -117,30 +117,32 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
     // initialisations
     int i = 0; // itérateur de boucle
-    int ligne = -1; // ligne où la pièce va se placer
+    int ligne = jeu->nbCaseY-1; // ligne où la pièce va se placer
     e_piece pieceCase; // pieces occupant la case étudiée
 
-    // pour chaque case de la colonne, tant que la ligne n'a pas été trouvée
+    // pour chaque case de la colonne, de bas en haut
     for(i = jeu->nbCaseY-1; i >= 0; i--) {
 	pieceCase = jeu->plateau[colonne][i].typePiece;
 	// si la pièce de la case étudiée bloque le chemin 
 	// 	(pièce bloquante, ou de même type que la pièce placée)
-	if(pieceCase == BLOQUANTE 
+	if((	pieceCase == BLOQUANTE 
 		|| pieceCase == piecePlacee 
-		|| pieceCase == DOUBLE) {
-	    // on détermine si on renvois -1 (pas de case au dessus), 
-	    if(i == 0)	
+		|| pieceCase == DOUBLE) 
+	    || // exception : cas où la pièce est bloquante
+		(piecePlacee == BLOQUANTE && pieceCase != VIDE)) {
+	    // si il n'y a pas de case au dessus, on renvois -1
+	    if(i == 0) {
 		i = -1; // arrêt de la boucle
-	    // 	ou l'id de la case précédente
+		ligne = -1; // colonne pleine
+	    }
+	    // sinon, la ligne prend la valeur de la case supérieure
 	    else
 		ligne = i-1; 
 	}
 	// sinon, c'est que la case est praticable, on arrête le traitement ici
-	else
+	else 
 	    i = -1;
-	// sinon, on avance à la case d'après sans autre artifice
     }
-    printf("DEBUG 1 : ligne = %i\n", ligne);
     return ligne;
 }
 
