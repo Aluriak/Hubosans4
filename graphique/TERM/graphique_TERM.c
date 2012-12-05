@@ -45,9 +45,9 @@ void TERM_afficherJeu(t_jeu* jeu) {
 // Affiche l'en-tête du jeu, contenant instructions et indications
 void TERM_afficherEnTete(t_jeu* jeu) {
     int i = 0; // itérateur de boucle
-    // pour chauqe joueur
+    // pour chaque joueur
     for(i = 0; i < jeu->nbJoueur; i++) {
-	TERM_color(jeu->listeJoueur[i].couleur);
+	TERM_color(jeu->listeJoueur[i].idJ+30);
 	printf("Joueur %i : %i points", 
 		jeu->listeJoueur[i].idJ, 
 		jeu->listeJoueur[i].points
@@ -58,7 +58,7 @@ void TERM_afficherEnTete(t_jeu* jeu) {
 	else 
 	    printf("\t[HM]");
 	// si c'est le joueur dont c'est le tour
-	if(jeu->oya == jeu->listeJoueur[i].idJ-1)
+	if(jeu->oya == jeu->listeJoueur[i].idJ)
 	    printf("\t[Oya]");
 	printf("\n");
     }
@@ -114,14 +114,14 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     // initialisations
     int val1, val2;
     char cCreuse, cPleine;
-    // récupération des idJoueurs pour avoir leur place dans le tableau
-    val1 = jeu->plateau[i][j].joueurPieceCreuse-1;
-    val2 = jeu->plateau[i][j].joueurPiecePleine-1;
-    if(val1 >= 0)
+    // récupération des idJoueurs pour avoir leur couleur
+    val1 = jeu->plateau[i][j].joueurPieceCreuse;
+    val2 = jeu->plateau[i][j].joueurPiecePleine;
+    if(val1 >= 1)
 	cCreuse = 'O';
     else 
 	cCreuse = ' ';
-    if(val2 >= 0)
+    if(val2 >= 1)
 	cPleine = '.';
     else 
 	cPleine = ' ';
@@ -130,11 +130,11 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     // couleur
     printf("|");
     if(val1 >= 0)
-	TERM_color(jeu->listeJoueur[val1].couleur);
+	TERM_color(val1+30); // couleur = id joueur + 30
     printf("%c", cCreuse);
     // couleur
     if(val2 >= 0)
-	TERM_color(jeu->listeJoueur[val2].couleur);
+	TERM_color(val2+30); // couleur = id joueur + 30
     printf("%c", cPleine);
     // réinitialisation de la couleur
     TERM_color(0);
@@ -178,6 +178,8 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
 	{
 	       action.typePiece = PLEINE;
 	}
+	// l'utilisateur voit les numéros de colonne +1, donc :
+	action.colonne--; // tableau commence à zéro
     }   
     return action;
 }
