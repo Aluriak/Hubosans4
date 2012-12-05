@@ -96,7 +96,14 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 		}
     	}	
     //}
-    return NULL;
+    //if(test_puissance4==OK)
+    //{
+    //	return joueur_gagnant;
+    //}
+    //else
+    //{
+    	return NULL;
+      //}
 }
 
 
