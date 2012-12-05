@@ -18,7 +18,8 @@ int main(int argc, char* argv[]) {
     SDL_Surface* ecran = NULL; // écran de jeu
 
     // si le premier argument est "-g"
-    if(argc > 1 && argv[1] == "-g") {
+    if(argc > 1 && (strcmp(argv[1],"-g") == 0 || 
+		    strcmp(argv[1], "--sdl"))) {
 	//sdl = true; // on passe en affichage SDL
 	// TODO: initialiser la SDL, créer la SDL_surface
     }
