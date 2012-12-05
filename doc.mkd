@@ -42,12 +42,13 @@ Il s'interface via les structures d'actions.
 		* booléen à vrai si le joueur doit être géré par l'IA
 	* Lucas
 
-* void t\_jeu\_init(t\_jeu\* jeu, short nbjoueurs, short nbIA);
+* void t\_jeu\_init(t\_jeu\* jeu, int nbjoueurs, int nbIA, int niveau IA);
 	* Allocation et initialisation de la structure t_jeu.
 	* Elle prend en paramètre
 		* l'adresse de la structure t_jeu à initialiser
 		* le nombre total de joueur
 		* le nombre d'IA  
+		* le niveau des IA
 	* Lucas
 
 * void t\_jeu\_free(t\_jeu\* jeu);
