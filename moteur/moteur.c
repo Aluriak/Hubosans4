@@ -69,7 +69,7 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 			// On parcours la liste des joueurs, jusqu'à ce que l'on trouve :
 			// oya == jeu->listeJoueur[i].idJ
 			int i; // itérateur de boucle
-			for(i=0;i<jeu->nbJoueur;i++)
+			for(i=0;i<jeu->nbJoueur-1;i++)
 			{
 				// Si l'id du joueur = oya, c'est qu'on à trouvé le joueur courant
 				if(jeu->listeJoueur[i].idJ==oya)
@@ -78,6 +78,7 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 					jeu->listeJoueur[i].nbPieceBloquante--;
 					jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
 					jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
+					i=7; // Afin d'éviter de boucler sur les autres joueurs
 				}
 			}
 		}
