@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
     bool sdl = false;
     //SDL_Surface* ecran = NULL; // écran de jeu
 
-    // si le premier argument est "-g"
+    // si le premier argument est "-g" ou "--gui"
     if(argc > 1 && (strcmp(argv[1],"-g") == 0 || 
 		    strcmp(argv[1], "--sdl"))) {
 	//sdl = true; // on passe en affichage SDL

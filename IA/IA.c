@@ -20,8 +20,9 @@ t_action IA_effectuerTour(t_jeu *jeu, t_joueur* joueur) {
     // initialisations
     int i = 0; // itérateurs de boucle
     int prioMax = 0, inter; // priorité maximum et intermédiaire de traitement
-    t_action action = {-1, -1}; // action à opérer
+    t_action action; // action à opérer
     //int prevision = jeu->niveauIA; // nombre de tours vus à l'avance
+
     // calcul des priorites
     t_priorite* priorites = IA_calculPriorites(jeu, joueur);
 
@@ -32,11 +33,36 @@ t_action IA_effectuerTour(t_jeu *jeu, t_joueur* joueur) {
 	if(inter > prioMax)
 	    prioMax = inter;
     }
+
     // on a la priorité maximum. On vas donc retrouver cette priorité
     // 	dans la liste des priorités pour identifier ce qu'il faut jouer
+    action = IA_creerActionSelonPriorite(joueur, 
+					priorites, 
+					jeu->nbCaseX, 
+					prioMax);
+
+    // libérations
+    free(priorites);
+    // renvoit de l'action
+    return action;
+}
+
+
+
+
+
+
+// retourne l'action la plus logique selon les priorités données
+t_action IA_creerActionSelonPriorite(t_joueur *joueur, 
+				    t_priorite* priorites, 
+				    int nbCaseX,
+				    int prioMax) {
+    // initialisations
+    t_action action = {-1, -1}; // action renvoyée
+    int i = 0; // itérateur de boucle
 
     // pour chaque colonne (on arrête quand on a trouvé une action)
-    for(i = 0; i < jeu->nbCaseX && action.colonne != -1; i++) {
+    for(i = 0; i < nbCaseX && action.colonne != -1; i++) {
 	// si la priorité maximum trouvée est dans cette colonne
 	if(prio_max(priorites[i]) == prioMax) {
 	    // on cherche pour quelle pièce elle est maximum
@@ -65,16 +91,13 @@ t_action IA_effectuerTour(t_jeu *jeu, t_joueur* joueur) {
 	FLUX_ERREUR("IA", 
 		"L'IA a rencontré une configuration de jeu inattendue");
 	// action totalement aléatoire
-	action.colonne = randN(jeu->nbCaseX);
+	action.colonne = randN(nbCaseX);
 	if(randN(1))
 	    action.typePiece = CREUSE;
 	else
 	    action.typePiece = PLEINE;
     }
-
-    // libérations
-    free(priorites);
-    // renvoit de l'action
+    // END
     return action;
 }
 

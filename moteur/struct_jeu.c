@@ -141,6 +141,7 @@ void t_jeu_free(t_jeu* jeu) {
 
 
 
+
 /*
  * T_JEU CHOISIR OYA
  */
@@ -148,6 +149,19 @@ void t_jeu_free(t_jeu* jeu) {
 void t_jeu_choisirOya(t_jeu* jeu) {
     // on prend un nombre aléatoire entre 0 et le nombre de joueur -1
     jeu->oya = randN(jeu->nbJoueur);
+}
+
+
+
+
+/*
+ * T_JEU JOUEUR SUIVANT
+ */
+// modifie l'oya pour que le joueur suivant le devienne
+void t_jeu_joueurSuivant(t_jeu* jeu) {
+    jeu->oya++;
+    if(jeu->oya == jeu->nbJoueur)
+	jeu->oya = 1;
 }
 
 
