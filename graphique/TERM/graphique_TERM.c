@@ -30,7 +30,7 @@ void TERM_color(int couleur) {
 // affiche le jeu dans le terminal
 void TERM_afficherJeu(t_jeu* jeu) {
     // on efface l'écran
-    TERM_clear();
+    //TERM_clear();
     // EN-TETE
     TERM_afficherEnTete(jeu);
     // PLATEAU
@@ -158,30 +158,26 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
     action.colonne=-1;
     action.typePiece=VIDE;
     char pieceUser;
-    printf("Entrez Coordonnées & Type de piece : ");
-    // Modifier le scanf pour gérer les erreurs de user
-    scanf("%i%c",&action.colonne, &pieceUser);
     while((action.colonne<0 || action.colonne >= jeu-> nbCaseX) &&
-    	  (action.typePiece != VIDE ||
-	   action.typePiece != BLOQUANTE ||
+	   (action.typePiece != BLOQUANTE ||
 	   action.typePiece != CREUSE ||
 	   action.typePiece != PLEINE))
     {
-	 if(tolower(pieceUser) == 'b')
-	 {
-		action.typePiece = BLOQUANTE;
-	 }
-	 else if (tolower(pieceUser) == 'c')
-	 {
-	    	action.typePiece = CREUSE;
-	 }
-	 else if(tolower(pieceUser) == 'p')
-	 {
-		action.typePiece = PLEINE;
-	 }
-    printf("Entrez Coordonnées & Type de piece : ");
-    // Modifier le scanf pour gérer les erreurs de user
-    scanf("%i%c",&action.colonne, &pieceUser);
+	printf("Entrez Coordonnées & Type de piece : ");
+	// Modifier le scanf pour gérer les erreurs de user
+	scanf("%i%c",&action.colonne, &pieceUser);
+	if(tolower(pieceUser) == 'b')
+	{
+	       action.typePiece = BLOQUANTE;
+	}
+	else if (tolower(pieceUser) == 'c')
+	{
+	   	action.typePiece = CREUSE;
+	}
+	else if(tolower(pieceUser) == 'p')
+	{
+	       action.typePiece = PLEINE;
+	}
     }   
     return action;
 }
