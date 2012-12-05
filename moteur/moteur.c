@@ -42,6 +42,10 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 	file_save = fopen(save, "w");
 	// On commence par sauvegarder tout ce qui est hors du plateau de jeu
 	
+	//	>>> On sauvegarde les joueurs <<<
+	
+
+	
 	//Structure de joueur
 	
 
@@ -72,6 +76,8 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 				{
 					// On décrémente son nombre de pieces bloquante
 					jeu->listeJoueur[i].nbPieceBloquante--;
+					jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
+					jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 				}
 			}
 		}
@@ -85,16 +91,9 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 		}
-		// On passe au joueur suivant, ou au premier si le dernier joueur de la liste vient de jouer, afin de ne pas dépasser le nombre de joueurs prévu
-		if(oya==jeu->nbJoueur)
-		{
-			oya=1;
-		}
-		else
-		{
-			oya++;
-		}
-    	}	
+		// L'oya est mis au joueur suivant
+		t_jeu_joueurSuivant(jeu);
+		}	
     //}
     //if(test_puissance4==OK)
     //{
@@ -121,17 +120,17 @@ int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
     e_piece pieceCase; // pieces occupant la case étudiée
 
     // pour chaque case de la colonne, tant que la ligne n'a pas été trouvée
-    for(i = jeu->nbCaseY-1; i >= 0; i--) {
+    for(i = jeu->nbCaseY-1; i >= 0 && ligne == -1; i--) {
 	pieceCase = jeu->plateau[colonne][i].typePiece;
 	// si la pièce de la case étudiée bloque le chemin 
 	// 	(pièce bloquante, ou de même type que la pièce placée)
 	if(pieceCase == BLOQUANTE 
 		|| pieceCase == piecePlacee 
 		|| pieceCase == DOUBLE) {
-	    // on détermine si on renvois -1 (pas de case au dessus), 
-	    if(i == 0)	
-		i = -1; // arrêt de la boucle
+	    // on détermine si on renvois -1 (pas de case précédente), 
 	    // 	ou l'id de la case précédente
+	    if(i == (jeu->nbCaseY-1))	
+		i = -1; // arrêt de la boucle;
 	    else
 		ligne = i+1; 
 	}
