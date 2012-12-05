@@ -157,18 +157,32 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
     t_action action;
     action.colonne=-1;
     action.typePiece=VIDE;
-    char pieceUser = ' ';
-    do{
-	    printf("Coordonnées & Type de piece : "); 
-	    scanf("%i%c",&action.colonne, &pieceUser);
-	    if(tolower(pieceUser) == 'b')
+    char pieceUser;
+    printf("Entrez Coordonnées & Type de piece : ");
+    // Modifier le scanf pour gérer les erreurs de user
+    scanf("%i%c",&action.colonne, &pieceUser);
+    while((action.colonne<0 || action.colonne >= jeu-> nbCaseX) &&
+    	  (action.typePiece != VIDE ||
+	   action.typePiece != BLOQUANTE ||
+	   action.typePiece != CREUSE ||
+	   action.typePiece != PLEINE))
+    {
+	 if(tolower(pieceUser) == 'b')
+	 {
 		action.typePiece = BLOQUANTE;
-	    else if (tolower(pieceUser) == 'c')
-		action.typePiece = CREUSE;
-	    else if(tolower(pieceUser) == 'p')
+	 }
+	 else if (tolower(pieceUser) == 'c')
+	 {
+	    	action.typePiece = CREUSE;
+	 }
+	 else if(tolower(pieceUser) == 'p')
+	 {
 		action.typePiece = PLEINE;
-       }while((action.colonne<0 || action.colonne >= jeu->nbCaseX) ||
-      		(action.typePiece != (VIDE|BLOQUANTE|CREUSE|PLEINE)));
+	 }
+    printf("Entrez Coordonnées & Type de piece : ");
+    // Modifier le scanf pour gérer les erreurs de user
+    scanf("%i%c",&action.colonne, &pieceUser);
+    }   
     return action;
 }
 
