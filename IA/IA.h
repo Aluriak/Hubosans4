@@ -28,6 +28,7 @@ typedef struct {
     t_priorite* IA_calculPriorites(t_jeu* jeu, t_joueur* joueur); // calcule les priorités des couples (colonne;pion), et les renvois sous la forme d'un tableau de t_priorite, avec une case pour chaque colonne
     int IA_etudePriorite(t_jeu* jeu, t_joueur* joueur, int x, int y); // renvois la priorité à jouer dans la case (x;y) pour le joueur pointé.
     int IA_calculPriorite_horizontal(t_jeu *jeu, int x, int y); // calcul la priorité pour la droite horizontale à la case (x;y)
+    int IA_calculPriorite_vertical(t_jeu *jeu, int x, int y); // calcul la priorité pour la droite verticale à la case (x;y)
     int IA_calculPriorite_diag(t_jeu *jeu, int x, int y); // calcul la priorité pour la diagonale 1 à la case (x;y).
     int IA_calculPriorite_diag_traitement(t_jeu* jeu, int x, int y, coord min, coord max); // sous traitement de IA_calculPriorite_diag(3) : opère tous les calculs selon l'intervalle de case à étudier
 

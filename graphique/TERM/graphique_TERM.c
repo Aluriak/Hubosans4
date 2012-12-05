@@ -210,3 +210,15 @@ t_jeu* TERM_afficherMenu() {
 
 
 
+
+/*
+ * TERM AFFICHER JEU FINIT
+ */
+// fait les affichage du jeu lorsqu'il se termine
+void TERM_afficherJeuFinit(t_jeu* jeu, t_joueur* gagnant) {
+    // TODO
+}
+
+
+
+

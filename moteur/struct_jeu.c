@@ -17,14 +17,14 @@ Les prototypes sont décris dans le header inclus précédemment
  * T_JEU INIT
  */
 // Allocation et initialisation de la structure. 
-void t_jeu_init(t_jeu* jeu, short nbjoueurs, short nbIA) {
+void t_jeu_init(t_jeu* jeu, short nbjoueurs, short nbIA, int niveauIA) {
     if(jeu == NULL) {
 	FLUX_ERREUR("MODULE MOTEUR", "Structure de jeu inattendue");
 	return;
     }
     // Initialisation de la liste de joueurs
     jeu->nbJoueur = nbjoueurs;
-    if(!t_jeu_init_listeJoueur(jeu, nbIA))
+    if(!t_jeu_init_listeJoueur(jeu, nbIA, niveauIA))
 	return; // erreur déjà envoyée dans le flux stderr
     // allocation du plateau de jeu
     if(!t_jeu_init_plateau(jeu)) 
@@ -50,8 +50,9 @@ void t_jeu_init(t_jeu* jeu, short nbjoueurs, short nbIA) {
  */
 // initialise la liste des joueurs du jeu, et renvois faux si un problème
 // 	à été rencontré, après appel de FLUX_ERREUR()
-bool t_jeu_init_listeJoueur(t_jeu* jeu, short nbIA) {
+bool t_jeu_init_listeJoueur(t_jeu* jeu, short nbIA, int niveauIA) {
     int i = 0, j = 0; // itérateurs de boucle
+    int nivJoueur = 0; // niveau de joueur (var intermédiaire de traitement)
     // vérification préliminaire des arguments
     if(jeu->nbJoueur < NB_JOUEUR_MIN && jeu->nbJoueur > NB_JOUEUR_MAX) {
 	FLUX_ERREUR("MODULE MOTEUR", "Nombre de joueur inattendu à la création du jeu");
@@ -69,8 +70,11 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, short nbIA) {
     // 	j est utilisée pour déterminer si le joueur est une IA ou pas
     for(i = 0, j = jeu->nbJoueur-nbIA; i < jeu->nbJoueur; i++, j--) {
 	// si tous les joueurs humain ont été initialisés
-	bool estIA = (j <= 0); 
-	t_joueur_init(&jeu->listeJoueur[i], jeu->nbJoueur, i+1, estIA);
+	if(j <= 0)
+	    nivJoueur = niveauIA; // c'est une IA
+	else
+	    nivJoueur = 0; // c'est un joueur
+	t_joueur_init(&jeu->listeJoueur[i], jeu->nbJoueur, i+1, nivJoueur);
     }
     // détermine un oya
     t_jeu_choisirOya(jeu); 

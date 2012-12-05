@@ -46,6 +46,7 @@ int main(int argc, char* argv[]) {
 	gagnant = MOTEUR_tourSuivant(&jeu, action);
     }
     // arrivé ici, il y a puissance 4
+=======
     if(sdl)
 	//SDL_afficherFinDeJeu(&jeu, ecran);
     else
