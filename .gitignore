@@ -2,3 +2,5 @@
 hubosans4
 *.o
 *.pdf
+*.aux
+*.log

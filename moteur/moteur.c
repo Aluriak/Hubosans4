@@ -36,19 +36,55 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 	char end_save[3] = ".sv";
 	// Fusion des chaines de caractères
 	strcat(save, slot_num);
-	strcat(save, en_save);
+	strcat(save, end_save);
 	// Création du fichier 
 	file_save = fopen(save, "w");
-	// A compléter, envoie du jeu dans fichier de sauvegarde
+	// On commence par sauvegarder tout ce qui est hors du plateau de jeu
+	
+	//Structure de joueur
+	
+
+
+	// TODO: A compléter, envoie du jeu dans fichier de sauvegarde
+	// Ne pas oublier une gestion d'erreur
     }
     // sinon, c'est une pièce à jouer
     else {
-	// TODO
+    	int ligne = MOTEUR_coordPieceJouee(jeu, action.typePiece, action.colonne);
+	int oya = jeu->oya;
+    	if(ligne == -1) {
+		// A corriger, le moteur n'affiche rien ! :o
+		printf("Unable to put piece here !");
+    	}
+    	else {
+    		jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
+		// On vérifie si le joueur à joué une pièce blocante
+		if(action.typePiece==BLOQUANTE) // Si oui, on décrémente
+		{
+			joueur->nbPieceBloquante--;
+		}
+		// On enregistre qui à joué la piece CREUSE
+		else if(action.typePiece==CREUSE)
+		{
+			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
+		}
+		// On enregistre qui à joué la piece PLEINE
+		else if(action.typePiece==PLEINE)
+		{
+			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
+		}
+		// On passe au joueur suivant, ou au premier si le dernier joueur de la liste vient de jouer, afin de ne pas dépasser le nombre de joueurs prévu
+		if(oya==jeu->nbJoueurs)
+		{
+			oya==1;
+		}
+		else
+		{
+			oya++;
+		}
+    	}	
     }
-     
-    // TODO: passage du tour au joueur suivant
     return NULL;
-
 }
 
 
