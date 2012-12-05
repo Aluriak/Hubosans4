@@ -133,10 +133,14 @@ int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
 		i = -1; // arrêt de la boucle
 	    // 	ou l'id de la case précédente
 	    else
-		ligne = i+1; 
+		ligne = i-1; 
 	}
+	// sinon, c'est que la case est praticable, on arrête le traitement ici
+	else
+	    i = -1;
 	// sinon, on avance à la case d'après sans autre artifice
     }
+    printf("DEBUG 1 : ligne = %i\n", ligne);
     return ligne;
 }
 
