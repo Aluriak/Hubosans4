@@ -33,7 +33,7 @@ typedef struct {
     // MAIS, pour des raisons de couleur, six joueurs maximum.
     // les id vont de 1 (premier joueur) à 6 (dernier)
     int couleur; // valeur de couleur du joueur (de 31 à 36)
-    int IA; // 0 = joueur; >0 = IA de difficulté indiqué
+    bool IA; // vrai si IA, faux si humain
     int intrepidite; // intrépidité du joueur lorsque jouée par l'IA. 
     // Chiffre oscillant entre 0 et 10, avec 10 intrépidité maximum 
     // 	(pièces bloquantes utilisées dés que possible) et 0 
@@ -65,6 +65,7 @@ typedef struct {
     t_joueur* listeJoueur; // liste des joueurs
     int oya; // id du joueur étant l'oya
     short nbJoueur; // nombre de joueurs listés (l'id va de 1 à 6)
+    int niveauIA; // niveau des IA (entre 1(facile) et 3 (difficile))
 } t_jeu;
 
 
@@ -88,13 +89,13 @@ typedef struct {
     void t_case_init(t_case* t_case, int x, int y); // initialisation de la structure
 
 // STRUCT T_JOUEUR (dans struct_case_joueur.c)
-    void t_joueur_init(t_joueur *j, int nbPieceBloquante, int id, int ia); // initialise le joueur
+    void t_joueur_init(t_joueur *j, int nbPieceBloquante, int id, bool ia); // initialise le joueur
 
 // STRUCT T_JEU (dans struct_jeu.c)
-    void t_jeu_init(t_jeu* jeu, short nbjoueurs, short nbIA, int niveauIA); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
+    void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int niveauIA); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
     void t_jeu_free(t_jeu* jeu); // libère le t_jeu alloué dynamiquement
     // Sous-procédures
-	bool t_jeu_init_listeJoueur(t_jeu* jeu, short nbIAint, int niveauIA); // initialise la liste des joueurs du jeu, et renvois faux si un problème à été rencontré, après appel de FLUX_ERREUR()
+	bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA); // initialise la liste des joueurs du jeu, et renvois faux si un problème à été rencontré, après appel de FLUX_ERREUR()
 	bool t_jeu_init_plateau(t_jeu* jeu); // Initialise le plateau de jeu. Renvois faux si problème rencontré, après l'avoir fait savoir avec FLUX_ERREUR()
 	void t_jeu_choisirOya(t_jeu* jeu); // choisit un oya, et le point avec le pointeur attribut de t_jeu prévu à cet effet
 

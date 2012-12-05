@@ -21,7 +21,7 @@ t_action IA_effectuerTour(t_jeu *jeu, t_joueur* joueur) {
     int i = 0; // itérateurs de boucle
     int prioMax = 0, inter; // priorité maximum et intermédiaire de traitement
     t_action action = {-1, -1}; // action à opérer
-    int prevision = joueur->IA; // nombre de tours vus à l'avance
+    //int prevision = jeu->niveauIA; // nombre de tours vus à l'avance
     // calcul des priorites
     t_priorite* priorites = IA_calculPriorites(jeu, joueur);
 

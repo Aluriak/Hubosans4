@@ -186,6 +186,7 @@ t_jeu* TERM_afficherMenu() {
     // initialisations
     t_jeu *jeu = malloc(sizeof(t_jeu)); // allocation du jeu
     int nbJoueur = -1, nbIA = -1; // joueurs total et IA
+    int niveauIA = -1; // niveau des IA
     // Menu
     printf("== HUBOSANS4 ==\n");
     // nombre de joueurs
@@ -199,9 +200,14 @@ t_jeu* TERM_afficherMenu() {
 		nbJoueur, nbJoueur);
 	scanf("%d", &nbIA);
     }
+    // niveau des IA (entre 1 et 3)
+    while(niveauIA < 0 || niveauIA > 3) {
+	printf("Niveau des ia (1 facile, 2 moyen, 3 difficile) : ");
+	scanf("%d", &niveauIA);
+    }
     printf("\nInitialisation du jeu...");
     // initialisation du jeu
-    t_jeu_init(jeu, nbJoueur, nbIA); // 4 joueurs, dont 3 IA
+    t_jeu_init(jeu, nbJoueur, nbIA, niveauIA); // 4 joueurs, dont 3 IA
     printf("OK !\n");
     // retourne le jeu
     return jeu;

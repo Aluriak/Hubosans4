@@ -73,7 +73,7 @@ int IA_etudePriorite(t_jeu* jeu, t_joueur* joueur, int x, int y) {
 	// maximum
 	prioriteJoueur[j] = max(prioHorizontale,prioDiag);
 	// ligne verticale
-	prioVerticale = IA_calculPriorite_vert(jeu, x, y);
+	prioVerticale = IA_calculPriorite_vertical(jeu, x, y);
 	// maximum
 	prioriteJoueur[j] = max(prioriteJoueur[j], prioVerticale);
 	// si le joueur j est aussi l'IA actuellement traitée
@@ -186,9 +186,9 @@ int IA_calculPriorite_vertical(t_jeu *jeu, int x, int y) {
     min.y = y-3;
 	if(min.y < 0) min.y = 0;
     min.x = x;
-    may.y = y+3;
-	if(may.y > (jeu->nbCaseX-1)) may.y = jeu->nbCaseX-1;
-    may.x = x;
+    max.y = y+3;
+	if(max.y > (jeu->nbCaseX-1)) max.y = jeu->nbCaseX-1;
+    max.x = x;
     
     // PARCOURS DES CASES
     
