@@ -69,7 +69,7 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 			// On parcours la liste des joueurs, jusqu'à ce que l'on trouve :
 			// oya == jeu->listeJoueur[i].idJ
 			int i; // itérateur de boucle
-			for(i=0;i<jeu->nbJoueur;i++)
+			for(i=0;i<jeu->nbJoueur-1;i++)
 			{
 				// Si l'id du joueur = oya, c'est qu'on à trouvé le joueur courant
 				if(jeu->listeJoueur[i].idJ==oya)
@@ -117,29 +117,157 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
     // initialisations
     int i = 0; // itérateur de boucle
-    int ligne = 0; // ligne où la pièce va se placer
+    int ligne = jeu->nbCaseY-1; // ligne où la pièce va se placer
     e_piece pieceCase; // pieces occupant la case étudiée
 
-    // pour chaque case de la colonne, de haut en bas
-    for(i = 0; i < jeu->nbCaseY; i++) {
+    // pour chaque case de la colonne, de bas en haut
+    for(i = jeu->nbCaseY-1; i >= 0; i--) {
 	pieceCase = jeu->plateau[colonne][i].typePiece;
-	// si la pièce de la case étudiée ne bloque pas le chemin
-	// 	(vide, ou pièce de type opposé)
-	if(pieceCase == VIDE || (
-		    (piecePlacee == CREUSE && pieceCase == PLEINE) ||
-		    (piecePlacee == PLEINE && pieceCase == CREUSE))) {
-	    // c'est que la case est praticable, on continue à la prochaine, 
-	    // 	et on enregistre cette ligne comme dernière praticable
-	    ligne = i;
+	// si la pièce de la case étudiée bloque le chemin 
+	// 	(pièce bloquante, ou de même type que la pièce placée)
+	if((	pieceCase == BLOQUANTE 
+		|| pieceCase == piecePlacee 
+		|| pieceCase == DOUBLE) 
+	    || // exception : cas où la pièce est bloquante
+		(piecePlacee == BLOQUANTE && pieceCase != VIDE)) {
+	    // si il n'y a pas de case au dessus, on renvois -1
+	    if(i == 0) {
+		i = -1; // arrêt de la boucle
+		ligne = -1; // colonne pleine
+	    }
+	    // sinon, la ligne prend la valeur de la case supérieure
+	    else
+		ligne = i-1; 
 	}
-	// si le chemin est bloqué, on arrête de boucler
-	// ligne contient la coord de la dernière ligne praticable
-	else {
-	    i = jeu->nbCaseY; 
-	}
+	// sinon, c'est que la case est praticable, on arrête le traitement ici
+	else 
+	    i = -1;
     }
     return ligne;
 }
 
+/*
+ * MOTEUR BORNE MAX MIN
+ *
+// Détermine pour une case reçu en paramètre, la valeur MAX (3) ou
+// la valeur MIN (MAX-X) de celle-ci, représentant ainsi la 
+// distance la séparant des bordures de la matrice
+int MOTEUR_borne_MAX_MIN(t_jeu* jeu, t_action action, int ligne)
+{
+	
+}*/
 
+/*
+ * MOTEUR TEST PUISSANCE 4
+ */
+//renvois si le joueur en courant vient de faire un puissance 4.
+//Reçois en paramètre :
+//	- le jeu
+//	- l'action en cours
+//	- la ligne de l'action en cours
+int MOTEUR_test_puissance4(t_jeu* jeu, t_action action, int ligne)
+{
+	int oya=jeu->oya;
+	int i,j; // Itérateur de boucle
+	int c_p4=1; // Compteur pour le puissance 4, si c_p4 >= 4, alors il y a puissance 4
+	int no_p4=0; // Booléen qui permet de sortir de la boucle en cas de non puissance 4
+	while(c_p4<4 || no_p4==0)
+	{
+		// >>> TEST BAS-HAUT <<<
+		i=action.colonne; // Pour un traitement correct des conditions
+		// On part de la case courante -3 jusqu'à la case courante + 3
+		for(j=ligne-3;j<ligne+3;j++)
+		{
+			// Si la piece courante à le même id que le joueur courant, alors on incrémente 
+			if(jeu->plateau[j][i].joueurPieceCreuse == oya ||
+		   	   jeu->plateau[j][i].joueurPiecePleine == oya)
+			{
+				c_p4++;
+			}
+			// Si on sort du if, c'est qu'il y a une coupure entre deux piece de même type (elles ne se suivent pas)
+			else
+			{
+				c_p4=0; // On recommence le décompte à zéro
+			}
+		}
+		// Avant de changer de type de test on remet les compteurs à zéro
+		c_p4=0;
+		// >>> TEST GAUCHE-DROITE <<<
+		//On part de la case courante -3 jusqu'à la case courante +3
+		for(i=action.colonne-3;i<action.colonne+3;i++)
+		{
+			// Si la piece courante à le même id que le joueur courant, alors on incrémente
+			if(jeu->plateau[j][i].joueurPieceCreuse == oya ||
+			   jeu->plateau[j][i].joueurPiecePleine == oya)
+			{
+				c_p4++;
+			}
+			else
+			{
+				c_p4=0; // On recommence le décompte à zéro
+			}
+		}
+		// Avant de changer de type de test on remet les compteurs à zéro
+		c_p4=0;
+		// >>> TEST DIAG BasDroit->HautGauche <<<
+		//On part de la case courante +3 jusqu'à la case courante -3 pour les colonnes
+		for(i=action.colonne+3;i>action.colonne-3;i--)
+		{
+			// On part de la case courante -3 jusqu'à la case courante +3 pour les lignes
+			for(j=ligne-3;j<ligne+3;j++)
+			{
+				if(jeu->plateau[j][i].joueurPieceCreuse == oya ||
+				   jeu->plateau[j][i].joueurPiecePleine == oya)
+				{
+					c_p4++;
+				}
+				else
+				{
+					c_p4=0; // On recommence le décompte à zéro
+				}
+			}
+		}
+		// Avant de changer de type de test, on remet le compteurs à zéro
+		c_p4=0;
+		// >>> TEST DIAG BasGauche->HautDroit <<<
+		// On part de la case courante -3 jusqu'à la case courante +3 pour les colonnes
+		for(i=action.colonne-3;i<action.colonne+3;i++)
+		{
+			// On part de la case courante -3 jusqu'à la case courante +3 pour les lignes
+			for(j=ligne-3;j>ligne+3;j++)
+			{
+				if(jeu->plateau[j][i].joueurPieceCreuse == oya ||
+				   jeu->plateau[j][i].joueurPieceCreuse == oya)
+				{
+				   	c_p4++;
+				}
+				else
+				{
+					c_p4=0; // On recommence le décompte à zéro
+				}
+			}
+		}
+		// Tout les test on été effectués, sans puissance 4.
+		// On passe donc le bool no_p4 à 1 afin de sortir de la boucle
+		no_p4=1;
+	}
+	// Une fois sortie de la boucle, on vérifie quelle condition nous en a fait sortir
+	if(c_p4>=4)
+	{
+		return 1; // il y a puissance 4
+	}
+	else
+	{
+		return 0; // il n'y a pas puissance 4
+	}
+}
 
+/*
+ * MOTEUR TEST COND PUISSANCE 4
+ *
+// Appellée par MOTEUR TEST PUISSANCE 4, elle effectue les test sur une case données
+// Si 
+int MOTEUR_test_cond_puissance_4()
+{
+		
+}*/
