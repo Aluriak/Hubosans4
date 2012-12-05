@@ -147,8 +147,9 @@ void t_jeu_free(t_jeu* jeu) {
  */
 // choisit un oya, et le point avec le pointeur attribut de t_jeu prévu à cet effet
 void t_jeu_choisirOya(t_jeu* jeu) {
-    // on prend un nombre aléatoire entre 0 et le nombre de joueur -1
-    jeu->oya = randN(jeu->nbJoueur);
+    // on prend un nombre aléatoire entre 0 et le nombre de joueur -1, et
+    // 	on l'incrémente pour avoir un id de joueur
+    jeu->oya = randN(jeu->nbJoueur)+1;
 }
 
 
@@ -160,7 +161,7 @@ void t_jeu_choisirOya(t_jeu* jeu) {
 // modifie l'oya pour que le joueur suivant le devienne
 void t_jeu_joueurSuivant(t_jeu* jeu) {
     jeu->oya++;
-    if(jeu->oya == jeu->nbJoueur)
+    if(jeu->oya > jeu->nbJoueur)
 	jeu->oya = 1;
 }
 

@@ -32,7 +32,6 @@ typedef struct {
     // zéro et les négatifs sont utilisés pour l'absence de joueur
     // MAIS, pour des raisons de couleur, six joueurs maximum.
     // les id vont de 1 (premier joueur) à 6 (dernier)
-    int couleur; // valeur de couleur du joueur (de 31 à 36)
     bool IA; // vrai si IA, faux si humain
     int intrepidite; // intrépidité du joueur lorsque jouée par l'IA. 
     // Chiffre oscillant entre 0 et 10, avec 10 intrépidité maximum 

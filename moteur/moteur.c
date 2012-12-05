@@ -69,7 +69,7 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 			// On parcours la liste des joueurs, jusqu'à ce que l'on trouve :
 			// oya == jeu->listeJoueur[i].idJ
 			int i; // itérateur de boucle
-			for(i=0;i<jeu->nbJoueur-1;i++)
+			for(i=0;i<jeu->nbJoueur;i++)
 			{
 				// Si l'id du joueur = oya, c'est qu'on à trouvé le joueur courant
 				if(jeu->listeJoueur[i].idJ==oya)
@@ -117,31 +117,26 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
     // initialisations
     int i = 0; // itérateur de boucle
-    int ligne = jeu->nbCaseY-1; // ligne où la pièce va se placer
+    int ligne = 0; // ligne où la pièce va se placer
     e_piece pieceCase; // pieces occupant la case étudiée
 
-    // pour chaque case de la colonne, de bas en haut
-    for(i = jeu->nbCaseY-1; i >= 0; i--) {
+    // pour chaque case de la colonne, de haut en bas
+    for(i = 0; i < jeu->nbCaseY; i++) {
 	pieceCase = jeu->plateau[colonne][i].typePiece;
-	// si la pièce de la case étudiée bloque le chemin 
-	// 	(pièce bloquante, ou de même type que la pièce placée)
-	if((	pieceCase == BLOQUANTE 
-		|| pieceCase == piecePlacee 
-		|| pieceCase == DOUBLE) 
-	    || // exception : cas où la pièce est bloquante
-		(piecePlacee == BLOQUANTE && pieceCase != VIDE)) {
-	    // si il n'y a pas de case au dessus, on renvois -1
-	    if(i == 0) {
-		i = -1; // arrêt de la boucle
-		ligne = -1; // colonne pleine
-	    }
-	    // sinon, la ligne prend la valeur de la case supérieure
-	    else
-		ligne = i-1; 
+	// si la pièce de la case étudiée ne bloque pas le chemin
+	// 	(vide, ou pièce de type opposé)
+	if(pieceCase == VIDE || (
+		    (piecePlacee == CREUSE && pieceCase == PLEINE) ||
+		    (piecePlacee == PLEINE && pieceCase == CREUSE))) {
+	    // c'est que la case est praticable, on continue à la prochaine, 
+	    // 	et on enregistre cette ligne comme dernière praticable
+	    ligne = i;
 	}
-	// sinon, c'est que la case est praticable, on arrête le traitement ici
-	else 
-	    i = -1;
+	// si le chemin est bloqué, on arrête de boucler
+	// ligne contient la coord de la dernière ligne praticable
+	else {
+	    i = jeu->nbCaseY; 
+	}
     }
     return ligne;
 }
