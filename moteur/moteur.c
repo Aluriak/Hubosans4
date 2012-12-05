@@ -114,17 +114,17 @@ int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
     e_piece pieceCase; // pieces occupant la case étudiée
 
     // pour chaque case de la colonne, tant que la ligne n'a pas été trouvée
-    for(i = jeu->nbCaseY-1; i >= 0 && ligne == -1; i--) {
+    for(i = jeu->nbCaseY-1; i >= 0; i--) {
 	pieceCase = jeu->plateau[colonne][i].typePiece;
 	// si la pièce de la case étudiée bloque le chemin 
 	// 	(pièce bloquante, ou de même type que la pièce placée)
 	if(pieceCase == BLOQUANTE 
 		|| pieceCase == piecePlacee 
 		|| pieceCase == DOUBLE) {
-	    // on détermine si on renvois -1 (pas de case précédente), 
+	    // on détermine si on renvois -1 (pas de case au dessus), 
+	    if(i == 0)	
+		i = -1; // arrêt de la boucle
 	    // 	ou l'id de la case précédente
-	    if(i == (jeu->nbCaseY-1))	
-		i = -1; // arrêt de la boucle;
 	    else
 		ligne = i+1; 
 	}
