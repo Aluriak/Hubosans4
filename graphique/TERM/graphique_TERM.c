@@ -201,7 +201,7 @@ t_jeu* TERM_afficherMenu() {
     }
     printf("\nInitialisation du jeu...");
     // initialisation du jeu
-    t_jeu_init(jeu, nbJoueurs, nbIA); // 4 joueurs, dont 3 IA
+    t_jeu_init(jeu, nbJoueur, nbIA); // 4 joueurs, dont 3 IA
     printf("OK !\n");
     // retourne le jeu
     return jeu;

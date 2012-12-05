@@ -20,6 +20,7 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
     //	nom d'un slot : saveN.sv (avec N le numéro de slot)
 
     // On s'occupe des sauvegardes
+    /*
     FILE * file_save;
     if(action.typePiece == VIDE) { // action.typePiece est NULL, donc sauvegarde
     	// On compte le nombre de chiffres dans le string
@@ -49,7 +50,7 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 	// Ne pas oublier une gestion d'erreur
     }
     // sinon, c'est une pièce à jouer
-    else {
+    else {*/
     	int ligne = MOTEUR_coordPieceJouee(jeu, action.typePiece, action.colonne);
 	int oya = jeu->oya;
     	if(ligne == -1) {
@@ -61,7 +62,18 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 		// On vérifie si le joueur à joué une pièce blocante
 		if(action.typePiece==BLOQUANTE) // Si oui, on décrémente
 		{
-			joueur->nbPieceBloquante--;
+			// On parcours la liste des joueurs, jusqu'à ce que l'on trouve :
+			// oya == jeu->listeJoueur[i].idJ
+			int i; // itérateur de boucle
+			for(i=0;i<jeu->nbJoueur;i++)
+			{
+				// Si l'id du joueur = oya, c'est qu'on à trouvé le joueur courant
+				if(jeu->listeJoueur[i].idJ==oya)
+				{
+					// On décrémente son nombre de pieces bloquante
+					jeu->listeJoueur[i].nbPieceBloquante--;
+				}
+			}
 		}
 		// On enregistre qui à joué la piece CREUSE
 		else if(action.typePiece==CREUSE)
@@ -74,16 +86,16 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 		}
 		// On passe au joueur suivant, ou au premier si le dernier joueur de la liste vient de jouer, afin de ne pas dépasser le nombre de joueurs prévu
-		if(oya==jeu->nbJoueurs)
+		if(oya==jeu->nbJoueur)
 		{
-			oya==1;
+			oya=1;
 		}
 		else
 		{
 			oya++;
 		}
     	}	
-    }
+    //}
     return NULL;
 }
 
