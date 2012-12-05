@@ -25,6 +25,7 @@ int main(int argc, char* argv[]) {
 	gagnant = MOTEUR_tourSuivant(&jeu, action);
     }
     // arrivé ici, il y a puissance 4
+    TERM_afficherJeuFini(&jeu, gagnant);
 
     // libération du jeu
     t_jeu_free(&jeu);
