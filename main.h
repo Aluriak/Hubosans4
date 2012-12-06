@@ -9,6 +9,7 @@
 #include "systeme/systeme.h"
 #include "moteur/moteur.h"
 #include "graphique/TERM/graphique_TERM.h"
+#include "IA/IA.h"
 
 
 
