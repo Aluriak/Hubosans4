@@ -26,6 +26,15 @@ Il s'interface via les structures d'actions.
 		* le numéro de la colonne où la pièce est lâchée
 	* Lucas
 
+* bool MOTEUR\_test\_puissance4(t\_jeu\* jeu, coord coordCase, int idJ); 
+	* Renvois vrai si un puissance 4 est trouvé à la case de coordonnées 
+	    coordCasedans le jeu envoyé en argument, pour le joueur d'id idJ
+	* Elle prend en paramètre
+		* l'adresse vers le jeu
+		* les coordonnées de la case centrale de tests
+		* l'id du joueur pour lequel le puissance 4 est testé
+	* Thomas
+
 * void t\_case\_init(t\_case\* t\_case, int x, int y);
 	* Initialise la structure
 	* Elle prend en paramètre
