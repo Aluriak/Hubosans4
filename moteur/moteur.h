@@ -84,20 +84,28 @@ typedef struct {
     t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
     int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piece, int colonne); // renvois la coordonnee y d'une pièce placée dans la colonne. Ou -1 si pièce impossible à mettre (atteinte le limite haute)
 
+
+
 // STRUCT T_CASE (dans struct_case_joueur.c)
     void t_case_init(t_case* t_case, int x, int y); // initialisation de la structure
+
+
 
 // STRUCT T_JOUEUR (dans struct_case_joueur.c)
     void t_joueur_init(t_joueur *j, int nbPieceBloquante, int id, bool ia); // initialise le joueur
 
+
+
 // STRUCT T_JEU (dans struct_jeu.c)
     void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int niveauIA); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
     void t_jeu_free(t_jeu* jeu); // libère le t_jeu alloué dynamiquement
-    // Sous-procédures
+    
+    // SOUS-PROCÉDURES
 	bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA); // initialise la liste des joueurs du jeu, et renvois faux si un problème à été rencontré, après appel de FLUX_ERREUR()
 	bool t_jeu_init_plateau(t_jeu* jeu); // Initialise le plateau de jeu. Renvois faux si problème rencontré, après l'avoir fait savoir avec FLUX_ERREUR()
 	void t_jeu_choisirOya(t_jeu* jeu); // choisit un oya, et le point avec le pointeur attribut de t_jeu prévu à cet effet
 	void t_jeu_joueurSuivant(t_jeu* jeu); // modifie l'oya pour que le joueur suivant le devienne
+	t_joueur* t_jeu_getOya(t_jeu* jeu); // retourne l'adresse vers l'oya
 
 
 
