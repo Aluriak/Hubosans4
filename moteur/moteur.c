@@ -16,7 +16,8 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 {
     if(action.typePiece == VIDE) // action.typePiece est NULL, donc sauvegarde
     {
-    	MOTEUR_sauvegarde();
+    	printf("Building module, please wait.");
+    	//MOTEUR_sauvegarde();
     }
     // sinon, c'est une pièce à jouer
     else 
@@ -71,8 +72,8 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 		if(MOTEUR_test_cond_puissance4(c_p4))
 		{
 			// On modifie la structure gagnant de type t_joueur
-			gagnant->idJ=oya;
-			return 1;
+			//gagnant->idJ=oya;
+			return EXIT_SUCCESS;
 		}
 		// Sinon on passe au joueur suivant
 		else
@@ -81,7 +82,8 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 			t_jeu_joueurSuivant(jeu);
 			return NULL;
       		}
-    }
+     }
+   }
 }
 
 
@@ -128,18 +130,20 @@ int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
  * MOTEUR BORNE MAX
  */
 // Détermine pour une case reçu en paramètre, la valeur MAX (3) ou
-// de celle-ci, représentant ainsi la  distance la séparant des
+// minimum de celle-ci, représentant ainsi la  distance la séparant des
 // bordures de la matrice
-int MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase, int max_h,max_b,max_g,max_d)
+void MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase, int max_h, int max_b, int max_g, int max_d)
 {
 	int i; // Itérateur dw boucle
 	// Compteur déterminant le nombre de case séparant la case en 
 	// question et la bordure du plateau
-	int c_case; 	
+	int c_case;
+	// Déclaration des variables coordonnées
+	
 	// >>> MAX_HAUT && MAX_BAS <<<
 	// Si la coordonnée Y est égal au nombre de case en Y
 	// cela signifie que l'on est en bas du plateau
-	if(coordCase.y==nbCaseY)
+	if(coordCase.y==jeu->nbCaseY)
 	{
 		max_h=3; // On est en bas, donc la valeur max_h est maximum
 		max_b=0; // Cependant, max_b est au minimum
@@ -151,7 +155,7 @@ int MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase, int max_h,max_b,max_g,max_d)
 		max_h=0; // On est en haut, on ne peut donc pas aller plus haut =)
 		max_b=3; // On est en haut, on peut donc aller 3 case plus bas sans soucis =)
 	}
-	else if(coordCase.y<nbCaseY)
+	else if(coordCase.y<jeu->nbCaseY)
 	{
 		// ## max_H ##
 		// On met le compteur à zéro
@@ -178,7 +182,7 @@ int MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase, int max_h,max_b,max_g,max_d)
 		// On met le compteur à zéro
 		c_case=0;
 		// On compte le nombre de case
-		for(i=coordCase.y;i<nbCaseY;i++)
+		for(i=coordCase.y;i<jeu->nbCaseY;i++)
 		{
 			c_case++;
 		}
@@ -203,7 +207,7 @@ int MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase, int max_h,max_b,max_g,max_d)
 		max_d=3; // On est tout à gauche, on peut donc avancer de 3 case à droite sans soucis
 		max_g=0; // On est gauche, on ne peut pas aller encore plus à gauche !
 	}
-	else if(coordCase.x<nbCaseX)
+	else if(coordCase.x<jeu->nbCaseX)
 	{
 		// ## max_G ##
 		// On met le compteur à zéro
@@ -230,7 +234,7 @@ int MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase, int max_h,max_b,max_g,max_d)
 		// On met le compteur à zéro
 		c_case=0;
 		// On compte le nombre de cases
-		for(i=coordCase.x;i<nbCaseX;i++)
+		for(i=coordCase.x;i<jeu->nbCaseX;i++)
 		{
 			c_case++;
 		}
@@ -253,7 +257,7 @@ int MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase, int max_h,max_b,max_g,max_d)
 /*
  * MOTEUR TEST PUISSANCE 4
  */
-//renvois si le joueur en courant vient de faire un puissance 4.
+// renvois le nombre de pieces à la suite appartenant au même joueur
 //Reçois en paramètre :
 //	- le jeu
 //	- une structure coord correspondant à la case en question
@@ -267,7 +271,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	int c_p4=1; // Compteur pour le puissance 4, si c_p4 >= 4, alors il y a puissance 4
 	// On détermine les bornes de la case grace à la fonction
 	// MOTEUR_borne_max
-	MOTEUR_borne_max(jeu, coordCase, max_h, max_b, max_g, max_d);
+	MOTEUR_borne_MAX(jeu, coordCase, max_h, max_b, max_g, max_d);
 	// >>> TEST BAS-HAUT <<<
 	i=coordCase.x; // Pour un traitement correct des conditions
 	// On part de la case courante -3 jusqu'à la case courante + 3
