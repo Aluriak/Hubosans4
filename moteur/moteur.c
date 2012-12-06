@@ -12,49 +12,15 @@
 //	- On modifie jeu en fonction d'action
 //		- En testant si aucun conflit n'est présent
 //		- En vérifiant si !puissance4
-t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
-    //int i = 0; //itérateur de boucle
-    //si le type de pièce de l'action est VIDE, alors on considère que 
-    //	l'utilisateur à voulut sauvegarder la partie.
-    //	la colonne correspond au slot de sauvegarde
-    //	nom d'un slot : saveN.sv (avec N le numéro de slot)
-
-    // On s'occupe des sauvegardes
-    /*
-    FILE * file_save;
-    if(action.typePiece == VIDE) { // action.typePiece est NULL, donc sauvegarde
-    	// On compte le nombre de chiffres dans le string
-    	char * str = action.colonne; // Contient la chaine à analyser
-	char slot_num[3]; // Contient le numéro du slot
-	int i=0; // itérateur de boucle
-	// On récupère le nombre de chiffres de str dans slot_num 	
-	do {
-		slot_num[i]=str[i];
-		i++;
-	} while(isdigit(slot_num[i]));
-	// Création de la chaine de caractère pour le nom final
-	char save[10] = "save";
-	char end_save[3] = ".sv";
-	// Fusion des chaines de caractères
-	strcat(save, slot_num);
-	strcat(save, end_save);
-	// Création du fichier 
-	file_save = fopen(save, "w");
-	// On commence par sauvegarder tout ce qui est hors du plateau de jeu
-	
-	//	>>> On sauvegarde les joueurs <<<
-	
-
-	
-	//Structure de joueur
-	
-
-
-	// TODO: A compléter, envoie du jeu dans fichier de sauvegarde
-	// Ne pas oublier une gestion d'erreur
+t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) 
+{
+    if(action.typePiece == VIDE) // action.typePiece est NULL, donc sauvegarde
+    {
+    	MOTEUR_sauvegarde();
     }
     // sinon, c'est une pièce à jouer
-    else {*/
+    else 
+    {
     	int ligne = MOTEUR_coordPieceJouee(jeu, action.typePiece, action.colonne);
 	int oya = jeu->oya;
     	if(ligne == -1) {
@@ -92,18 +58,30 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) {
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 		}
-		// L'oya est mis au joueur suivant
-		t_jeu_joueurSuivant(jeu);
-		}	
-    //}
-    //if(test_puissance4==OK)
-    //{
-    //	return joueur_gagnant;
-    //}
-    //else
-    //{
-    	return NULL;
-      //}
+		// On test si il y a un puissance 4
+		// >>> On déclare les variables et structures dont on a besion <<<
+		coord coordCase;
+		coordCase.x=action.colonne;
+		coordCase.y=ligne;
+		// >>> END <<<
+		// On lance la fonction de calcul
+		int c_p4=MOTEUR_test_puissance4(jeu, coordCase, oya);
+		// >>> On lance le test final <<<
+		// Si c_p4 est égal ou supérieur à 4, alors puissance 4
+		if(MOTEUR_test_cond_puissance4(c_p4))
+		{
+			// On modifie la structure gagnant de type t_joueur
+			gagnant->idJ=oya;
+			return 1;
+		}
+		// Sinon on passe au joueur suivant
+		else
+		{
+			// L'oya est mis au joueur suivant
+			t_jeu_joueurSuivant(jeu);
+			return NULL;
+      		}
+    }
 }
 
 
@@ -147,15 +125,130 @@ int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
 }
 
 /*
- * MOTEUR BORNE MAX MIN
- *
+ * MOTEUR BORNE MAX
+ */
 // Détermine pour une case reçu en paramètre, la valeur MAX (3) ou
-// la valeur MIN (MAX-X) de celle-ci, représentant ainsi la 
-// distance la séparant des bordures de la matrice
-int MOTEUR_borne_MAX_MIN(t_jeu* jeu, t_action action, int ligne)
+// de celle-ci, représentant ainsi la  distance la séparant des
+// bordures de la matrice
+int MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase, int max_h,max_b,max_g,max_d)
 {
-	
-}*/
+	int i; // Itérateur dw boucle
+	// Compteur déterminant le nombre de case séparant la case en 
+	// question et la bordure du plateau
+	int c_case; 	
+	// >>> MAX_HAUT && MAX_BAS <<<
+	// Si la coordonnée Y est égal au nombre de case en Y
+	// cela signifie que l'on est en bas du plateau
+	if(coordCase.y==nbCaseY)
+	{
+		max_h=3; // On est en bas, donc la valeur max_h est maximum
+		max_b=0; // Cependant, max_b est au minimum
+	}
+	// Si la coordonnée en Y est égal à zéro, cela signifie que
+	// l'on est en haut du plateau
+	else if(coordCase.y==0)
+	{
+		max_h=0; // On est en haut, on ne peut donc pas aller plus haut =)
+		max_b=3; // On est en haut, on peut donc aller 3 case plus bas sans soucis =)
+	}
+	else if(coordCase.y<nbCaseY)
+	{
+		// ## max_H ##
+		// On met le compteur à zéro
+		c_case=0;
+		// On compte le nombre de case
+		for(i=coordCase.y;i>0;i--)
+		{
+			c_case++;
+		}
+		// On détermine la valeur max_h
+		// Si c_case est inférieur à 3, alors
+		// la valeur max_h est inférieur à 3
+		if(c_case<3)
+		{
+			max_h=c_case;
+		}
+		// Si le nombre de case est supérieur à 3
+		// alors max_h est égal au max
+		else if(c_case>=3)
+		{
+			max_h=3;
+		}
+		// ## max_B ##
+		// On met le compteur à zéro
+		c_case=0;
+		// On compte le nombre de case
+		for(i=coordCase.y;i<nbCaseY;i++)
+		{
+			c_case++;
+		}
+		// On détermine la valeur max_h
+		// Si c_case est inférieur à 3, alors
+		// la valeur max_b est inférieur à 3
+		if(c_case<3)
+		{
+			max_b=c_case;
+		}
+		//Si le nombre de case est supérieur à 3
+		//alors max_b est égal au max
+		else if(c_case>=3)
+		{
+			max_b=3;
+		}
+	}
+	// >>> MAX GAUCHE && MAX DROIT <<<
+	// Si la coordonnée en X est égal à 0, c'est qu'on est tout à gauche
+	if(coordCase.x==0)
+	{
+		max_d=3; // On est tout à gauche, on peut donc avancer de 3 case à droite sans soucis
+		max_g=0; // On est gauche, on ne peut pas aller encore plus à gauche !
+	}
+	else if(coordCase.x<nbCaseX)
+	{
+		// ## max_G ##
+		// On met le compteur à zéro
+		c_case=0;
+		// On compte le nombre de cases
+		for(i=coordCase.x;i>0;i--)
+		{
+			c_case++;
+		}
+		// On détermine la valeur max_g
+		// Si c_case est inférieur à 3 alors
+		// la valeur max_g est inférieur à 3
+		if(c_case<3)
+		{
+			max_b=c_case;
+		}
+		// Si le nombre de case est supérieur ou égal à 3
+		// alors max_g est égal au max
+		else if(c_case>=3)
+		{
+			max_g=3;
+		}
+		// ## max_D ##
+		// On met le compteur à zéro
+		c_case=0;
+		// On compte le nombre de cases
+		for(i=coordCase.x;i<nbCaseX;i++)
+		{
+			c_case++;
+		}
+		// On détermine la valeur max_d
+		// Si c_case est inférieur à 3 alors
+		// la valeur max_d est inférieur à 3
+		if(c_case<3)
+		{
+			max_d=3;
+		}
+		// Si le nombre de case est supérieur ou égal à 3
+		// alors max_d est égal au max
+		else if(c_case>=3)
+		{
+			max_d=3;
+		}
+	}
+}
 
 /*
  * MOTEUR TEST PUISSANCE 4
@@ -163,42 +256,83 @@ int MOTEUR_borne_MAX_MIN(t_jeu* jeu, t_action action, int ligne)
 //renvois si le joueur en courant vient de faire un puissance 4.
 //Reçois en paramètre :
 //	- le jeu
-//	- l'action en cours
-//	- la ligne de l'action en cours
-int MOTEUR_test_puissance4(t_jeu* jeu, t_action action, int ligne)
-{
-	int oya=jeu->oya;
+//	- une structure coord correspondant à la case en question
+//	- un id de joueur
+int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
+{	
+	// A terminer, modifier les valeurs en dure par les variables max
+	int max_h, max_b; // Borne haute et basse du plateau
+	int max_g, max_d; // Borne gauche et droite du plateau
 	int i,j; // Itérateur de boucle
 	int c_p4=1; // Compteur pour le puissance 4, si c_p4 >= 4, alors il y a puissance 4
-	int no_p4=0; // Booléen qui permet de sortir de la boucle en cas de non puissance 4
-	while(c_p4<4 || no_p4==0)
+	// On détermine les bornes de la case grace à la fonction
+	// MOTEUR_borne_max
+	MOTEUR_borne_max(jeu, coordCase, max_h, max_b, max_g, max_d);
+	// >>> TEST BAS-HAUT <<<
+	i=coordCase.x; // Pour un traitement correct des conditions
+	// On part de la case courante -3 jusqu'à la case courante + 3
+	for(j=coordCase.y-max_b;j<coordCase.y+max_h;j++)
 	{
-		// >>> TEST BAS-HAUT <<<
-		i=action.colonne; // Pour un traitement correct des conditions
-		// On part de la case courante -3 jusqu'à la case courante + 3
-		for(j=ligne-3;j<ligne+3;j++)
+		// Si la piece courante à le même id que le joueur courant, alors on incrémente 
+		if(jeu->plateau[j][i].joueurPieceCreuse == idJ ||
+	   	   jeu->plateau[j][i].joueurPiecePleine == idJ)
 		{
-			// Si la piece courante à le même id que le joueur courant, alors on incrémente 
-			if(jeu->plateau[j][i].joueurPieceCreuse == oya ||
-		   	   jeu->plateau[j][i].joueurPiecePleine == oya)
+			c_p4++;
+		}
+		// Si on sort du if, c'est qu'il y a une coupure entre deux piece de même type (elles ne se suivent pas)
+		else
+		{
+			c_p4=0; // On recommence le décompte à zéro
+		}
+	}
+	// Avant de changer de type de test on remet les compteurs à zéro
+	c_p4=0;
+	// >>> TEST GAUCHE-DROITE <<<
+	//On part de la case courante -3 jusqu'à la case courante +3
+	for(i=coordCase.x-max_g;i<coordCase.x+max_d;i++)
+	{
+		// Si la piece courante à le même id que le joueur courant, alors on incrémente
+		if(jeu->plateau[j][i].joueurPieceCreuse == idJ ||
+		   jeu->plateau[j][i].joueurPiecePleine == idJ)
+		{
+			c_p4++;
+		}
+		else
+		{
+			c_p4=0; // On recommence le décompte à zéro
+		}
+	}
+	// Avant de changer de type de test on remet les compteurs à zéro
+	c_p4=0;
+	// >>> TEST DIAG BasDroit->HautGauche <<<
+	//On part de la case courante +3 jusqu'à la case courante -3 pour les colonnes
+	for(i=coordCase.x+max_d;i>coordCase.x-max_g;i++)
+	{
+		// On part de la case courante -3 jusqu'à la case courante +3 pour les lignes
+		for(j=coordCase.y+max_b;j>coordCase.y-max_h;j--)
+		{
+			if(jeu->plateau[j][i].joueurPieceCreuse == idJ ||
+			   jeu->plateau[j][i].joueurPiecePleine == idJ)
 			{
 				c_p4++;
 			}
-			// Si on sort du if, c'est qu'il y a une coupure entre deux piece de même type (elles ne se suivent pas)
 			else
 			{
 				c_p4=0; // On recommence le décompte à zéro
 			}
 		}
-		// Avant de changer de type de test on remet les compteurs à zéro
-		c_p4=0;
-		// >>> TEST GAUCHE-DROITE <<<
-		//On part de la case courante -3 jusqu'à la case courante +3
-		for(i=action.colonne-3;i<action.colonne+3;i++)
+	}
+	// Avant de changer de type de test, on remet le compteurs à zéro
+	c_p4=0;
+	// >>> TEST DIAG BasGauche->HautDroit <<<
+	// On part de la case courante -3 jusqu'à la case courante +3 pour les colonnes
+	for(i=coordCase.x-max_g;i<coordCase.x+max_d;i++)
+	{
+		// On part de la case courante -3 jusqu'à la case courante +3 pour les lignes
+		for(j=coordCase.y+max_b;j>coordCase.y-max_h;j--)
 		{
-			// Si la piece courante à le même id que le joueur courant, alors on incrémente
-			if(jeu->plateau[j][i].joueurPieceCreuse == oya ||
-			   jeu->plateau[j][i].joueurPiecePleine == oya)
+			if(jeu->plateau[j][i].joueurPieceCreuse == idJ ||
+			   jeu->plateau[j][i].joueurPieceCreuse == idJ)
 			{
 				c_p4++;
 			}
@@ -207,67 +341,77 @@ int MOTEUR_test_puissance4(t_jeu* jeu, t_action action, int ligne)
 				c_p4=0; // On recommence le décompte à zéro
 			}
 		}
-		// Avant de changer de type de test on remet les compteurs à zéro
-		c_p4=0;
-		// >>> TEST DIAG BasDroit->HautGauche <<<
-		//On part de la case courante +3 jusqu'à la case courante -3 pour les colonnes
-		for(i=action.colonne+3;i>action.colonne-3;i--)
-		{
-			// On part de la case courante -3 jusqu'à la case courante +3 pour les lignes
-			for(j=ligne-3;j<ligne+3;j++)
-			{
-				if(jeu->plateau[j][i].joueurPieceCreuse == oya ||
-				   jeu->plateau[j][i].joueurPiecePleine == oya)
-				{
-					c_p4++;
-				}
-				else
-				{
-					c_p4=0; // On recommence le décompte à zéro
-				}
-			}
-		}
-		// Avant de changer de type de test, on remet le compteurs à zéro
-		c_p4=0;
-		// >>> TEST DIAG BasGauche->HautDroit <<<
-		// On part de la case courante -3 jusqu'à la case courante +3 pour les colonnes
-		for(i=action.colonne-3;i<action.colonne+3;i++)
-		{
-			// On part de la case courante -3 jusqu'à la case courante +3 pour les lignes
-			for(j=ligne-3;j>ligne+3;j++)
-			{
-				if(jeu->plateau[j][i].joueurPieceCreuse == oya ||
-				   jeu->plateau[j][i].joueurPieceCreuse == oya)
-				{
-				   	c_p4++;
-				}
-				else
-				{
-					c_p4=0; // On recommence le décompte à zéro
-				}
-			}
-		}
-		// Tout les test on été effectués, sans puissance 4.
-		// On passe donc le bool no_p4 à 1 afin de sortir de la boucle
-		no_p4=1;
 	}
-	// Une fois sortie de la boucle, on vérifie quelle condition nous en a fait sortir
-	if(c_p4>=4)
-	{
-		return 1; // il y a puissance 4
-	}
-	else
-	{
-		return 0; // il n'y a pas puissance 4
-	}
+	return c_p4; // On retourne la valeur de c_p4 pour post-traitement
 }
 
 /*
  * MOTEUR TEST COND PUISSANCE 4
- *
-// Appellée par MOTEUR TEST PUISSANCE 4, elle effectue les test sur une case données
-// Si 
-int MOTEUR_test_cond_puissance_4()
+ */
+// Test si la il y a puissance 4
+// Prend en paramètre :
+// 			- un int correspondant au compteur de
+// 			  puissance 4
+int MOTEUR_test_cond_puissance4(int c_p4)
 {
-		
+	// Si le compteur c_p4 est supérieur ou égal
+	// à 4, alors il y a puissance 4
+	if(c_p4>=4)
+	{
+		return 1;
+	}
+	// Sinon on retourne 0
+	else
+	{
+		return 0;
+	}
+}
+
+/*
+ * MOTEUR SAUVEGARDE
+ */
+// Procédure de sauvegarde
+// Reçois en paramètre :
+// 			-
+/*MOTEUR_sauvegarde()
+{
+//int i = 0; //itérateur de boucle
+    //si le type de pièce de l'action est VIDE, alors on considère que 
+    //	l'utilisateur à voulut sauvegarder la partie.
+    //	la colonne correspond au slot de sauvegarde
+    //	nom d'un slot : saveN.sv (avec N le numéro de slot)
+
+    // On s'occupe des sauvegardes
+    
+    FILE * file_save;
+
+// On compte le nombre de chiffres dans le string
+    	char * str = action.colonne; // Contient la chaine à analyser
+	char slot_num[3]; // Contient le numéro du slot
+	int i=0; // itérateur de boucle
+	// On récupère le nombre de chiffres de str dans slot_num 	
+	do {
+		slot_num[i]=str[i];
+		i++;
+	} while(isdigit(slot_num[i]));
+	// Création de la chaine de caractère pour le nom final
+	char save[10] = "save";
+	char end_save[3] = ".sv";
+	// Fusion des chaines de caractères
+	strcat(save, slot_num);
+	strcat(save, end_save);
+	// Création du fichier 
+	file_save = fopen(save, "w");
+	// On commence par sauvegarder tout ce qui est hors du plateau de jeu
+	
+	//	>>> On sauvegarde les joueurs <<<
+	
+
+	
+	//Structure de joueur
+	
+
+
+	// TODO: A compléter, envoie du jeu dans fichier de sauvegarde
+	// Ne pas oublier une gestion d'erreur
 }*/
