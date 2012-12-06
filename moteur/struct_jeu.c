@@ -167,3 +167,16 @@ void t_jeu_joueurSuivant(t_jeu* jeu) {
 
 
 
+/*
+ * T_JEU GET OYA
+ */
+// retourne l'adresse vers l'oya
+t_joueur* t_jeu_getOya(t_jeu* jeu) {
+    t_joueur * oya = NULL;
+    int i = 0; // itérateur de boucle
+    for(i = 0; i < jeu->nbJoueur && oya == NULL; i++) {
+	if(jeu->listeJoueur[i].idJ == jeu->oya)
+	    oya = &jeu->listeJoueur[i];
+    }
+    return oya;
+}
