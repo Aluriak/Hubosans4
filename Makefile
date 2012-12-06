@@ -49,8 +49,7 @@ moteur.o: moteur/*.c  systeme.o
 
 # suppression de tous les fichiers
 clean:
-	rm *.o 
-	rm $(FINALNAME)
+	rm *.o $(FINALNAME) rapport.aux rapport.log
 
 # suppression de tous les fichiers objets
 cleanO:
@@ -59,5 +58,4 @@ cleanO:
 
 rapport:
 	pdflatex rapport.tex
-	rm rapport.aux rapport.log
 
