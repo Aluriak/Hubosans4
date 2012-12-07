@@ -24,6 +24,7 @@ void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int niveauIA) {
     }
     // Initialisation de la liste de joueurs
     jeu->nbJoueur = nbjoueurs;
+    jeu->nbIA = nbIA;
     if(!t_jeu_init_listeJoueur(jeu, nbIA))
 	return; // erreur déjà envoyée dans le flux stderr
     // allocation du plateau de jeu

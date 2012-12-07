@@ -23,6 +23,28 @@ typedef enum {VIDE, CREUSE, PLEINE, DOUBLE, BLOQUANTE} e_piece;
 // DOUBLE = CREUSE + PLEINE
 
 
+// structure d'action. Contient une action de jeu : une colonne où la pièce 
+// 	est tombée, et le type de la pièce.
+typedef struct {
+    int colonne; // colonne où la pièce à été lâchée
+    e_piece typePiece; // type de pièce
+} t_action;
+
+// structure d'élement de pile d'action
+struct t_pile_elem_ {
+    t_action action; // action 
+    struct t_pile_elem_* nxt; // élément suivant, ou NULL
+};
+typedef struct t_pile_elem_ t_pile_elem;
+
+// structure de pile d'action
+typedef struct {
+    t_pile_elem* sommet; // première valeur
+    int nbElem; // nombre d'éléments dans la pile
+} t_pileAction;
+
+
+
 // structure de joueur
 typedef struct {
     int points; // nombre de points pour cette partie
@@ -63,17 +85,13 @@ typedef struct {
     int nbCaseY; // nombre de cases en Y
     t_joueur* listeJoueur; // liste des joueurs
     int oya; // id du joueur étant l'oya
-    short nbJoueur; // nombre de joueurs listés (l'id va de 1 à 6)
+    int nbJoueur; // nombre de joueurs listés (l'id va de 1 à 6)
+    int nbIA; // nombre de joueurs joués par l'IA
     int niveauIA; // niveau des IA (entre 1(facile) et 3 (difficile))
+    t_pileAction pileAction; // pile des actions du jeu
 } t_jeu;
 
 
-// structure d'action. Contient une action de jeu : une colonne où la pièce 
-// 	est tombée, et le type de la pièce.
-typedef struct {
-    int colonne; // colonne où la pièce à été lâchée
-    e_piece typePiece; // type de pièce
-} t_action;
 
 
 
@@ -114,6 +132,13 @@ int MOTEUR_test_cond_puissance4(int c_p4); // test si il y a puissance 4
 	t_joueur* t_jeu_getOya(t_jeu* jeu); // retourne l'adresse vers l'oya
 
 
+// T_PILEACTION (pileAction.c)
+    void t_pileAction_init(t_pileAction* p); // Initialise la pile aux bonnes valeurs de départ
+    void t_pileAction_free(t_pileAction* p); // libère la pile
+    void t_pileAction_emp(t_pileAction *p, t_action action); // empile l'action demandée
+    t_action t_pileAction_dep(t_pileAction *p); // Retourne l'action du sommet de la pile, qui est dépilée. action nulle si pile vide
+    t_action t_pileAction_val(t_pileAction *p); // retourne l'action du sommet de la pile, sans y toucher
+    void t_pileAction_vider(t_pileAction* p); // Vide la pile
 
 
 
