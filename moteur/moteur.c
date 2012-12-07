@@ -84,6 +84,7 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
       		}
      }
    }
+   return NULL;
 }
 
 
@@ -265,8 +266,8 @@ void MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase, int max_h, int max_b, int max
 int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 {	
 	// A terminer, modifier les valeurs en dure par les variables max
-	int max_h, max_b; // Borne haute et basse du plateau
-	int max_g, max_d; // Borne gauche et droite du plateau
+	int max_h=0, max_b=0; // Borne haute et basse du plateau
+	int max_g=0, max_d=0; // Borne gauche et droite du plateau
 	int i,j; // Itérateur de boucle
 	int c_p4=1; // Compteur pour le puissance 4, si c_p4 >= 4, alors il y a puissance 4
 	// On détermine les bornes de la case grace à la fonction
