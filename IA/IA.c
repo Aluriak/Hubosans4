@@ -50,12 +50,15 @@ t_action IA_creerAction(t_jeu* jeu, t_joueur* joueur) {
 	    t_jeu_joueurSuivant(jeu);
 	}
     }
-    // on donne la valeur h(jeu)
+    // on return l'action choisie
     return action;
 }
 
 
 
-
-
+/*
+ * IA ETUDE RECURSIVE
+ */
+// étudie récursivement le plateau de jeu, et retourne la priorité. Appel récursif
+int IA_minimax(int profondeur, int numCoups, int prioMax);
 
