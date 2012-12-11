@@ -32,7 +32,6 @@ int main(int argc, char* argv[]) {
     }
     else {
 	jeu = TERM_afficherMenu();
-	TERM_afficherJeu(jeu);
     }
 
     // jeu
