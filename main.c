@@ -43,9 +43,11 @@ int main(int argc, char* argv[]) {
 	else {
 	    TERM_afficherJeu(jeu);
 	    t_joueur* oya = t_jeu_getOya(jeu);
+	    /*
 	    if(oya->IA == true)
 		action = IA_effectuerTour(jeu, oya);
 	    else
+	    // */
 		action = TERM_entreeUtilisateur(jeu);
 	}
 	gagnant = MOTEUR_tourSuivant(jeu, action);
