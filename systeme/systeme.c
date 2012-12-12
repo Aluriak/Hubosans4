@@ -93,8 +93,7 @@ int apowb(int a, int b) {
 //	51 : 3	| 56 : 8
 //	52 : 4	| 57 : 9
 //
-int str2int(char * str, int nb_carac)
-{
+int str2int(char * str, int nb_carac) {
 	int i = 0; // itérateur de boucle
 	int resultat = 0; // Variable retournée contenant la valeur de str
 	char tmp; // Variable tampon
@@ -106,3 +105,6 @@ int str2int(char * str, int nb_carac)
 	}
 	return resultat;
 }
+
+
+
