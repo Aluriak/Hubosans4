@@ -25,6 +25,18 @@ void TERM_color(int couleur) {
 
 
 /*
+ * TERM BACKGROUND COLOR
+ */
+// configure la couleur de background du terminal
+// 	Envoyer 0 pour réinitialiser
+void TERM_backgroundColor(int couleur) {
+    printf("\033[%dm", couleur+10);
+}
+
+
+
+
+/*
  * TERM AFFICHER JEU
  */
 // affiche le jeu dans le terminal

@@ -25,6 +25,7 @@ Seul l'affichage Double est disponible pour le moment.
  */
     void TERM_clear(); // efface le contenu du terminal
     void TERM_color(int couleur); // configure la couleur de texte terminal
+    void TERM_backgroundColor(int couleur); // configure la couleur de background du terminal
     void TERM_afficherJeu(t_jeu* jeu); // affiche le jeu dans le terminal
     // procédures internes
 	void TERM_afficherEnTete(t_jeu* jeu); // Affiche l'en-tête du jeu, contenant instructions, indications, et première partie du plateau de jeu
