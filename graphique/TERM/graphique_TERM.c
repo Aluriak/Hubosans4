@@ -88,14 +88,14 @@ void TERM_afficherEnTete(t_jeu* jeu) {
 void TERM_afficherPlateau(t_jeu* jeu) {
     int i = 0, j = 0; // itérateur de boucle
     // Début du plateau de jeu
-    printf("   ");
+    printf(" ");
     for(i = 0; i < jeu->nbCaseX; i++) {
 	// on gère les cas à 5 ou 6 joueurs : il faut afficher correctement 
 	// 	la 10ème et 11ème colonne
 	if(i+1 < 10)
-	    printf("%d   ", i+1);
+	    printf("%d ", i+1);
 	else
-	    printf("%d  ", i+1);
+	    printf("%d", i+1);
     }
     printf("\n");
     // Corps du plateau
@@ -106,11 +106,11 @@ void TERM_afficherPlateau(t_jeu* jeu) {
 	for(i = 0; i < jeu->nbCaseX; i++) {
 	    TERM_afficherCase(jeu, i, j);
 	}
-	printf("|\n");
+	printf("\n");
     }
-    // Pied du plateau
+    // Pied du plateau (ligne d'étoile)
     printf(" ");
-    for(i = 0; i < jeu->nbCaseX*4; i++) 
+    for(i = 0; i < jeu->nbCaseX*2-1; i++) 
 	printf("*");
     printf("\n");
 }
@@ -125,31 +125,22 @@ void TERM_afficherPlateau(t_jeu* jeu) {
 void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     // initialisations
     int val1, val2;
-    char cCreuse, cPleine;
     // récupération des idJoueurs pour avoir leur couleur
     val1 = jeu->plateau[i][j].joueurPieceCreuse;
     val2 = jeu->plateau[i][j].joueurPiecePleine;
+    // couleur de fond :
     if(val1 >= 1)
-	cCreuse = 'O';
-    else 
-	cCreuse = ' ';
-    if(val2 >= 1)
-	cPleine = '.';
-    else 
-	cPleine = ' ';
-    if(jeu->plateau[i][j].typePiece == BLOQUANTE)
-	cCreuse = cPleine = 'X';
-    // couleur
-    printf("|");
-    if(val1 >= 0)
+	TERM_backgroundColor(val2+30); // couleur de fond  = id joueur + 30
+    // couleur de texte : 
+    if(val2 >= 1) {
 	TERM_color(val1+30); // couleur = id joueur + 30
-    printf("%c", cCreuse);
-    // couleur
-    if(val2 >= 0)
-	TERM_color(val2+30); // couleur = id joueur + 30
-    printf("%c", cPleine);
-    // réinitialisation de la couleur
-    TERM_color(0);
+        printf("0"); // on affiche la pîèce pleine
+        TERM_color(0); // on reviens en couleur normale
+    } else { // on affiche juste un espace
+        printf(" "); // on affiche la pîèce pleine
+    }
+    // réinitialisation de la couleur de fond
+    TERM_backgroundColor(0);
     printf("|");
 }
 
