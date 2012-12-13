@@ -125,22 +125,31 @@ void TERM_afficherPlateau(t_jeu* jeu) {
 void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     // initialisations
     int val1, val2;
+    e_piece typePiece;
     // récupération des idJoueurs pour avoir leur couleur
     val1 = jeu->plateau[i][j].joueurPieceCreuse;
     val2 = jeu->plateau[i][j].joueurPiecePleine;
+    typePiece = jeu->plateau[i][j].typePiece; // type de la pièce
     // couleur de fond :
-    if(val1 >= 1)
-	TERM_backgroundColor(val2+30); // couleur de fond  = id joueur + 30
+    if(val1 >= 1) // si un joueur contrôle la case
+	TERM_backgroundColor(val1+30); // couleur de fond  = id joueur + 30
     // couleur de texte : 
     if(val2 >= 1) {
-	TERM_color(val1+30); // couleur = id joueur + 30
-        printf("0"); // on affiche la pîèce pleine
-        TERM_color(0); // on reviens en couleur normale
+        if(typePiece == BLOQUANTE)
+            printf("X"); // on affiche la pièce bloquante avec un X
+        else if(typePiece == DOUBLE)
+            printf("D"); // on affiche la double pièce avec un D
+        else {
+            // dans tous les autres cas, on affiche un 0 de la couleur du joueur
+	    TERM_color(val2+30); // couleur = id joueur + 30
+            printf("0"); // on affiche la pièce pleine
+        }
     } else { // on affiche juste un espace
         printf(" "); // on affiche la pîèce pleine
     }
     // réinitialisation de la couleur de fond
     TERM_backgroundColor(0);
+    TERM_color(0); // on reviens en couleur normale
     printf("|");
 }
 

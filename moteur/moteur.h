@@ -72,8 +72,8 @@ typedef struct {
 // Case du plateau de jeu
 typedef struct {
     coord crd; // coordonnées de la case dans le jeu
-    short joueurPieceCreuse; // joueur contrôlant la pièce creuse, ou -1
-    short joueurPiecePleine; // joueur contrôlant la pièce pleine, ou -1
+    int joueurPieceCreuse; // joueur contrôlant la pièce creuse, ou -1
+    int joueurPiecePleine; // joueur contrôlant la pièce pleine, ou -1
     e_piece typePiece; // pièce(s) présente(nt) dans la case
 } t_case;
 
