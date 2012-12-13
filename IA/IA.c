@@ -2,10 +2,6 @@
 
 
 
-
-
-
-
 /*
  * IA ETUDE RECURSIVE
  */
@@ -41,7 +37,7 @@ int IA_minimax(t_jeu* jeu, int profondeur, int prioMax) {
     }
     // sinon, la profondeur est atteinte : appel de l'heuristique !
     else {
-        //priorite = IA_h(jeu);
+        priorite = IA_h(jeu);
         prioMax = max(priorite, prioMax);
     }
     return prioMax;
