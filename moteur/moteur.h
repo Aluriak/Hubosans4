@@ -48,7 +48,7 @@ typedef struct {
 // structure de joueur
 typedef struct {
     int points; // nombre de points pour cette partie
-    int idJ; // id reconnaissant le joueur
+    int idJ; // id du joueur, entre 0 et 5, et indiquant sa place dans la liste
     int nbPieceBloquante; // nb de pièces bloquantes possédées par le joueur
     // il existe 125 id de joueurs. Soit 125 joueurs au max 
     // zéro et les négatifs sont utilisés pour l'absence de joueur
@@ -59,6 +59,7 @@ typedef struct {
     // Chiffre oscillant entre 0 et 10, avec 10 intrépidité maximum 
     // 	(pièces bloquantes utilisées dés que possible) et 0 
     // 		(pièces bloquantes utilisées rarement)
+    char* nom; // nom du joueur
 } t_joueur;
 
 
@@ -118,7 +119,8 @@ int MOTEUR_test_cond_puissance4(int c_p4); // test si il y a puissance 4
 
 
 // STRUCT T_JOUEUR (dans struct_case_joueur.c)
-    void t_joueur_init(t_joueur *j, int nbPieceBloquante, int id, bool ia); // initialise le joueur
+    void t_joueur_init(t_joueur *j, int nbPieceBloquante, bool ia, char* nom); // initialise le joueur
+    void t_joueur_free(t_joueur *j); // libère le joueur
 
 
 
@@ -131,6 +133,7 @@ int MOTEUR_test_cond_puissance4(int c_p4); // test si il y a puissance 4
 	bool t_jeu_init_plateau(t_jeu* jeu); // Initialise le plateau de jeu. Renvois faux si problème rencontré, après l'avoir fait savoir avec FLUX_ERREUR()
 	void t_jeu_choisirOya(t_jeu* jeu); // choisit un oya, et le point avec le pointeur attribut de t_jeu prévu à cet effet
 	void t_jeu_joueurSuivant(t_jeu* jeu); // modifie l'oya pour que le joueur suivant le devienne
+        bool t_jeu_oyaPossedePieceBloquante(t_jeu* jeu); // retourne vrai si l'oya possède une pièce bloquante
 	t_joueur* t_jeu_getOya(t_jeu* jeu); // retourne l'adresse vers l'oya
 
 

@@ -92,6 +92,61 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 
 
 
+
+/*
+ * MOTEUR TOUR PRECEDENT
+ */
+// retire l'action précédente du jeu, retourne vrai. Si pas de denrière action,
+//      retourne faux.
+bool MOTEUR_tourPrecedent(t_jeu* jeu) {
+    // initialisations
+    int y = 0; // itérateur de boucle
+    t_case* caseAModifier = NULL; // pointeur de case
+    // on dépile la dernière action, et on l'enregistre
+    t_action action = t_pileAction_dep(&(jeu->pileAction));
+    // si l'action retournée est l'action nulle, on retourne faux.
+    if(action.colonne == -1 && action.typePiece == -1) 
+        return false;
+    // sinon, c'est qu'une action est déterminée, il faut la retirer du jeu
+    else {
+        // on identifie la pièce placée lors de l'action : c'est la première du
+        // type recherché dans la colonne de l'action.
+        // pour chaque ligne de la colonne de l'action :
+        for(y = 0; y < jeu->nbCaseY; y++) {
+            // on pointe la case
+            caseAModifier = &(jeu->plateau[action.colonne][y]); 
+            // si on a trouvé la pièce
+            if(caseAModifier->typePiece == action.typePiece ||
+                    (caseAModifier->typePiece == DOUBLE && 
+                        action.typePiece != BLOQUANTE)
+                    ) {
+                // on modifie les attributs de la case
+                if(caseAModifier->typePiece == action.typePiece) {
+                    caseAModifier->typePiece = VIDE;
+                    caseAModifier->joueurPieceCreuse = -1;
+                    caseAModifier->joueurPiecePleine = -1;
+                }
+                else if(caseAModifier->typePiece == DOUBLE) {
+                    if(action.typePiece == CREUSE) {
+                        caseAModifier->typePiece = PLEINE;
+                        caseAModifier->joueurPieceCreuse = -1;
+                    }
+                    else if(action.typePiece == PLEINE) {
+                        caseAModifier->typePiece = CREUSE;
+                        caseAModifier->joueurPiecePleine = -1;
+                    }
+                }
+                // fin de la boucle
+                y = jeu->nbCaseY;
+            }
+        }
+
+        return true;
+    }
+}
+
+
+
 /*
  * MOTEUR COORD PIECE JOUEE
  */
