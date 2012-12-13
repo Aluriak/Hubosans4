@@ -19,7 +19,7 @@
  * PREDECLARATIONS
  */
 // enumération du type de pièce dans une case
-typedef enum {VIDE, CREUSE, PLEINE, DOUBLE, BLOQUANTE} e_piece;
+typedef enum {VIDE, CREUSE, PLEINE, BLOQUANTE, DOUBLE} e_piece;
 // DOUBLE = CREUSE + PLEINE
 
 
@@ -100,6 +100,8 @@ typedef struct {
  */
 // MOTEUR
     t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
+
+    bool MOTEUR_tourPrecedent(t_jeu* jeu); // retire l'action précédente du jeu, retourne vrai. Si pas de denrière action, retourne faux.
 
     int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piece, int colonne); // renvois la coordonnee y d'une pièce placée dans la colonne. Ou -1 si pièce impossible à mettre (atteinte le limite haute)
 
