@@ -31,14 +31,26 @@ void t_case_init(t_case* t_case, int x, int y) {
  * STRUCT T_JOUEUR
  */
 // initialise le joueur selon le nombre de joueur initialisé auparavant
-void t_joueur_init(t_joueur *j, int nbPieceBloquante, int id, bool ia) {
+void t_joueur_init(t_joueur *j, int nbPieceBloquante, bool ia, char *nom) {
     j->points = 0;
-    j->idJ = id;
     // vrai si une IA
     j->IA = ia;
     // intrépidité du joueur, définie aléatoirement.
     j->intrepidite = 1+randN(10);
+    j->nom = nom;
 }
+
+
+
+
+/*
+ * T JOUEUR FREE
+ */
+// libère le joueur
+void t_joueur_free(t_joueur *j) {
+    free(j->nom);
+}
+
 
 
 

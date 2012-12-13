@@ -10,3 +10,7 @@
 int IA_h(t_jeu* jeu) {
     return -1;    
 }
+
+
+
+

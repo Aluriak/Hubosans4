@@ -59,9 +59,9 @@ void TERM_afficherEnTete(t_jeu* jeu) {
     int i = 0; // itérateur de boucle
     // pour chaque joueur
     for(i = 0; i < jeu->nbJoueur; i++) {
-	TERM_color(jeu->listeJoueur[i].idJ+30);
-	printf("Joueur %i : %i points", 
-		jeu->listeJoueur[i].idJ, 
+	TERM_color(jeu->listeJoueur[i].idJ+31);
+	printf("%s : %i points", 
+		jeu->listeJoueur[i].nom, 
 		jeu->listeJoueur[i].points
 		);
 	// si c'est une IA
@@ -131,17 +131,17 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     val2 = jeu->plateau[i][j].joueurPiecePleine;
     typePiece = jeu->plateau[i][j].typePiece; // type de la pièce
     // couleur de fond :
-    if(val1 >= 1) // si un joueur contrôle la case
-	TERM_backgroundColor(val1+30); // couleur de fond  = id joueur + 30
+    if(val1 >= 0) // si un joueur contrôle la case
+	TERM_backgroundColor(val1+31); // couleur de fond  = id joueur + 30
     // couleur de texte : 
-    if(val2 >= 1) {
+    if(val2 >= 0) {
         if(typePiece == BLOQUANTE)
             printf("X"); // on affiche la pièce bloquante avec un X
         else if(typePiece == DOUBLE)
             printf("D"); // on affiche la double pièce avec un D
         else {
             // dans tous les autres cas, on affiche un 0 de la couleur du joueur
-	    TERM_color(val2+30); // couleur = id joueur + 30
+	    TERM_color(val2+31); // couleur = id joueur + 30
             printf("0"); // on affiche la pièce pleine
         }
     } else { // on affiche juste un espace

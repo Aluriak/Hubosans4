@@ -30,17 +30,6 @@ void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int niveauIA) {
     // allocation du plateau de jeu
     if(!t_jeu_init_plateau(jeu)) 
 	return; // erreur déjà traitée
-    /* DEBUG
-    jeu->plateau[0][0].joueurPieceCreuse = 1;
-    jeu->plateau[0][0].joueurPiecePleine = 1;
-    jeu->plateau[0][0].typePiece = DOUBLE;
-    jeu->plateau[1][0].joueurPieceCreuse = 2;
-    jeu->plateau[1][0].joueurPiecePleine = 3;
-    jeu->plateau[1][0].typePiece = DOUBLE;
-    jeu->plateau[0][1].joueurPieceCreuse = 4;
-    jeu->plateau[0][1].joueurPiecePleine = -1;
-    jeu->plateau[0][1].typePiece = CREUSE;
-    // DEBUG */
 }
 
 
@@ -53,6 +42,7 @@ void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int niveauIA) {
 // 	à été rencontré, après appel de FLUX_ERREUR()
 bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA) {
     int i = 0, j = 0; // itérateurs de boucle
+    char *nom = NULL;
     // vérification préliminaire des arguments
     if(jeu->nbJoueur < NB_JOUEUR_MIN && jeu->nbJoueur > NB_JOUEUR_MAX) {
 	FLUX_ERREUR("MODULE MOTEUR", "Nombre de joueur inattendu à la création du jeu");
@@ -71,8 +61,28 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA) {
     for(i = 0, j = jeu->nbJoueur-nbIA; i < jeu->nbJoueur; i++, j--) {
 	// si tous les joueurs humain ont été initialisés
 	bool estIA = (j <= 0);
-	t_joueur_init(&jeu->listeJoueur[i], jeu->nbJoueur, i+1, estIA);
+        nom = malloc(8*sizeof(char));
+            nom[0] = 'J';
+            nom[1] = 'o';
+            nom[2] = 'u';
+            nom[3] = 'e';
+            nom[4] = 'u';
+            nom[5] = 'r';
+            nom[6] = ' ';
+            nom[7] = i+49;
+	t_joueur_init(&jeu->listeJoueur[i], jeu->nbJoueur, estIA, nom);
     }
+    // on mélange les joueurs
+    for(i = 0; i < jeu->nbJoueur; i++) {
+        // on échange le joueur i avec le joueur N
+        int N = randN(jeu->nbJoueur);
+        t_joueur inter = jeu->listeJoueur[i];
+        jeu->listeJoueur[i] = jeu->listeJoueur[N];
+        jeu->listeJoueur[N] = inter;
+    }
+    // on distribue les id, correspondant à la place dans le tableau
+    for(i = 0; i < jeu->nbJoueur; i++)
+        jeu->listeJoueur[i].idJ = i;
     // détermine un oya
     t_jeu_choisirOya(jeu); 
     return true;
@@ -96,6 +106,8 @@ bool t_jeu_init_plateau(t_jeu* jeu) {
     if(jeu->plateau == NULL) {
 	FLUX_ERREUR("MODULE MOTEUR", "Allocation mémoire échouée à l'initialisation du plateau de jeu");
 	// libérations mémoires allouées
+        for(i = 0; i < jeu->nbJoueur; i++)
+            t_joueur_free(&jeu->listeJoueur[i]);
 	free(jeu->listeJoueur);
 	free(jeu);
 	return false;
@@ -108,8 +120,9 @@ bool t_jeu_init_plateau(t_jeu* jeu) {
 	    FLUX_ERREUR("MODULE MOTEUR", "Allocation mémoire échouée à l'initialisation d'une colonne du plateau de jeu");
 	    // libérations mémoires allouées
 	    free(jeu->plateau);
+            for(i = 0; i < jeu->nbJoueur; i++)
+                t_joueur_free(&jeu->listeJoueur[i]);
 	    free(jeu->listeJoueur);
-	    free(jeu);
 	    return false;
 	}
 	// Et on initialise chacune des cases créées
@@ -129,6 +142,8 @@ bool t_jeu_init_plateau(t_jeu* jeu) {
 void t_jeu_free(t_jeu* jeu) {
     int i = 0; // itérateur de boucles
     // libération des joueurs
+    for(i = 0; i < jeu->nbJoueur; i++)
+        t_joueur_free(&jeu->listeJoueur[i]);
     free(jeu->listeJoueur);
     // libération du plateau
     // on libère chaque colonne
@@ -148,9 +163,9 @@ void t_jeu_free(t_jeu* jeu) {
  */
 // choisit un oya, et le point avec le pointeur attribut de t_jeu prévu à cet effet
 void t_jeu_choisirOya(t_jeu* jeu) {
-    // on prend un nombre aléatoire entre 0 et le nombre de joueur -1, et
-    // 	on l'incrémente pour avoir un id de joueur
-    jeu->oya = randN(jeu->nbJoueur)+1;
+    // on prend un nombre aléatoire entre 0 et le nombre de joueur -1
+    // ce nombre est le joueur de départ
+    jeu->oya = randN(jeu->nbJoueur);
 }
 
 
@@ -162,9 +177,21 @@ void t_jeu_choisirOya(t_jeu* jeu) {
 // modifie l'oya pour que le joueur suivant le devienne
 void t_jeu_joueurSuivant(t_jeu* jeu) {
     jeu->oya++;
-    if(jeu->oya > jeu->nbJoueur)
-	jeu->oya = 1;
+    if(jeu->oya >= jeu->nbJoueur)
+	jeu->oya = 0;
 }
+
+
+
+
+/*
+ * T_JEU OYA POSSEDE PIECE BLOQUANTE
+ */
+// retourne vrai si l'oya possède une pièce bloquante
+bool t_jeu_oyaPossedePieceBloquante(t_jeu* jeu) {
+    return (jeu->listeJoueur[jeu->oya].nbPieceBloquante > 0);
+}
+
 
 
 
@@ -181,3 +208,6 @@ t_joueur* t_jeu_getOya(t_jeu* jeu) {
     }
     return oya;
 }
+
+
+
