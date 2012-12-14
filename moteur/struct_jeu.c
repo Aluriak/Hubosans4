@@ -17,7 +17,7 @@ Les prototypes sont décris dans le header inclus précédemment
  * T_JEU INIT
  */
 // Allocation et initialisation de la structure. 
-void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int niveauIA) {
+void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int *tab_nivIA) {
     if(jeu == NULL) {
 	FLUX_ERREUR("MODULE MOTEUR", "Structure de jeu inattendue");
 	return;
@@ -25,7 +25,7 @@ void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int niveauIA) {
     // Initialisation de la liste de joueurs
     jeu->nbJoueur = nbjoueurs;
     jeu->nbIA = nbIA;
-    if(!t_jeu_init_listeJoueur(jeu, nbIA))
+    if(!t_jeu_init_listeJoueur(jeu, nbIA, tab_nivIA))
 	return; // erreur déjà envoyée dans le flux stderr
     // allocation du plateau de jeu
     if(!t_jeu_init_plateau(jeu)) 
@@ -40,7 +40,7 @@ void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int niveauIA) {
  */
 // initialise la liste des joueurs du jeu, et renvois faux si un problème
 // 	à été rencontré, après appel de FLUX_ERREUR()
-bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA) {
+bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int* tab_nivIA) {
     int i = 0, j = 0; // itérateurs de boucle
     char *nom = NULL;
     // vérification préliminaire des arguments
@@ -70,7 +70,11 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA) {
             nom[5] = 'r';
             nom[6] = ' ';
             nom[7] = i+49;
-	t_joueur_init(&jeu->listeJoueur[i], jeu->nbJoueur, estIA, nom);
+	t_joueur_init(&jeu->listeJoueur[i], 
+                    jeu->nbJoueur, 
+                    estIA, // booléne : IA ou pas
+                    nom, // nom du joueur
+                    tab_nivIA[jeu->nbJoueur-nbIA]); // niveau de l'IA
     }
     // on mélange les joueurs
     for(i = 0; i < jeu->nbJoueur; i++) {
@@ -207,6 +211,37 @@ t_joueur* t_jeu_getOya(t_jeu* jeu) {
 	    oya = &jeu->listeJoueur[i];
     }
     return oya;
+}
+
+
+
+
+/*
+ * T_JEU COPIE
+ */
+// renvoit une copie du jeu
+t_jeu* t_jeu_copie(t_jeu* jeu) {
+    // INITIALISATIONS 
+    t_jeu* copie = malloc(sizeof(t_jeu));
+        assert(copie != NULL);
+    int i = 0, j = 0; // itérateurs
+    int *tab_nivIA = malloc(jeu->nbIA*sizeof(int));
+        assert(tab_nivIA != NULL);
+    // DETERMINATION DE LA DIFFICULTE DES IA
+    for(; i < jeu->nbJoueur; i++) {
+        // si c'est une IA
+        if(jeu->listeJoueur[i].IA == true) {
+            // on prend le niveau dans tab_nivIA
+            tab_nivIA[j] = jeu->listeJoueur[i].niveauIA;
+            j++; // on passe à la case suivante
+        }
+    }
+    // INITIALISATIONS DU JEU
+    t_jeu_init(copie, jeu->nbJoueur, jeu->nbIA, tab_nivIA);
+    // LIBERATIONS
+    free(tab_nivIA);
+    // RETURN
+    return copie;
 }
 
 

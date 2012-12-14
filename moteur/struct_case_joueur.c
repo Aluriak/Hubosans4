@@ -31,10 +31,13 @@ void t_case_init(t_case* t_case, int x, int y) {
  * STRUCT T_JOUEUR
  */
 // initialise le joueur selon le nombre de joueur initialisé auparavant
-void t_joueur_init(t_joueur *j, int nbPieceBloquante, bool ia, char *nom) {
+void t_joueur_init(t_joueur *j, int nbPieceBloquante, bool ia, 
+                    char *nom, int nivIA) {
     j->points = 0;
     // vrai si une IA
     j->IA = ia;
+    // niveau en tant qu'IA
+    j->niveauIA = nivIA;
     // intrépidité du joueur, définie aléatoirement.
     j->intrepidite = 1+randN(10);
     j->nom = nom;

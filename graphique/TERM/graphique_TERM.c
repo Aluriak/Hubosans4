@@ -222,7 +222,9 @@ t_jeu* TERM_afficherMenu() {
     // initialisations
     t_jeu *jeu = malloc(sizeof(t_jeu)); // allocation du jeu
     int nbJoueur = -1, nbIA = -1; // joueurs total et IA
-    int niveauIA = -1; // niveau des IA
+    int niveauIA = 4; // niveau des IA
+    int i = 0; // itérateur de boucle
+    int* tab_nivIA; // table contenant les niveaux des IA
     // Menu
     printf("== HUBOSANS4 ==\n");
     // nombre de joueurs
@@ -236,15 +238,32 @@ t_jeu* TERM_afficherMenu() {
 		nbJoueur, nbJoueur);
 	scanf("%d", &nbIA);
     }
-    // niveau des IA (entre 1 et 3)
-    while(niveauIA < 0 || niveauIA > 3) {
-	printf("Niveau des ia (1 facile, 2 moyen, 3 difficile) : ");
-	scanf("%d", &niveauIA);
+    // niveau des IA (entre 1 et 4)
+    // on créé le tableau qui accueillera les niveaux des IA
+    tab_nivIA = malloc(nbIA*sizeof(int));
+    assert(tab_nivIA != NULL); // au cas où l'allocation échoue
+    if(jeu->nbIA > 0) {
+        for(i = 0; i < jeu->nbJoueur; i++) {
+            // tant qu'on a pas un niveau valide
+            while(niveauIA < 0 || niveauIA > 4) {
+                if(jeu->listeJoueur[i].IA) {
+                    printf("Niveau de l'IA %d (1: facile, 2: moyen, ", i+1);
+                    printf("3: difficile, 4: très difficile) : ");
+	            scanf("%i", &niveauIA);
+                }
+            }
+            // on donne le niveau au joueur étudié
+            tab_nivIA[i] = niveauIA;
+            // niveau par défaut (pour les joueurs humains)
+            niveauIA = 4;
+        }
     }
     printf("\nInitialisation du jeu...");
-    // initialisation du jeu
-    t_jeu_init(jeu, nbJoueur, nbIA, niveauIA); // 4 joueurs, dont 3 IA
+    // INITIALISATION DU JEU
+    t_jeu_init(jeu, nbJoueur, nbIA, tab_nivIA); 
     printf("OK !\n");
+    // libérations mémoires
+    free(tab_nivIA);
     // retourne le jeu
     return jeu;
 }
