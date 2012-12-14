@@ -127,7 +127,7 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     // initialisations
     int val1, val2;
     e_piece typePiece;
-    // récupération des idJoueurs pour avoir leur couleur
+    // récupération des idJoueurs pour avoir leur couleur, et du type de pièce
     val1 = jeu->plateau[i][j].joueurPieceCreuse;
     val2 = jeu->plateau[i][j].joueurPiecePleine;
     typePiece = jeu->plateau[i][j].typePiece; // type de la pièce
