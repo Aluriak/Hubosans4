@@ -5,6 +5,7 @@
     - il faut empiler l'action reçue dans la pile d'actions du jeu
     - lorsque qu'une pièce pleine arrive dans une case où il y a une pièce creuse (ou vive-versa), la pièce précédente est remplacée ! 
                 (alors qu'il faudrais transformer le tout en pièce double)
+    - lorsque le dernier joueur joue une pièce bloquante, les champs joueurPieceCreuse et joueurPiecePleine ne sont pas modifiés.
 
 
 - IA
