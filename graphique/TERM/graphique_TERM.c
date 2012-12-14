@@ -98,7 +98,7 @@ void TERM_afficherPlateau(t_jeu* jeu) {
 	    printf("%d", i+1);
     }
     printf("\n");
-    // Corps du plateau
+    // Corps du plateau (cases et séparateurs)
     // pour chaque ligne
     for(j = 0; j < jeu->nbCaseY; j++) {
 	printf("|");
