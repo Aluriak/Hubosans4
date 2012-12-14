@@ -30,6 +30,8 @@ void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int *tab_nivIA) {
     // allocation du plateau de jeu
     if(!t_jeu_init_plateau(jeu)) 
 	return; // erreur déjà traitée
+    // initialisation de la pile d'action
+    t_pileAction_init(&jeu->pileAction);
 }
 
 
