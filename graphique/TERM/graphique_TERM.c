@@ -105,6 +105,7 @@ void TERM_afficherPlateau(t_jeu* jeu) {
 	// pour chaque colonne de la ligne j
 	for(i = 0; i < jeu->nbCaseX; i++) {
 	    TERM_afficherCase(jeu, i, j);
+            printf("|");
 	}
 	printf("\n");
     }
@@ -162,7 +163,6 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     // réinitialisation des couleurs
     TERM_backgroundColor(0); // fond normal
     TERM_color(0); // texte normal
-    printf("|");
 }
 
 
