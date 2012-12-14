@@ -133,13 +133,13 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     // affichage des pièces
     if(typePiece == BLOQUANTE) {
 	TERM_backgroundColor(val2+31); // fond du joueur
-	printf("X"); // on affiche la pièce bloquante avec un X
+	printf("X"); // on affiche la pièce bloquante avec un X blanc
     }
     else if(typePiece == DOUBLE) {
 	TERM_backgroundColor(val2+31); // fond du joueur
 	// Une pièce double est symbolisée par un D
 	// le fond est la pièce creuse, le D la pièce pleine
-	// le D est blanc si le joueur possède les deux pièces
+	// le D est blanc si le même joueur possède les deux pièces
 	if(val1 == val2) 
 	    TERM_color(0); // D blanc
 	else
