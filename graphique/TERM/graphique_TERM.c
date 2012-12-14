@@ -132,21 +132,23 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     typePiece = jeu->plateau[i][j].typePiece; // type de la pièce
     // affichage des pièces
     if(typePiece == BLOQUANTE) {
-	TERM_backgroundColor(val2+31); // texte normal
+	TERM_backgroundColor(val2+31); // fond du joueur
 	printf("X"); // on affiche la pièce bloquante avec un X
     }
     else if(typePiece == DOUBLE) {
-	TERM_backgroundColor(val2+31); // texte normal
-	TERM_color(val1+31); // texte normal
-	// si c'est le même joueur, on lui dit
+	TERM_backgroundColor(val2+31); // fond du joueur
+	// Une pièce double est symbolisée par un D
+	// le fond est la pièce creuse, le D la pièce pleine
+	// le D est blanc si le joueur possède les deux pièces
 	if(val1 == val2) 
-	    printf("D");
+	    TERM_color(0); // D blanc
 	else
-	    printf(" ");
+	    TERM_color(val1+31); // D coloré
+	printf("D");
     }
     else if(typePiece == CREUSE) {
 	// un zéro sur fond noir
-	TERM_color(val1+31); // texte normal
+	TERM_color(val1+31); // texte coloré selon joueur
 	printf("0");
     }
     else if(typePiece == PLEINE) {
