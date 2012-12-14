@@ -1,0 +1,19 @@
+# TODO LIST
+
+- Moteur
+    - certaines algo nécessitent d'être refait, depuis que jeu->oya correspond à l'id du joueur dans la table
+    - il faut empiler l'action reçue dans la pile d'actions du jeu
+    - lorsque qu'une pièce pleine arrive dans une case où il y a une pièce creuse (ou vive-versa), la pièce précédente est remplacée ! 
+                (alors qu'il faudrais transformer le tout en pièce double)
+
+
+- IA
+    - finir alogirhtme minimax
+    - implémenter heuristique
+
+
+- SDL
+    - faire une ébauche de représentation graphique
+    - faire les ressources
+    - implémenter les structures de données
+    - implémenter le module graphique SDL
