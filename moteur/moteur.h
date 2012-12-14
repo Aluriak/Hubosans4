@@ -136,7 +136,6 @@ int MOTEUR_test_cond_puissance4(int c_p4); // test si il y a puissance 4
 	void t_jeu_choisirOya(t_jeu* jeu); // choisit un oya, et le point avec le pointeur attribut de t_jeu prévu à cet effet
 	void t_jeu_joueurSuivant(t_jeu* jeu); // modifie l'oya pour que le joueur suivant le devienne
         bool t_jeu_oyaPossedePieceBloquante(t_jeu* jeu); // retourne vrai si l'oya possède une pièce bloquante
-	t_joueur* t_jeu_getOya(t_jeu* jeu); // retourne l'adresse vers l'oya
         t_jeu* t_jeu_copie(t_jeu*); // renvoit une copie du jeu
 
 

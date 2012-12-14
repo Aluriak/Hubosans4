@@ -42,10 +42,9 @@ int main(int argc, char* argv[]) {
 	}
 	else {
 	    TERM_afficherJeu(jeu);
-	    t_joueur* oya = t_jeu_getOya(jeu);
-	    if(oya->IA == true)
+	    if(jeu->listeJoueur[jeu->oya].IA == true)
 		//action = IA_effectuerTour(jeu, oya);
-		action = TERM_entreeUtilisateur(jeu);
+		action = TERM_entreeUtilisateur(jeu); // TEMPORAIRE
 	    else
 		action = TERM_entreeUtilisateur(jeu);
 	}

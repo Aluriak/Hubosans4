@@ -87,8 +87,9 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int* tab_nivIA) {
         jeu->listeJoueur[N] = inter;
     }
     // on distribue les id, correspondant à la place dans le tableau
-    for(i = 0; i < jeu->nbJoueur; i++)
+    for(i = 0; i < jeu->nbJoueur; i++) {
         jeu->listeJoueur[i].idJ = i;
+    }
     // détermine un oya
     t_jeu_choisirOya(jeu); 
     return true;
@@ -198,22 +199,6 @@ bool t_jeu_oyaPossedePieceBloquante(t_jeu* jeu) {
     return (jeu->listeJoueur[jeu->oya].nbPieceBloquante > 0);
 }
 
-
-
-
-/*
- * T_JEU GET OYA
- */
-// retourne l'adresse vers l'oya
-t_joueur* t_jeu_getOya(t_jeu* jeu) {
-    t_joueur * oya = NULL;
-    int i = 0; // itérateur de boucle
-    for(i = 0; i < jeu->nbJoueur && oya == NULL; i++) {
-	if(jeu->listeJoueur[i].idJ == jeu->oya)
-	    oya = &jeu->listeJoueur[i];
-    }
-    return oya;
-}
 
 
 
