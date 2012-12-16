@@ -232,6 +232,16 @@ int * MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase)
 			max[i]=3;
 		}
 	}
+	/*
+	 * DEBUG
+	 */
+	fprintf(stderr, "max_h : %i\n", max[1]);
+	fprintf(stderr, "max_b : %i\n", max[2]);
+	fprintf(stderr, "max_g : %i\n", max[3]);
+	fprintf(stderr, "max_d : %i\n", max[4]);
+	/*
+	 * END
+	 */
 	// On retourne le tableau contenant toutes les valeurs correspondant aux valeurs max
 	return max;
 }
@@ -240,23 +250,24 @@ int * MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase)
  * MOTEUR TEST C_P4++
  */
 // Effectue les différents test et retourne la nouvelle valeur de c_p4
-int MOTEUR_test_c_p4(t_jeu* jeu, coord coordCase, int idJ, int c_p4)
+int MOTEUR_test_c_p4(t_jeu* jeu, int i, int j, int idJ, int c_p4)
 {	
-	int i=coordCase.x,j=coordCase.y; // Itérateur de boucle
-	printf("Before test, idJ : %i\n",jeu->plateau[i][j].joueurPieceCreuse); 
+	fprintf(stderr, "Before test, idJ : %i\n",jeu->plateau[i][j].joueurPieceCreuse); 
 	// Si la piece courante à le même id que le joueur courant, alors on incrémente 
-	if(jeu->plateau[i][j].joueurPieceCreuse == idJ /*||
-	   jeu->plateau[i][j].joueurPiecePleine == idJ*/)
+	if(jeu->plateau[i][j].joueurPieceCreuse == idJ ||
+	   jeu->plateau[i][j].joueurPiecePleine == idJ)
 	{
-		printf("idJ : %i", jeu->plateau[i][j].joueurPieceCreuse);
+		fprintf(stderr, "Case tester : jeu[%i][%i]\n", i, j);
+		fprintf(stderr, "idJ : %i\n", jeu->plateau[i][j].joueurPieceCreuse);
 		c_p4++;
-		printf("c_p4 : %i\n", c_p4);
+		fprintf(stderr, "c_p4 + 1: %i\n", c_p4);
+		fprintf(stderr, "incrementation = OK\n");
 	}
 	// Si on sort du if, c'est qu'il y a une coupure entre deux piece de même type (elles ne se suivent pas)
 	else
 	{
 		c_p4=0; // On recommence le décompte à zéro
-		printf("mise à zéro : %i\n", c_p4);
+		fprintf(stderr, "mise à zéro : %i\n", c_p4);
 	}
 	return c_p4;
 }
@@ -272,7 +283,7 @@ int MOTEUR_test_c_p4(t_jeu* jeu, coord coordCase, int idJ, int c_p4)
 int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 {
 	idJ = jeu->oya; // On prend l'id du joueur en cours
-	printf("Lancement, idJ = %i\n", idJ);
+	fprintf(stderr, "Lancement, idJ = %i\n", idJ);
 	// Déclare un tableau pour récupérer les valeurs max
 	int * max;
 	max=malloc(4*sizeof(int));
@@ -284,27 +295,26 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	int c_p4=0; // Compteur pour le puissance 4, si c_p4 >= 4, alors il y a puissance 4
 	// >>> TEST BAS-HAUT <<<
 	i=coordCase.x; // Pour un traitement correct des conditions
+	/*
+	 * DEBUG
+	 */
+	j=coordCase.y;
+	fprintf(stderr, "i = %i : j = %i\n", i, j);
+	/*
+	 * END
+	 */
 	// On part de la case courante -3 jusqu'à la case courante + 3
 	/*
 	 * Les coordonnées étant inversé, nous devons soustraire pour monter en haut du plateau, et additioner
 	 * pour nous rendre en bas du plateau ! =) et oui ...
 	 */
-	/*
-	 * debug
-	 */
-	for(i=0;i<jeu->nbCaseX;i++)
-	{
-		for(j=0;j<jeu->nbCaseY;j++)
-		{
-			printf("%i ", jeu->plateau[i][j].joueurPieceCreuse);
-		}
-		printf("\n");
-	}
 	fprintf(stderr, "loop #1\n");
+	fprintf(stderr, "jeu[%i][%i]\n", i, j);
 	for(j=coordCase.y+max_b;j>coordCase.y-max_h;j--)
 	{
-		printf("jeu[%i][%i]\n", i,j);
-		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
+		fprintf(stderr, "after change i & j : jeu[%i][%i]\n", i, j);
+		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
+		fprintf(stderr, "appel : OK\n");
 	}
 	if(c_p4>=4)
 	{
@@ -317,8 +327,8 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	fprintf(stderr, "loop #2\n");
 	for(i=coordCase.x-max_g;i<coordCase.x+max_d;i++)
 	{
-		printf("jeu[%i][%i]\n", i,j);
-		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
+		printf("jeu[%i][%i]\n", i, j);
+		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 	}
 	if(c_p4>=4)
 	{
@@ -334,7 +344,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	    i--, j--) // On décrémente i & j
 	{
 		printf("jeu[%i][%i]\n", i,j);
-		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
+		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 	}
 	if(c_p4>=4)
 	{
@@ -350,7 +360,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	    i++, j--) // On décrémente i & j
 	{
 		printf("jeu[%i][%i]\n", i,j);
-		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
+		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 	}
 	if(c_p4>=4)
 	{

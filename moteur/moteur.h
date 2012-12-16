@@ -112,7 +112,7 @@ typedef struct {
 
     int *  MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase); //Détermine pour une case reçu en paramètre, la valeur MAX (3) ou minimum de celle-ci, représentant ainsi la  distance la séparant des bordures de la matrice
 
-    int MOTEUR_test_c_p4(t_jeu* jeu, coord coordCase, int idJ, int c_p4); // Effectue les différents test et retourne la nouvelle valeur de c_p4
+    int MOTEUR_test_c_p4(t_jeu* jeu, int i, int j, int idJ, int c_p4); // Effectue les différents test et retourne la nouvelle valeur de c_p4
 
     int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ); // renvois le nombre de piece à la suite appartenant au même joueur
 
