@@ -51,6 +51,8 @@ t_action IA_effectuerTour(t_jeu *jeu) {
     /*t_jeu_free(cpjeu); // plus besoin du jeu*/
     /*// renvoit de l'action*/
     /*return action;*/
+    t_action action;
+    return action;
 }
 
 
@@ -114,6 +116,7 @@ int IA_minimax(t_jeu* jeu, int profondeur, int prioMax,
         /*}*/
     /*}*/
     /*return prioMax;*/
+    return -1;
 }
 
 

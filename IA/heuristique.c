@@ -61,6 +61,7 @@ int IA_h(t_jeu* jeu) {
     /*free(idJ);*/
     /*// return*/
     /*return priorite;    */
+    return -1;
 }
 
 
