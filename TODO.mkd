@@ -9,7 +9,7 @@
 
 
 - IA
-    - finir alogirhtme minimax
+    - finir algorithme minimax
     - implémenter heuristique
 
 
