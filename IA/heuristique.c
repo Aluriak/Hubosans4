@@ -18,7 +18,7 @@
 //  puis 2, puis 1 pièce.
 int IA_h(t_jeu* jeu) {
     // INITIALISATIONS
-    int i = 0; // itérateur de boucle
+    int i = 0, j = 0; // itérateurs de boucle
     // nombre maximum de pièces du même joueur alignées trouvé jusque là
     // tableau dont l'index est l'id des joueur. Chaque joueur, avec son id, 
     // accède au nombre maximum de pièce qu'il a alignées avec suffisemment
