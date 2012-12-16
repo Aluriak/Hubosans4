@@ -102,17 +102,21 @@ typedef struct {
 // MOTEUR
     t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
 
+    void MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne); //Reçois en paramètre le une action, une ligne & modifie le plateau de jeu ainsi que le joueur en question
+
+
+
     bool MOTEUR_tourPrecedent(t_jeu* jeu); // retire l'action précédente du jeu, retourne vrai. Si pas de denrière action, retourne faux.
 
     int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piece, int colonne); // renvois la coordonnee y d'une pièce placée dans la colonne. Ou -1 si pièce impossible à mettre (atteinte le limite haute)
 
     int *  MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase); //Détermine pour une case reçu en paramètre, la valeur MAX (3) ou minimum de celle-ci, représentant ainsi la  distance la séparant des bordures de la matrice
 
-int MOTEUR_test_c_p4(t_jeu* jeu, coord coordCase, int idJ, int c_p4); // Effectue les différents test et retourne la nouvelle valeur de c_p4
+    int MOTEUR_test_c_p4(t_jeu* jeu, coord coordCase, int idJ, int c_p4); // Effectue les différents test et retourne la nouvelle valeur de c_p4
 
-int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ); // renvois le nombre de piece à la suite appartenant au même joueur
+    int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ); // renvois le nombre de piece à la suite appartenant au même joueur
 
-int MOTEUR_test_cond_puissance4(int c_p4); // test si il y a puissance 4
+    int MOTEUR_test_cond_puissance4(int c_p4); // test si il y a puissance 4
 
 
 // STRUCT T_CASE (dans struct_case_joueur.c)

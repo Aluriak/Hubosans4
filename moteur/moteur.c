@@ -241,13 +241,14 @@ int * MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase)
  */
 // Effectue les différents test et retourne la nouvelle valeur de c_p4
 int MOTEUR_test_c_p4(t_jeu* jeu, coord coordCase, int idJ, int c_p4)
-{
-	idJ=jeu->oya; // On prend l'id du joueur en cours
+{	
 	int i=coordCase.x,j=coordCase.y; // Itérateur de boucle
+	printf("Before test, idJ : %i\n",jeu->plateau[i][j].joueurPieceCreuse); 
 	// Si la piece courante à le même id que le joueur courant, alors on incrémente 
-	if(jeu->plateau[i][j].joueurPieceCreuse == idJ ||
-	   jeu->plateau[i][j].joueurPiecePleine == idJ)
+	if(jeu->plateau[i][j].joueurPieceCreuse == idJ /*||
+	   jeu->plateau[i][j].joueurPiecePleine == idJ*/)
 	{
+		printf("idJ : %i", jeu->plateau[i][j].joueurPieceCreuse);
 		c_p4++;
 		printf("c_p4 : %i\n", c_p4);
 	}
@@ -271,6 +272,7 @@ int MOTEUR_test_c_p4(t_jeu* jeu, coord coordCase, int idJ, int c_p4)
 int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 {
 	idJ = jeu->oya; // On prend l'id du joueur en cours
+	printf("Lancement, idJ = %i\n", idJ);
 	// Déclare un tableau pour récupérer les valeurs max
 	int * max;
 	max=malloc(4*sizeof(int));
@@ -287,9 +289,21 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	 * Les coordonnées étant inversé, nous devons soustraire pour monter en haut du plateau, et additioner
 	 * pour nous rendre en bas du plateau ! =) et oui ...
 	 */
-	fprintf(stderr, "loop #1\n");
-	for(j=coordCase.y+max_b;j<coordCase.y-max_h && c_p4<4;j++)
+	/*
+	 * debug
+	 */
+	for(i=0;i<jeu->nbCaseX;i++)
 	{
+		for(j=0;j<jeu->nbCaseY;j++)
+		{
+			printf("%i ", jeu->plateau[i][j].joueurPieceCreuse);
+		}
+		printf("\n");
+	}
+	fprintf(stderr, "loop #1\n");
+	for(j=coordCase.y+max_b;j>coordCase.y-max_h;j--)
+	{
+		printf("jeu[%i][%i]\n", i,j);
 		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 	}
 	if(c_p4>=4)
@@ -301,23 +315,9 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	// >>> TEST GAUCHE-DROITE <<<
 	//On part de la case courante -3 jusqu'à la case courante +3
 	fprintf(stderr, "loop #2\n");
-	for(i=coordCase.x-max_g;i<coordCase.x+max_d && c_p4<4;i++)
+	for(i=coordCase.x-max_g;i<coordCase.x+max_d;i++)
 	{
-		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
-	}
-	if(c_p4>=4)
-	{
-		return c_p4;
-	}
-	// Avant de changer de type de test on remet les compteurs à zéro
-	c_p4=0;
-	// >>> TEST DIAG BasDroit->HautGauche <<<
-	//On part de la case courante +3 jusqu'à la case courante -3 pour les colonnes
-	fprintf(stderr, "loop #3\n");
-	for(i=coordCase.x+max_d, j=coordCase.y+max_b; // Pour la case diag BasDroit max
-	    (i>coordCase.x-max_g && j>coordCase.y-max_h) && c_p4<4; // Tant que pas case diag HautGauche
-	    i--, j--) // On décrémente i & j
-	{
+		printf("jeu[%i][%i]\n", i,j);
 		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 	}
 	if(c_p4>=4)
