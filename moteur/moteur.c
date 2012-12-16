@@ -324,16 +324,6 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	c_p4=0;
 	// >>> TEST GAUCHE-DROITE <<<
 	//On part de la case courante -3 jusqu'à la case courante +3
-	fprintf(stderr, "loop #2\n");
-	for(i=coordCase.x-max_g;i<coordCase.x+max_d;i++)
-	{
-		printf("jeu[%i][%i]\n", i, j);
-		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
-	}
-	if(c_p4>=4)
-	{
-		return c_p4;
-	}
 	// Avant de changer de type de test on remet les compteurs à zéro
 	c_p4=0;
 	// >>> TEST DIAG BasDroit->HautGauche <<<
@@ -344,7 +334,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	    i--, j--) // On décrémente i & j
 	{
 		printf("jeu[%i][%i]\n", i,j);
-		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
+		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 	}
 	if(c_p4>=4)
 	{
@@ -360,7 +350,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	    i++, j--) // On décrémente i & j
 	{
 		printf("jeu[%i][%i]\n", i,j);
-		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
+		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 	}
 	if(c_p4>=4)
 	{
