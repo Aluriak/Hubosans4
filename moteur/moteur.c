@@ -29,44 +29,9 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 		printf("Unable to put piece here!");
     	}
     	else {
-    		jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-		// On vérifie si le joueur à joué une pièce blocante
-		if(action.typePiece==BLOQUANTE) // Si oui, on décrémente
-		{
-			// On parcours la liste des joueurs, jusqu'à ce que l'on trouve :
-			// oya == jeu->listeJoueur[i].idJ
-			int i; // itérateur de boucle
-			for(i=0;i<jeu->nbJoueur-1;i++)
-			{
-				// Si l'id du joueur = oya, c'est qu'on à trouvé le joueur courant
-				if(jeu->listeJoueur[i].idJ==oya)
-				{
-					// On décrémente son nombre de pieces bloquante
-					jeu->listeJoueur[i].nbPieceBloquante--;
-					jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
-					jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
-					jeu->plateau[action.colonne][ligne].typePiece=BLOQUANTE;
-					i=7; // Afin d'éviter de boucler sur les autres joueurs
-				}
-			}
-		}
-		// On enregistre qui à joué la piece CREUSE
-		else if(action.typePiece==CREUSE)
-		{
-			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
-			jeu->plateau[action.colonne][ligne].typePiece=CREUSE;
-		}
-		// On enregistre qui à joué la piece PLEINE
-		else if(action.typePiece==PLEINE)
-		{
-			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
-			jeu->plateau[action.colonne][ligne].typePiece=PLEINE;
-		}
-		else
-		{
-			printf("Mauvais type de piece lors de l'ajout %i:%i.", action.colonne, ligne);
-		}
-		// On test si il y a un puissance 4
+		// On lance la procédure de modification du plateau de jeu
+		MOTEUR_pieceJouee(jeu, action, ligne);
+    		// On test si il y a un puissance 4
 		// >>> On déclare les variables et structures dont on a besoin <<<
 		coord coordCase;
 		coordCase.x=action.colonne;
@@ -104,7 +69,42 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
    return NULL;
 }
 
-
+/*
+ * MOTEUR PIECE JOUEE
+ */
+//Reçois en paramètre le une action, une ligne & modifie le plateau de jeu ainsi 
+//que le joueur en question
+void MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
+{
+	int oya=jeu->oya; // On récupère l'oya
+	jeu->plateau[action.colonne][ligne].typePiece=action.typePiece; // On modifie le plateau de jeu en fonction de la piece jouée
+	// On vérifie si le joueur à joué une pièce blocante
+	if(action.typePiece==BLOQUANTE) // Si oui, on décrémente
+	{
+		jeu->listeJoueur[oya].nbPieceBloquante--; // On décrémente le nombre de piece bloquante de l'oya
+		// On place l'id de l'oya dans pieceCreuse & piecePleine, car il s'agit d'un piece bloquante
+		jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya; 
+		jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
+		// On indique qu'il s'agit bien d'un piece bloquante
+		jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
+	}
+	// On enregistre qui à joué la piece CREUSE
+	else if(action.typePiece==CREUSE)
+	{
+		jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
+		jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
+	}
+	// On enregistre qui à joué la piece PLEINE
+	else if(action.typePiece==PLEINE)
+	{
+		jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
+		jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
+	}
+	else
+	{
+		printf("Mauvais type de piece lors de l'ajout %i:%i.", action.colonne, ligne);
+	}
+}
 
 
 /*
@@ -241,13 +241,14 @@ int * MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase)
  */
 // Effectue les différents test et retourne la nouvelle valeur de c_p4
 int MOTEUR_test_c_p4(t_jeu* jeu, coord coordCase, int idJ, int c_p4)
-{
-	idJ=jeu->oya; // On prend l'id du joueur en cours
+{	
 	int i=coordCase.x,j=coordCase.y; // Itérateur de boucle
+	printf("Before test, idJ : %i\n",jeu->plateau[i][j].joueurPieceCreuse); 
 	// Si la piece courante à le même id que le joueur courant, alors on incrémente 
-	if(jeu->plateau[i][j].joueurPieceCreuse == idJ ||
-	   jeu->plateau[i][j].joueurPiecePleine == idJ)
+	if(jeu->plateau[i][j].joueurPieceCreuse == idJ /*||
+	   jeu->plateau[i][j].joueurPiecePleine == idJ*/)
 	{
+		printf("idJ : %i", jeu->plateau[i][j].joueurPieceCreuse);
 		c_p4++;
 		printf("c_p4 : %i\n", c_p4);
 	}
@@ -271,6 +272,7 @@ int MOTEUR_test_c_p4(t_jeu* jeu, coord coordCase, int idJ, int c_p4)
 int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 {
 	idJ = jeu->oya; // On prend l'id du joueur en cours
+	printf("Lancement, idJ = %i\n", idJ);
 	// Déclare un tableau pour récupérer les valeurs max
 	int * max;
 	max=malloc(4*sizeof(int));
@@ -287,9 +289,21 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	 * Les coordonnées étant inversé, nous devons soustraire pour monter en haut du plateau, et additioner
 	 * pour nous rendre en bas du plateau ! =) et oui ...
 	 */
-	fprintf(stderr, "loop #1\n");
-	for(j=coordCase.y+max_b;j<coordCase.y-max_h && c_p4<4;j++)
+	/*
+	 * debug
+	 */
+	for(i=0;i<jeu->nbCaseX;i++)
 	{
+		for(j=0;j<jeu->nbCaseY;j++)
+		{
+			printf("%i ", jeu->plateau[i][j].joueurPieceCreuse);
+		}
+		printf("\n");
+	}
+	fprintf(stderr, "loop #1\n");
+	for(j=coordCase.y+max_b;j>coordCase.y-max_h;j--)
+	{
+		printf("jeu[%i][%i]\n", i,j);
 		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 	}
 	if(c_p4>=4)
@@ -301,8 +315,9 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	// >>> TEST GAUCHE-DROITE <<<
 	//On part de la case courante -3 jusqu'à la case courante +3
 	fprintf(stderr, "loop #2\n");
-	for(i=coordCase.x-max_g;i<coordCase.x+max_d && c_p4<4;i++)
+	for(i=coordCase.x-max_g;i<coordCase.x+max_d;i++)
 	{
+		printf("jeu[%i][%i]\n", i,j);
 		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 	}
 	if(c_p4>=4)
@@ -318,6 +333,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	    (i>coordCase.x-max_g && j>coordCase.y-max_h) && c_p4<4; // Tant que pas case diag HautGauche
 	    i--, j--) // On décrémente i & j
 	{
+		printf("jeu[%i][%i]\n", i,j);
 		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 	}
 	if(c_p4>=4)
@@ -329,10 +345,11 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	// >>> TEST DIAG BasGauche->HautDroit <<<
 	// On part de la case courante -3 jusqu'à la case courante +3 pour les colonnes
 	fprintf(stderr, "loop #4\n");
-	for(i=coordCase.x-max_g, j=coordCase.y+max_b;
-	    (i<coordCase.x+max_d && j>coordCase.y-max_h) && c_p4<4;
-	    i++, j--)
+	for(i=coordCase.x-max_g, j=coordCase.y+max_b; // Pour la case diag BasGauche max
+	    (i<coordCase.x+max_d && j>coordCase.y-max_h) && c_p4<4; // Tant que pas case diag HautDroit max
+	    i++, j--) // On décrémente i & j
 	{
+		printf("jeu[%i][%i]\n", i,j);
 		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 	}
 	if(c_p4>=4)
