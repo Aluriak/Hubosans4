@@ -322,94 +322,94 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	}
 	if(c_p4>=4)
 	{
-		return c_p4;
+    // si l'action retournée est l'action nulle, on retourne faux.
+    if(action.colonne == -1 && action.typePiece == -1) 
+        return false;
+    // sinon, c'est qu'une action est déterminée, il faut la retirer du jeu
+    else {
+        // on identifie la pièce placée lors de l'action : c'est la première du
+        // type recherché dans la colonne de l'action.
+        // pour chaque ligne de la colonne de l'action :
+        for(y = 0; y < jeu->nbCaseY; y++) {
+            // on pointe la case
+            caseAModifier = &(jeu->plateau[action.colonne][y]); 
+            // si on a trouvé la pièce
+            if(caseAModifier->typePiece == action.typePiece ||
+                    (caseAModifier->typePiece == DOUBLE && 
+                        action.typePiece != BLOQUANTE)
+                    ) {
+                // on modifie les attributs de la case
+                if(caseAModifier->typePiece == action.typePiece) {
+                    caseAModifier->typePiece = VIDE;
+                    caseAModifier->joueurPieceCreuse = -1;
+                    caseAModifier->joueurPiecePleine = -1;
+                }
+                else if(caseAModifier->typePiece == DOUBLE) {
+                    if(action.typePiece == CREUSE) {
+                        caseAModifier->typePiece = PLEINE;
+                        caseAModifier->joueurPieceCreuse = -1;
+                    }
+                    else if(action.typePiece == PLEINE) {
+                        caseAModifier->typePiece = CREUSE;
+                        caseAModifier->joueurPiecePleine = -1;
+                    }
+                }
+                // fin de la boucle
+                y = jeu->nbCaseY;
+            }
+        }
+
+        return true;
+    }
+}
+
+
+
+/*
+ * MOTEUR COORD PIECE JOUEE
+ */
+// renvois la coordonnee y d'une pièce placée dans la colonne. Ou -1 si pièce 
+// impossible à mettre (atteinte de la limite haute)
+// NB: n'effectue aucune modification du jeu !
+int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
+    // initialisations
+    int i = 0; // itérateur de boucle
+    int ligne = jeu->nbCaseY-1; // ligne où la pièce va se placer
+    e_piece pieceCase; // pieces occupant la case étudiée
+
+    // pour chaque case de la colonne, de bas en haut
+    for(i = jeu->nbCaseY-1; i >= 0; i--) {
+	pieceCase = jeu->plateau[colonne][i].typePiece;
+	// si la pièce de la case étudiée bloque le chemin 
+	// 	(pièce bloquante, ou de même type que la pièce placée)
+	if((	pieceCase == BLOQUANTE 
+		|| pieceCase == piecePlacee 
+		|| pieceCase == DOUBLE)
+	    || // exception : cas où la pièce est bloquante
+		(piecePlacee == BLOQUANTE && pieceCase != VIDE)) {
+	    // si il n'y a pas de case au dessus, on renvois -1
+	    if(i == 0) {
+		i = -1; // arrêt de la boucle
+		ligne = -1; // colonne pleine
+	    }
+	    // sinon, la ligne prend la valeur de la case supérieure
+	    else
+		ligne = i-1; 
 	}
-	// Avant de changer de type de test, on remet le compteurs à zéro
-	c_p4=0;
-	// >>> TEST DIAG BasGauche->HautDroit <<<
-	// On part de la case courante -3 jusqu'à la case courante +3 pour les colonnes
-	fprintf(stderr, "loop #4\n");
-	for(i=coordCase.x-max_g, j=coordCase.y+max_b;
-	    (i<coordCase.x+max_d && j>coordCase.y-max_h) && c_p4<4;
-	    i++, j--)
-	{
-		c_p4=MOTEUR_test_c_p4(jeu, coordCase, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
-	}
-	if(c_p4>=4)
-	{
-		return c_p4;
-	}
-	free(max);
-	return c_p4; // On retourne la valeur de c_p4 pour post-traitement
+	// sinon, c'est que la case est praticable, on arrête le traitement ici
+	else 
+	    i = -1;
+    }
+    return ligne;
 }
 
 /*
- * MOTEUR TEST COND PUISSANCE 4
+ * MOTEUR BORNE MAX
  */
-// Test si la il y a puissance 4
-// Prend en paramètre :
-// 			- un int correspondant au compteur de
-// 			  puissance 4
-int MOTEUR_test_cond_puissance4(int c_p4)
-{
-	// Si le compteur c_p4 est supérieur ou égal
-	// à 4, alors il y a puissance 4
-	if(c_p4>=4)
-	{
-		return 1;
-	}
-	// Sinon on retourne 0
-	else
-	{
-		return 0;
-	}
-}
-
-/*
- * MOTEUR SAUVEGARDE
- */
-// Procédure de sauvegarde
-// Reçois en paramètre :
-// 			-
-/*MOTEUR_sauvegarde()
-{
-//int i = 0; //itérateur de boucle
-    //si le type de pièce de l'action est VIDE, alors on considère que 
-    //	l'utilisateur à voulut sauvegarder la partie.
-    //	la colonne correspond au slot de sauvegarde
-    //	nom d'un slot : saveN.sv (avec N le numéro de slot)
-
-    // On s'occupe des sauvegardes
-    
-    FILE * file_save;
-
-// On compte le nombre de chiffres dans le string
-    	char * str = action.colonne; // Contient la chaine à analyser
-	char slot_num[3]; // Contient le numéro du slot
-	int i=0; // itérateur de boucle
-	// On récupère le nombre de chiffres de str dans slot_num 	
-	do {
-		slot_num[i]=str[i];
-		i++;
-	} while(isdigit(slot_num[i]));
-	// Création de la chaine de caractère pour le nom final
-	char save[10] = "save";
-	char end_save[3] = ".sv";
-	// Fusion des chaines de caractères
-	strcat(save, slot_num);
-	strcat(save, end_save);
-	// Création du fichier 
-	file_save = fopen(save, "w");
-	// On commence par sauvegarder tout ce qui est hors du plateau de jeu
-	
-	//	>>> On sauvegarde les joueurs <<<
-	
-
-	
-	//Structure de joueur
-	
-
-
-	// TODO: A compléter, envoie du jeu dans fichier de sauvegarde
-	// Ne pas oublier une gestion d'erreur
-}*/
+// Détermine pour une case reçu en paramètre, la valeur MAX (3) ou
+// minimum de celle-ci, représentant ainsi la  distance la séparant des
+// bordures de la matrice
+int * MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase)
+{	
+	int i; // Itérateur de boucle
+	// Tableau contenant les coordonnées max_h, max_b, max_g, max_d à retourner pour traitement
