@@ -6,11 +6,8 @@ tabnew moteur/moteur.h
 vsplit moteur/moteur.c
 tabnew graphique/TERM/graphique_TERM.h
 vsplit graphique/TERM/graphique_TERM.c
-tabnew sonore/sonore.h
-vsplit sonore/sonore.c
 tabnew IA/IA.h
 vsplit IA/IA.c
-tabnew reseau/reseau.h
-vsplit reseau/reseau.c
 tabnew systeme/systeme.h
 vsplit systeme/systeme.c
+tabnew TODO.mkd

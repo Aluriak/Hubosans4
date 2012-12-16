@@ -55,6 +55,7 @@ typedef struct {
     // MAIS, pour des raisons de couleur, six joueurs maximum.
     // les id vont de 1 (premier joueur) à 6 (dernier)
     bool IA; // vrai si IA, faux si humain
+    int niveauIA; // niveau de l'IA (entre 1 (facile) et 4(difficile))
     int intrepidite; // intrépidité du joueur lorsque jouée par l'IA. 
     // Chiffre oscillant entre 0 et 10, avec 10 intrépidité maximum 
     // 	(pièces bloquantes utilisées dés que possible) et 0 
@@ -88,7 +89,6 @@ typedef struct {
     int oya; // id du joueur étant l'oya
     int nbJoueur; // nombre de joueurs listés (l'id va de 1 à 6)
     int nbIA; // nombre de joueurs joués par l'IA
-    int niveauIA; // niveau des IA (entre 1(facile) et 3 (difficile))
     t_pileAction pileAction; // pile des actions du jeu
 } t_jeu;
 
@@ -125,22 +125,22 @@ typedef struct {
 
 
 // STRUCT T_JOUEUR (dans struct_case_joueur.c)
-    void t_joueur_init(t_joueur *j, int nbPieceBloquante, bool ia, char* nom); // initialise le joueur
+    void t_joueur_init(t_joueur *j, int nbPieceBloquante, bool ia, char* nom, int nivIA); // initialise le joueur
     void t_joueur_free(t_joueur *j); // libère le joueur
 
 
 
 // STRUCT T_JEU (dans struct_jeu.c)
-    void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int niveauIA); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
+    void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int *tab_nivIA); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
     void t_jeu_free(t_jeu* jeu); // libère le t_jeu alloué dynamiquement
     
     // SOUS-PROCÉDURES
-	bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA); // initialise la liste des joueurs du jeu, et renvois faux si un problème à été rencontré, après appel de FLUX_ERREUR()
+	bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int* tab_nivIA); // initialise la liste des joueurs du jeu, et renvois faux si un problème à été rencontré, après appel de FLUX_ERREUR()
 	bool t_jeu_init_plateau(t_jeu* jeu); // Initialise le plateau de jeu. Renvois faux si problème rencontré, après l'avoir fait savoir avec FLUX_ERREUR()
 	void t_jeu_choisirOya(t_jeu* jeu); // choisit un oya, et le point avec le pointeur attribut de t_jeu prévu à cet effet
 	void t_jeu_joueurSuivant(t_jeu* jeu); // modifie l'oya pour que le joueur suivant le devienne
         bool t_jeu_oyaPossedePieceBloquante(t_jeu* jeu); // retourne vrai si l'oya possède une pièce bloquante
-	t_joueur* t_jeu_getOya(t_jeu* jeu); // retourne l'adresse vers l'oya
+        t_jeu* t_jeu_copie(t_jeu*); // renvoit une copie du jeu
 
 
 // T_PILEACTION (pileAction.c)

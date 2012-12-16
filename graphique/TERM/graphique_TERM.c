@@ -70,7 +70,7 @@ void TERM_afficherEnTete(t_jeu* jeu) {
 	else 
 	    printf("\t[HM]");
 	// si c'est le joueur dont c'est le tour
-	if(jeu->oya == jeu->listeJoueur[i].idJ)
+	if(jeu->oya == i)
 	    printf("\t[Oya]");
 	printf("\n");
     }
@@ -98,13 +98,14 @@ void TERM_afficherPlateau(t_jeu* jeu) {
 	    printf("%d", i+1);
     }
     printf("\n");
-    // Corps du plateau
+    // Corps du plateau (cases et séparateurs)
     // pour chaque ligne
     for(j = 0; j < jeu->nbCaseY; j++) {
 	printf("|");
 	// pour chaque colonne de la ligne j
 	for(i = 0; i < jeu->nbCaseX; i++) {
 	    TERM_afficherCase(jeu, i, j);
+            printf("|");
 	}
 	printf("\n");
     }
@@ -126,20 +127,20 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     // initialisations
     int val1, val2;
     e_piece typePiece;
-    // récupération des idJoueurs pour avoir leur couleur
+    // récupération des idJoueurs pour avoir leur couleur, et du type de pièce
     val1 = jeu->plateau[i][j].joueurPieceCreuse;
     val2 = jeu->plateau[i][j].joueurPiecePleine;
     typePiece = jeu->plateau[i][j].typePiece; // type de la pièce
     // affichage des pièces
     if(typePiece == BLOQUANTE) {
-	TERM_backgroundColor(val2+31); // fond du joueur
-	printf("X"); // on affiche la pièce bloquante avec un X
+	TERM_backgroundColor(val2+31); // couleur de fond du joueur
+	printf("X"); // on affiche la pièce bloquante avec un X blanc
     }
     else if(typePiece == DOUBLE) {
-	TERM_backgroundColor(val2+31); // fond du joueur
+	TERM_backgroundColor(val2+31); // couleur de fond du joueur
 	// Une pièce double est symbolisée par un D
 	// le fond est la pièce creuse, le D la pièce pleine
-	// le D est blanc si le joueur possède les deux pièces
+	// le D est blanc si le même joueur possède les deux pièces
 	if(val1 == val2) 
 	    TERM_color(0); // D blanc
 	else
@@ -148,7 +149,7 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     }
     else if(typePiece == CREUSE) {
 	// un zéro sur fond noir
-	TERM_color(val1+31); // texte coloré selon joueur
+	TERM_color(val1+31); // texte coloré selon couleur du joueur
 	printf("0");
     }
     else if(typePiece == PLEINE) {
@@ -160,9 +161,8 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
         printf(" "); // on affiche la pîèce pleine
     }
     // réinitialisation des couleurs
-    TERM_backgroundColor(0); // fond normal
+    TERM_backgroundColor(0); // couleur de fond normal
     TERM_color(0); // texte normal
-    printf("|");
 }
 
 
@@ -222,7 +222,9 @@ t_jeu* TERM_afficherMenu() {
     // initialisations
     t_jeu *jeu = malloc(sizeof(t_jeu)); // allocation du jeu
     int nbJoueur = -1, nbIA = -1; // joueurs total et IA
-    int niveauIA = -1; // niveau des IA
+    int niveauIA = 4; // niveau des IA
+    int i = 0; // itérateur de boucle
+    int* tab_nivIA; // table contenant les niveaux des IA
     // Menu
     printf("== HUBOSANS4 ==\n");
     // nombre de joueurs
@@ -236,15 +238,28 @@ t_jeu* TERM_afficherMenu() {
 		nbJoueur, nbJoueur);
 	scanf("%d", &nbIA);
     }
-    // niveau des IA (entre 1 et 3)
-    while(niveauIA < 0 || niveauIA > 3) {
-	printf("Niveau des ia (1 facile, 2 moyen, 3 difficile) : ");
-	scanf("%d", &niveauIA);
+    // niveau des IA (entre 1 et 4)
+    // on créé le tableau qui accueillera les niveaux des IA
+    tab_nivIA = malloc(nbIA*sizeof(int));
+    assert(tab_nivIA != NULL); // au cas où l'allocation échoue
+    if(nbIA > 0) {
+        printf("Niveau des IA, parmi 1(facile), 2(moyen), 3(difficile), 4(très difficle) :\n");
+        for(i = 0; i < nbIA; i++) {
+            // tant qu'on a pas un niveau valide
+            do {
+                printf("Niveau de l'IA %d : ", i+1);
+	        scanf("%i", &niveauIA);
+            } while(niveauIA < 0 || niveauIA > 4);
+            // on donne le niveau au joueur étudié
+            tab_nivIA[i] = niveauIA;
+        }
     }
     printf("\nInitialisation du jeu...");
-    // initialisation du jeu
-    t_jeu_init(jeu, nbJoueur, nbIA, niveauIA); // 4 joueurs, dont 3 IA
+    // INITIALISATION DU JEU
+    t_jeu_init(jeu, nbJoueur, nbIA, tab_nivIA); 
     printf("OK !\n");
+    // libérations mémoires
+    free(tab_nivIA);
     // retourne le jeu
     return jeu;
 }
