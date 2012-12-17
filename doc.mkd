@@ -51,19 +51,19 @@ Il s'interface via les structures d'actions.
 		* booléen à vrai si le joueur doit être géré par l'IA
 	* Lucas
 
-* void t\_jeu\_init(t\_jeu\* jeu, int nbjoueurs, int nbIA, int niveau IA);
+* void t\_jeu\_init(t\_jeu\* jeu, int nbjoueurs, int nbIA, int \*tab\_nivIA); 
 	* Allocation et initialisation de la structure t_jeu.
 	* Elle prend en paramètre
 		* l'adresse de la structure t_jeu à initialiser
 		* le nombre total de joueur
 		* le nombre d'IA  
-		* le niveau des IA
+		* le tableau contenant les niveaux des IA
 	* Lucas
 
 * void t\_jeu\_free(t\_jeu\* jeu);
 	* Effectue les libérations de la structure t_jeu, initialisée avec t_jeu_init(3)
 	* Elle prend en paramètre
-		* l'adresse de la structure à libérer
+		* l'adresse de la structure t_jeu à libérer
 	* Lucas
 	
 
@@ -100,7 +100,6 @@ contrôle des couleurs et de l'affichage dans le terminal, pour un noyau linux.
 * void TERM\_clear();
 	* Efface le contenu du terminal (commande clear)   
 	* Lucas
-    
 
 * void TERM\_color(int couleur);
 	* Configure la couleur de texte du terminal 
@@ -109,8 +108,6 @@ contrôle des couleurs et de l'affichage dans le terminal, pour un noyau linux.
 	* Elle prend en paramètre
 		* la couleur à afficher (entre 0 et 6)
 	* Lucas
-
-
 
 * void TERM\_backgroundColor(int couleur);
 	* Configure la couleur de fond du terminal 
@@ -129,7 +126,7 @@ contrôle des couleurs et de l'affichage dans le terminal, pour un noyau linux.
 	* moteur
 
 #### Méthodes
-* void SDL\_afficherJeu(t\_jeu\* jeu, SDL_Surface* ecran);
+* void SDL\_afficherJeu(t\_jeu\* jeu, SDL\_Surface\* ecran);
 	* Affichage du jeu dans la SDL_Surface envoyée.
 	* Efface le contenu de l'écran avant affichage   
 	* Elle prend en paramètre

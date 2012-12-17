@@ -160,6 +160,8 @@ void t_jeu_free(t_jeu* jeu) {
     }
     // libération tableau de colonnes
     free(jeu->plateau);
+    // libération de la pile d'action
+    t_pileAction_free(jeu->pileAction);
 }
 
 

@@ -104,8 +104,6 @@ typedef struct {
 
     void MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne); //Reçois en paramètre le une action, une ligne & modifie le plateau de jeu ainsi que le joueur en question
 
-
-
     bool MOTEUR_tourPrecedent(t_jeu* jeu); // retire l'action précédente du jeu, retourne vrai. Si pas de denrière action, retourne faux.
 
     int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piece, int colonne); // renvois la coordonnee y d'une pièce placée dans la colonne. Ou -1 si pièce impossible à mettre (atteinte le limite haute)
@@ -131,7 +129,7 @@ typedef struct {
 
 
 // STRUCT T_JEU (dans struct_jeu.c)
-    void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int *tab_nivIA); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
+    void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
     void t_jeu_free(t_jeu* jeu); // libère le t_jeu alloué dynamiquement
     
     // SOUS-PROCÉDURES
