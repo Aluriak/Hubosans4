@@ -294,9 +294,8 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	// Avant de changer de type de test on remet les compteurs à zéro
 	c_p4=0;
 	// >>> TEST GAUCHE-DROITE <<<
-	j=coordCase.y;
 	//On part de la case courante -3 jusqu'à la case courante +3
-	for(i=coordCase.x-max_g;i<coordCase.x+max_d;i++);
+	for(i=coordCase.x-max_g, j=coordCase.y;i<=coordCase.x+max_d;i++)
 	{
 		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
 		if(c_p4>=4)
@@ -310,7 +309,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	// >>> TEST DIAG BasDroit->HautGauche <<<
 	//On part de la case courante +3 jusqu'à la case courante -3 pour les colonnes
 	for(i=coordCase.x+max_d, j=coordCase.y+max_b; // Pour la case diag BasDroit max
-	    (i>coordCase.x-max_g && j>coordCase.y-max_h) && c_p4<4; // Tant que pas case diag HautGauche
+	    (i>coordCase.x-max_g && j>coordCase.y-max_h); // Tant que pas case diag HautGauche
 	    i--, j--) // On décrémente i & j
 	{
 		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
@@ -325,7 +324,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	// >>> TEST DIAG BasGauche->HautDroit <<<
 	// On part de la case courante -3 jusqu'à la case courante +3 pour les colonnes
 	for(i=coordCase.x-max_g, j=coordCase.y+max_b; // Pour la case diag BasGauche max
-	    (i<coordCase.x+max_d && j>coordCase.y-max_h) && c_p4<4; // Tant que pas case diag HautDroit max
+	    (i<coordCase.x+max_d && j>coordCase.y-max_h); // Tant que pas case diag HautDroit max
 	    i++, j--) // On décrémente i & j
 	{
 		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
