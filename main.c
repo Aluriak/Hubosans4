@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
     main_init();
 
     // initialisations
-    t_jeu *jeu = NULL; // initialisé par l'interface graphique
+    t_jeu jeu; // initialisé plus bas, après dialogue avec l'interface graphique
     t_regleJeu regleJeu; // valeurs déterminant l'intialisation du jeu
     int gagnant = -1;
     t_action action;
@@ -28,16 +28,18 @@ int main(int argc, char* argv[]) {
 
     // Menu principal
     if(sdl) {
-	//regleJeu = SDL_AfficherMenu(ecran);
-        t_jeu_init(jeu, regleJeu->nbJoueurs, 
-                reglejeu->nbIA, 
-                regleJeu->tab_nivIA); 
+	/*
+        regleJeu = SDL_AfficherMenu(ecran);
+        t_jeu_init(jeu, regleJeu.nbJoueurs, 
+                regleJeu.nbIA, 
+                regleJeu.tab_nivIA); 
+        // */
     }
     else {
 	regleJeu = TERM_afficherMenu();
-        t_jeu_init(jeu, regleJeu->nbJoueurs, 
-                reglejeu->nbIA, 
-                regleJeu->tab_nivIA); 
+        t_jeu_init(&jeu, regleJeu.nbJoueurs, 
+                regleJeu.nbIA, 
+                regleJeu.tab_nivIA); 
     }
 
     // jeu
@@ -47,25 +49,26 @@ int main(int argc, char* argv[]) {
 	    //action = SDL_entreeUtilisateur(jeu, ecran);
 	}
 	else {
-	    TERM_afficherJeu(jeu);
-	    if(jeu->listeJoueur[jeu->oya].IA == true)
+	    TERM_afficherJeu(&jeu);
+	    if(jeu.listeJoueur[jeu.oya].IA == true)
 		//action = IA_effectuerTour(jeu, oya);
-		action = TERM_entreeUtilisateur(jeu); // TEMPORAIRE
+		action = TERM_entreeUtilisateur(&jeu); // TEMPORAIRE
 	    else
-		action = TERM_entreeUtilisateur(jeu);
+		action = TERM_entreeUtilisateur(&jeu);
 	}
-	gagnant = MOTEUR_tourSuivant(jeu, action);
+	gagnant = MOTEUR_tourSuivant(&jeu, action);
     }
     // arrivé ici, il y a puissance 4
     
     if(sdl)
+        printf("SDL NON DISPONIBLE\n");
 	//SDL_afficherFinDeJeu(&jeu, ecran);
     else
-    	TERM_afficherJeuFinit(jeu, gagnant);
+    	TERM_afficherJeuFinit(&jeu, gagnant);
     // */
 
     // libération du jeu
-    t_jeu_free(jeu);
+    t_jeu_free(&jeu);
     // TODO: libérations et désinitialisations SDL
     return 0;
 }

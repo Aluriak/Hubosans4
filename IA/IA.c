@@ -51,8 +51,6 @@ t_action IA_effectuerTour(t_jeu *jeu) {
     t_jeu_free(cpjeu); // plus besoin du jeu
     // renvoit de l'action
     return action;
-    t_action action;
-    return action;
 }
 
 

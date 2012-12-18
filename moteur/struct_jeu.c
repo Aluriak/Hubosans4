@@ -42,7 +42,7 @@ void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA) {
  */
 // initialise la liste des joueurs du jeu, et renvois faux si un problème
 // 	à été rencontré, après appel de FLUX_ERREUR()
-bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int* tab_nivIA) {
+bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int tab_nivIA[]) {
     int i = 0, j = 0; // itérateurs de boucle
     char *nom = NULL;
     // vérification préliminaire des arguments

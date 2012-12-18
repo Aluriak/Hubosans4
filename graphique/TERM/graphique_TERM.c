@@ -219,8 +219,6 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
  */
 // affiche le menu principal et gère l'entrée utilisateur pour la configuration du jeu, et retourne la structure de jeu en conséquence
 t_regleJeu TERM_afficherMenu() {
-    // initialisations
-    t_jeu *jeu = malloc(sizeof(t_jeu)); // allocation du jeu
     int niveauIA = 4; // niveau des IA
     int i = 0; // itérateur de boucle
     t_regleJeu regleJeu = {-1,-1, {-1,-1,-1,-1,-1,-1}};
@@ -253,8 +251,6 @@ t_regleJeu TERM_afficherMenu() {
     printf("\nInitialisation du jeu...");
     // INITIALISATION DU JEU
     printf("OK !\n");
-    // libérations mémoires
-    free(tab_nivIA);
     // retourne le jeu
     return regleJeu;
 }
