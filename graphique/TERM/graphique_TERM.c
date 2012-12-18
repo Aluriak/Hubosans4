@@ -133,7 +133,7 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     typePiece = jeu->plateau[i][j].typePiece; // type de la pièce
     // affichage des pièces
     if(typePiece == BLOQUANTE) {
-	TERM_backgroundColor(val2+31); // couleur de fond du joueur
+	TERM_backgroundColor(val1+31); // couleur de fond du joueur
 	printf("X"); // on affiche la pièce bloquante avec un X blanc
     }
     else if(typePiece == DOUBLE) {
@@ -221,7 +221,7 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
 t_regleJeu TERM_afficherMenu() {
     int niveauIA = 4; // niveau des IA
     int i = 0; // itérateur de boucle
-    t_regleJeu regleJeu = {-1,-1, {-1,-1,-1,-1,-1,-1}};
+    t_regleJeu regleJeu = {-1,-1};
     // Menu
     printf("== HUBOSANS4 ==\n");
     // nombre de joueurs

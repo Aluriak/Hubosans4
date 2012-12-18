@@ -30,7 +30,7 @@ typedef struct {
     e_piece typePiece; // type de pièce
 } t_action;
 
-// structure d'élement de pile d'action
+// structure d'élément de pile d'action
 struct t_pile_elem_ {
     t_action action; // action 
     struct t_pile_elem_* nxt; // élément suivant, ou NULL
@@ -50,6 +50,8 @@ typedef struct {
     int points; // nombre de points pour cette partie
     int idJ; // id du joueur, entre 0 et 5, et indiquant sa place dans la liste
     int nbPieceBloquante; // nb de pièces bloquantes possédées par le joueur
+    int nbPiecePleine; // nb de pièces pleines possédées par le joueur
+    int nbPieceCreuse; // nb de pièces creuses possédées par le joueur
     // il existe 125 id de joueurs. Soit 125 joueurs au max 
     // zéro et les négatifs sont utilisés pour l'absence de joueur
     // MAIS, pour des raisons de couleur, six joueurs maximum.
@@ -90,6 +92,9 @@ typedef struct {
     int nbJoueur; // nombre de joueurs listés (l'id va de 1 à 6)
     int nbIA; // nombre de joueurs joués par l'IA
     t_pileAction pileAction; // pile des actions du jeu
+    int nbPieceBloquante; // nb de pièces bloquantes possédées au début
+    int nbPiecePleine; // nb de pièces pleines possédées au début
+    int nbPieceCreuse; // nb de pièces creuses possédées au début
 } t_jeu;
 
 
@@ -123,13 +128,13 @@ typedef struct {
 
 
 // STRUCT T_JOUEUR (dans struct_case_joueur.c)
-    void t_joueur_init(t_joueur *j, int nbPieceBloquante, bool ia, char* nom, int nivIA); // initialise le joueur
+    void t_joueur_init(t_joueur *j, int nbPieceBloquante, int nbPiecePleine, int nbPieceCreuse, bool ia, char* nom, int nivIA); // initialise le joueur
     void t_joueur_free(t_joueur *j); // libère le joueur
 
 
 
 // STRUCT T_JEU (dans struct_jeu.c)
-    void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
+    void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA, int nbPieceBloquante, int nbPiecePleine, int nbPieceCreuse); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
     void t_jeu_free(t_jeu* jeu); // libère le t_jeu alloué dynamiquement
     
     // SOUS-PROCÉDURES

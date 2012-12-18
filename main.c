@@ -39,7 +39,10 @@ int main(int argc, char* argv[]) {
 	regleJeu = TERM_afficherMenu();
         t_jeu_init(&jeu, regleJeu.nbJoueurs, 
                 regleJeu.nbIA, 
-                regleJeu.tab_nivIA); 
+                regleJeu.tab_nivIA, 
+                regleJeu.nbPieceBloquante, 
+                regleJeu.nbPiecePleine, 
+                regleJeu.nbPieceCreuse); 
     }
 
     // jeu

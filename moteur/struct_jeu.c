@@ -17,7 +17,8 @@ Les prototypes sont décris dans le header inclus précédemment
  * T_JEU INIT
  */
 // Allocation et initialisation de la structure. 
-void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA) {
+void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA, 
+        int nbPieceBloquante, int nbPiecePleine, int nbPieceCreuse) {
     if(jeu == NULL) {
 	FLUX_ERREUR("MODULE MOTEUR", "Structure de jeu inattendue");
 	return;
@@ -25,6 +26,9 @@ void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA) {
     // Initialisation de la liste de joueurs
     jeu->nbJoueur = nbjoueurs;
     jeu->nbIA = nbIA;
+    jeu->nbPieceBloquante = nbPieceBloquante;
+    jeu->nbPiecePleine = nbPiecePleine;
+    jeu->nbPieceCreuse = nbPieceCreuse;
     if(!t_jeu_init_listeJoueur(jeu, nbIA, tab_nivIA))
 	return; // erreur déjà envoyée dans le flux stderr
     // allocation du plateau de jeu
@@ -73,7 +77,9 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int tab_nivIA[]) {
             nom[6] = ' ';
             nom[7] = i+49;
 	t_joueur_init(&jeu->listeJoueur[i], 
-                    jeu->nbJoueur, 
+                    jeu->nbPieceBloquante,
+                    jeu->nbPiecePleine,
+                    jeu->nbPieceCreuse,
                     estIA, // booléne : IA ou pas
                     nom, // nom du joueur
                     tab_nivIA[jeu->nbJoueur-nbIA]); // niveau de l'IA
@@ -226,7 +232,8 @@ t_jeu* t_jeu_copie(t_jeu* jeu) {
         }
     }
     // INITIALISATIONS DU JEU
-    t_jeu_init(copie, jeu->nbJoueur, jeu->nbIA, tab_nivIA);
+    t_jeu_init(copie, jeu->nbJoueur, jeu->nbIA, tab_nivIA, 
+            jeu->nbPieceBloquante, jeu->nbPiecePleine, jeu->nbPieceCreuse);
     // LIBERATIONS
     free(tab_nivIA);
     // RETURN

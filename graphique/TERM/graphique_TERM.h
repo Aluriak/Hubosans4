@@ -12,14 +12,18 @@
 /*
  * PREDECLARATIONS
  */
-#define NB_JOUEUR_MAX 6
+#define NB_JOUEUR_MAX 6 // limite dûe au nombre de couleurs du terminal
+
 // structure de règle de jeu
 // Cette structure contient les valeur sdéterminant un jeu.
-// Renvoyé par l'interface graphioque pour permettre la création du jeu.
+// Renvoyé par l'interface graphique pour permettre la création du jeu.   
 typedef struct {
     int nbJoueurs;
     int nbIA;
     int tab_nivIA[NB_JOUEUR_MAX];
+    int nbPieceBloquante;
+    int nbPiecePleine;
+    int nbPieceCreuse;
 } t_regleJeu;
 
 
