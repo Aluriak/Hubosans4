@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
  */
 // gère les pré-initialisations du programme
 void main_init() {
-    // initialisation du hasard en focntion du temps
+    // initialisation du hasard en fonction du temps
     srand(time(NULL));
 }
 
