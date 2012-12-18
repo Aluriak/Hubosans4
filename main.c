@@ -13,7 +13,8 @@ int main(int argc, char* argv[]) {
 
     // initialisations
     t_jeu *jeu = NULL; // initialisé par l'interface graphique
-    t_joueur* gagnant = NULL;
+    int gagnant = -1;
+    //t_joueur* gagnant = NULL;
     t_action action;
     bool sdl = false;
     //SDL_Surface* ecran = NULL; // écran de jeu
@@ -35,7 +36,7 @@ int main(int argc, char* argv[]) {
     }
 
     // jeu
-    while(gagnant == NULL) {
+    while(gagnant == -1) {
 	if(sdl) {
 	    //SDL_afficherJeu(jeu, ecran);
 	    //action = SDL_entreeUtilisateur(jeu, ecran);
@@ -61,7 +62,7 @@ int main(int argc, char* argv[]) {
     // libération du jeu
     t_jeu_free(jeu);
     // TODO: libérations et désinitialisations SDL
-    return EXIT_SUCCESS;
+    return 0;
 }
 
 
