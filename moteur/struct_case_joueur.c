@@ -4,6 +4,7 @@
 Contients toutes les fonctions et procédures relatives aux structure de joueur et de case.
     - t_case_init()
     - t_joueur_init()
+    - t_joueur_free()
 
 Les prototypes sont décris dans le header inclus précédemment
 // */
