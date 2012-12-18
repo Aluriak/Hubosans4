@@ -49,8 +49,9 @@ t_action IA_effectuerTour(t_jeu *jeu) {
 
     // LIBÉRATIONS
     t_jeu_free(cpjeu); // plus besoin du jeu
+    fprintf(stderr, "DEB: 1\n");
     // renvoit de l'action
-    return action;
+    return actionPrio;
 }
 
 
