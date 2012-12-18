@@ -12,7 +12,7 @@
 //	- On modifie jeu en fonction d'action
 //		- En testant si aucun conflit n'est présent
 //		- En vérifiant si !puissance4
-t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action) 
+int MOTEUR_tourSuivant(t_jeu* jeu, t_action action) 
 {
     /*
      * Pour le moteur, si action.typePiece == VIDE, cela signifie que le joueur
@@ -36,17 +36,17 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	// Si 2, alors on annule le dernier coup
 	else if(action.colonne == 2)
 	{
-		return NULL;
+		return -1;
 	}
 	// Si 3, alors on quitte la partie en cours
 	else if(action.colonne == 3)
 	{
-		return NULL;
+		return -1;
 	}
 	// Sinon, on retourne une erreur (choix inconnu)
 	else
 	{
-		return NULL;
+		return -1;
 	}
     }
     // sinon, c'est une pièce à jouer
@@ -68,10 +68,8 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 		// ENREGISTREMENT DU COUP
 		// !!! On enregistre le coup uniquement lorsque celui-ci à été validé par 
 		// le moteur !!!
-		// >>> Création pointeurs sur piles <<<
-		t_pileAction * p;
 		// >>> On empile l'action en cours <<<
-		t_pileAction_emp(p, action);
+		t_pileAction_emp(&jeu->pileAction, action);
     		// TEST PUISSANCE 4
 		// >>> On déclare les variables et structures dont on a besoin <<<
 		coord coordCase;
@@ -83,7 +81,7 @@ t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 		return MOTEUR_test_cond_puissance4(jeu, c_p4);
        }
    }
-   return 0;
+   return -1;
 }
 
 /*
@@ -152,7 +150,7 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
-			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
+			jeu->plateau[action.colonne][ligne].typePiece=DOUBLE;
 			return 1;
 		}
 		// Sinon on c'est que la case en question est totalement vide, on peut 
@@ -160,7 +158,7 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 		else
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
-			jeu->plateau[action.colonne][ligne].typePiece=DOUBLE;
+			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
 			return 1;
 		}
 	}
@@ -413,13 +411,13 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4)
 	// à 4, alors il y a puissance 4
 	if(c_p4>=4)
 	{
-		return jeu->listeJoueur[oya].idJ;
+		return oya;
 	}
 	// Sinon on retourne 0
 	else
 	{
 		t_jeu_joueurSuivant(jeu);
-		return NULL;
+		return -1;
 	}
 }
 

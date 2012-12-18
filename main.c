@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
     // initialisations
     t_jeu *jeu = NULL; // initialisé par l'interface graphique
     t_regleJeu regleJeu; // valeurs déterminant l'intialisation du jeu
-    t_joueur* gagnant = NULL;
+    int gagnant = -1;
     t_action action;
     bool sdl = false;
     //SDL_Surface* ecran = NULL; // écran de jeu
@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
     }
 
     // jeu
-    while(gagnant == NULL) {
+    while(gagnant == -1) {
 	if(sdl) {
 	    //SDL_afficherJeu(jeu, ecran);
 	    //action = SDL_entreeUtilisateur(jeu, ecran);
@@ -57,17 +57,17 @@ int main(int argc, char* argv[]) {
 	gagnant = MOTEUR_tourSuivant(jeu, action);
     }
     // arrivé ici, il y a puissance 4
-    /*
+    
     if(sdl)
 	//SDL_afficherFinDeJeu(&jeu, ecran);
     else
-	//TERM_afficherFinDeJeu(&jeu);
+    	TERM_afficherJeuFinit(jeu, gagnant);
     // */
 
     // libération du jeu
     t_jeu_free(jeu);
     // TODO: libérations et désinitialisations SDL
-    return EXIT_SUCCESS;
+    return 0;
 }
 
 

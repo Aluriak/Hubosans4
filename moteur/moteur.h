@@ -100,7 +100,7 @@ typedef struct {
  * PROTOTYPES
  */
 // MOTEUR
-    t_joueur* MOTEUR_tourSuivant(t_jeu* jeu, t_action action); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
+    int MOTEUR_tourSuivant(t_jeu* jeu, t_action action); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
 
     int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne); //Reçois en paramètre le une action, une ligne & modifie le plateau de jeu ainsi que le joueur en question, et retourne 1 pour indiquer que la pièce à bien été placée, 0 sino
 
@@ -108,7 +108,7 @@ typedef struct {
 
     int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piece, int colonne); // renvois la coordonnee y d'une pièce placée dans la colonne. Ou -1 si pièce impossible à mettre (atteinte le limite haute)
 
-    int *  MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase); //Détermine pour une case reçu en paramètre, la valeur MAX (3) ou minimum de celle-ci, représentant ainsi la  distance la séparant des bordures de la matrice
+    int * MOTEUR_borne_MAX(t_jeu* jeu, coord coordCase); //Détermine pour une case reçu en paramètre, la valeur MAX (3) ou minimum de celle-ci, représentant ainsi la  distance la séparant des bordures de la matrice
 
     int MOTEUR_test_c_p4(t_jeu* jeu, int i, int j, int idJ, int c_p4); // Effectue les différents test et retourne la nouvelle valeur de c_p4
 

@@ -267,8 +267,9 @@ t_regleJeu TERM_afficherMenu() {
  * TERM AFFICHER JEU FINIT
  */
 // fait les affichage du jeu lorsqu'il se termine
-void TERM_afficherJeuFinit(t_jeu* jeu, t_joueur* gagnant) {
-    // TODO
+void TERM_afficherJeuFinit(t_jeu* jeu, int gagnant) {
+    TERM_afficherJeu(jeu);
+    printf("Le joueur %i remporte la partie !\n", gagnant+1); 
 }
 
 
