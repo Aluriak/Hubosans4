@@ -8,9 +8,20 @@
 #include "../../systeme/systeme.h"
 #include "../../moteur/moteur.h"
 
+
 /*
  * PREDECLARATIONS
  */
+#define NB_JOUEUR_MAX 6
+// structure de règle de jeu
+// Cette structure contient les valeur sdéterminant un jeu.
+// Renvoyé par l'interface graphioque pour permettre la création du jeu.
+typedef struct {
+    int nbJoueurs;
+    int nbIA;
+    int tab_nivIA[NB_JOUEUR_MAX];
+} t_regleJeu;
+
 
 
 /*
@@ -25,7 +36,7 @@
 	void TERM_afficherPlateau(t_jeu* jeu); // Affiche le plateau de jeu
 	void TERM_afficherCase(t_jeu* jeu, int i, int j); // affiche la case du jeu aux coordonnées (i;j), avec formatage couleur
     t_action TERM_entreeUtilisateur(t_jeu *jeu); // demande à l'oya du jeu ce qu'il désire jouer, et renvois le résultat sous forme d'une action
-    t_jeu* TERM_afficherMenu(); // affiche le menu principal et gère l'entrée utilisateur pour la configuration du jeu, et retourne la structure de jeu en conséquence
+    t_regleJeu TERM_afficherMenu(); // affiche le menu principal et gère l'entrée utilisateur pour la configuration du jeu, et retourne la structure de jeu en conséquence
     void TERM_afficherJeuFinit(t_jeu* jeu, t_joueur* gagnant); // fait les affichage du jeu lorsqu'il se termine
 
 #endif

@@ -13,6 +13,7 @@ int main(int argc, char* argv[]) {
 
     // initialisations
     t_jeu *jeu = NULL; // initialisé par l'interface graphique
+    t_regleJeu regleJeu; // valeurs déterminant l'intialisation du jeu
     t_joueur* gagnant = NULL;
     t_action action;
     bool sdl = false;
@@ -27,11 +28,16 @@ int main(int argc, char* argv[]) {
 
     // Menu principal
     if(sdl) {
-	//jeu = SDL_AfficherMenu(ecran);
-	//SDL_afficherJeu(&jeu, ecran);
+	//regleJeu = SDL_AfficherMenu(ecran);
+        t_jeu_init(jeu, regleJeu->nbJoueurs, 
+                reglejeu->nbIA, 
+                regleJeu->tab_nivIA); 
     }
     else {
-	jeu = TERM_afficherMenu();
+	regleJeu = TERM_afficherMenu();
+        t_jeu_init(jeu, regleJeu->nbJoueurs, 
+                reglejeu->nbIA, 
+                regleJeu->tab_nivIA); 
     }
 
     // jeu
