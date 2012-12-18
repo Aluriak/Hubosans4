@@ -54,8 +54,7 @@ int main(int argc, char* argv[]) {
 	else {
 	    TERM_afficherJeu(&jeu);
 	    if(jeu.listeJoueur[jeu.oya].IA == true)
-		//action = IA_effectuerTour(jeu, oya);
-		action = TERM_entreeUtilisateur(&jeu); // TEMPORAIRE
+		action = IA_effectuerTour(&jeu);
 	    else
 		action = TERM_entreeUtilisateur(&jeu);
 	}
