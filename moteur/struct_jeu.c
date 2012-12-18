@@ -17,7 +17,7 @@ Les prototypes sont décris dans le header inclus précédemment
  * T_JEU INIT
  */
 // Allocation et initialisation de la structure. 
-void t_jeu_init(t_jeu* jeu, short nbjoueurs, int nbIA, int *tab_nivIA) {
+void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA) {
     if(jeu == NULL) {
 	FLUX_ERREUR("MODULE MOTEUR", "Structure de jeu inattendue");
 	return;
@@ -161,7 +161,7 @@ void t_jeu_free(t_jeu* jeu) {
     // libération tableau de colonnes
     free(jeu->plateau);
     // libération de la pile d'action
-    t_pileAction_free(jeu->pileAction);
+    t_pileAction_free(&jeu->pileAction);
 }
 
 
