@@ -19,11 +19,19 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
      * a voulu effectuer une commande. On regarde donc action.colonne, qui 
      * sera considéré comme la commande voulu :
      * 
-     * 1.SAVE
-     * 2.LAST
-     * 3.EXIT
+     * 1. SAVE
+     * 2. LAST
+     * 3. HELP
+     * 4. EXIT
      *
      * Si différent, erreur et on recommence la demande, sans changer de joueur
+     *
+     * INDEX DES RETOURS
+     *
+     * return -1 : La partie n'est pas terminée et continue normalement
+     * return -2 : Erreur
+     * return -3 : On affiche l'aide des commandes
+     * return 42 : On quitte la partie en cours && retour au menu principal
      */
     if(action.typePiece == VIDE) // action.colonne == VIDE, donc on passe en mode commande
     {
@@ -36,17 +44,33 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	// Si 2, alors on annule le dernier coup
 	else if(action.colonne == 2)
 	{
+		// TODO
+		/*
+		 * if(allow_last)
+		 * {
+		 * 	MOTEUR_annuler_dernier_coup();	
+		 * }
+		 * else
+		 * {
+		 * 	return -2; // Erreur
+		 * }
+		 */
 		return -1;
 	}
-	// Si 3, alors on quitte la partie en cours
+	// Si 3, alors on affiche l'aide des commandes
 	else if(action.colonne == 3)
 	{
-		return -1;
+		return -3;
+	}
+	// Si 4, alors on quitte la partie en cours
+	else if(action.colonne == 4)
+	{
+		return 42; // The answer ... =)
 	}
 	// Sinon, on retourne une erreur (choix inconnu)
 	else
 	{
-		return -1;
+		return -2; // Erreur
 	}
     }
     // sinon, c'est une pièce à jouer
@@ -58,8 +82,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	// Si la valeur de ligne est égal à -1, c'est qu'il est impossible de placer la pièce ici
     	if(ligne == -1)
 	{
-		// A corriger, le moteur n'affiche rien ! :o
-		printf("Unable to put piece here!");
+		return -2;
     	}
     	else
 	{
@@ -404,7 +427,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 // Prend en paramètre :
 // 			- un int correspondant au compteur de
 // 			  puissance 4
-int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4)
+int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 {
 	int oya = jeu->oya; // On récupère l'oya
 	// Si le compteur c_p4 est supérieur ou égal
@@ -413,11 +436,18 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4)
 	{
 		return oya;
 	}
-	// Sinon on retourne 0
+	// 
 	else
 	{
-		t_jeu_joueurSuivant(jeu);
-		return -1;
+		if(next)
+		{
+			t_jeu_joueurSuivant(jeu);
+			return -1;
+		}
+		else
+		{
+			return -1;
+		}
 	}
 }
 

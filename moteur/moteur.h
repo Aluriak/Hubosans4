@@ -114,7 +114,7 @@ typedef struct {
 
     int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ); // renvois le nombre de piece à la suite appartenant au même joueur
 
-    int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4); // test si il y a puissance 4
+    int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next); // test si il y a puissance 4
 
 
 // STRUCT T_CASE (dans struct_case_joueur.c)

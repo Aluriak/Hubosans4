@@ -27,5 +27,7 @@
     t_action TERM_entreeUtilisateur(t_jeu *jeu); // demande à l'oya du jeu ce qu'il désire jouer, et renvois le résultat sous forme d'une action
     t_jeu* TERM_afficherMenu(); // affiche le menu principal et gère l'entrée utilisateur pour la configuration du jeu, et retourne la structure de jeu en conséquence
     void TERM_afficherJeuFinit(t_jeu* jeu, int gagnant); // fait les affichage du jeu lorsqu'il se termine
+    void TERM_afficherHelp(); // Affiche le menu
+
 
 #endif

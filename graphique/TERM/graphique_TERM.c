@@ -60,9 +60,12 @@ void TERM_afficherEnTete(t_jeu* jeu) {
     // pour chaque joueur
     for(i = 0; i < jeu->nbJoueur; i++) {
 	TERM_color(jeu->listeJoueur[i].idJ+31);
-	printf("%s : %i points", 
+	printf("%s : %i points - pieces : %i B - %i P - %i C", 
 		jeu->listeJoueur[i].nom, 
-		jeu->listeJoueur[i].points
+		jeu->listeJoueur[i].points,
+		jeu->listeJoueur[i].nbPieceBloquante,
+		jeu->listeJoueur[i].nbPieceCreuse,
+		jeu->listeJoueur[i].nbPiecePleine
 		);
 	// si c'est une IA
 	if(jeu->listeJoueur[i].IA) 
@@ -278,5 +281,31 @@ void TERM_afficherJeuFinit(t_jeu* jeu, int gagnant) {
 }
 
 
-
+/*
+ * TERM AFFICHER HELP
+ */
+// Affiche le menu d'aide
+void TERM_afficherHelp()
+{
+	// On commence par nettoyer l'écran ... 
+	// pchit pchit ....
+	// .... ouais enfin le vider quoi =)
+	TERM_clear();
+	// Puis on affiche notre beau menu tout plein 
+	printf("\t==HELP MENU==\n\n");
+	printf("Bienvenue dans le menu d'aide du Puissance 4 !\n\n");
+	printf("\t##Commandes HORS JEU##\n");
+	printf("\t\t Taper 1 pour SAUVEGARDER\n");
+	printf("\t\t Taper 2 pour ANNULER LE DERNIER COUP\n");
+	printf("\t\t Taper 3 pour afficher HELP\n");
+	printf("\t\t Taper 4 pour quitter\n\n");
+	printf("\t##Commandes JEU##\n");
+	printf("\t\t Entrez d'abord le numéro de la colonne, puis le type de pièce\n");
+	printf("\t\t >>> INDEX TYPES PIECES <<<\n");
+	printf("\t\t\t b : BLOQUANTE\n");
+	printf("\t\t\t c : CREUSE\n");
+	printf("\t\t\t p : PLEINE\n\n");
+	printf("\t\t Exemple : 3c placera une pièce CREUSE dans la 3ème colonne\n\n");
+	printf("\t OK ? So let's play !\n");
+}
 
