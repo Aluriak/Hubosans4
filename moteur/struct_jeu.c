@@ -49,6 +49,7 @@ void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA,
 bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int tab_nivIA[]) {
     int i = 0, j = 0; // itérateurs de boucle
     char *nom = NULL;
+    int nivIA = 0;
     // vérification préliminaire des arguments
     if(jeu->nbJoueur < NB_JOUEUR_MIN && jeu->nbJoueur > NB_JOUEUR_MAX) {
 	FLUX_ERREUR("MODULE MOTEUR", "Nombre de joueur inattendu à la création du jeu");
@@ -67,6 +68,10 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int tab_nivIA[]) {
     for(i = 0, j = jeu->nbJoueur-nbIA; i < jeu->nbJoueur; i++, j--) {
 	// si tous les joueurs humain ont été initialisés
 	bool estIA = (j <= 0);
+        if(estIA)
+            nivIA = tab_nivIA[j];
+        else
+            nivIA = randN(4)+1; // valeur au hasard pour les joueurs
         nom = malloc(8*sizeof(char));
             nom[0] = 'J';
             nom[1] = 'o';
@@ -82,7 +87,7 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int tab_nivIA[]) {
                     jeu->nbPieceCreuse,
                     estIA, // booléne : IA ou pas
                     nom, // nom du joueur
-                    tab_nivIA[jeu->nbJoueur-nbIA]); // niveau de l'IA
+                    nivIA); // niveau de l'IA
     }
     // on mélange les joueurs
     for(i = 0; i < jeu->nbJoueur; i++) {
@@ -200,11 +205,18 @@ void t_jeu_joueurSuivant(t_jeu* jeu) {
 
 
 /*
- * T_JEU OYA POSSEDE PIECE BLOQUANTE
+ * T_JEU OYA POSSEDE PIECE 
  */
-// retourne vrai si l'oya possède une pièce bloquante
-bool t_jeu_oyaPossedePieceBloquante(t_jeu* jeu) {
-    return (jeu->listeJoueur[jeu->oya].nbPieceBloquante > 0);
+// retourne vrai si l'oya possède au moins une pièce du type demandé
+bool t_jeu_oyaPossedePiece(t_jeu* jeu, e_piece t) {
+    if(t == BLOQUANTE)
+        return (jeu->listeJoueur[jeu->oya].nbPieceBloquante > 0);
+    else if(t == CREUSE)
+        return (jeu->listeJoueur[jeu->oya].nbPieceCreuse > 0);
+    else if(t == PLEINE)
+        return (jeu->listeJoueur[jeu->oya].nbPiecePleine > 0);
+    else // tout autre type de pièce
+        return false;
 }
 
 

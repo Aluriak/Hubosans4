@@ -248,9 +248,10 @@ t_regleJeu TERM_afficherMenu() {
             regleJeu.tab_nivIA[i] = niveauIA;
         }
     }
-    printf("\nInitialisation du jeu...");
-    // INITIALISATION DU JEU
-    printf("OK !\n");
+    // nombre de pièces
+    regleJeu.nbPieceBloquante = regleJeu.nbJoueurs;
+    regleJeu.nbPiecePleine = regleJeu.nbJoueurs*20;
+    regleJeu.nbPieceCreuse = regleJeu.nbJoueurs*20;
     // retourne le jeu
     return regleJeu;
 }

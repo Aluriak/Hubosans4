@@ -177,7 +177,7 @@ bool MOTEUR_tourPrecedent(t_jeu* jeu) {
     // on dépile la dernière action, et on l'enregistre
     t_action action = t_pileAction_dep(&(jeu->pileAction));
     // si l'action retournée est l'action nulle, on retourne faux.
-    if(action.colonne == -1 && action.typePiece == -1) 
+    if(action.colonne == -1 || action.typePiece == -1) 
         return false;
     // sinon, c'est qu'une action est déterminée, il faut la retirer du jeu
     else {
@@ -188,28 +188,23 @@ bool MOTEUR_tourPrecedent(t_jeu* jeu) {
             // on pointe la case
             caseAModifier = &(jeu->plateau[action.colonne][y]); 
             // si on a trouvé la pièce
-            if(caseAModifier->typePiece == action.typePiece ||
-                    (caseAModifier->typePiece == DOUBLE && 
-                        action.typePiece != BLOQUANTE)
-                    ) {
-                // on modifie les attributs de la case
-                if(caseAModifier->typePiece == action.typePiece) {
-                    caseAModifier->typePiece = VIDE;
+            if(caseAModifier->typePiece == action.typePiece) {
+                caseAModifier->typePiece = VIDE;
+                caseAModifier->joueurPieceCreuse = -1;
+                caseAModifier->joueurPiecePleine = -1;
+                y = jeu->nbCaseY; // fin de la boucle
+            }
+            else if(caseAModifier->typePiece == DOUBLE && 
+                action.typePiece != BLOQUANTE) {
+                if(action.typePiece == CREUSE) {
+                    caseAModifier->typePiece = PLEINE;
                     caseAModifier->joueurPieceCreuse = -1;
+                }
+                else if(action.typePiece == PLEINE) {
+                    caseAModifier->typePiece = CREUSE;
                     caseAModifier->joueurPiecePleine = -1;
                 }
-                else if(caseAModifier->typePiece == DOUBLE) {
-                    if(action.typePiece == CREUSE) {
-                        caseAModifier->typePiece = PLEINE;
-                        caseAModifier->joueurPieceCreuse = -1;
-                    }
-                    else if(action.typePiece == PLEINE) {
-                        caseAModifier->typePiece = CREUSE;
-                        caseAModifier->joueurPiecePleine = -1;
-                    }
-                }
-                // fin de la boucle
-                y = jeu->nbCaseY;
+                y = jeu->nbCaseY; // fin de la boucle
             }
         }
 
