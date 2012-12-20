@@ -17,7 +17,8 @@ Les prototypes sont décris dans le header inclus précédemment
  * T_JEU INIT
  */
 // Allocation et initialisation de la structure. 
-void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA) {
+void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA, 
+        int nbPieceBloquante, int nbPiecePleine, int nbPieceCreuse) {
     if(jeu == NULL) {
 	FLUX_ERREUR("MODULE MOTEUR", "Structure de jeu inattendue");
 	return;
@@ -25,6 +26,9 @@ void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA) {
     // Initialisation de la liste de joueurs
     jeu->nbJoueur = nbjoueurs;
     jeu->nbIA = nbIA;
+    jeu->nbPieceBloquante = nbPieceBloquante;
+    jeu->nbPiecePleine = nbPiecePleine;
+    jeu->nbPieceCreuse = nbPieceCreuse;
     if(!t_jeu_init_listeJoueur(jeu, nbIA, tab_nivIA))
 	return; // erreur déjà envoyée dans le flux stderr
     // allocation du plateau de jeu
@@ -42,9 +46,10 @@ void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA) {
  */
 // initialise la liste des joueurs du jeu, et renvois faux si un problème
 // 	à été rencontré, après appel de FLUX_ERREUR()
-bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int* tab_nivIA) {
+bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int tab_nivIA[]) {
     int i = 0, j = 0; // itérateurs de boucle
     char *nom = NULL;
+    int nivIA = 0;
     // vérification préliminaire des arguments
     if(jeu->nbJoueur < NB_JOUEUR_MIN && jeu->nbJoueur > NB_JOUEUR_MAX) {
 	FLUX_ERREUR("MODULE MOTEUR", "Nombre de joueur inattendu à la création du jeu");
@@ -63,6 +68,10 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int* tab_nivIA) {
     for(i = 0, j = jeu->nbJoueur-nbIA; i < jeu->nbJoueur; i++, j--) {
 	// si tous les joueurs humain ont été initialisés
 	bool estIA = (j <= 0);
+        if(estIA)
+            nivIA = tab_nivIA[j];
+        else
+            nivIA = randN(4)+1; // valeur au hasard pour les joueurs
         nom = malloc(8*sizeof(char));
             nom[0] = 'J';
             nom[1] = 'o';
@@ -73,10 +82,12 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int* tab_nivIA) {
             nom[6] = ' ';
             nom[7] = i+49;
 	t_joueur_init(&jeu->listeJoueur[i], 
-                    jeu->nbJoueur, 
+                    jeu->nbPieceBloquante,
+                    jeu->nbPiecePleine,
+                    jeu->nbPieceCreuse,
                     estIA, // booléne : IA ou pas
                     nom, // nom du joueur
-                    tab_nivIA[jeu->nbJoueur-nbIA]); // niveau de l'IA
+                    nivIA); // niveau de l'IA
     }
     // on mélange les joueurs
     for(i = 0; i < jeu->nbJoueur; i++) {
@@ -194,11 +205,18 @@ void t_jeu_joueurSuivant(t_jeu* jeu) {
 
 
 /*
- * T_JEU OYA POSSEDE PIECE BLOQUANTE
+ * T_JEU OYA POSSEDE PIECE 
  */
-// retourne vrai si l'oya possède une pièce bloquante
-bool t_jeu_oyaPossedePieceBloquante(t_jeu* jeu) {
-    return (jeu->listeJoueur[jeu->oya].nbPieceBloquante > 0);
+// retourne vrai si l'oya possède au moins une pièce du type demandé
+bool t_jeu_oyaPossedePiece(t_jeu* jeu, e_piece t) {
+    if(t == BLOQUANTE)
+        return (jeu->listeJoueur[jeu->oya].nbPieceBloquante > 0);
+    else if(t == CREUSE)
+        return (jeu->listeJoueur[jeu->oya].nbPieceCreuse > 0);
+    else if(t == PLEINE)
+        return (jeu->listeJoueur[jeu->oya].nbPiecePleine > 0);
+    else // tout autre type de pièce
+        return false;
 }
 
 
@@ -226,7 +244,8 @@ t_jeu* t_jeu_copie(t_jeu* jeu) {
         }
     }
     // INITIALISATIONS DU JEU
-    t_jeu_init(copie, jeu->nbJoueur, jeu->nbIA, tab_nivIA);
+    t_jeu_init(copie, jeu->nbJoueur, jeu->nbIA, tab_nivIA, 
+            jeu->nbPieceBloquante, jeu->nbPiecePleine, jeu->nbPieceCreuse);
     // LIBERATIONS
     free(tab_nivIA);
     // RETURN

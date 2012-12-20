@@ -12,9 +12,9 @@ int main(int argc, char* argv[]) {
     main_init();
 
     // initialisations
-    t_jeu *jeu = NULL; // initialisé par l'interface graphique
+    t_jeu jeu; // initialisé plus bas, après dialogue avec l'interface graphique
+    t_regleJeu regleJeu; // valeurs déterminant l'intialisation du jeu
     int gagnant = -1;
-    //t_joueur* gagnant = NULL;
     t_action action;
     bool sdl = false;
     // On crée un bool pour savoir quand l'user demande à quitter le jeu
@@ -32,11 +32,21 @@ int main(int argc, char* argv[]) {
     {
 	    // Menu principal
 	    if(sdl) {
-		//jeu = SDL_AfficherMenu(ecran);
-		//SDL_afficherJeu(&jeu, ecran);
+		/*
+		regleJeu = SDL_AfficherMenu(ecran);
+		t_jeu_init(jeu, regleJeu.nbJoueurs, 
+			   regleJeu.nbIA, 
+			   regleJeu.tab_nivIA); 
+		// */
 	    }
 	    else {
-		jeu = TERM_afficherMenu();
+		regleJeu = TERM_afficherMenu();
+		t_jeu_init(&jeu, regleJeu.nbJoueurs, 
+			   regleJeu.nbIA, 
+			   regleJeu.tab_nivIA, 
+			   regleJeu.nbPieceBloquante, 
+			   regleJeu.nbPiecePleine, 
+			   regleJeu.nbPieceCreuse); 
 	    }
 
 	    // jeu
@@ -69,10 +79,8 @@ int main(int argc, char* argv[]) {
 		}
 	    }
     }
-	    // */
-
     // libération du jeu
-    t_jeu_free(jeu);
+    t_jeu_free(&jeu);
     // TODO: libérations et désinitialisations SDL
     return 0;
 }
@@ -84,7 +92,7 @@ int main(int argc, char* argv[]) {
  */
 // gère les pré-initialisations du programme
 void main_init() {
-    // initialisation du hasard en focntion du temps
+    // initialisation du hasard en fonction du temps
     srand(time(NULL));
 }
 

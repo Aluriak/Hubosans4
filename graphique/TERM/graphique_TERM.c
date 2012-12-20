@@ -136,7 +136,7 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     typePiece = jeu->plateau[i][j].typePiece; // type de la pièce
     // affichage des pièces
     if(typePiece == BLOQUANTE) {
-	TERM_backgroundColor(val2+31); // couleur de fond du joueur
+	TERM_backgroundColor(val1+31); // couleur de fond du joueur
 	printf("X"); // on affiche la pièce bloquante avec un X blanc
     }
     else if(typePiece == DOUBLE) {
@@ -221,50 +221,46 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
  * TERM AFFICHER MENU
  */
 // affiche le menu principal et gère l'entrée utilisateur pour la configuration du jeu, et retourne la structure de jeu en conséquence
-t_jeu* TERM_afficherMenu() {
-    // initialisations
-    t_jeu *jeu = malloc(sizeof(t_jeu)); // allocation du jeu
-    int nbJoueur = -1, nbIA = -1; // joueurs total et IA
+// Les règles envoyées dont des règles correct si l'user à demander à créer un jue
+// si nbJoueurs == -1, alors l'user demande à quitter
+// nbIA correspond au slot à charger
+//
+t_regleJeu TERM_afficherMenu() {
     int niveauIA = 4; // niveau des IA
     int i = 0; // itérateur de boucle
-    int* tab_nivIA; // table contenant les niveaux des IA
+    t_regleJeu regleJeu = {-1,-1};
     // Menu
     printf("== HUBOSANS4 ==\n");
     // nombre de joueurs
-    while(nbJoueur < 2 || nbJoueur > 6) {
+    while(regleJeu.nbJoueurs < 2 || regleJeu.nbJoueurs > 6) {
 	printf("Nombre de joueurs total (2 à 6) : ");
-	scanf("%d", &nbJoueur);
+	scanf("%d", &regleJeu.nbJoueurs);
     }
     // nombre d'IA
-    while(nbIA < 0 || nbIA > nbJoueur) {
+    while(regleJeu.nbIA < 0 || regleJeu.nbIA > regleJeu.nbJoueurs) {
 	printf("Nombre d'ia parmis les %i joueurs (max %i) : ", 
-		nbJoueur, nbJoueur);
-	scanf("%d", &nbIA);
+		regleJeu.nbJoueurs, regleJeu.nbJoueurs);
+	scanf("%d", &regleJeu.nbIA);
     }
     // niveau des IA (entre 1 et 4)
-    // on créé le tableau qui accueillera les niveaux des IA
-    tab_nivIA = malloc(nbIA*sizeof(int));
-    assert(tab_nivIA != NULL); // au cas où l'allocation échoue
-    if(nbIA > 0) {
+    if(regleJeu.nbIA > 0) {
         printf("Niveau des IA, parmi 1(facile), 2(moyen), 3(difficile), 4(très difficle) :\n");
-        for(i = 0; i < nbIA; i++) {
+        for(i = 0; i < regleJeu.nbIA; i++) {
             // tant qu'on a pas un niveau valide
             do {
                 printf("Niveau de l'IA %d : ", i+1);
 	        scanf("%i", &niveauIA);
             } while(niveauIA < 0 || niveauIA > 4);
             // on donne le niveau au joueur étudié
-            tab_nivIA[i] = niveauIA;
+            regleJeu.tab_nivIA[i] = niveauIA;
         }
     }
-    printf("\nInitialisation du jeu...");
-    // INITIALISATION DU JEU
-    t_jeu_init(jeu, nbJoueur, nbIA, tab_nivIA); 
-    printf("OK !\n");
-    // libérations mémoires
-    free(tab_nivIA);
+    // nombre de pièces
+    regleJeu.nbPieceBloquante = regleJeu.nbJoueurs;
+    regleJeu.nbPiecePleine = regleJeu.nbJoueurs*20;
+    regleJeu.nbPieceCreuse = regleJeu.nbJoueurs*20;
     // retourne le jeu
-    return jeu;
+    return regleJeu;
 }
 
 

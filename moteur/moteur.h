@@ -30,7 +30,7 @@ typedef struct {
     e_piece typePiece; // type de pièce
 } t_action;
 
-// structure d'élement de pile d'action
+// structure d'élément de pile d'action
 struct t_pile_elem_ {
     t_action action; // action 
     struct t_pile_elem_* nxt; // élément suivant, ou NULL
@@ -50,6 +50,8 @@ typedef struct {
     int points; // nombre de points pour cette partie
     int idJ; // id du joueur, entre 0 et 5, et indiquant sa place dans la liste
     int nbPieceBloquante; // nb de pièces bloquantes possédées par le joueur
+    int nbPiecePleine; // nb de pièces pleines possédées par le joueur
+    int nbPieceCreuse; // nb de pièces creuses possédées par le joueur
     // il existe 125 id de joueurs. Soit 125 joueurs au max 
     // zéro et les négatifs sont utilisés pour l'absence de joueur
     // MAIS, pour des raisons de couleur, six joueurs maximum.
@@ -90,6 +92,9 @@ typedef struct {
     int nbJoueur; // nombre de joueurs listés (l'id va de 1 à 6)
     int nbIA; // nombre de joueurs joués par l'IA
     t_pileAction pileAction; // pile des actions du jeu
+    int nbPieceBloquante; // nb de pièces bloquantes possédées au début
+    int nbPiecePleine; // nb de pièces pleines possédées au début
+    int nbPieceCreuse; // nb de pièces creuses possédées au début
 } t_jeu;
 
 
@@ -102,7 +107,7 @@ typedef struct {
 // MOTEUR
     int MOTEUR_tourSuivant(t_jeu* jeu, t_action action); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
 
-    int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne); //Reçois en paramètre le une action, une ligne & modifie le plateau de jeu ainsi que le joueur en question, et retourne 1 pour indiquer que la pièce à bien été placée, 0 sino
+    bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next); //Reçois en paramètre le une action, une ligne & modifie le plateau de jeu ainsi que le joueur en question, et retourne 1 pour indiquer que la pièce à bien été placée, 0 sino
 
     bool MOTEUR_tourPrecedent(t_jeu* jeu); // retire l'action précédente du jeu, retourne vrai. Si pas de denrière action, retourne faux.
 
@@ -123,21 +128,21 @@ typedef struct {
 
 
 // STRUCT T_JOUEUR (dans struct_case_joueur.c)
-    void t_joueur_init(t_joueur *j, int nbPieceBloquante, bool ia, char* nom, int nivIA); // initialise le joueur
+    void t_joueur_init(t_joueur *j, int nbPieceBloquante, int nbPiecePleine, int nbPieceCreuse, bool ia, char* nom, int nivIA); // initialise le joueur
     void t_joueur_free(t_joueur *j); // libère le joueur
 
 
 
 // STRUCT T_JEU (dans struct_jeu.c)
-    void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
+    void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA, int nbPieceBloquante, int nbPiecePleine, int nbPieceCreuse); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
     void t_jeu_free(t_jeu* jeu); // libère le t_jeu alloué dynamiquement
     
     // SOUS-PROCÉDURES
-	bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int* tab_nivIA); // initialise la liste des joueurs du jeu, et renvois faux si un problème à été rencontré, après appel de FLUX_ERREUR()
+	bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int tab_nivIA[]); // initialise la liste des joueurs du jeu, et renvois faux si un problème à été rencontré, après appel de FLUX_ERREUR()
 	bool t_jeu_init_plateau(t_jeu* jeu); // Initialise le plateau de jeu. Renvois faux si problème rencontré, après l'avoir fait savoir avec FLUX_ERREUR()
 	void t_jeu_choisirOya(t_jeu* jeu); // choisit un oya, et le point avec le pointeur attribut de t_jeu prévu à cet effet
 	void t_jeu_joueurSuivant(t_jeu* jeu); // modifie l'oya pour que le joueur suivant le devienne
-        bool t_jeu_oyaPossedePieceBloquante(t_jeu* jeu); // retourne vrai si l'oya possède une pièce bloquante
+        bool t_jeu_oyaPossedePiece(t_jeu*, e_piece); // retourne vrai si l'oya possède une pièce du type demandé
         t_jeu* t_jeu_copie(t_jeu*); // renvoit une copie du jeu
 
 

@@ -29,7 +29,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
      * INDEX DES RETOURS
      *
      * return -1 : La partie n'est pas terminée et continue normalement
-     * return -2 : Erreur
+     * return -2 : Erreur, l'action n'est pas valide
      * return -3 : On affiche l'aide des commandes
      * return 42 : On quitte la partie en cours && retour au menu principal
      */
@@ -86,8 +86,9 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
     	}
     	else
 	{
+		bool next = false;
 		// On lance la procédure de modification du plateau de jeu
-		MOTEUR_pieceJouee(jeu, action, ligne);
+		MOTEUR_pieceJouee(jeu, action, ligne, next);
 		// ENREGISTREMENT DU COUP
 		// !!! On enregistre le coup uniquement lorsque celui-ci à été validé par 
 		// le moteur !!!
@@ -101,7 +102,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 		// On lance la fonction de calcul
 		int c_p4 = MOTEUR_test_puissance4(jeu, coordCase, oya);
 		// Si c_p4 est égal ou supérieur à 4, alors puissance 4
-		return MOTEUR_test_cond_puissance4(jeu, c_p4);
+		return MOTEUR_test_cond_puissance4(jeu, c_p4, next);
        }
    }
    return -1;
@@ -113,7 +114,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 //Reçois en paramètre une action, une ligne & modifie le plateau de jeu ainsi 
 //que le joueur en question, et retourne 1 pour indiquer que la pièce à bien 
 //été placée, O sinon
-int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
+bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 {
 	int oya=jeu->oya; // On récupère l'oya
 	jeu->plateau[action.colonne][ligne].typePiece=action.typePiece; // On modifie le plateau de jeu en fonction de la piece jouée
@@ -129,12 +130,13 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			// On indique qu'il s'agit bien d'un piece bloquante
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return 1;
+			next = true;
+			return next;
 		}
 		//Sinon on retourne null, et on redemande au joueur de placer une pièce
 		else
 		{
-			return 0;
+			return next;
 		}
 	}
 	// On enregistre qui à joué la piece CREUSE
@@ -149,7 +151,8 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=DOUBLE;
-			return 1;
+			next = true;
+			return next;
 
 		}
 		// Sinon on c'est que la case en question est totalement vide, on peut 
@@ -158,7 +161,8 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return 1;
+			next = true;
+			return next;
 		}
 	}
 	// On enregistre qui à joué la piece PLEINE
@@ -174,7 +178,8 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=DOUBLE;
-			return 1;
+			next = true;
+			return next;
 		}
 		// Sinon on c'est que la case en question est totalement vide, on peut 
 		// donc y mettre n'importe quel type de piece sans problème
@@ -182,7 +187,8 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return 1;
+			next = true;
+			return next;
 		}
 	}
 }
@@ -200,7 +206,7 @@ bool MOTEUR_tourPrecedent(t_jeu* jeu) {
     // on dépile la dernière action, et on l'enregistre
     t_action action = t_pileAction_dep(&(jeu->pileAction));
     // si l'action retournée est l'action nulle, on retourne faux.
-    if(action.colonne == -1 && action.typePiece == -1) 
+    if(action.colonne == -1 || action.typePiece == -1) 
         return false;
     // sinon, c'est qu'une action est déterminée, il faut la retirer du jeu
     else {
@@ -211,28 +217,23 @@ bool MOTEUR_tourPrecedent(t_jeu* jeu) {
             // on pointe la case
             caseAModifier = &(jeu->plateau[action.colonne][y]); 
             // si on a trouvé la pièce
-            if(caseAModifier->typePiece == action.typePiece ||
-                    (caseAModifier->typePiece == DOUBLE && 
-                        action.typePiece != BLOQUANTE)
-                    ) {
-                // on modifie les attributs de la case
-                if(caseAModifier->typePiece == action.typePiece) {
-                    caseAModifier->typePiece = VIDE;
+            if(caseAModifier->typePiece == action.typePiece) {
+                caseAModifier->typePiece = VIDE;
+                caseAModifier->joueurPieceCreuse = -1;
+                caseAModifier->joueurPiecePleine = -1;
+                y = jeu->nbCaseY; // fin de la boucle
+            }
+            else if(caseAModifier->typePiece == DOUBLE && 
+                action.typePiece != BLOQUANTE) {
+                if(action.typePiece == CREUSE) {
+                    caseAModifier->typePiece = PLEINE;
                     caseAModifier->joueurPieceCreuse = -1;
+                }
+                else if(action.typePiece == PLEINE) {
+                    caseAModifier->typePiece = CREUSE;
                     caseAModifier->joueurPiecePleine = -1;
                 }
-                else if(caseAModifier->typePiece == DOUBLE) {
-                    if(action.typePiece == CREUSE) {
-                        caseAModifier->typePiece = PLEINE;
-                        caseAModifier->joueurPieceCreuse = -1;
-                    }
-                    else if(action.typePiece == PLEINE) {
-                        caseAModifier->typePiece = CREUSE;
-                        caseAModifier->joueurPiecePleine = -1;
-                    }
-                }
-                // fin de la boucle
-                y = jeu->nbCaseY;
+                y = jeu->nbCaseY; // fin de la boucle
             }
         }
 
