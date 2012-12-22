@@ -80,7 +80,3 @@ void t_pileAction_vider(t_pileAction* p) {
 	t_pileAction_dep(p);
     }
 }
-
-
-
-

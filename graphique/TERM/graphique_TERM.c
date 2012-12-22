@@ -275,6 +275,17 @@ void TERM_afficherJeuFinit(t_jeu* jeu, int gagnant) {
     TERM_afficherJeu(jeu);
     printf("Le joueur %i remporte la partie !\n", gagnant+1); 
 }
+/*
+ * TERM AFFICHER JEU EGALITE
+ */
+// Affiche la fin de jeu en cas de plateau plein && pas puissance4
+void TERM_afficherJeuEgalite(t_jeu * jeu)
+{
+	TERM_clear();
+	TERM_afficherJeu(jeu);
+	printf("Il y a égalité, aucune autre possibilité de jeu (plateau plein)\n");
+
+}
 
 
 /*

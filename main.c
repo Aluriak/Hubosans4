@@ -77,6 +77,10 @@ int main(int argc, char* argv[]) {
 		{
 			TERM_afficherJeuFinit(jeu, gagnant);
 		}
+		else if(gagnant == 43)
+		{
+			TERM_afficherJeuEgalite(jeu);
+		}
 	    }
     }
     // libération du jeu

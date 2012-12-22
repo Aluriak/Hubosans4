@@ -2,7 +2,6 @@
 
 - Moteur
     - le moteur doit arrêter le jeu lorsque : !gagnant && lxL == nbCoupJoues
-    - placer le booléen next à vrai lorsq'une pièce est correctement placée
 
 - IA
     - implémenter heuristique

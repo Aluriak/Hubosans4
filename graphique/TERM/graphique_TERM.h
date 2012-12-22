@@ -43,6 +43,9 @@ typedef struct {
     t_regleJeu TERM_afficherMenu(); // affiche le menu principal et gère l'entrée utilisateur pour la configuration du jeu, et retourne la structure de jeu en conséquence
     void TERM_afficherJeuFinit(t_jeu* jeu, int gagnant); // fait les affichage du jeu lorsqu'il se termine
     void TERM_afficherHelp(); // Affiche le menu
+    void TERM_afficherJeuEgalite(t_jeu * jeu); // Affiche la fin de jeu en cas de plateau plein && pas puissance4
+
+
 
 
 #endif

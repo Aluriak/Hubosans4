@@ -32,6 +32,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
      * return -2 : Erreur, l'action n'est pas valide
      * return -3 : On affiche l'aide des commandes
      * return 42 : On quitte la partie en cours && retour au menu principal
+     * return 43 : Le plateau de jeu est plein, on retourne égalité
      */
     if(action.typePiece == VIDE) // action.colonne == VIDE, donc on passe en mode commande
     {
@@ -86,6 +87,17 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
     	}
     	else
 	{
+		/*
+		 * On test si le plateau de jeu est plein
+		 */
+		// On crée une variable contenant la taille du plateau
+		int taille = (jeu->nbCaseX * jeu->nbCaseY);
+		// On test si le nombres pièces posées est égal à la taille du plateau
+		if(taille == jeu->pileAction.nbElem)
+		{
+			// Si oui, on retourne code:erreur 43
+			return 43;
+		}
 		bool next = false;
 		// On lance la procédure de modification du plateau de jeu
 		MOTEUR_pieceJouee(jeu, action, ligne, next);
@@ -130,8 +142,7 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			// On indique qu'il s'agit bien d'un piece bloquante
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			next = true;
-			return next;
+			return next = true;
 		}
 		//Sinon on retourne null, et on redemande au joueur de placer une pièce
 		else
@@ -151,8 +162,7 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=DOUBLE;
-			next = true;
-			return next;
+			return next = true;
 
 		}
 		// Sinon on c'est que la case en question est totalement vide, on peut 
@@ -161,8 +171,7 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			next = true;
-			return next;
+			return next = true;
 		}
 	}
 	// On enregistre qui à joué la piece PLEINE
@@ -178,8 +187,7 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=DOUBLE;
-			next = true;
-			return next;
+			return next = true;
 		}
 		// Sinon on c'est que la case en question est totalement vide, on peut 
 		// donc y mettre n'importe quel type de piece sans problème
@@ -187,8 +195,7 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			next = true;
-			return next;
+			return next = true;
 		}
 	}
 }
