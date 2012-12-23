@@ -1,7 +1,7 @@
 # TODO LIST
 
 - main
-    - le jeu recommence sans demander osn avis à l'utilisateur
+    - le jeu recommence sans demander son avis à l'utilisateur
 
 - Moteur
     - le moteur doit arrêter le jeu lorsque : !gagnant && lxL == nbCoupJoues
