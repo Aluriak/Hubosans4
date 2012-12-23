@@ -159,12 +159,12 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     }
     else if(typePiece == PLEINE) {
 	// un zéro sur fond noir
-	TERM_color(val1+31); // texte coloré selon couleur du joueur
+	TERM_color(val2+31); // texte coloré selon couleur du joueur
 	printf("0");
     }
     else if(typePiece == CREUSE) {
 	// juste le fond de la case en couleur du joueur
-	TERM_backgroundColor(val2+31);
+	TERM_backgroundColor(val1+31);
 	printf(" ");
     }
     else { // on affiche juste un espace
