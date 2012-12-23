@@ -19,11 +19,20 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
      * a voulu effectuer une commande. On regarde donc action.colonne, qui 
      * sera considéré comme la commande voulu :
      * 
-     * 1.SAVE
-     * 2.LAST
-     * 3.EXIT
+     * 1. SAVE
+     * 2. LAST
+     * 3. HELP
+     * 4. EXIT
      *
      * Si différent, erreur et on recommence la demande, sans changer de joueur
+     *
+     * INDEX DES RETOURS
+     *
+     * return -1 : La partie n'est pas terminée et continue normalement
+     * return -2 : Erreur, l'action n'est pas valide
+     * return -3 : On affiche l'aide des commandes
+     * return 42 : On quitte la partie en cours && retour au menu principal
+     * return 43 : Le plateau de jeu est plein, on retourne égalité
      */
     if(action.typePiece == VIDE) // action.colonne == VIDE, donc on passe en mode commande
     {
@@ -36,17 +45,33 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	// Si 2, alors on annule le dernier coup
 	else if(action.colonne == 2)
 	{
+		// TODO
+		/*
+		 * if(allow_last)
+		 * {
+		 * 	MOTEUR_annuler_dernier_coup();	
+		 * }
+		 * else
+		 * {
+		 * 	return -2; // Erreur
+		 * }
+		 */
 		return -1;
 	}
-	// Si 3, alors on quitte la partie en cours
+	// Si 3, alors on affiche l'aide des commandes
 	else if(action.colonne == 3)
 	{
-		return -1;
+		return -3;
+	}
+	// Si 4, alors on quitte la partie en cours
+	else if(action.colonne == 4)
+	{
+		return 42; // The answer ... =)
 	}
 	// Sinon, on retourne une erreur (choix inconnu)
 	else
 	{
-		return -1;
+		return -2; // Erreur
 	}
     }
     // sinon, c'est une pièce à jouer
@@ -58,13 +83,24 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	// Si la valeur de ligne est égal à -1, c'est qu'il est impossible de placer la pièce ici
     	if(ligne == -1)
 	{
-		// A corriger, le moteur n'affiche rien ! :o
-		printf("Unable to put piece here!");
+		return -2;
     	}
     	else
 	{
+		/*
+		 * On test si le plateau de jeu est plein
+		 */
+		// On crée une variable contenant la taille du plateau
+		int taille = (jeu->nbCaseX * jeu->nbCaseY);
+		// On test si le nombres pièces posées est égal à la taille du plateau
+		if(taille == jeu->pileAction.nbElem)
+		{
+			// Si oui, on retourne code:erreur 43
+			return 43;
+		}
+		bool next = false;
 		// On lance la procédure de modification du plateau de jeu
-		MOTEUR_pieceJouee(jeu, action, ligne);
+		MOTEUR_pieceJouee(jeu, action, ligne, next);
 		// ENREGISTREMENT DU COUP
 		// !!! On enregistre le coup uniquement lorsque celui-ci à été validé par 
 		// le moteur !!!
@@ -78,7 +114,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 		// On lance la fonction de calcul
 		int c_p4 = MOTEUR_test_puissance4(jeu, coordCase, oya);
 		// Si c_p4 est égal ou supérieur à 4, alors puissance 4
-		return MOTEUR_test_cond_puissance4(jeu, c_p4);
+		return MOTEUR_test_cond_puissance4(jeu, c_p4, next);
        }
    }
    return -1;
@@ -90,7 +126,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 //Reçois en paramètre une action, une ligne & modifie le plateau de jeu ainsi 
 //que le joueur en question, et retourne 1 pour indiquer que la pièce à bien 
 //été placée, O sinon
-int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
+bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 {
 	int oya=jeu->oya; // On récupère l'oya
 	jeu->plateau[action.colonne][ligne].typePiece=action.typePiece; // On modifie le plateau de jeu en fonction de la piece jouée
@@ -106,12 +142,12 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			// On indique qu'il s'agit bien d'un piece bloquante
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return 1;
+			return next = true;
 		}
 		//Sinon on retourne null, et on redemande au joueur de placer une pièce
 		else
 		{
-			return 0;
+			return next;
 		}
 	}
 	// On enregistre qui à joué la piece CREUSE
@@ -126,7 +162,7 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=DOUBLE;
-			return 1;
+			return next = true;
 
 		}
 		// Sinon on c'est que la case en question est totalement vide, on peut 
@@ -135,7 +171,7 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return 1;
+			return next = true;
 		}
 	}
 	// On enregistre qui à joué la piece PLEINE
@@ -151,7 +187,7 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=DOUBLE;
-			return 1;
+			return next = true;
 		}
 		// Sinon on c'est que la case en question est totalement vide, on peut 
 		// donc y mettre n'importe quel type de piece sans problème
@@ -159,7 +195,7 @@ int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return 1;
+			return next = true;
 		}
 	}
 }
@@ -399,7 +435,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 // Prend en paramètre :
 // 			- un int correspondant au compteur de
 // 			  puissance 4
-int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4)
+int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 {
 	int oya = jeu->oya; // On récupère l'oya
 	// Si le compteur c_p4 est supérieur ou égal
@@ -408,11 +444,18 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4)
 	{
 		return oya;
 	}
-	// Sinon on retourne 0
+	// 
 	else
 	{
-		t_jeu_joueurSuivant(jeu);
-		return -1;
+		if(next)
+		{
+			t_jeu_joueurSuivant(jeu);
+			return -1;
+		}
+		else
+		{
+			return -1;
+		}
 	}
 }
 

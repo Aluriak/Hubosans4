@@ -1,14 +1,14 @@
 # TODO LIST
 
 - Moteur
-
+    - le moteur doit arrêter le jeu lorsque : !gagnant && lxL == nbCoupJoues
 
 - IA
     - implémenter heuristique
 
 
 - TERM 
-    - faire écran de fin de partie
+    - faire écran de fin de partie plus propre
     - refaire menu ?
 
 

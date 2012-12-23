@@ -107,7 +107,7 @@ typedef struct {
 // MOTEUR
     int MOTEUR_tourSuivant(t_jeu* jeu, t_action action); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
 
-    int MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne); //Reçois en paramètre le une action, une ligne & modifie le plateau de jeu ainsi que le joueur en question, et retourne 1 pour indiquer que la pièce à bien été placée, 0 sino
+    bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next); //Reçois en paramètre le une action, une ligne & modifie le plateau de jeu ainsi que le joueur en question, et retourne 1 pour indiquer que la pièce à bien été placée, 0 sino
 
     bool MOTEUR_tourPrecedent(t_jeu* jeu); // retire l'action précédente du jeu, retourne vrai. Si pas de denrière action, retourne faux.
 
@@ -119,7 +119,7 @@ typedef struct {
 
     int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ); // renvois le nombre de piece à la suite appartenant au même joueur
 
-    int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4); // test si il y a puissance 4
+    int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next); // test si il y a puissance 4
 
 
 // STRUCT T_CASE (dans struct_case_joueur.c)
