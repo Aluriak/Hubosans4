@@ -7,6 +7,7 @@
     - le moteur doit arrêter le jeu lorsque : !gagnant && lxL == nbCoupJoues
     - le moteur doit décrémenter le nmbre de pièces (fait pour bloquantes, mais pas les autres)
     - le changement d'oya n'est pas opéré après une action
+    - quand une pièce creuse tombe sur une pièce pleine de même joueur, l'id entré pour la pièce creuse est faux.
 
 - IA
     - implémenter heuristique
