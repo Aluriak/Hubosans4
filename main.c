@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
     bool sdl = false;
     // On crée un bool pour savoir quand l'user demande à quitter le jeu
     bool quit = false; // quitte le jeu
-    bool menu = false; // quitte la partie en cours et retourne menu
+    //bool menu = false; // quitte la partie en cours et retourne menu
     //SDL_Surface* ecran = NULL; // écran de jeu
 
     // si le premier argument est "-g" ou "--gui"
@@ -56,16 +56,20 @@ int main(int argc, char* argv[]) {
 		    //action = SDL_entreeUtilisateur(jeu, ecran);
 		}
 		else {
-		    TERM_afficherJeu(jeu);
+		    TERM_afficherJeu(&jeu);/*
 		    if(jeu->listeJoueur[jeu->oya].IA == true)
 			//action = IA_effectuerTour(jeu, oya);
 			action = TERM_entreeUtilisateur(jeu); // TEMPORAIRE
-		    else
-			action = TERM_entreeUtilisateur(jeu);
+		    else*/
+			action = TERM_entreeUtilisateur(&jeu);
+			if(gagnant == -3)
+			{
+				TERM_afficherHelp();	
+			}
 		}
-		gagnant = MOTEUR_tourSuivant(jeu, action);
+		gagnant = MOTEUR_tourSuivant(&jeu, action);
 	    }
-	    // arrivé ici, il y a puissance 4
+	    // arrivé ici, il y a puissance 4 ou bien égalité
 	    
 	    if(sdl)
 	    {
@@ -75,11 +79,11 @@ int main(int argc, char* argv[]) {
 	    {
 	    	if(gagnant >= 0 && gagnant <= 5)
 		{
-			TERM_afficherJeuFinit(jeu, gagnant);
+			TERM_afficherJeuFinit(&jeu, gagnant);
 		}
 		else if(gagnant == 43)
 		{
-			TERM_afficherJeuEgalite(jeu);
+			TERM_afficherJeuEgalite(&jeu);
 		}
 	    }
     }

@@ -19,7 +19,7 @@
  * PROTOTYPES
  */
 // FILE: IA.c
-    t_action IA_effectuerTour(t_jeu *jeu); // effectue le tour de jeu du joueur pointé. Retourne l'action effectuée par l'IA
+    int IA_effectuerTour(t_jeu *jeu); // effectue le tour de jeu du joueur pointé. Retourne l'action effectuée par l'IA
     int IA_minimax(t_jeu*, int, int, t_action*, t_action);// étudie récursivement le plateau de jeu, et retourne la priorité. 
 
 // FILE: heuristique.c

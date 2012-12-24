@@ -8,7 +8,8 @@
  */
 // effectue le tour de jeu de l'oya selon le fonctionnement de l'IA
 // s'appuie sur un algorithme minimax, et une heuristique
-t_action IA_effectuerTour(t_jeu *jeu) {
+int /*t_action*/ IA_effectuerTour(t_jeu *jeu) {
+/*
     // INITIALISATIONS
     int priorite = -1; // priorite calculée
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
@@ -51,7 +52,9 @@ t_action IA_effectuerTour(t_jeu *jeu) {
     t_jeu_free(cpjeu); // plus besoin du jeu
     fprintf(stderr, "DEB: 1\n");
     // renvoit de l'action
-    return actionPrio;
+    //return actionPrio;
+    */
+    return 0;
 }
 
 
@@ -70,6 +73,7 @@ t_action IA_effectuerTour(t_jeu *jeu) {
 // les deux actions sont transmises pour enregistrer l'action de l'IA.
 int IA_minimax(t_jeu* jeu, int profondeur, int prioMax, 
         t_action *actionPrio, t_action actionEtudiee) {
+	/*
     // INITIALISATIONS
     t_action action = {0,1}; // action générée
     int priorite = -1; // priorité du noeud actuel
@@ -116,6 +120,8 @@ int IA_minimax(t_jeu* jeu, int profondeur, int prioMax,
     }
     return prioMax;
     return -1;
+    */
+    return 0;
 }
 
 

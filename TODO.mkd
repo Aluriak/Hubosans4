@@ -1,7 +1,9 @@
 # TODO LIST
 
 - Moteur
-    - le moteur doit arrêter le jeu lorsque : !gagnant && lxL == nbCoupJoues
+    - terminer la fonction annulerDernierCoup		
+    - pas de passage au joueur suivant ! vérifier le booléen
+    - pas de décrémentation des compteurs de nombre de pièces
 
 - IA
     - implémenter heuristique

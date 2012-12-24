@@ -447,15 +447,16 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 	// 
 	else
 	{
-		if(next)
-		{
+		//if(next)
+		//{
 			t_jeu_joueurSuivant(jeu);
 			return -1;
-		}
-		else
-		{
-			return -1;
-		}
+		//	return -1;
+		//}
+		//else
+		//{
+		//	return -1;
+		//}
 	}
 }
 
