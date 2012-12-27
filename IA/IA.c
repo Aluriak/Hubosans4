@@ -14,7 +14,10 @@ int /*t_action*/ IA_effectuerTour(t_jeu *jeu) {
     int priorite = -1; // priorite calculée
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
     //          de l'action actionPrio
-    int profondeur = jeu->listeJoueur[jeu->oya].niveauIA; 
+    int profondeur = jeu->listeJoueur[jeu->oya].niveauIA * jeu->nbJoueur; 
+    printf("PRFONDEUR = %d\n", profondeur);
+    int gagnant = -1; // gagnant de la partie
+    int idIA = jeu->oya; // id du joueur joué par l'IA
     // actions
     t_action action; // première action à opérer
     t_action actionPrio; // première action ayant la meilleure priorité
@@ -27,30 +30,37 @@ int /*t_action*/ IA_effectuerTour(t_jeu *jeu) {
     for(action.colonne=0; action.colonne < jeu->nbCaseX; action.colonne++) {
         // pour chaque type de pièce :
         for(action.typePiece = 1; action.typePiece < 4; action.typePiece++){
-            // si l'oya ne possède plus de pièce bloquante
-            if(action.typePiece == BLOQUANTE && 
-                    !t_jeu_oyaPossedePieceBloquante(jeu)) {
+            // si l'oya ne possède plus de pièce du type voulu
+            if(!t_jeu_oyaPossedePiece(jeu, action.typePiece)) {
                 continue; // on passe à l'itération suivante
             }
-            // on joue le coups
-            MOTEUR_tourSuivant(jeu, action);
-            // on rappelle l'algorithme minimax, pour la profondeur suivante
-            priorite = IA_minimax(jeu, profondeur-1, 
-                                    prioMax, &actionPrio, action);
-            // si la priorité étudiée est plus grande
-            if(priorite > prioMax) {
-                prioMax = priorite; // nouvelle prioMax
-                // l'action prioritaire est désormais égale à l'action 
-                actionPrio = action;
+            // on joue le coups, et on récupère le gagnant, ou le code de retour
+            gagnant = MOTEUR_tourSuivant(cpjeu, action);
+            if(gagnant == -2) // si action non valide
+                continue;  // on passe à l'action suivante
+            if(gagnant >= 0 && gagnant != idIA)
+                priorite = 0; // situation absolument non désirée !
+            else if(gagnant >= 0)
+                priorite = 100; // situation absolument désirée !
+            // si il n'y a aucun gagnant, on appelle minimax
+            else {
+                // on rappelle l'algorithme minimax, pour la profondeur suivante
+                priorite = IA_minimax(cpjeu, profondeur, idIA, prioMax);
+                // si la priorité étudiée est plus grande
+                if(priorite > prioMax) {
+                    prioMax = priorite; // nouvelle prioMax
+                    // l'action prioritaire est désormais égale à l'action 
+                    actionPrio = action;
+                }
             }
-            // on déjoue le coups
-            MOTEUR_tourPrecedent(jeu);
+            printf("ACT: colonne %d, pièce %d, priorite = %d\n", action.colonne, action.typePiece, priorite);
+            // enfin, on déjoue le coups
+            MOTEUR_tourPrecedent(cpjeu);
         } // end for each typePiece
     } // end for each colonne
 
     // LIBÉRATIONS
     t_jeu_free(cpjeu); // plus besoin du jeu
-    fprintf(stderr, "DEB: 1\n");
     // renvoit de l'action
     //return actionPrio;
     */
@@ -63,11 +73,12 @@ int /*t_action*/ IA_effectuerTour(t_jeu *jeu) {
 
 
 /*
- * IA ETUDE RECURSIVE
+ * IA MINIMAX
  */
 // étudie récursivement le plateau de jeu, et retourne la priorité. 
 //      Appel récursif, algorithme minimax employé
-// arguments : le jeu, la profondeur a atteindre, la prioMax calculée jusqu'ici,
+// arguments : le jeu, la profondeur a atteindre, l'id du joueur joué par l'IA,
+//      la prioMax calculée jusqu'ici,
 //      l'action à faire selon l'actuelle meilleure priorité, 
 //      et l'action à la base de l'arbre étudié
 // les deux actions sont transmises pour enregistrer l'action de l'IA.
@@ -76,6 +87,7 @@ int IA_minimax(t_jeu* jeu, int profondeur, int prioMax,
 	/*
     // INITIALISATIONS
     t_action action = {0,1}; // action générée
+    int gagnant = -1; // gagnant du jeu
     int priorite = -1; // priorité du noeud actuel
     // ALGORITHME MINIMAX
     // cette fonction traite un noeud, et un seul. Elle s'appelle elle-même pour
@@ -83,45 +95,57 @@ int IA_minimax(t_jeu* jeu, int profondeur, int prioMax,
     // atteinte. L'algorithme est donc le suivant :
     // tant qu'on est pas à la profondeur maximum
     if(profondeur > 0) {
-        // pour chaque colonne possible à ce noeuds : 
-        for(action.colonne=0; action.colonne < jeu->nbCaseX; action.colonne++) {
-            // pour chaque type de pièce :
-            for(action.typePiece = 1; action.typePiece < 4; action.typePiece++){
-                // si l'oya ne possède plus de pièce bloquante
-                if(action.typePiece == BLOQUANTE && 
-                        !t_jeu_oyaPossedePieceBloquante(jeu)) {
-                    continue; // on passe à l'itération suivante
-                }
-                // on joue le coups
-                MOTEUR_tourSuivant(jeu, action);
+    // pour chaque colonne possible à ce noeuds : 
+    for(action.colonne=0; action.colonne < jeu->nbCaseX; action.colonne++) {
+        // pour chaque type de pièce :
+        for(action.typePiece = 1; action.typePiece < 4; action.typePiece++){
+            // si l'oya ne possède plus de pièce du type voulu
+            if(!t_jeu_oyaPossedePiece(jeu, action.typePiece)) {
+                continue; // on passe à l'itération suivante
+            }
+            // on joue le coups, et on récupère le gagnant
+            gagnant = MOTEUR_tourSuivant(jeu, action);
+            if(gagnant >= 0 && gagnant != idIA)
+                priorite = 0; // situation absolument non désirée !
+            else if(gagnant >= 0)
+                priorite = 100-profondeur; // situation absolument désirée !
+                // on retire la profondeur pour qu'une solution éloignée soit 
+                    // moins intéressante qu'une solution proche
+            // si il n'y a aucun gagnant, on appelle minimax
+            else {
                 // on rappelle l'algorithme minimax, pour la profondeur suivante
-                priorite = IA_minimax(jeu, profondeur-1, 
-                                        prioMax, actionPrio, actionEtudiee);
-                // si la priorité étudiée est plus grande
-                if(priorite > prioMax) {
-                    prioMax = priorite; // nouvelle prioMax
-                    // l'action prioritaire est désormais l'action étudiée
-                    *actionPrio = actionEtudiee;
+                // On lui envois les arguments, dont l'action actuellement 
+                // ritaire, et l'action étudiée
+                priorite = IA_minimax(jeu, profondeur-1, idIA, prioMax);
+                // si le joueur est l'IA, on prend le max
+                if(jeu->oya == idIA) {
+                    // si la priorité étudiée est plus grande
+                    if(priorite > prioMax)
+                        prioMax = priorite; // nouvelle prioMax
                 }
+                // sinon, on prend le min
+                else {
+                    // si la priorité étudiée est plus petite
+                    if(priorite < prioMax)
+                        prioMax = priorite; // nouvelle prioMax
+                }
+            }
+            // si un coup à été joué :
+            if(gagnant >= -1 && gagnant < 6)
                 // on déjoue le coups
                 MOTEUR_tourPrecedent(jeu);
-            } // end for each typePiece
-        } // end for each colonne
-    }
+        } // end for each typePiece
+    } // end for each colonne
+    } // end profondeur > 0
     // sinon, la profondeur est atteinte : appel de l'heuristique !
     else {
         priorite = IA_h(jeu);
         // si la priorité étudiée est plus grande
         if(priorite > prioMax) {
             prioMax = priorite; // nouvelle prioMax
-            // l'action prioritaire est désormais l'action étudiée
-            *actionPrio = actionEtudiee;
         }
     }
     return prioMax;
-    return -1;
-    */
-    return 0;
 }
 
 

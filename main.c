@@ -56,16 +56,12 @@ int main(int argc, char* argv[]) {
 		    //action = SDL_entreeUtilisateur(jeu, ecran);
 		}
 		else {
-		    TERM_afficherJeu(&jeu);/*
-		    if(jeu->listeJoueur[jeu->oya].IA == true)
+		    TERM_afficherJeu(&jeu);
+		    if(jeu.listeJoueur[jeu.oya].IA == true)
 			//action = IA_effectuerTour(jeu, oya);
-			action = TERM_entreeUtilisateur(jeu); // TEMPORAIRE
-		    else*/
+			action = TERM_entreeUtilisateur(&jeu); // TEMPORAIRE
+		    else
 			action = TERM_entreeUtilisateur(&jeu);
-			if(gagnant == -3)
-			{
-				TERM_afficherHelp();	
-			}
 		}
 		gagnant = MOTEUR_tourSuivant(&jeu, action);
 	    }
