@@ -451,7 +451,6 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 		//{
 			t_jeu_joueurSuivant(jeu);
 			return -1;
-		//	return -1;
 		//}
 		//else
 		//{
@@ -465,25 +464,21 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
  */
 // Procédure de sauvegarde
 // Reçois en paramètre :
-// 			-
-/*MOTEUR_sauvegarde()
+// 			- le jeu
+// 			- la pile d'action
+int MOTEUR_sauvegarde(t_jeu * jeu)
 {
-//int i = 0; //itérateur de boucle
-    //si le type de pièce de l'action est VIDE, alors on considère que 
-    //	l'utilisateur à voulut sauvegarder la partie.
-    //	la colonne correspond au slot de sauvegarde
-    //	nom d'un slot : saveN.sv (avec N le numéro de slot)
-
-    // On s'occupe des sauvegardes
-    
-    FILE * file_save;
-
-// On compte le nombre de chiffres dans le string
-    	char * str = action.colonne; // Contient la chaine à analyser
+	int i = 0; //itérateur de boucle
+	//nom d'un slot : saveN.sv (avec N le numéro de slot)
+	
+	// >>> PREPARATION SAUVEGARDE <<<
+	
+    	FILE * file_save;
+    	char str = action.colonne; // Contient la chaine à analyser
 	char slot_num[3]; // Contient le numéro du slot
-	int i=0; // itérateur de boucle
 	// On récupère le nombre de chiffres de str dans slot_num 	
-	do {
+	do
+	{
 		slot_num[i]=str[i];
 		i++;
 	} while(isdigit(slot_num[i]));
@@ -495,16 +490,16 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 	strcat(save, end_save);
 	// Création du fichier 
 	file_save = fopen(save, "w");
-	// On commence par sauvegarder tout ce qui est hors du plateau de jeu
-	
-	//	>>> On sauvegarde les joueurs <<<
-	
 
+	//>>> SAUVEGARDE <<<
 	
-	//Structure de joueur
+	// ## Plateau de jeu ##
 	
-
-
-	// TODO: A compléter, envoie du jeu dans fichier de sauvegarde
-	// Ne pas oublier une gestion d'erreur
-}*/
+	// ## Données plateau ##
+	
+	// ## Joueurs ##
+	
+	// ## Pile d'action ##
+	
+	return 0;
+}

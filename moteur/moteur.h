@@ -121,6 +121,8 @@ typedef struct {
 
     int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next); // test si il y a puissance 4
 
+    int MOTEUR_sauvegarde(t_jeu * jeu) // Sauvegarde la partie en cours
+
 
 // STRUCT T_CASE (dans struct_case_joueur.c)
     void t_case_init(t_case* t_case, int x, int y); // initialisation de la structure
