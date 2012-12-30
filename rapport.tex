@@ -36,11 +36,47 @@ du temps de calcul.
 
 \chapter{Organisation}
     \paragraph*{}
+    Le projet étant divisés en modules les plus indépendants possible (architecture vue-contrôleur), les tâches ont été réparties selon un découpage logique.
+    \paragraph*{}
+    Ainsi, L. B. s'est occupé de l'IA, de l'affichage dans la sortie standard, de la gestion mémoire et de l'interfaçage entre les modules. 
+    T. H. s'est occupé des traitements du moteur et des sauvegardes.
+    \paragraph*{}
+    Un serveur git, hébergé sur github (https://github.com/Aluriak/Hubosans4), a été utilisé tout au long du projet (et ce fût la première chose proposée et mise en place dans ce projet) 
+    pour assurer une gestion des version la plus efficace possible.\\
+    Au fur et à mesure du projet, une documentation des fonctions principales de chaque modules a été écrite, dans le but de centraliser les primitives d'accès de chacun d'entre eux.
 
 
 \chapter{Analyse}
     \section*{Structures du données}
         \paragraph*{}
+        Les structures de données majeures sont la structure de jeu, de case, de joueur, et la pile d'action.
+        \begin{itemize}
+        \item la structure de jeu définit tout le reste, dans le sens où elle contient le plateau de jeu, simple matrice de case, la liste des joueurs et la pile d'action.
+        \item la case contient quelques informations d'importance : les pièces présente dans la case et les id des joueurs les contrôlant
+        \item les joueurs sont principalement définis par un nom, un nombre de points et un id unique permettant de les identifier rapidement.
+        \item l'action est la structure de données principale de communication entre le moteur et les autres modules. Elle transmet toute les infos entre moteur et entrée utilisateur, 
+            ou encore l'IA.
+        \item la pile d'action empile toutes les actions de jeu créé par les joueurs, humains ou IA. Ainsi, il est fort simple de revenir plusieurs coups en arrière, 
+            ou d'effectuer le parcours d'arbre nécessaire à l'IA.
+        \end{itemize}
+        \paragraph*{} % MOTEUR
+        Le moteur fait appel à beaucoup de structures de données, et certaines d'entre elles, notamment la structure de jeu, sont exploitées par beaucoup de modules. \\
+        La structure de jeu, ou plutôt son adresse, est très souvent manipulée et envoyée à de nombreuses méthodes de modules. Contenant la totalités des valeurs du jeu, il paraît évident
+        qu'elle soit nécessaire pour tout traitement sur celui-ci. Néanmoins, une règle n'est jamais enfreinte : seul le moteur \textbf{modifie} la structure. Tous les autres modules ne
+        font que lire et interpréter le jeu. \\
+        Ainsi, l'entrée utilisateur ou l'IA, même s'il reçoivent le jeu, ne font qu'interpréter ce dernier au mieux pour permettre à 
+        l'utilisateur ou à l'ordinateur de choisir une colonne et un type de pièce. Ce choix est convertit en action, puis renvoyé à l'interface entre le moteur et le module, 
+        qui transmettra l'action au moteur. C'est ce dernier qui interprêtera l'action et effectuera les traitements nécessaires pour qu'elle soit prise en compte dans le jeu.
+
+        \paragraph*{} % PLATEAU DE JEU CASE
+        \paragraph*{} % JOUEUR
+        \paragraph*{} % PILE D'ACTIONS
+
+        \paragraph*{} % INTELLIGENCE ARTIFICELLE
+        Pour l'IA, les même structures de données sont mises en oeuvre, puisqu'elles suffisent à l'exploration de l'arbre des possibilités. Néanmoins, le jeu est intégralement recopié
+        dans la mémoire; il est en effet hors de question de laisser un autre module que le moteur modifier le véritable jeu. C'est sur cette copie du jeu que seront effectués 
+        tous les traitements de parcours de l'arbre et de calcul de priorité d'une situation. \\
+
 
     \section*{Fonctionnalités}
         \paragraph*{}
@@ -51,6 +87,13 @@ du temps de calcul.
 
 \chapter{Codage}
     \paragraph*{}
+    Pour l'IA, c'est l'algorithme minimax qui entre en jeu : une fonction récursive, parcourant les noeuds de l'arbre, et une fonction d'étude de situation. 
+    Cela permet de donner à chacune des N actions possibles (3 fois le nombre de colonnes) pour l'IA une priorité. \\
+    Plus la priorité est haute, plus la situation vers laquelle cette action mène est avantageuse pour l'IA. Evidemment, la priorité la plus haute est attribuée aux situation où l'IA gagne. \\
+    La profondeur d'exploration de l'arbre détermine le niveau de l'IA : plus une IA étudiera loin dans l'arbre, mieux elle saura éviter les pièges de ses adversaires, et préparer
+    les siens. De fait, l'IA est disponible en plusieurs difficultés, de la plus simple (profondeur de 2 tours de jeu) à la plus difficile (10 tours de jeu). \\
+    L'IA n'explore pas nécessairement toutes les branches : grâce à l'élagage alpha-bêta, elle peut éviter des calculs inutiles (ce qui deviens nécessaire lorsqu'il y a plus 
+    de 2 joueurs, ou que la difficulté dépasse la profondeur de trois tours de jeu) et donc économise un temps précieux pour le confort de l'utilisateur.
 
 
 \chapter{Résultats}
