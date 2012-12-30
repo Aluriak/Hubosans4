@@ -18,34 +18,48 @@
 
 \chapter*{Introduction}
 \paragraph*{}
-Le projet consiste en la réalisation d'un programme codé en C, permettant à un ou plusieurs utilisateurs de jouer à une variante du puissance 4, le hubosans4++,
-apportant notamment la support de 2 à 6 joueurs et 3 types de pièces. 
+Le projet Hubosans4++ consiste en la réalisation d'un programme compilé avec gcc, permettant à un ou plusieurs utilisateurs de jouer à une variante du puissance 4, nommée le hubosans4++,
+apportant notamment le support de 2 à 6 joueurs et 3 types de pièces. 
 \paragraph*{}
-Les règles du jeu sont comparable à un puissance 4, si ce n'est que les pièces alignées ne doivent pas nécessairement être de même type, et qu'à chaque tour le joueur choisis, en plus de la colonne, quel type de pièce lâcher.
+Les règles du jeu sont comparable à un puissance 4, si ce n'est que les pièces alignées ne doivent pas nécessairement être de même type, et qu'à chaque tour le joueur choisis, 
+en plus de la colonne, quel type de pièce lâcher. Les trois types de pièces ont chacune leur utilité : les pièces creuses et pleines se supperposent, 
+n'interfèrent pas les unes aux autres sinon pour réaliser un puissance 4 et ainsi gagner la partie. 
+Le troisième type, les pièces bloquantes, bloque littéralement une colonne en empêchant toute pièce de passer. La pièce bloquante est en fait la pièce du puissance 4 originel.
 \paragraph*{}
-Le programe propose, outre la gestion du jeu lui-même, deux affichages, l'un exploitant le terminal, l'autre la bibliothèque SDL.
+Le jeu exploite la sortie et l'entrée standard : le couple écran/clavier, avec affichage dans le terminal d'où le jeu est lancé.
+Le jeu peut être sauvegardé pour être repris plus tard.
 \paragraph*{}
-Il est possible de faire jouer des IA, selon des niveaux de difficulté différents. Ces IA se basent sur un algorithme minimax pour résoudre le jeu.
+Il est possible de faire jouer des IA, selon des niveaux de difficulté différents. Ces IA se basent sur un algorithme minimax pour résoudre le jeu, avec élagage alpha bêta pour économiser
+du temps de calcul.
 
 
 
-\chapter*{Analyse}
+\chapter{Organisation}
+    \paragraph*{}
 
-\section*{Structures du données}
-\paragraph*{}
-TOUT DOUX
 
-\section*{Algorithmes}
-\paragraph*{}
-TOUT DOUX
+\chapter{Analyse}
+    \section*{Structures du données}
+        \paragraph*{}
 
-\section*{Gestion d'erreur}
-\paragraph*{}
-TOUT DOUX
+    \section*{Fonctionnalités}
+        \paragraph*{}
+
+    \section*{Gestion d'erreur}
+        \paragraph*{}
+
+
+\chapter{Codage}
+    \paragraph*{}
+
+
+\chapter{Résultats}
+    \paragraph*{}
+
 
 
 \chapter*{Conclusion}
-\paragraph*{}
+    \paragraph*{}
 TOUT DOUX
 
 \end{document}
