@@ -102,10 +102,11 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 		// On lance la procédure de modification du plateau de jeu
 		MOTEUR_pieceJouee(jeu, action, ligne, next);
 		// ENREGISTREMENT DU COUP
-		// !!! On enregistre le coup uniquement lorsque celui-ci à été validé par 
-		// le moteur !!!
-		// >>> On empile l'action en cours <<<
-		t_pileAction_emp(&jeu->pileAction, action);
+		if(next)
+		{
+			// >>> On empile l'action en cours <<<
+			t_pileAction_emp(&jeu->pileAction, action);
+		}
     		// TEST PUISSANCE 4
 		// >>> On déclare les variables et structures dont on a besoin <<<
 		coord coordCase;
@@ -466,22 +467,17 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 // Reçois en paramètre :
 // 			- le jeu
 // 			- la pile d'action
-int MOTEUR_sauvegarde(t_jeu * jeu)
+int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 {
-	int i = 0; //itérateur de boucle
+	int i = 0, j = 0; //itérateur de boucle
 	//nom d'un slot : saveN.sv (avec N le numéro de slot)
 	
 	// >>> PREPARATION SAUVEGARDE <<<
 	
     	FILE * file_save;
-    	char str = action.colonne; // Contient la chaine à analyser
-	char slot_num[3]; // Contient le numéro du slot
-	// On récupère le nombre de chiffres de str dans slot_num 	
-	do
-	{
-		slot_num[i]=str[i];
-		i++;
-	} while(isdigit(slot_num[i]));
+	// On convertie action.colonne en string
+	char slot_num[1]; // contiendra le numéro du slot
+	sprintf(slot_num, "%i", action.colonne); // Convertion int en string 
 	// Création de la chaine de caractère pour le nom final
 	char save[10] = "save";
 	char end_save[3] = ".sv";
@@ -493,13 +489,50 @@ int MOTEUR_sauvegarde(t_jeu * jeu)
 
 	//>>> SAUVEGARDE <<<
 	
-	// ## Plateau de jeu ##
+	// ## plateau de jeu ##
 	
-	// ## Données plateau ##
+	for(i=0;i<jeu->nbCaseX;i++)
+	{
+		for(j=0;j<jeu->nbCaseY;j++)
+		{
+			// Coordonnées de la case dans le jeu
+			fprintf(file_save, "%i ", jeu->plateau[i][j].crd.x);
+			fprintf(file_save, "%i ", jeu->plateau[i][j].crd.y);
+			// Enregistrement des pièces 
+			fprintf(file_save, "%i ", jeu->plateau[i][j].joueurPieceCreuse);
+			fprintf(file_save, "%i ", jeu->plateau[i][j].joueurPiecePleine);
+			fprintf(file_save, "%i ", jeu->plateau[i][j].typePiece);
+		}
+	}
+
+	// ## Données de jeu ##
 	
+	fprintf(file_save, "%i ", jeu->oya);
+	fprintf(file_save, "%i ", jeu->nbJoueur);
+	fprintf(file_save, "%i ", jeu->nbIA);
+	fprintf(file_save, "%i ", jeu->nbPieceBloquante);
+	fprintf(file_save, "%i ", jeu->nbPiecePleine);
+	fprintf(file_save, "%i ", jeu->nbPieceCreuse);
+
 	// ## Joueurs ##
 	
+	for(i=0;i<jeu->nbJoueur;i++);
+	{
+		fprintf(file_save, "%i ", jeu->listeJoueur[i].points);
+		fprintf(file_save, "%i ", jeu->listeJoueur[i].idJ);
+		fprintf(file_save, "%i ", jeu->listeJoueur[i].nbPieceBloquante);
+		fprintf(file_save, "%i ", jeu->listeJoueur[i].nbPiecePleine);
+		fprintf(file_save, "%i ", jeu->listeJoueur[i].nbPieceCreuse);
+		fprintf(file_save, "%i ", jeu->listeJoueur[i].IA);
+		fprintf(file_save, "%i ", jeu->listeJoueur[i].niveauIA);
+		fprintf(file_save, "%i ", jeu->listeJoueur[i].intrepidite);
+		fprintf(file_save, "%s ", jeu->listeJoueur[i].nom);
+	}
+
 	// ## Pile d'action ##
 	
+	// >>> END <<<
+	
+	fclose(file_save);
 	return 0;
 }
