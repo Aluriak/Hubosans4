@@ -16,6 +16,9 @@
 \maketitle
 
 
+%%%%%%%%%%%%%%%%%
+% INTRODUCTION  %
+%%%%%%%%%%%%%%%%%
 \chapter*{Introduction}
 \paragraph*{}
 Le projet Hubosans4++ consiste en la réalisation d'un programme compilé avec gcc, permettant à un ou plusieurs utilisateurs de jouer à une variante du puissance 4, nommée le hubosans4++,
@@ -34,6 +37,9 @@ du temps de calcul.
 
 
 
+%%%%%%%%%%%%%%%%%
+% ORGANISATION  %
+%%%%%%%%%%%%%%%%%
 \chapter{Organisation}
     \paragraph*{}
     Le projet étant divisés en modules les plus indépendants possible (architecture vue-contrôleur), les tâches ont été réparties selon un découpage logique.
@@ -46,18 +52,25 @@ du temps de calcul.
     Au fur et à mesure du projet, une documentation des fonctions principales de chaque modules a été écrite, dans le but de centraliser les primitives d'accès de chacun d'entre eux.
 
 
+%%%%%%%%%%%%%%%%%
+% ANALYSE       %
+%%%%%%%%%%%%%%%%%
 \chapter{Analyse}
+
+    % % % % % % % % % % % %
+    % Structures de données
+    % % % % % % % % % % % %
     \section*{Structures du données}
         \paragraph*{}
         Les structures de données majeures sont la structure de jeu, de case, de joueur, et la pile d'action.
-        \begin{itemize}
-        \item la structure de jeu définit tout le reste, dans le sens où elle contient le plateau de jeu, simple matrice de case, la liste des joueurs et la pile d'action.
-        \item la case contient quelques informations d'importance : les pièces présente dans la case et les id des joueurs les contrôlant
-        \item les joueurs sont principalement définis par un nom, un nombre de points et un id unique permettant de les identifier rapidement.
-        \item l'action est la structure de données principale de communication entre le moteur et les autres modules. Elle transmet toute les infos entre moteur et entrée utilisateur, 
-            ou encore l'IA.
-        \item la pile d'action empile toutes les actions de jeu créé par les joueurs, humains ou IA. Ainsi, il est fort simple de revenir plusieurs coups en arrière, 
-            ou d'effectuer le parcours d'arbre nécessaire à l'IA.
+        \begin{itemize} % liste des structures de données principales
+            \item la structure de jeu définit tout le reste, dans le sens où elle contient le plateau de jeu, simple matrice de case, la liste des joueurs et la pile d'action.
+            \item la case contient quelques informations d'importance : les pièces présente dans la case et les id des joueurs les contrôlant
+            \item les joueurs sont principalement définis par un nom, un nombre de points et un id unique permettant de les identifier rapidement.
+            \item l'action est la structure de données principale de communication entre le moteur et les autres modules. Elle transmet toute les infos entre moteur et entrée utilisateur,
+                ou encore l'IA.
+            \item la pile d'action empile toutes les actions de jeu créé par les joueurs, humains ou IA. Ainsi, il est fort simple de revenir plusieurs coups en arrière, 
+                ou d'effectuer le parcours d'arbre nécessaire à l'IA.
         \end{itemize}
         \paragraph*{} % MOTEUR
         Le moteur fait appel à beaucoup de structures de données, et certaines d'entre elles, notamment la structure de jeu, sont exploitées par beaucoup de modules. \\
@@ -66,11 +79,36 @@ du temps de calcul.
         font que lire et interpréter le jeu. \\
         Ainsi, l'entrée utilisateur ou l'IA, même s'il reçoivent le jeu, ne font qu'interpréter ce dernier au mieux pour permettre à 
         l'utilisateur ou à l'ordinateur de choisir une colonne et un type de pièce. Ce choix est convertit en action, puis renvoyé à l'interface entre le moteur et le module, 
-        qui transmettra l'action au moteur. C'est ce dernier qui interprêtera l'action et effectuera les traitements nécessaires pour qu'elle soit prise en compte dans le jeu.
+        qui transmettra l'action au moteur. C'est ce dernier qui interprêtera l'action et effectuera les traitements nécessaires pour qu'elle soit prise en compte dans le jeu. 
 
         \paragraph*{} % PLATEAU DE JEU CASE
+        Le plateau de jeu est une simple matrice de case, dont la taille, définie selon le nombre total de joueurs (6*7, plus une ligne et une colonne par joueur au dessu de deux), 
+        est allouée dynamiquement. Les cases sont des structures fort simples, décrivant les joueurs contrôlant la case, et le type de pièce qu'elle contient.
+        Ainsi, grâce à l'utilisation de l'id des joueurs, et d'une énumération explicitant le type de pièce (creuse, pleine, bloquante, double (pour creuse+pleine), ou vide), il est très
+        simple de réaliser des études de la situation du plateau de jeu.
+
         \paragraph*{} % JOUEUR
+        La liste de joueur contenue dans la structure de jeu est en réalité un tableau dynamique où sont indexés les joueurs. D'abords créés dans un ordre prévisibles, les joueurs voient
+        le tableau mélangé, et reçoivent leur id, qui correpsond à leur index dans le tableau. Les id vont donc de 0 à 5 (6 joueurs maximum), et permettent l'accès direct à un joueur.\\
+        Un joueur possède quelques attributs intéressants, notamment son score, son nom, sa réserve de pièce, son niveau d'IA.
+        \begin{itemize} % liste des attriuts d'intérêt d'un joueur
+            \item le score du joueur n'a pas d'influence réelle sur le jeu. Les joueurs humains pourront néanmoins prendre plaisir à optimiser leur scores au fil des parties.
+            \item le nom du joueur, prédéfinit pour les IA, mais au choix pour les humains.
+            \item la réserve de pièces restantes, autant en pièces bloquantes qu'en pleines ou creuses. 
+            \item le niveau d'IA. S'il n'a aucun intérêt pour un joueur humain, le niveau d'IA est propre à chaque joueur IA et permet ainsi de faire joueur des IA de niveaux différents
+                dans une même partie.
+        \end{itemize} 
+        Nota Bene : un simple booléen est utilisé pour faire la différence entre un joueur humain et une intelligence artificielle.
+
         \paragraph*{} % PILE D'ACTIONS
+        La pile d'action est une simple pile de structure d'action. Elle gère l'empilage, le désempilage, et sait à nimporte quel moment combien d'action elle contient. La mise en oeuvre
+        de cette pile s'est implémentée par pointeur, pour des raisons de simplicité et d'efficacité. Elle permet de compter le nombre de tours déjà passés, (nombre d'actions contenues),
+        de gérer facilement les retours en arrière (annulation de coup), \textit{et cetera}. \\
+        La pile d'action du jeu ne contient que des actions de coup joué; les actions utilisateurs telles que la sauvegarde ou le retour au menu n'y sont pas empilés.
+
+        \paragraph*{} % OYA
+        Une autre donnée d'importance est l'oya. L'oya est le nom donné au joueur dont c'est le tour. Il est identifié par son id, permttant un accès direct à l'oya, 
+        mais aussi aux joueurs suivants et précédents.
 
         \paragraph*{} % INTELLIGENCE ARTIFICELLE
         Pour l'IA, les même structures de données sont mises en oeuvre, puisqu'elles suffisent à l'exploration de l'arbre des possibilités. Néanmoins, le jeu est intégralement recopié
@@ -78,29 +116,51 @@ du temps de calcul.
         tous les traitements de parcours de l'arbre et de calcul de priorité d'une situation. \\
 
 
+    % % % % % % % % %
+    % Fonctionnalités
+    % % % % % % % % %
     \section*{Fonctionnalités}
         \paragraph*{}
+        TODO
 
-    \section*{Gestion d'erreur}
+    % % % % % % % % % %
+    % Gestion d'erreurs
+    % % % % % % % % % %
+    \section*{Gestion d'erreurs}
         \paragraph*{}
+        TODO
 
 
+
+%%%%%%%%%%%%%%%%%
+% CODAGE        %
+%%%%%%%%%%%%%%%%%
 \chapter{Codage}
+    TODO
+
     \paragraph*{}
     Pour l'IA, c'est l'algorithme minimax qui entre en jeu : une fonction récursive, parcourant les noeuds de l'arbre, et une fonction d'étude de situation. 
     Cela permet de donner à chacune des N actions possibles (3 fois le nombre de colonnes) pour l'IA une priorité. \\
-    Plus la priorité est haute, plus la situation vers laquelle cette action mène est avantageuse pour l'IA. Evidemment, la priorité la plus haute est attribuée aux situation où l'IA gagne. \\
+    Plus la priorité est haute, plus la situation vers laquelle cette action mène est avantageuse pour l'IA. Simplement, la priorité la plus haute est attribuée aux situation où 
+    l'IA gagne. \\
     La profondeur d'exploration de l'arbre détermine le niveau de l'IA : plus une IA étudiera loin dans l'arbre, mieux elle saura éviter les pièges de ses adversaires, et préparer
     les siens. De fait, l'IA est disponible en plusieurs difficultés, de la plus simple (profondeur de 2 tours de jeu) à la plus difficile (10 tours de jeu). \\
     L'IA n'explore pas nécessairement toutes les branches : grâce à l'élagage alpha-bêta, elle peut éviter des calculs inutiles (ce qui deviens nécessaire lorsqu'il y a plus 
     de 2 joueurs, ou que la difficulté dépasse la profondeur de trois tours de jeu) et donc économise un temps précieux pour le confort de l'utilisateur.
 
 
+%%%%%%%%%%%%%%%%%
+% RÉSULTATS     %
+%%%%%%%%%%%%%%%%%
 \chapter{Résultats}
     \paragraph*{}
+    TODO
 
 
 
+%%%%%%%%%%%%%%%%%
+% CONCLUSION    %
+%%%%%%%%%%%%%%%%%
 \chapter*{Conclusion}
     \paragraph*{}
 TOUT DOUX
