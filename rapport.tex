@@ -121,14 +121,21 @@ du temps de calcul.
     % % % % % % % % %
     \section*{Fonctionnalités}
         \paragraph*{}
-        TODO
+        %- entrée utilisateur
+        %- jeu contre IA
+        %- jeu à 6 joueurs
+        %- sauvegarde
+        %- gestion des scores
+        %=====> au moins 3 pages <========
 
     % % % % % % % % % %
     % Gestion d'erreurs
     % % % % % % % % % %
     \section*{Gestion d'erreurs}
         \paragraph*{}
-        TODO
+        %- protection de l'entrée utilisateur et chargement de sauvegardes
+        %- protections erreurs mémoires, allocations dynamiques
+        %=====> au moins 1 page <========
 
 
 
@@ -136,7 +143,16 @@ du temps de calcul.
 % CODAGE        %
 %%%%%%%%%%%%%%%%%
 \chapter{Codage}
-    TODO
+    %- compilation séparée (modules, makefile)
+    %- erreurs gérées pour éviter les arrêts de programmes
+        %- assertions appelées si la gestion d'erreur elle-même rencontre un problème
+        %- fichier d'erreur permettant un suivis des problèmes (log)
+    %- module system, utilisé par tous les autre smodules et renfermant de sdéclarations utilitaires, telles que des focntions ou le type booléen
+    %- notation polonaises globales : les identificateurs des fonctions renseigne leur appartenance à un module.
+    %- l'interfaçage des différents modules se fait via les action et les règles de jeu, et est assuré dans le main, qui apparaît comme un code de haut niveau.
+    %- utilisation de vim + gestion de projet faite maison (projet.vim, git intégré)
+    %- algorithmes notoires (minimax, sauvegarde)
+    %=====> au moins 3 pages <========
 
     \paragraph*{}
     Pour l'IA, c'est l'algorithme minimax qui entre en jeu : une fonction récursive, parcourant les noeuds de l'arbre, et une fonction d'étude de situation. 
@@ -154,16 +170,17 @@ du temps de calcul.
 %%%%%%%%%%%%%%%%%
 \chapter{Résultats}
     \paragraph*{}
-    TODO
+    %- objectifs nécessaires remplis, objectifs secondaires atteints et non atteints
+        %- module réseau inexistant
+        %- architecture plus modulable
+    %- planning
+        %- manque de temps dû à des retards sur le moteur
+    %- améliorations
+        %- gérer N joueurs, avec N > 6 (donc s'affranchir des limites du terminal)
+    %- apport du projet au niveau personnel
+    %=====> au moins 3 pages <========
 
 
-
-%%%%%%%%%%%%%%%%%
-% CONCLUSION    %
-%%%%%%%%%%%%%%%%%
-\chapter*{Conclusion}
-    \paragraph*{}
-TOUT DOUX
 
 \end{document}
 % END
