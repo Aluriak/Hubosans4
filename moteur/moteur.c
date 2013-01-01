@@ -98,7 +98,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 			// Si oui, on retourne code:erreur 43
 			return 43;
 		}
-		bool next = false;
+		bool next = true;
 		// On lance la procédure de modification du plateau de jeu
 		MOTEUR_pieceJouee(jeu, action, ligne, next);
 		// ENREGISTREMENT DU COUP
@@ -143,12 +143,12 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			// On indique qu'il s'agit bien d'un piece bloquante
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return next = true;
+			return true;
 		}
-		//Sinon on retourne null, et on redemande au joueur de placer une pièce
+		//Sinon on retourne faux, et on redemande au joueur de placer une pièce
 		else
 		{
-			return next;
+			return false;
 		}
 	}
 	// On enregistre qui à joué la piece CREUSE
@@ -159,20 +159,24 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 		 * id est différent de -1, alors on met le type de pièce à double
 		 */
 		if(jeu->plateau[action.colonne][ligne].joueurPieceCreuse !=-1 ||
-		   jeu->plateau[action.colonne][ligne].joueurPiecePleine != -1)
+		   jeu->plateau[action.colonne][ligne].joueurPiecePleine !=-1)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=DOUBLE;
-			return next = true;
+			return true;
 
 		}
 		// Sinon on c'est que la case en question est totalement vide, on peut 
 		// donc y mettre n'importe quel type de piece sans problème
 		else
 		{
+			/*
+			 * DEBUG
+			 */
+			printf("val piece : %i\n", action.typePiece);
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return next = true;
+			return true;
 		}
 	}
 	// On enregistre qui à joué la piece PLEINE
@@ -183,12 +187,12 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 		 * id est différent de -1, alors on met le type de pièce à double
 		 */
 		if(jeu->plateau[action.colonne][ligne].joueurPieceCreuse !=-1 ||
-		   jeu->plateau[action.colonne][ligne].joueurPiecePleine != -1)
+		   jeu->plateau[action.colonne][ligne].joueurPiecePleine !=-1)
 
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=DOUBLE;
-			return next = true;
+			return true;
 		}
 		// Sinon on c'est que la case en question est totalement vide, on peut 
 		// donc y mettre n'importe quel type de piece sans problème
@@ -196,7 +200,7 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 		{
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return next = true;
+			return true;
 		}
 	}
 }
@@ -447,16 +451,20 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 	}
 	// 
 	else
-	{
-		//if(next)
-		//{
+	{	
+		// Si la pièce est placée
+		if(next)
+		{
+			// Alors on passe au joueur suivant
 			t_jeu_joueurSuivant(jeu);
 			return -1;
-		//}
-		//else
-		//{
-		//	return -1;
-		//}
+		}
+		// Sinon
+		else
+		{
+			// On continue avec le même joueur
+			return -1;
+		}
 	}
 }
 

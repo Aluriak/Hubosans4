@@ -192,10 +192,10 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
     action.colonne=-1;
     action.typePiece=VIDE;
     char pieceUser;
-    while((action.colonne<0 || action.colonne >= jeu-> nbCaseX)/* &&
+    while((action.colonne<0 || action.colonne >= jeu-> nbCaseX) &&
 	  (action.typePiece != BLOQUANTE ||
 	   action.typePiece != CREUSE ||
-	   action.typePiece != PLEINE)*/)
+	   action.typePiece != PLEINE))
     {
 	printf("Entrez Coordonnées & Type de piece : ");
 	// Modifier le scanf pour gérer les erreurs de user
