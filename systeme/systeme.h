@@ -36,5 +36,8 @@ typedef enum {false, true} bool;
     int tab_max(int* tab, int T); // renvois la valeur maximum contenue dans le tableau de taille T
     int apowb(int a, int b); // retourne a^b, si b >= 0
     int str2int(char * str, int nb_carac); // renvois un entier positif à partir d'une chaine de caractère ne contenant que des entiers positifs
+    void wait(float time); // Fige le programme pendant un temps en seconde reçu en paramètre
+
+
 
 #endif

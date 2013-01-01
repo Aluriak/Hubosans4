@@ -64,6 +64,17 @@ int main(int argc, char* argv[]) {
 			action = TERM_entreeUtilisateur(&jeu);
 		}
 		gagnant = MOTEUR_tourSuivant(&jeu, action);
+		if(gagnant == -3)
+		{
+			TERM_afficherHelp();
+			wait(10);
+			
+		}
+		else if(gagnant == -2)
+		{
+			TERM_afficherErreur();
+			wait(2);
+		}
 	    }
 	    // arrivé ici, il y a puissance 4 ou bien égalité
 	    

@@ -44,8 +44,7 @@ typedef struct {
     void TERM_afficherJeuFinit(t_jeu* jeu, int gagnant); // fait les affichage du jeu lorsqu'il se termine
     void TERM_afficherHelp(); // Affiche le menu
     void TERM_afficherJeuEgalite(t_jeu * jeu); // Affiche la fin de jeu en cas de plateau plein && pas puissance4
-
-
+    void TERM_afficherErreur(); // Indique à l'user que le chois entrées est impossible
 
 
 #endif

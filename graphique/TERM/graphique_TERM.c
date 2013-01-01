@@ -327,3 +327,11 @@ void TERM_afficherHelp()
 	printf("\t OK ? So let's play !\n");
 }
 
+/*
+ * TERM AFFICHER ERREUR 
+ */
+// Indique à l'user que le chois entrées est impossible
+void TERM_afficherErreur()
+{
+	printf("Erreur : Entrées inconnue ou impossible\n");
+}

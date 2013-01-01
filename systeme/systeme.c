@@ -106,5 +106,13 @@ int str2int(char * str, int nb_carac) {
 	return resultat;
 }
 
+/*
+ * WAIT
+ */
+// Fige le programme pendant un temps en seconde reçu en paramètre
+void wait(float time)
+{
+	clock_t end=clock()+(time*CLOCKS_PER_SEC); // On calcule le moment où l'attente devra s'arrêter
 
-
+	while(clock()<end);
+}
