@@ -145,7 +145,8 @@ int IA_minimax(t_jeu* jeu, int profondeur, int prioMax,
             prioMax = priorite; // nouvelle prioMax
         }
     }
-    return prioMax;
+    return prioMax;*/
+    return 0;
 }
 
 

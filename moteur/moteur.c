@@ -466,6 +466,7 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 // Procédure de sauvegarde
 // Reçois en paramètre :
 // 			- le jeu
+// 			- une action
 // 			- la pile d'action
 int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 {
