@@ -14,9 +14,6 @@
 
 - TERM 
     - faire écran de fin de partie plus propre
-    - refaire menu ?
-    - le bug d'affichage des pièce provendrait peut-être de graphique TERM (id correct au niveau du moteur)
-
 
 - SDL
     - faire une ébauche de représentation graphique

@@ -41,12 +41,19 @@ int main(int argc, char* argv[]) {
 	    }
 	    else {
 		regleJeu = TERM_afficherMenu();
-		t_jeu_init(&jeu, regleJeu.nbJoueurs, 
-			   regleJeu.nbIA, 
-			   regleJeu.tab_nivIA, 
-			   regleJeu.nbPieceBloquante, 
-			   regleJeu.nbPiecePleine, 
-			   regleJeu.nbPieceCreuse); 
+		if(regleJeu.nbJoueurs==-1)
+		{
+			quit=true;
+		}
+		else
+		{
+			t_jeu_init(&jeu, regleJeu.nbJoueurs, 
+				   regleJeu.nbIA, 
+				   regleJeu.tab_nivIA, 
+				   regleJeu.nbPieceBloquante, 
+				   regleJeu.nbPiecePleine, 
+				   regleJeu.nbPieceCreuse); 
+		}
 	    }
 
 	    // jeu
@@ -63,13 +70,16 @@ int main(int argc, char* argv[]) {
 		    else
 			action = TERM_entreeUtilisateur(&jeu);
 		}
+		// On envoie au moteur les choix entrées par l'utilisateur
 		gagnant = MOTEUR_tourSuivant(&jeu, action);
+		// Si -3, alors l'user demande de l'aide
 		if(gagnant == -3)
 		{
 			TERM_afficherHelp();
 			wait(10);
 			
 		}
+		// Si -2, alors c'est une erreur
 		else if(gagnant == -2)
 		{
 			TERM_afficherErreur();
@@ -91,6 +101,15 @@ int main(int argc, char* argv[]) {
 		else if(gagnant == 43)
 		{
 			TERM_afficherJeuEgalite(&jeu);
+		}
+		/*
+		 * Dans tout les autres cas, on considère que l'user veut
+		 * retourner au menu
+		 */
+		else
+		{
+			// On remet la valeur de gagnant à -1
+			gagnant = -1;	
 		}
 	    }
     }

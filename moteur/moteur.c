@@ -39,7 +39,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
     	// Si 1, alors on lance le module de sauvegarde
     	if(action.colonne == 1)
 	{
-    		printf("Building module, please wait.");
+    		return -2; // temporaire
     		//MOTEUR_sauvegarde();
 	}
 	// Si 2, alors on annule le dernier coup
@@ -98,9 +98,9 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 			// Si oui, on retourne code:erreur 43
 			return 43;
 		}
-		bool next = true;
 		// On lance la procédure de modification du plateau de jeu
-		MOTEUR_pieceJouee(jeu, action, ligne, next);
+		bool next = false;
+		next = MOTEUR_pieceJouee(jeu, action, ligne, next);
 		// ENREGISTREMENT DU COUP
 		if(next)
 		{
@@ -174,6 +174,9 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 			 * DEBUG
 			 */
 			printf("val piece : %i\n", action.typePiece);
+			/*
+			 * END
+			 */
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
 			return true;
@@ -440,6 +443,8 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 // Prend en paramètre :
 // 			- un int correspondant au compteur de
 // 			  puissance 4
+// 			- un booléen indiquant si le tour peut passer au joueur suivant
+// 			- 
 int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 {
 	int oya = jeu->oya; // On récupère l'oya
