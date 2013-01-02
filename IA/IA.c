@@ -61,8 +61,7 @@ t_action IA_effectuerTour(t_jeu *jeu) {
     // LIBÉRATIONS
     t_jeu_free(cpjeu); // plus besoin du jeu
     // renvoit de l'action
-    //return actionPrio;
-    return 0;
+    return actionPrio;
 }
 
 
@@ -82,7 +81,6 @@ t_action IA_effectuerTour(t_jeu *jeu) {
 // les deux actions sont transmises pour enregistrer l'action de l'IA.
 int IA_minimax(t_jeu* jeu, int profondeur, int prioMax, 
         t_action *actionPrio, t_action actionEtudiee) {
-	/*
     // INITIALISATIONS
     t_action action = {0,1}; // action générée
     int gagnant = -1; // gagnant du jeu
@@ -143,8 +141,7 @@ int IA_minimax(t_jeu* jeu, int profondeur, int prioMax,
             prioMax = priorite; // nouvelle prioMax
         }
     }
-    return prioMax;*/
-    return 0;
+    return prioMax;
 }
 
 
