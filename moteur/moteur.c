@@ -79,6 +79,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
     {
     	// On récupère la valeur de la ligne ou il est possible de placer la pièce
     	int ligne = MOTEUR_coordPieceJouee(jeu, action.typePiece, action.colonne);
+        printf("DEBUG : coord ligne = %i", ligne);
 	int oya = jeu->oya; // On récupère la valeur de l'oya
 	// Si la valeur de ligne est égal à -1, c'est qu'il est impossible de placer la pièce ici
     	if(ligne == -1)
@@ -173,7 +174,7 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 			/*
 			 * DEBUG
 			 */
-			printf("val piece : %i\n", action.typePiece);
+			//printf("val piece : %i\n", action.typePiece);
 			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
 			return true;
@@ -268,27 +269,28 @@ int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
     e_piece pieceCase; // pieces occupant la case étudiée
 
     // pour chaque case de la colonne, de bas en haut
-    for(i = jeu->nbCaseY-1; i >= 0; i--) {
+    for(i = 0; i < jeu->nbCaseY; i++) {
 	pieceCase = jeu->plateau[colonne][i].typePiece;
+        if(pieceCase != VIDE)
+            printf("PIECE TROUVEE A (%i;%i)\n", colonne, i);
 	// si la pièce de la case étudiée bloque le chemin 
 	// 	(pièce bloquante, ou de même type que la pièce placée)
-	if((	pieceCase == BLOQUANTE 
+	if(pieceCase == BLOQUANTE 
 		|| pieceCase == piecePlacee 
-		|| pieceCase == DOUBLE)
-	    || // exception : cas où la pièce est bloquante
-		(piecePlacee == BLOQUANTE && pieceCase != VIDE)) {
-	    // si il n'y a pas de case au dessus, on renvois -1
-	    if(i == 0) {
-		i = -1; // arrêt de la boucle
-		ligne = -1; // colonne pleine
-	    }
-	    // sinon, la ligne prend la valeur de la case supérieure
-	    else
-		ligne = i-1; 
+		|| pieceCase == DOUBLE
+	        || (piecePlacee == BLOQUANTE && pieceCase != VIDE)) {
+	            // si il n'y a pas de case au dessus, on renvois -1
+	            if(i == 0) {
+		        i = jeu->nbCaseY; // arrêt de la boucle
+		        ligne = -1; // colonne pleine
+	            }
+	            // sinon, la ligne prend la valeur de la case supérieure
+	            else {
+		        ligne = i-1; 
+		        i = jeu->nbCaseY; // arrêt de la boucle
+                    }
 	}
-	// sinon, c'est que la case est praticable, on arrête le traitement ici
-	else 
-	    i = -1;
+	// sinon, c'est que la case est praticable, on continue la boucle
     }
     return ligne;
 }
