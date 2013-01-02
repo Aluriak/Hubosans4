@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
 	//sdl = true; // on passe en affichage SDL
 	// TODO: initialiser la SDL, créer la SDL_surface
     }
-    while(!quit)
+    while(quit == false)
     {
 	    // Menu principal
 	    if(sdl) {
@@ -43,7 +43,8 @@ int main(int argc, char* argv[]) {
 		regleJeu = TERM_afficherMenu();
 		if(regleJeu.nbJoueurs==-1)
 		{
-			quit=true;
+			quit = true;
+			break;
 		}
 		else
 		{
@@ -55,7 +56,6 @@ int main(int argc, char* argv[]) {
 				   regleJeu.nbPieceCreuse); 
 		}
 	    }
-
 	    // jeu
 	    while(gagnant < 0) {
 		if(sdl) {
@@ -112,11 +112,19 @@ int main(int argc, char* argv[]) {
 			gagnant = -1;	
 		}
 	    }
+	    t_jeu_free(&jeu);
     }
     // libération du jeu
-    t_jeu_free(&jeu);
+    if(!quit)
+    {
+    	t_jeu_free(&jeu);
+	return 0;
+    }
+    else
+    {
+    	return 0;
+    }
     // TODO: libérations et désinitialisations SDL
-    return 0;
 }
 
 

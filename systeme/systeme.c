@@ -106,6 +106,8 @@ int str2int(char * str, int nb_carac) {
 	return resultat;
 }
 
+
+
 /*
  * WAIT
  */

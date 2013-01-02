@@ -239,7 +239,7 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
 // nbIA correspond au slot à charger
 //
 t_regleJeu TERM_afficherMenu() {
-    int choice = 0;
+    int choice = 0; // Contient le choix de l'user
     int niveauIA = 4; // niveau des IA
     int i = 0; // itérateur de boucle
     t_regleJeu regleJeu = {-1,-1};
@@ -252,12 +252,19 @@ t_regleJeu TERM_afficherMenu() {
     printf("\t 2. Charger Partie\n");
     printf("\t 3. Tableau des Scores\n");
     printf("\t 4. Quitter\n\n");
-    printf(">> Que voulez-vous faire ? ");
-    scanf("%i", &choice);
+    do
+    {
+    	printf(">> Que voulez-vous faire ? ");
+    	scanf("%i", &choice);
+    } while(choice != 1 &&
+            choice != 2 &&
+	    choice != 3 &&
+	    choice != 4);
+
     // On attend le choix de l'user
     switch(choice)
     {
-    	case 1:
+	case 1:
 	    // nombre de joueurs
 	    while(regleJeu.nbJoueurs < 2 || regleJeu.nbJoueurs > 6) {
 		printf(">> Nombre de joueurs total (2 à 6) : ");
@@ -301,23 +308,8 @@ t_regleJeu TERM_afficherMenu() {
 		printf("Bye-Bye !\n");
 		// On met le nombre de joueur à -1
 		regleJeu.nbJoueurs=-1;
-		/*
-		 * DEBUG
-		 */
-		//regleJeu.nbIA = 0;
-		//regleJeu.nbPieceBloquante = 0;
-		//regleJeu.nbPieceCreuse = 0;
-		//regleJeu.nbPiecePleine = 0;
-		//regleJeu.
-		//regleJeu.
-		/*
-		 * END DEBUG
-		 */
 		// On retourne les règle du jeu
 		return regleJeu;
-	default:
-		printf("Please enter a correct choice !\n");
-		break;
     }
     return regleJeu;
 }
