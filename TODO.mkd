@@ -1,7 +1,7 @@
 # TODO LIST
 
 - Moteur
-    - il est possible de continuer à mettre des pièces alors qu'on en a plus dans la réserve. (pièces bloquantes) (je m'en occupe en ce moment)
+    - Le problème des pièce ne viendrait peut-être pas du moteur mais de graphique TERM :/ ... bizarre
 
 - TERM 
     - TERMINE, du moins pour le moment =)

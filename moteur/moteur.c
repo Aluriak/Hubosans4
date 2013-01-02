@@ -101,8 +101,12 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 		// On lance la procédure de modification du plateau de jeu
 		bool next = false;
 		next = MOTEUR_pieceJouee(jeu, action, ligne, next);
+		if(!next)
+		{
+			return -2;
+		}
 		// ENREGISTREMENT DU COUP
-		if(next)
+		if(next == true)
 		{
 			// >>> On empile l'action en cours <<<
 			t_pileAction_emp(&jeu->pileAction, action);
@@ -135,7 +139,7 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 	if(action.typePiece==BLOQUANTE) // Si oui, on décrémente
 	{
 		//Si le nombre de piece bloquante n'est pas égal à zéro, alors on peut en placer une
-		if(jeu->listeJoueur[oya].nbPieceBloquante>0)
+		if(jeu->listeJoueur[oya].nbPieceBloquante!=0)
 		{
 			jeu->listeJoueur[oya].nbPieceBloquante--; // On décrémente le nombre de piece bloquante de l'oya
 			// On place l'id de l'oya dans pieceCreuse & piecePleine, car il s'agit d'un piece bloquante
@@ -143,6 +147,13 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			// On indique qu'il s'agit bien d'un piece bloquante
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
+			/*
+			 * DEBUG
+			 */
+			printf("place");
+			/*
+			 * END DEBUG
+			 */
 			return true;
 		}
 		//Sinon on retourne faux, et on redemande au joueur de placer une pièce
@@ -154,56 +165,78 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 	// On enregistre qui à joué la piece CREUSE
 	else if(action.typePiece==CREUSE)
 	{
-		/*
-		 * Si la case en question à déja une piece (c'est-à-dire que l'un de ses
-		 * id est différent de -1, alors on met le type de pièce à double
-		 */
-		if(jeu->plateau[action.colonne][ligne].joueurPieceCreuse !=-1 ||
-		   jeu->plateau[action.colonne][ligne].joueurPiecePleine !=-1)
+		// Si le joueur possede encore des piece de type CREUSE
+		if(jeu->listeJoueur[oya].nbPieceCreuse != 0)
 		{
-			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
-			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=DOUBLE;
-			return true;
+			/*
+			 * Si la case en question à déja une piece (c'est-à-dire que l'un de ses
+			 * id est différent de -1, alors on met le type de pièce à double
+			 */
+			if(jeu->plateau[action.colonne][ligne].joueurPieceCreuse !=-1 ||
+			   jeu->plateau[action.colonne][ligne].joueurPiecePleine !=-1)
+			{
+				jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
+				jeu->plateau[action.colonne][ligne].joueurPieceCreuse=DOUBLE;
+				// On décrémente le nombre de pièce Creuse du joueur
+				jeu->listeJoueur[oya].nbPieceCreuse--;
+				return true;
 
+			}
+			// Sinon on c'est que la case en question est totalement vide, on peut 
+			// donc y mettre n'importe quel type de piece sans problème
+			else
+			{
+				jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
+				jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
+				// On décrémente le nombre de piece Creuse du joueur
+				jeu->listeJoueur[oya].nbPieceCreuse--;
+
+				return true;
+			}
 		}
-		// Sinon on c'est que la case en question est totalement vide, on peut 
-		// donc y mettre n'importe quel type de piece sans problème
+		// Sinon on retourne false
 		else
 		{
-			/*
-			 * DEBUG
-			 */
-			printf("val piece : %i\n", action.typePiece);
-			/*
-			 * END
-			 */
-			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
-			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return true;
+			return false;
 		}
 	}
 	// On enregistre qui à joué la piece PLEINE
 	else
 	{
-		/*
-		 * Si la case en question à déja une piece (c'est-à-dire que l'un de ses
-		 * id est différent de -1, alors on met le type de pièce à double
-		 */
-		if(jeu->plateau[action.colonne][ligne].joueurPieceCreuse !=-1 ||
-		   jeu->plateau[action.colonne][ligne].joueurPiecePleine !=-1)
-
+		// Si le joueur possede encore des pièces Pleine
+		if(jeu->listeJoueur[oya].nbPiecePleine != 0)
 		{
-			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
-			jeu->plateau[action.colonne][ligne].typePiece=DOUBLE;
-			return true;
+			/*
+			 * Si la case en question à déja une piece (c'est-à-dire que l'un de ses
+			 * id est différent de -1, alors on met le type de pièce à double
+			 */
+			if(jeu->plateau[action.colonne][ligne].joueurPieceCreuse !=-1 ||
+			   jeu->plateau[action.colonne][ligne].joueurPiecePleine !=-1)
+
+			{
+				jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
+				jeu->plateau[action.colonne][ligne].typePiece=DOUBLE;
+				// On décrémente le nombre de piece Pleine possedé par le joueur
+				jeu->listeJoueur[oya].nbPiecePleine--;
+
+				return true;
+			}
+			// Sinon on c'est que la case en question est totalement vide, on peut 
+			// donc y mettre n'importe quel type de piece sans problème
+			else
+			{
+				jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
+				jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
+				// On décrémente le nombre de piece Pleine possedé par le joueur
+				jeu->listeJoueur[oya].nbPiecePleine--;
+
+				return true;
+			}
 		}
-		// Sinon on c'est que la case en question est totalement vide, on peut 
-		// donc y mettre n'importe quel type de piece sans problème
+		// Sinon c'est que le joueur n'a plus ce type de pièce, on retourne faux
 		else
 		{
-			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
-			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return true;
+			return false;
 		}
 	}
 }

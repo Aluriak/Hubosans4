@@ -97,6 +97,7 @@ int main(int argc, char* argv[]) {
 	    	if(gagnant >= 0 && gagnant <= 5)
 		{
 			TERM_afficherJeuFinit(&jeu, gagnant);
+			wait(5);
 		}
 		else if(gagnant == 43)
 		{
