@@ -8,15 +8,15 @@
  */
 // effectue le tour de jeu de l'oya selon le fonctionnement de l'IA
 // s'appuie sur un algorithme minimax, et une heuristique
-t_action IA_effectuerTour(t_jeu *jeu) {
+t_action IA_effectuerTour(t_jeu *jeu, int idJ) {
     // INITIALISATIONS
+    int idIA = idJ; // id du joueur joué par l'IA
     int priorite = -1; // priorite calculée
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
     //          de l'action actionPrio
-    int profondeur = jeu->listeJoueur[jeu->oya].niveauIA * jeu->nbJoueur; 
+    int profondeur = jeu->listeJoueur[idIA].niveauIA * jeu->nbJoueur; 
     printf("PRFONDEUR = %d\n", profondeur);
     int gagnant = -1; // gagnant de la partie
-    int idIA = jeu->oya; // id du joueur joué par l'IA
     // actions
     t_action action; // première action à opérer
     t_action actionPrio; // première action ayant la meilleure priorité
@@ -43,8 +43,8 @@ t_action IA_effectuerTour(t_jeu *jeu) {
                 priorite = 100; // situation absolument désirée !
             // si il n'y a aucun gagnant, on appelle minimax
             else {
-                // on rappelle l'algorithme minimax, pour la profondeur suivante
-                priorite = IA_minimax(cpjeu, profondeur, idIA, prioMax);
+                // on rappelle l'algorithme minimax, pour la profondeur ciblée
+                priorite = IA_minimax(cpjeu, profondeur, prioMax, idIA);
                 // si la priorité étudiée est plus grande
                 if(priorite > prioMax) {
                     prioMax = priorite; // nouvelle prioMax
@@ -72,15 +72,12 @@ t_action IA_effectuerTour(t_jeu *jeu) {
 /*
  * IA MINIMAX
  */
-// étudie récursivement le plateau de jeu, et retourne la priorité. 
+// étudie récursivement le plateau de jeu, et retourne la priorité du jeu actuel 
+//      suite à une étude sur la profondeur indiquée.
 //      Appel récursif, algorithme minimax employé
 // arguments : le jeu, la profondeur a atteindre, l'id du joueur joué par l'IA,
 //      la prioMax calculée jusqu'ici,
-//      l'action à faire selon l'actuelle meilleure priorité, 
-//      et l'action à la base de l'arbre étudié
-// les deux actions sont transmises pour enregistrer l'action de l'IA.
-int IA_minimax(t_jeu* jeu, int profondeur, int prioMax, 
-        t_action *actionPrio, t_action actionEtudiee) {
+int IA_minimax(t_jeu* jeu, int profondeur, int idIA, int prioMax) {
     // INITIALISATIONS
     t_action action = {0,1}; // action générée
     int gagnant = -1; // gagnant du jeu
@@ -112,7 +109,7 @@ int IA_minimax(t_jeu* jeu, int profondeur, int prioMax,
                 // on rappelle l'algorithme minimax, pour la profondeur suivante
                 // On lui envois les arguments, dont l'action actuellement 
                 // ritaire, et l'action étudiée
-                priorite = IA_minimax(jeu, profondeur-1, idIA, prioMax);
+                priorite = IA_minimax(jeu, profondeur-1, prioMax, idIA);
                 // si le joueur est l'IA, on prend le max
                 if(jeu->oya == idIA) {
                     // si la priorité étudiée est plus grande
