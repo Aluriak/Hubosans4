@@ -8,8 +8,7 @@
  */
 // effectue le tour de jeu de l'oya selon le fonctionnement de l'IA
 // s'appuie sur un algorithme minimax, et une heuristique
-int /*t_action*/ IA_effectuerTour(t_jeu *jeu) {
-/*
+t_action IA_effectuerTour(t_jeu *jeu) {
     // INITIALISATIONS
     int priorite = -1; // priorite calculée
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
@@ -63,7 +62,6 @@ int /*t_action*/ IA_effectuerTour(t_jeu *jeu) {
     t_jeu_free(cpjeu); // plus besoin du jeu
     // renvoit de l'action
     //return actionPrio;
-    */
     return 0;
 }
 
