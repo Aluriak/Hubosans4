@@ -43,8 +43,6 @@ void TERM_backgroundColor(int couleur) {
 void TERM_afficherJeu(t_jeu* jeu) {
     // on efface l'écran
     TERM_clear();
-    // Nom jeu
-    TERM_afficherHubosans4(); 
     // EN-TETE
     TERM_afficherEnTete(jeu);
     // PLATEAU
@@ -199,7 +197,7 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
 	   action.typePiece != CREUSE ||
 	   action.typePiece != PLEINE))
     {
-	printf(">> Entrez Coordonnées & Type de piece : ");
+	printf("Entrez Coordonnées & Type de piece : ");
 	// Modifier le scanf pour gérer les erreurs de user
 	scanf("%i%c",&action.colonne, &pieceUser);
 	if(tolower(pieceUser) == 'b')
@@ -239,121 +237,35 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
 // nbIA correspond au slot à charger
 //
 t_regleJeu TERM_afficherMenu() {
-    int choice = 0;
     int niveauIA = 4; // niveau des IA
     int i = 0; // itérateur de boucle
     t_regleJeu regleJeu = {-1,-1};
     // Menu
-    TERM_clear();
-    TERM_afficherHubosans4();
-    // Choix principaux
-    printf("Bienvenue Joueur !\n\n");
-    printf("\t 1. Nouvelle Partie\n");
-    printf("\t 2. Charger Partie\n");
-    printf("\t 3. Tableau des Scores\n");
-    printf("\t 4. Quitter\n\n");
-    printf(">> Que voulez-vous faire ? ");
-    scanf("%i", &choice);
-    // On attend le choix de l'user
-    switch(choice)
-    {
-    	case 1:
-	    // nombre de joueurs
-	    while(regleJeu.nbJoueurs < 2 || regleJeu.nbJoueurs > 6) {
-		printf(">> Nombre de joueurs total (2 à 6) : ");
-		scanf("%d", &regleJeu.nbJoueurs);
-	    }
-	    // nombre d'IA
-	    while(regleJeu.nbIA < 0 || regleJeu.nbIA > regleJeu.nbJoueurs) {
-		printf(">> Nombre d'ia parmis les %i joueurs (max %i) : ", 
-			regleJeu.nbJoueurs, regleJeu.nbJoueurs);
-		scanf("%d", &regleJeu.nbIA);
-	    }
-	    // niveau des IA (entre 1 et 4)
-	    if(regleJeu.nbIA > 0) {
-		printf("Niveau des IA :\n\n");
-		printf("\t 1.Facile\n");
-		printf("\t 2.Moyen\n");
-		printf("\t 3.Difficile\n");
-		printf("\t 4.Très difficle\n\n");
-		printf(">> Votre choix : ");
-		for(i = 0; i < regleJeu.nbIA; i++) {
-		    // tant qu'on a pas un niveau valide
-		    do {
-			printf(">> Niveau de l'IA %d : ", i+1);
-			scanf("%i", &niveauIA);
-		    } while(niveauIA < 0 || niveauIA > 4);
-		    // on donne le niveau au joueur étudié
-		    regleJeu.tab_nivIA[i] = niveauIA;
-		}
-	    }
-	    // nombre de pièces
-	    regleJeu.nbPieceBloquante = regleJeu.nbJoueurs;
-	    regleJeu.nbPiecePleine = regleJeu.nbJoueurs*20;
-	    regleJeu.nbPieceCreuse = regleJeu.nbJoueurs*20;
-	    // On retourne les regles du jeu
-	    return regleJeu;
-	case 2:
-		printf("Not availble now, sorry.\n");
-	case 3:
-		printf("Not avaible now, sorry.\n");
-	case 4:
-		printf("Bye-Bye !\n");
-		// On met le nombre de joueur à -1
-		regleJeu.nbJoueurs=-1;
-		/*
-		 * DEBUG
-		 */
-		//regleJeu.nbIA = 0;
-		//regleJeu.nbPieceBloquante = 0;
-		//regleJeu.nbPieceCreuse = 0;
-		//regleJeu.nbPiecePleine = 0;
-		//regleJeu.
-		//regleJeu.
-		/*
-		 * END DEBUG
-		 */
-		// On retourne les règle du jeu
-		return regleJeu;
-	default:
-		printf("Please enter a correct choice !\n");
-		break;
-    }
-    return regleJeu;
-}
-
-
-/*
- * TERM AFFICHER NOUVELLE PARTIE
- */
-// Affichage des options de nouvelle partie
-/*void TERM_afficherNouvellePartie(t_regleJeu regleJeu)
-{
-    int niveauIA = 4; // niveau des IA
-    int i = 0; // itérateur de boucle
+printf("                      ___ ___  ____ _____________ ________    _________   _____    _______    _________   _____                   \n"); 
+printf("    ______   ______  /   |   \\|    |   \\______    \\_____  \\  /   _____/  /  _  \\   \\      \\  /   _____/  /  |  |   ______   ______\n"); 
+printf("   /_____/  /_____/ /    ~    \\    |   /|    |  _/ /   |   \\ \\_____  \\  /  /_\\  \\  /   |   \\ \\_____  \\  /   |  |_ /_____/  /_____/ \n");
+printf("   /_____/  /_____/ \\    Y    /    |  / |    |   \\/    |    \\/        \\/    |    \\/    |    \\/        \\/    ^   / /_____/  /_____/ \n");
+printf("                     \\___|_  /|______/  |______  /\\_______  /_______  /\\____|__  /\\____|__  /_______  /\\____   |                   \n");
+printf("                           \\/                  \\/         \\/        \\/         \\/         \\/        \\/      |__|                   \n");
+    
     // nombre de joueurs
     while(regleJeu.nbJoueurs < 2 || regleJeu.nbJoueurs > 6) {
-	printf(">> Nombre de joueurs total (2 à 6) : ");
+	printf("Nombre de joueurs total (2 à 6) : ");
 	scanf("%d", &regleJeu.nbJoueurs);
     }
     // nombre d'IA
     while(regleJeu.nbIA < 0 || regleJeu.nbIA > regleJeu.nbJoueurs) {
-	printf(">> Nombre d'ia parmis les %i joueurs (max %i) : ", 
+	printf("Nombre d'ia parmis les %i joueurs (max %i) : ", 
 		regleJeu.nbJoueurs, regleJeu.nbJoueurs);
 	scanf("%d", &regleJeu.nbIA);
     }
     // niveau des IA (entre 1 et 4)
     if(regleJeu.nbIA > 0) {
-        printf("Niveau des IA :\n\n");
-	printf("\t 1.Facile\n");
-	printf("\t 2.Moyen\n");
-	printf("\t 3.Difficile\n");
-	printf("\t 4.Très difficle\n\n");
-	printf(">> Votre choix : ");
+        printf("Niveau des IA, parmi 1(facile), 2(moyen), 3(difficile), 4(très difficle) :\n");
         for(i = 0; i < regleJeu.nbIA; i++) {
             // tant qu'on a pas un niveau valide
             do {
-                printf(">> Niveau de l'IA %d : ", i+1);
+                printf("Niveau de l'IA %d : ", i+1);
 	        scanf("%i", &niveauIA);
             } while(niveauIA < 0 || niveauIA > 4);
             // on donne le niveau au joueur étudié
@@ -364,7 +276,9 @@ t_regleJeu TERM_afficherMenu() {
     regleJeu.nbPieceBloquante = regleJeu.nbJoueurs;
     regleJeu.nbPiecePleine = regleJeu.nbJoueurs*20;
     regleJeu.nbPieceCreuse = regleJeu.nbJoueurs*20;
-}*/
+    // retourne le jeu
+    return regleJeu;
+}
 
 
 
@@ -416,10 +330,8 @@ void TERM_afficherHelp()
 	printf("\t\t\t c : CREUSE\n");
 	printf("\t\t\t p : PLEINE\n\n");
 	printf("\t\t Exemple : 3c placera une pièce CREUSE dans la 3ème colonne\n\n");
-	printf("OK ? So let's play !\n");
+	printf("\t OK ? So let's play !\n");
 }
-
-
 
 /*
  * TERM AFFICHER ERREUR 
@@ -428,21 +340,4 @@ void TERM_afficherHelp()
 void TERM_afficherErreur()
 {
 	printf("Erreur : Entrées inconnue ou impossible\n");
-}
-
-
-
-/*
- * TERM AFFICHER HUBOSANS4
- */
-// Affiche HUBOSANS4 en ascii
-void TERM_afficherHubosans4()
-{
-    printf("                      ___ ___  ____ _____________ ________    _________   _____    _______    _________   _____                   \n"); 
-    printf("    ______   ______  /   |   \\|    |   \\______    \\_____  \\  /   _____/  /  _  \\   \\      \\  /   _____/  /  |  |   ______   ______\n"); 
-    printf("   /_____/  /_____/ /    ~    \\    |   /|    |  _/ /   |   \\ \\_____  \\  /  /_\\  \\  /   |   \\ \\_____  \\  /   |  |_ /_____/  /_____/ \n");
-    printf("   /_____/  /_____/ \\    Y    /    |  / |    |   \\/    |    \\/        \\/    |    \\/    |    \\/        \\/    ^   / /_____/  /_____/ \n");
-    printf("                     \\___|_  /|______/  |______  /\\_______  /_______  /\\____|__  /\\____|__  /_______  /\\____   |                   \n");
-    printf("                           \\/                  \\/         \\/        \\/         \\/         \\/        \\/      |__|                   \n");
-    printf("\n");
 }
