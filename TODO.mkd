@@ -1,13 +1,10 @@
 # TODO LIST
 
-- main
-    - le jeu recommence sans demander son avis à l'utilisateur
-
 - Moteur
-    - il est possible de continuer à mettre des pièces alors qu'on en a plus dans la réserve. (pièces bloquantes)
+    - il est possible de continuer à mettre des pièces alors qu'on en a plus dans la réserve. (pièces bloquantes) (je m'en occupe en ce moment)
 
 - TERM 
-    - On en est où ?
+    - TERMINE, du moins pour le moment =)
 
 
 - SDL

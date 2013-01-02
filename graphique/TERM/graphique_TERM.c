@@ -315,49 +315,6 @@ t_regleJeu TERM_afficherMenu() {
 }
 
 
-/*
- * TERM AFFICHER NOUVELLE PARTIE
- */
-// Affichage des options de nouvelle partie
-/*void TERM_afficherNouvellePartie(t_regleJeu regleJeu)
-{
-    int niveauIA = 4; // niveau des IA
-    int i = 0; // itérateur de boucle
-    // nombre de joueurs
-    while(regleJeu.nbJoueurs < 2 || regleJeu.nbJoueurs > 6) {
-	printf(">> Nombre de joueurs total (2 à 6) : ");
-	scanf("%d", &regleJeu.nbJoueurs);
-    }
-    // nombre d'IA
-    while(regleJeu.nbIA < 0 || regleJeu.nbIA > regleJeu.nbJoueurs) {
-	printf(">> Nombre d'ia parmis les %i joueurs (max %i) : ", 
-		regleJeu.nbJoueurs, regleJeu.nbJoueurs);
-	scanf("%d", &regleJeu.nbIA);
-    }
-    // niveau des IA (entre 1 et 4)
-    if(regleJeu.nbIA > 0) {
-        printf("Niveau des IA :\n\n");
-	printf("\t 1.Facile\n");
-	printf("\t 2.Moyen\n");
-	printf("\t 3.Difficile\n");
-	printf("\t 4.Très difficle\n\n");
-	printf(">> Votre choix : ");
-        for(i = 0; i < regleJeu.nbIA; i++) {
-            // tant qu'on a pas un niveau valide
-            do {
-                printf(">> Niveau de l'IA %d : ", i+1);
-	        scanf("%i", &niveauIA);
-            } while(niveauIA < 0 || niveauIA > 4);
-            // on donne le niveau au joueur étudié
-            regleJeu.tab_nivIA[i] = niveauIA;
-        }
-    }
-    // nombre de pièces
-    regleJeu.nbPieceBloquante = regleJeu.nbJoueurs;
-    regleJeu.nbPiecePleine = regleJeu.nbJoueurs*20;
-    regleJeu.nbPieceCreuse = regleJeu.nbJoueurs*20;
-}*/
-
 
 
 
