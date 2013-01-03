@@ -284,7 +284,8 @@ t_regleJeu TERM_afficherMenu() {
 // fait les affichage du jeu lorsqu'il se termine
 void TERM_afficherJeuFinit(t_jeu* jeu, int gagnant) {
     TERM_afficherJeu(jeu);
-    printf("Le joueur %i remporte la partie !\n", gagnant+1); 
+    // on affiche le nom du joueur d'id envoyé en argument comme gagnant de la partie
+    printf("Le joueur %s remporte la partie !\n", jeu->listeJoueur[gagnant].nom); 
 }
 /*
  * TERM AFFICHER JEU EGALITE
@@ -335,3 +336,6 @@ void TERM_afficherErreur()
 {
 	printf("Erreur : Entrées inconnue ou impossible\n");
 }
+
+
+

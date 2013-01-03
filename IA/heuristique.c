@@ -59,6 +59,8 @@ int IA_h(t_jeu* jeu, int idIA) {
             for(k = jeu->nbJoueur-1; k >= 0; k--) {
                 // on prend le nombre de case alignées par rapport à cette case
                 nb_pieceMax = MOTEUR_test_puissance4(jeu, coordCase, k);
+                if(nb_pieceMax != 0)
+                printf("%i\t", nb_pieceMax);
                 // on prend le nombre max de pièces alignées par le joueur
                 nb_pieceAligneeMax[k] = max(nb_pieceAligneeMax[k], nb_pieceMax);
             }
