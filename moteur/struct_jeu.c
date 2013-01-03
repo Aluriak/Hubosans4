@@ -235,7 +235,7 @@ t_jeu* t_jeu_copie(t_jeu* jeu) {
     int *tab_nivIA = malloc(jeu->nbIA*sizeof(int));
         assert(tab_nivIA != NULL);
     // DETERMINATION DE LA DIFFICULTE DES IA
-    for(; i < jeu->nbJoueur; i++) {
+    for(i = 0; i < jeu->nbJoueur; i++) {
         // si c'est une IA
         if(jeu->listeJoueur[i].IA == true) {
             // on prend le niveau dans tab_nivIA
@@ -246,6 +246,15 @@ t_jeu* t_jeu_copie(t_jeu* jeu) {
     // INITIALISATIONS DU JEU
     t_jeu_init(copie, jeu->nbJoueur, jeu->nbIA, tab_nivIA, 
             jeu->nbPieceBloquante, jeu->nbPiecePleine, jeu->nbPieceCreuse);
+    // TRAITEMENT DES JOUEURS
+    // on parcours les joueurs pour avoir les bonnes valeurs (nivIA, IA, réserves pièces)
+    for(i = 0; i < jeu->nbJoueur; i++) {
+        copie->listeJoueur[i].IA = jeu->listeJoueur[i].IA;
+        copie->listeJoueur[i].niveauIA = jeu->listeJoueur[i].niveauIA;
+        copie->listeJoueur[i].nbPieceBloquante = jeu->listeJoueur[i].nbPieceBloquante;
+        copie->listeJoueur[i].nbPiecePleine = jeu->listeJoueur[i].nbPiecePleine;
+        copie->listeJoueur[i].nbPieceCreuse = jeu->listeJoueur[i].nbPieceCreuse;
+    }
     // LIBERATIONS
     free(tab_nivIA);
     // RETURN

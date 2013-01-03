@@ -8,9 +8,9 @@
  */
 // effectue le tour de jeu de l'oya selon le fonctionnement de l'IA
 // s'appuie sur un algorithme minimax, et une heuristique
-t_action IA_effectuerTour(t_jeu *jeu, int idJ) {
+t_action IA_effectuerTour(t_jeu *jeu) {
     // INITIALISATIONS
-    int idIA = idJ; // id du joueur joué par l'IA
+    int idIA = jeu->oya; // id du joueur joué par l'IA
     int priorite = -1; // priorite calculée
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
     //          de l'action actionPrio
@@ -23,7 +23,6 @@ t_action IA_effectuerTour(t_jeu *jeu, int idJ) {
     // on créé un jeu, copié-collé du précédent.
     // on travaillera sur cette copie pour éviter de toucher au jeu lui-même
     t_jeu* cpjeu = t_jeu_copie(jeu);
-    
 
     // PARCOURS DES BRANCHES DU PREMIER NOEUD, et appel à minimax pour chacune
     for(action.colonne=0; action.colonne < jeu->nbCaseX; action.colonne++) {
@@ -52,7 +51,7 @@ t_action IA_effectuerTour(t_jeu *jeu, int idJ) {
                     actionPrio = action;
                 }
             }
-            printf("ACT: colonne %d, pièce %d, priorite = %d\n", action.colonne, action.typePiece, priorite);
+            //printf("ACT: colonne %d, pièce %d, priorite = %d\n", action.colonne, action.typePiece, priorite);
             // enfin, on déjoue le coups
             MOTEUR_tourPrecedent(cpjeu);
         } // end for each typePiece
@@ -146,3 +145,14 @@ int IA_minimax(t_jeu* jeu, int profondeur, int idIA, int prioMax) {
 
 
 
+
+
+
+
+void fct_deb(int prof, int colonne, int t_piece, int prio) {
+    int i = 0;
+    for(i = 4-prof; i >= 0; i--) {
+        printf("i\t");
+    }
+    printf("colonne %d, pièce %i => prio %d\n", colonne, t_piece, prio);
+}

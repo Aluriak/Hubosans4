@@ -34,11 +34,14 @@ int IA_h(t_jeu* jeu, int idIA) {
     for(i = 0; i < jeu->nbJoueur; i++)
         nb_pieceAligneeMax[i] = 0;
     // priorité à retourner :
-    int priorite = -1; // utilisée aussi pour le calcul intermédiaire
+    int priorite = -1;
+    // nombre de pièces maximum alignées :
+    int nb_pieceMax = 0;
 
 
 
     // DÉTERMINATION DE LA PRIORITÉ
+    // on détermine le nombre de pièces max alignées pour chaque joueur
     // Pour chaque case
         // pour chaque joueur
                 // on utilise la fonction suivante, pour chaque joueur
@@ -55,9 +58,9 @@ int IA_h(t_jeu* jeu, int idIA) {
             // pour chaque joueur 
             for(k = jeu->nbJoueur-1; k >= 0; k--) {
                 // on prend le nombre de case alignées par rapport à cette case
-                priorite = MOTEUR_test_puissance4(jeu, coordCase, k);
+                nb_pieceMax = MOTEUR_test_puissance4(jeu, coordCase, k);
                 // on prend le nombre max de pièces alignées par le joueur
-                nb_pieceAligneeMax[k] = max(nb_pieceAligneeMax[k], priorite);
+                nb_pieceAligneeMax[k] = max(nb_pieceAligneeMax[k], nb_pieceMax);
             }
         }
     }
@@ -65,32 +68,32 @@ int IA_h(t_jeu* jeu, int idIA) {
 
     // on a maintenant le nombre maximum de pièce alignées pour chaque joueur
     // on parcours les joueurs, et on prend le nombre de pièces max alignées
-    priorite = 0;
     // pour chaque joueur
     for(i = 0; i < jeu->nbJoueur; i++) {
-        priorite = max(nb_pieceAligneeMax[i], priorite);
-        if(nb_pieceAligneeMax[i] != 0)
+        nb_pieceMax = max(nb_pieceAligneeMax[i], nb_pieceMax);
     }
-    // maintenant, on regarde si l'IA jouéee a ce nombre de pièces alignées
-    if(nb_pieceAligneeMax[idIA] == priorite) {
+    // maintenant, on regarde si l'IA jouée a ce nombre de pièces alignées
+    if(nb_pieceAligneeMax[idIA] == nb_pieceMax) {
         // on définit la priorité renvoyée
-        if(priorite >= 3)
+        if(nb_pieceMax >= 3)
             priorite = 100;
-        else if(priorite == 2)
+        else if(nb_pieceMax == 2)
             priorite = 70;
-        else if(priorite == 1)
-            priorite = 50;
+        else if(nb_pieceMax == 1)
+            priorite = 60;
         else // cas où il y a 0 pions alignés
             priorite = 50; // priorité moyenne
     }
     else { // c'est un adversaire qui a le nombre de pièce max !
         // on définit la priorité renvoyée
-        if(priorite >= 3)
+        if(nb_pieceMax >= 3)
             priorite = 0;
-        else if(priorite == 2)
+        else if(nb_pieceMax == 2)
             priorite = 20;
-        else if(priorite == 1)
+        else if(nb_pieceMax == 1)
             priorite = 40;
+        else 
+            priorite = 50;
     }
 
     // RETOUR DE LA PRIORITÉ

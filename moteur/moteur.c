@@ -79,7 +79,6 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
     {
     	// On récupère la valeur de la ligne ou il est possible de placer la pièce
     	int ligne = MOTEUR_coordPieceJouee(jeu, action.typePiece, action.colonne);
-        printf("DEBUG : coord ligne = %i", ligne);
 	int oya = jeu->oya; // On récupère la valeur de l'oya
 	// Si la valeur de ligne est égal à -1, c'est qu'il est impossible de placer la pièce ici
     	if(ligne == -1)
@@ -265,14 +264,12 @@ bool MOTEUR_tourPrecedent(t_jeu* jeu) {
 int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
     // initialisations
     int i = 0; // itérateur de boucle
-    int ligne = 0; // ligne où la pièce va se placer
+    int ligne = jeu->nbCaseY-1; // ligne où la pièce va se placer
     e_piece pieceCase; // pieces occupant la case étudiée
 
     // pour chaque case de la colonne, de bas en haut
     for(i = 0; i < jeu->nbCaseY; i++) {
 	pieceCase = jeu->plateau[colonne][i].typePiece;
-        if(pieceCase != VIDE)
-            printf("PIECE TROUVEE A (%i;%i)\n", colonne, i);
 	// si la pièce de la case étudiée bloque le chemin 
 	// 	(pièce bloquante, ou de même type que la pièce placée)
 	if(pieceCase == BLOQUANTE 
