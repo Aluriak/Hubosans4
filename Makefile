@@ -50,7 +50,7 @@ moteur.o: moteur/*  systeme.o
 
 # suppression de tous les fichiers
 clean:
-	rm *.o $(FINALNAME) rapport.aux rapport.log
+	rm *.o $(FINALNAME) rapport.aux rapport.log presentation.nav presentation.snm presentation.toc presentation.out presentation.log
 
 # suppression de tous les fichiers objets
 cleanO:
@@ -59,4 +59,6 @@ cleanO:
 
 rapport:
 	pdflatex rapport.tex
+	pdflatex presentation.tex 
+
 
