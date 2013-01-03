@@ -6,3 +6,4 @@ hubosans4
 *.aux
 *.log
 erreur.txt
+*.sv
