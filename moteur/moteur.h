@@ -22,7 +22,6 @@
 typedef enum {VIDE, CREUSE, PLEINE, BLOQUANTE, DOUBLE} e_piece;
 // DOUBLE = CREUSE + PLEINE
 
-
 // structure d'action. Contient une action de jeu : une colonne où la pièce 
 // 	est tombée, et le type de la pièce.
 typedef struct {
@@ -105,7 +104,7 @@ typedef struct {
  * PROTOTYPES
  */
 // MOTEUR
-    int MOTEUR_tourSuivant(t_jeu* jeu, t_action action); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
+    int MOTEUR_tourSuivant(t_jeu* jeu, t_action action, bool allow_last); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
 
     bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next); //Reçois en paramètre le une action, une ligne & modifie le plateau de jeu ainsi que le joueur en question, et retourne 1 pour indiquer que la pièce à bien été placée, 0 sino
 
@@ -126,6 +125,9 @@ typedef struct {
     int MOTEUR_chargement(); // Charge la sauvegarde reçu en paramètre
 
     int MOTEUR_score(); // Modifie le score d'un joueur. Reçoit en paramètre :un ID de joueur, la valeur à ajouter ou modifier
+    int MOTEUR_annulerDernierCoup(); // Annule le dernier coup du joueur en cours
+
+
 
 
 

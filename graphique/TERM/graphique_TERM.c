@@ -40,13 +40,13 @@ void TERM_backgroundColor(int couleur) {
  * TERM AFFICHER JEU
  */
 // affiche le jeu dans le terminal
-void TERM_afficherJeu(t_jeu* jeu) {
+void TERM_afficherJeu(t_jeu* jeu, t_regleJeu regleJeu) {
     // on efface l'écran
     TERM_clear();
     // Nom jeu
     TERM_afficherHubosans4(); 
     // Commande
-    TERM_afficherCommande();
+    TERM_afficherCommande(regleJeu);
     // EN-TETE
     TERM_afficherEnTete(jeu);
     // PLATEAU
@@ -278,6 +278,21 @@ t_regleJeu TERM_afficherMenu() {
 			regleJeu.nbJoueurs, regleJeu.nbJoueurs);
 		scanf("%d", &regleJeu.nbIA);
 	    }
+	    // autauriser annuler dernier coup
+	    char tmp;
+	    printf(">> Autoriser annuler dernier coup ? [y - n] ");
+	    while(tmp != 'y' && tmp != 'n')
+	    {
+		scanf("%c", &tmp);
+	    }
+	    if(tmp == 'y')
+	    {
+	    	regleJeu.allow_last = true;
+	    }
+	    else
+	    {
+	    	regleJeu.allow_last = false;
+	    }
 	    // niveau des IA (entre 1 et 4)
 	    if(regleJeu.nbIA > 0) {
 		printf("Niveau des IA :\n\n");
@@ -325,18 +340,18 @@ t_regleJeu TERM_afficherMenu() {
  * TERM AFFICHER JEU FINIT
  */
 // fait les affichage du jeu lorsqu'il se termine
-void TERM_afficherJeuFinit(t_jeu* jeu, int gagnant) {
-    TERM_afficherJeu(jeu);
+void TERM_afficherJeuFinit(t_jeu* jeu, int gagnant, t_regleJeu regleJeu) {
+    TERM_afficherJeu(jeu, regleJeu);
     printf("Le joueur %i remporte la partie !\n", gagnant+1); 
 }
 /*
  * TERM AFFICHER JEU EGALITE
  */
 // Affiche la fin de jeu en cas de plateau plein && pas puissance4
-void TERM_afficherJeuEgalite(t_jeu * jeu)
+void TERM_afficherJeuEgalite(t_jeu * jeu, t_regleJeu regleJeu)
 {
 	TERM_clear();
-	TERM_afficherJeu(jeu);
+	TERM_afficherJeu(jeu, regleJeu);
 	printf("Il y a égalité, aucune autre possibilité de jeu (plateau plein)\n");
 
 }
@@ -385,10 +400,18 @@ void TERM_afficherErreur()
  * TERM AFFICHER COMMANDE
  */
 // Affiche les commandes durant le jeu
-void TERM_afficherCommande()
+void TERM_afficherCommande(t_regleJeu regleJeu)
 {
-	printf("\tIn game CMD : ");
-	printf("1. SAVE - 2. UNDO - 3. HELP - 4. QUIT\n\n");
+	if(!regleJeu.allow_last)
+	{
+		printf("\tIn game CMD : ");
+		printf("1. SAVE - 2. UNDO [NO] - 3. HELP - 4. QUIT\n\n");
+	}
+	else
+	{
+		printf("\tIn game CMD : ");
+		printf("1. SAVE - 2. UNDO [YES] - 3. HELP - 4. QUIT\n\n");
+	}
 }
 
 
@@ -412,10 +435,10 @@ void TERM_afficherHubosans4()
  * TERM AFFICHER MODULE SAUVEGARDE
  */
 // Affiche la demande de slot à l'user
-t_action TERM_afficherModuleSauvegarde(t_jeu * jeu)
+t_action TERM_afficherModuleSauvegarde(t_jeu * jeu, t_regleJeu regleJeu)
 {
 	t_action action;
-	TERM_afficherJeu(jeu);
+	TERM_afficherJeu(jeu, regleJeu);
 	printf(">> Entrez le numéro du slot : ");
 	scanf("%i", &action.colonne);
 	// On modifie la valeur de action.colonne pour le moteur

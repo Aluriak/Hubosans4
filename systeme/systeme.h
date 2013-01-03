@@ -26,6 +26,8 @@
 // énumération booléenne
 typedef enum {false, true} bool;
 
+bool allow_last;
+
 
 /*
  * PROTOTYPES

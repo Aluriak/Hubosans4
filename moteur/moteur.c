@@ -1,7 +1,6 @@
 #include "moteur.h"
 
 
-
 /*
  * T_JEU TOUR SUIVANT
  */
@@ -12,7 +11,7 @@
 //	- On modifie jeu en fonction d'action
 //		- En testant si aucun conflit n'est présent
 //		- En vérifiant si !puissance4
-int MOTEUR_tourSuivant(t_jeu* jeu, t_action action) 
+int MOTEUR_tourSuivant(t_jeu* jeu, t_action action, bool allow_last) 
 {
     /*
      * Pour le moteur, si action.typePiece == VIDE, cela signifie que le joueur
@@ -23,7 +22,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
      * 2. LAST
      * 3. HELP
      * 4. EXIT
-     * 5>.MODULE DE SAUVEGARDE 
+     * <0.MODULE DE SAUVEGARDE 
      *
      * Si différent, erreur et on recommence la demande, sans changer de joueur
      *
@@ -46,27 +45,21 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	// Si inférieur à 0, alors il s'agit du retour du slot_num
 	else if(action.colonne < 0)
 	{
-		fprintf(stderr, "begin save : OK\n");
 		action.colonne = action.colonne + (-action.colonne*2);
-		fprintf(stderr, "action : %i\n", action.colonne);
 		MOTEUR_sauvegarde(jeu, action);
-		fprintf(stderr, "end save : OK\n");
 	}
 	// Si 2, alors on annule le dernier coup
 	else if(action.colonne == 2)
 	{
 		// TODO
-		/*
-		 * if(allow_last)
-		 * {
-		 * 	MOTEUR_annuler_dernier_coup();	
-		 * }
-		 * else
-		 * {
-		 * 	return -2; // Erreur
-		 * }
-		 */
-		return -2;
+		if(allow_last)
+		{
+			MOTEUR_annulerDernierCoup();	
+		}
+		else
+		{
+		  	return -2; // Erreur
+		}
 	}
 	// Si 3, alors on affiche l'aide des commandes
 	else if(action.colonne == 3)
@@ -529,7 +522,7 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 // 			- la pile d'action
 int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 {
-	int i = 0, j =0; // Itérateur de boucle
+	//int i = 0, j =0; // Itérateur de boucle
 
 	// >>> PREPARATION SAUVEGARDE <<<
 	
@@ -549,8 +542,15 @@ int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 	    	
 	//>>> SAUVEGARDE <<<
 	
-	// ## plateau de jeu ##
+	// ## élément important pour le chargement ##
 	
+	//	>>> Taille du plateau <<<
+	fprintf(file_save, "%i %i ", jeu->nbCaseX, jeu->nbCaseY);
+	//	>>> Nombre de joueur <<<
+	fprintf(file_save, "%i \n", jeu->nbJoueur);
+
+	// ## plateau de jeu ##
+	/*	
 	for(i=0;i<jeu->nbCaseX;i++)
 	{
 		for(j=0;j<jeu->nbCaseY;j++)
@@ -591,7 +591,7 @@ int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 		fprintf(file_save, "%s ", jeu->listeJoueur[i].nom);
 		fprintf(file_save, "\n");
 	}
-
+	*/
 	// ## Pile d'action ##
 	
 	// >>> END <<<
@@ -622,4 +622,14 @@ int MOTEUR_chargement()
 int MOTEUR_score()
 {
 	return 0;
+}
+
+
+/*
+ * MOTEUR ANNULER DERNIER COUP
+ */
+// Annule le dernier coup du joueur en cours
+int MOTEUR_annulerDernierCoup()
+{
+	return -2;
 }
