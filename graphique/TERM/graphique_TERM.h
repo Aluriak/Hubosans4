@@ -45,7 +45,14 @@ typedef struct {
     void TERM_afficherHelp(); // Affiche le menu
     void TERM_afficherJeuEgalite(t_jeu * jeu); // Affiche la fin de jeu en cas de plateau plein && pas puissance4
     void TERM_afficherErreur(); // Indique à l'user que le chois entrées est impossible
+    void TERM_afficherCommande(); // Affiche les commandes durant le jeu
     void TERM_afficherHubosans4(); // Affiche HUBOSANS4 en ascii
+    t_action TERM_afficherModuleSauvegarde(t_jeu * jeu); // Affiche la demande de slot à l'user
+    void TERM_afficherScore(); // Affiche le tableau des scores
+
+
+
+
 
 
 

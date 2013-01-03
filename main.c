@@ -77,13 +77,20 @@ int main(int argc, char* argv[]) {
 		{
 			TERM_afficherHelp();
 			wait(10);
-			
 		}
 		// Si -2, alors c'est une erreur
 		else if(gagnant == -2)
 		{
 			TERM_afficherErreur();
 			wait(2);
+		}
+		// Si -4, alors l'user veut sauvegarder
+		else if(gagnant == -4)
+		{
+			action = TERM_afficherModuleSauvegarde(&jeu);
+			gagnant = MOTEUR_tourSuivant(&jeu, action);
+			gagnant = -1;
+			fprintf(stderr, "end : OK\n");
 		}
 	    }
 	    // arrivé ici, il y a puissance 4 ou bien égalité

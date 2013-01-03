@@ -19,10 +19,11 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
      * a voulu effectuer une commande. On regarde donc action.colonne, qui 
      * sera considéré comme la commande voulu :
      * 
-     * 1. SAVE
+     * 1. DEMANDE DE SAVE
      * 2. LAST
      * 3. HELP
      * 4. EXIT
+     * 5>.MODULE DE SAUVEGARDE 
      *
      * Si différent, erreur et on recommence la demande, sans changer de joueur
      *
@@ -31,16 +32,25 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
      * return -1 : La partie n'est pas terminée et continue normalement
      * return -2 : Erreur, l'action n'est pas valide
      * return -3 : On affiche l'aide des commandes
+     * return -4 : Le moteur appel graphique pour demande de slot de save
      * return 42 : On quitte la partie en cours && retour au menu principal
      * return 43 : Le plateau de jeu est plein, on retourne égalité
      */
     if(action.typePiece == VIDE) // action.colonne == VIDE, donc on passe en mode commande
     {
-    	// Si 1, alors on lance le module de sauvegarde
+    	// Si 1, alors c'est une demande de sauvegarde
     	if(action.colonne == 1)
 	{
-    		return -2; // temporaire
-    		//MOTEUR_sauvegarde();
+    		return -4;
+	}
+	// Si inférieur à 0, alors il s'agit du retour du slot_num
+	else if(action.colonne < 0)
+	{
+		fprintf(stderr, "begin save : OK\n");
+		action.colonne = action.colonne + (-action.colonne*2);
+		fprintf(stderr, "action : %i\n", action.colonne);
+		MOTEUR_sauvegarde(jeu, action);
+		fprintf(stderr, "end save : OK\n");
 	}
 	// Si 2, alors on annule le dernier coup
 	else if(action.colonne == 2)
@@ -56,7 +66,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 		 * 	return -2; // Erreur
 		 * }
 		 */
-		return -1;
+		return -2;
 	}
 	// Si 3, alors on affiche l'aide des commandes
 	else if(action.colonne == 3)
@@ -506,6 +516,9 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 	}
 }
 
+
+
+
 /*
  * MOTEUR SAUVEGARDE
  */
@@ -516,24 +529,24 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 // 			- la pile d'action
 int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 {
-	int i = 0, j = 0; //itérateur de boucle
-	//nom d'un slot : saveN.sv (avec N le numéro de slot)
-	
+	int i = 0, j =0; // Itérateur de boucle
+
 	// >>> PREPARATION SAUVEGARDE <<<
 	
-    	FILE * file_save;
+	//nom d'un slot : saveN.sv (avec N le numéro de slot)
+	char slot_num[1];
 	// On convertie action.colonne en string
-	char slot_num[1]; // contiendra le numéro du slot
 	sprintf(slot_num, "%i", action.colonne); // Convertion int en string 
 	// Création de la chaine de caractère pour le nom final
-	char save[10] = "save";
+	char save[20] = "save/save";
 	char end_save[3] = ".sv";
 	// Fusion des chaines de caractères
 	strcat(save, slot_num);
 	strcat(save, end_save);
-	// Création du fichier 
+	// Ouveerture du fichier
+	FILE * file_save;
 	file_save = fopen(save, "w");
-
+	    	
 	//>>> SAUVEGARDE <<<
 	
 	// ## plateau de jeu ##
@@ -549,6 +562,7 @@ int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 			fprintf(file_save, "%i ", jeu->plateau[i][j].joueurPieceCreuse);
 			fprintf(file_save, "%i ", jeu->plateau[i][j].joueurPiecePleine);
 			fprintf(file_save, "%i ", jeu->plateau[i][j].typePiece);
+			fprintf(file_save, "\n");
 		}
 	}
 
@@ -560,6 +574,7 @@ int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 	fprintf(file_save, "%i ", jeu->nbPieceBloquante);
 	fprintf(file_save, "%i ", jeu->nbPiecePleine);
 	fprintf(file_save, "%i ", jeu->nbPieceCreuse);
+	fprintf(file_save, "\n");
 
 	// ## Joueurs ##
 	
@@ -574,12 +589,37 @@ int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].niveauIA);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].intrepidite);
 		fprintf(file_save, "%s ", jeu->listeJoueur[i].nom);
+		fprintf(file_save, "\n");
 	}
 
 	// ## Pile d'action ##
 	
 	// >>> END <<<
 	
+	fprintf(file_save, "\n\n");
 	fclose(file_save);
+	return 0;
+}
+
+
+/*
+ * MOTEUR CHARGEMENT
+ */
+//  Charge la sauvegarde reçu en paramètre
+int MOTEUR_chargement()
+{
+	return 0;
+}
+
+
+/*
+ * MOTEUR SCORE
+ */
+// Modifie le score d'un joueur.
+// Reçoit en paramètre :
+// 	- un ID de joueur
+// 	- la valeur à ajouter ou modifier
+int MOTEUR_score()
+{
 	return 0;
 }

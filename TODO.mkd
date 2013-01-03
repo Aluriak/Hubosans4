@@ -6,7 +6,6 @@
 - TERM 
     - TERMINE, du moins pour le moment =)
 
-
 - SDL
     - faire une ébauche de représentation graphique
     - faire les ressources

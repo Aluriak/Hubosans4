@@ -123,6 +123,12 @@ typedef struct {
 
     int MOTEUR_sauvegarde(t_jeu * jeu, t_action action); // Sauvegarde la partie en cours
 
+    int MOTEUR_chargement(); // Charge la sauvegarde reçu en paramètre
+
+    int MOTEUR_score(); // Modifie le score d'un joueur. Reçoit en paramètre :un ID de joueur, la valeur à ajouter ou modifier
+
+
+
 
 // STRUCT T_CASE (dans struct_case_joueur.c)
     void t_case_init(t_case* t_case, int x, int y); // initialisation de la structure

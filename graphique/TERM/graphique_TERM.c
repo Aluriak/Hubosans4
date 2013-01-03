@@ -45,6 +45,8 @@ void TERM_afficherJeu(t_jeu* jeu) {
     TERM_clear();
     // Nom jeu
     TERM_afficherHubosans4(); 
+    // Commande
+    TERM_afficherCommande();
     // EN-TETE
     TERM_afficherEnTete(jeu);
     // PLATEAU
@@ -379,6 +381,15 @@ void TERM_afficherErreur()
 	printf("Erreur : Entrées inconnue ou impossible\n");
 }
 
+/*
+ * TERM AFFICHER COMMANDE
+ */
+// Affiche les commandes durant le jeu
+void TERM_afficherCommande()
+{
+	printf("\tIn game CMD : ");
+	printf("1. SAVE - 2. UNDO - 3. HELP - 4. QUIT\n\n");
+}
 
 
 /*
@@ -394,4 +405,30 @@ void TERM_afficherHubosans4()
     printf("                     \\___|_  /|______/  |______  /\\_______  /_______  /\\____|__  /\\____|__  /_______  /\\____   |                   \n");
     printf("                           \\/                  \\/         \\/        \\/         \\/         \\/        \\/      |__|                   \n");
     printf("\n");
+}
+
+
+/*
+ * TERM AFFICHER MODULE SAUVEGARDE
+ */
+// Affiche la demande de slot à l'user
+t_action TERM_afficherModuleSauvegarde(t_jeu * jeu)
+{
+	t_action action;
+	TERM_afficherJeu(jeu);
+	printf(">> Entrez le numéro du slot : ");
+	scanf("%i", &action.colonne);
+	// On modifie la valeur de action.colonne pour le moteur
+	action.colonne = action.colonne - (2*action.colonne); // On passe la valeur du slot en négatif afin de ne pas retourner un gagnant éronné (en effet, si une valeur est positive, elle a pour conséquence de quitter la partie en cours)
+	fprintf(stderr, "action : %i\n", action.colonne);
+	return action;
+}
+
+/*
+ * TERM AFFICHER SCORE
+ */
+// Affiche le tableau des scores
+void TERM_afficherScore()
+{
+	// TODO	
 }
