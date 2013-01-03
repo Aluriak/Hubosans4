@@ -525,22 +525,38 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 // 			- le jeu
 // 			- une action
 // 			- la pile d'action
-int MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
+void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 {
+	fprintf(stderr, "begin function : OK\n");
 	int i = 0, j =0; // Itérateur de boucle
 
 	// >>> PREPARATION SAUVEGARDE <<<
-	
+	char tmp_save[14] = "save/save";
+	char tmp_slot_num[3];
+	char tmp_end_save[3] = ".sv";
+	char *slot_num = tmp_slot_num;
+
 	//nom d'un slot : saveN.sv (avec N le numéro de slot)
-	char slot_num[1];
+	//char * slot_num = malloc(3*sizeof(char));
 	// On convertie action.colonne en string
 	sprintf(slot_num, "%i", action.colonne); // Convertion int en string 
 	// Création de la chaine de caractère pour le nom final
-	char save[20] = "save/save";
-	char end_save[3] = ".sv";
+	//char * end_save = malloc(3*sizeof(char));
+	//char * save = malloc(20*sizeof(char));
+	// Création contenu
+	//save = "save/save";
+	//end_save = ".sv";
+	// Creation tmp var
+	// Addressage
+	//char *end_save = tmp_end_save;
 	// Fusion des chaines de caractères
-	strcat(save, slot_num);
-	strcat(save, end_save);
+	strcat(tmp_save, tmp_slot_num);
+	strcat(tmp_save, tmp_end_save);
+	char *save = malloc(sizeof(strlen(tmp_save)));
+	save = tmp_save;
+	slot_num = tmp_slot_num;
+	//end_save = tmp_end_save;
+
 	// Ouveerture du fichier
 	FILE * file_save;
 	file_save = fopen(save, "w");
@@ -605,7 +621,6 @@ int MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 	
 	fprintf(file_save, "\n\n");
 	fclose(file_save);
-	return 0;
 }
 
 

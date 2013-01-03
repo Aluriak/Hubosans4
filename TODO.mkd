@@ -1,7 +1,11 @@
 # TODO LIST
 
+- Main
+    - pb free save & exit
+
 - Moteur
     - Le problème des pièce ne viendrait peut-être pas du moteur mais de graphique TERM :/ ... bizarre
+    - Nettoyer fonction sauvegarde
 
 - TERM 
     - TERMINE, du moins pour le moment =)

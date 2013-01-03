@@ -29,7 +29,8 @@ int main(int argc, char* argv[]) {
 	// TODO: initialiser la SDL, créer la SDL_surface
     }
     while(quit == false)
-    {
+    {	
+    	    bool no_game = false;
 	    // Menu principal
 	    if(sdl) {
 		/*
@@ -49,17 +50,22 @@ int main(int argc, char* argv[]) {
 		// Si -2, alors on lance le module de chargement de partie
 		else if(regleJeu.nbJoueurs==-2)
 		{
-			char * quit = malloc(20*sizeof(char));
+			char * exit = malloc(20*sizeof(char));
 			char * save = malloc(20*sizeof(char));
-			quit = "quit";
+			exit = "quit";
+			TERM_clear();
+			TERM_afficherHubosans4();
 			save = TERM_afficherModuleChargement();
-			if(strcmp(save, quit) == 1)
+			if(strcmp(save, exit) == 0)
 			{
-				break;	
+				no_game = true;
+				quit = false;
+				gagnant = 42;
 			}
 			else
 			{
 				// Traitement
+				printf("Traitement\n");
 				return -1;
 			}
 		}
@@ -71,9 +77,9 @@ int main(int argc, char* argv[]) {
 				   regleJeu.nbPieceBloquante, 
 				   regleJeu.nbPiecePleine, 
 				   regleJeu.nbPieceCreuse); 
+				   allow_last = regleJeu.allow_last;
 		}
 	    }
-	    allow_last = regleJeu.allow_last;
 	    // jeu
 	    while(gagnant < 0) {
 		if(sdl) {
@@ -108,7 +114,6 @@ int main(int argc, char* argv[]) {
 			action = TERM_afficherModuleSauvegarde(&jeu, regleJeu);
 			gagnant = MOTEUR_tourSuivant(&jeu, action, allow_last);
 			gagnant = -1;
-			fprintf(stderr, "end : OK\n");
 		}
 	    }
 	    // arrivé ici, il y a puissance 4 ou bien égalité
@@ -138,18 +143,14 @@ int main(int argc, char* argv[]) {
 			gagnant = -1;	
 		}
 	    }
-	    t_jeu_free(&jeu);
-    }
-    // libération du jeu
-    if(!quit)
-    {
-    	t_jeu_free(&jeu);
-	return 0;
-    }
-    else
-    {
-    	return 0;
-    }
+	    // Si une partie à été lancée
+	    if(!no_game)
+	    {
+	    	 // Alors on free
+	    	 t_jeu_free(&jeu);
+	    }
+      }
+    return 0;
     // TODO: libérations et désinitialisations SDL
 }
 
