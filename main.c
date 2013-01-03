@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
 		    //action = SDL_entreeUtilisateur(jeu, ecran);
 		}
 		else {
-		    TERM_afficherJeu(&jeu, regleJeu);
+		    TERM_afficherJeu(&jeu);
 		    if(jeu.listeJoueur[jeu.oya].IA == true)
 			//action = IA_effectuerTour(jeu, oya);
 			action = TERM_entreeUtilisateur(&jeu); // TEMPORAIRE
@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
 		// Si -4, alors l'user veut sauvegarder
 		else if(gagnant == -4)
 		{
-			action = TERM_afficherModuleSauvegarde(&jeu, regleJeu);
+			action = TERM_afficherModuleSauvegarde(&jeu);
 			gagnant = MOTEUR_tourSuivant(&jeu, action, allow_last);
 			gagnant = -1;
 		}
@@ -129,12 +129,12 @@ int main(int argc, char* argv[]) {
 	    {
 	    	if(gagnant >= 0 && gagnant <= 5)
 		{
-			TERM_afficherJeuFinit(&jeu, gagnant, regleJeu);
+			TERM_afficherJeuFinit(&jeu, gagnant);
 			wait(5);
 		}
 		else if(gagnant == 43)
 		{
-			TERM_afficherJeuEgalite(&jeu, regleJeu);
+			TERM_afficherJeuEgalite(&jeu);
 		}
 		/*
 		 * Dans tout les autres cas, on considère que l'user veut

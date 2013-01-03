@@ -94,6 +94,7 @@ typedef struct {
     int nbPieceBloquante; // nb de pièces bloquantes possédées au début
     int nbPiecePleine; // nb de pièces pleines possédées au début
     int nbPieceCreuse; // nb de pièces creuses possédées au début
+    bool allow_last; // vrai si possible de revenir en arrière
 } t_jeu;
 
 
