@@ -15,7 +15,6 @@ t_action IA_effectuerTour(t_jeu *jeu) {
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
     //          de l'action actionPrio
     int profondeur = jeu->listeJoueur[idIA].niveauIA * jeu->nbJoueur; 
-    printf("PROFONDEUR = %d\n", profondeur);
     int gagnant = -1; // gagnant de la partie
     // actions
     t_action action; // première action à opérer
@@ -44,7 +43,7 @@ t_action IA_effectuerTour(t_jeu *jeu) {
             else {
                 // on rappelle l'algorithme minimax, pour la profondeur ciblée
                 priorite = IA_minimax(cpjeu, profondeur, prioMax, idIA);
-                // si la priorité étudiée est plus grande
+                // on prend la plus grande priorité parmis celles proposées
                 if(priorite > prioMax) {
                     prioMax = priorite; // nouvelle prioMax
                     // l'action prioritaire est désormais égale à l'action 
@@ -105,7 +104,7 @@ int IA_minimax(t_jeu* jeu, int profondeur, int idIA, int prioMax) {
                     // moins intéressante qu'une solution proche
             // si il n'y a aucun gagnant, on appelle minimax
             else if(gagnant == -2) // erreur, l'action n'est pas valide
-                priorite = 0; // situation non désirée !
+                continue; // on passe à l'action suivante
             else {
                 // on rappelle l'algorithme minimax, pour la profondeur suivante
                 // On lui envois les arguments, dont l'action actuellement 
@@ -128,6 +127,14 @@ int IA_minimax(t_jeu* jeu, int profondeur, int idIA, int prioMax) {
             if(gagnant >= -1 && gagnant < 6)
                 // on déjoue le coups
                 MOTEUR_tourPrecedent(jeu);
+            // ÉLAGAGE ALPHA-BÊTA
+            // si la priorite max actuelle est plus grande que la valeur trouvée
+            //  et que l'action est effectuée par un autre joueur, alors il n'est 
+            //          pas la peine de continuer d'explorer cette partie de l'arbre
+            if(prioMax != -1 && priorite != -1 && priorite < prioMax &&
+                    jeu->oya != idIA) 
+                break; // on passe au noed suivant, plus besoin de s'embêter avec celui-là
+            // FIN ÉLAGAGE ALPHA-BÊTA
         } // end for each typePiece
     } // end for each colonne
     } // end profondeur > 0
