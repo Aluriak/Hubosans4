@@ -17,7 +17,7 @@
 // On garde évidemment la priorité la plus haute, on teste donc pour 4, puis 3, 
 //  puis 2, puis 1 pièce.
 //  plus une priorité est basse, plus elle est indésirable
-int IA_h(t_jeu* jeu) {
+int IA_h(t_jeu* jeu, int idIA) {
     // INITIALISATIONS
     int i = 0, j = 0, k = 0; // itérateurs de boucle
     coord coordCase = {-1,-1}; // coordonnées de la case étudiée
@@ -41,10 +41,12 @@ int IA_h(t_jeu* jeu) {
     // DÉTERMINATION DE LA PRIORITÉ
     // Pour chaque case
         // pour chaque joueur
-                // on utilise la fonction suivante :
-                // int MOTEUR_test_puissance4(3);
+                // on utilise la fonction suivante, pour chaque joueur
+                // int MOTEUR_test_puissance4(jeu, coordCase, idJoueur);
                 // Renvois le nombre de cases alignées par le joueur par rapport
                 //  à cette case
+                // La k-ième case du tableau de priorité est égale à
+                //      max(résultat fonction, valeur de la case du tableau)
     // pour chaque case du jeu (on parcours de haut en bas, de gauche à droite)
     for(i = jeu->nbCaseX-1; i >= 0; i--) {
         for(j = jeu->nbCaseY-1; j >= 0; j--) {
@@ -56,8 +58,6 @@ int IA_h(t_jeu* jeu) {
                 priorite = MOTEUR_test_puissance4(jeu, coordCase, k);
                 // on prend le nombre max de pièces alignées par le joueur
                 nb_pieceAligneeMax[k] = max(nb_pieceAligneeMax[k], priorite);
-                /*if(priorite != 0)*/
-                /*printf("(%d;%d): J%d: %d\n", i, j, k, priorite);*/
             }
         }
     }
@@ -66,12 +66,13 @@ int IA_h(t_jeu* jeu) {
     // on a maintenant le nombre maximum de pièce alignées pour chaque joueur
     // on parcours les joueurs, et on prend le nombre de pièces max alignées
     priorite = 0;
+    // pour chaque joueur
     for(i = 0; i < jeu->nbJoueur; i++) {
         priorite = max(nb_pieceAligneeMax[i], priorite);
-        //printf("pieceAligneeMax[%i] = %d\n", i, nb_pieceAligneeMax[i]);
+        if(nb_pieceAligneeMax[i] != 0)
     }
-    // maintenant, on regarde si l'oya a ce nombre de pièces alignées
-    if(nb_pieceAligneeMax[jeu->oya] == priorite) {
+    // maintenant, on regarde si l'IA jouéee a ce nombre de pièces alignées
+    if(nb_pieceAligneeMax[idIA] == priorite) {
         // on définit la priorité renvoyée
         if(priorite >= 3)
             priorite = 100;

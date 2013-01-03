@@ -15,7 +15,7 @@ t_action IA_effectuerTour(t_jeu *jeu, int idJ) {
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
     //          de l'action actionPrio
     int profondeur = jeu->listeJoueur[idIA].niveauIA * jeu->nbJoueur; 
-    printf("PRFONDEUR = %d\n", profondeur);
+    printf("PROFONDEUR = %d\n", profondeur);
     int gagnant = -1; // gagnant de la partie
     // actions
     t_action action; // première action à opérer
@@ -105,6 +105,8 @@ int IA_minimax(t_jeu* jeu, int profondeur, int idIA, int prioMax) {
                 // on retire la profondeur pour qu'une solution éloignée soit 
                     // moins intéressante qu'une solution proche
             // si il n'y a aucun gagnant, on appelle minimax
+            else if(gagnant == -2) // erreur, l'action n'est pas valide
+                priorite = 0; // situation non désirée !
             else {
                 // on rappelle l'algorithme minimax, pour la profondeur suivante
                 // On lui envois les arguments, dont l'action actuellement 
@@ -132,7 +134,7 @@ int IA_minimax(t_jeu* jeu, int profondeur, int idIA, int prioMax) {
     } // end profondeur > 0
     // sinon, la profondeur est atteinte : appel de l'heuristique !
     else {
-        priorite = IA_h(jeu);
+        priorite = IA_h(jeu, idIA);
         // si la priorité étudiée est plus grande
         if(priorite > prioMax) {
             prioMax = priorite; // nouvelle prioMax

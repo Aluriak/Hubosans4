@@ -265,7 +265,7 @@ bool MOTEUR_tourPrecedent(t_jeu* jeu) {
 int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
     // initialisations
     int i = 0; // itérateur de boucle
-    int ligne = jeu->nbCaseY-1; // ligne où la pièce va se placer
+    int ligne = 0; // ligne où la pièce va se placer
     e_piece pieceCase; // pieces occupant la case étudiée
 
     // pour chaque case de la colonne, de bas en haut
