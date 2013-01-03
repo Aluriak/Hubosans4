@@ -1,0 +1,105 @@
+\documentclass{beamer}
+
+\usepackage[frenchb]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Warsaw}
+
+
+%%%%%%%%%%%%%%%%%
+% BEGIN         %
+%%%%%%%%%%%%%%%%%
+\begin{document}
+
+    % % % % % % %
+    % FRAME 1   %
+    % % % % % % %
+    \begin{frame}
+    \frametitle{Hubosans4++}
+    \framesubtitle{Le puissance 4++}
+        Objectif : réaliser un puissance 4 "amélioré", 
+            en intégrant notamment les gestions de N joueurs 
+            et de trois types de pièces. \\     
+        Langage : C, compilé par gcc.
+    \end{frame}
+
+
+    % % % % % % %
+    % FRAME 2   %
+    % % % % % % %
+    \begin{frame}
+    \frametitle{Organisation}
+    \framesubtitle{du git, du module et du MVC}
+        L'organisation s'est faite autour d'un dépôt git, 
+            hébergé par github. \\ 
+        Le programme est divisé en modules, en essayant 
+            de respecter au mieux une architecture MVC.
+            % une image, c'est cool, surtout si on peut 
+            %   montrer l'archi globale du programme
+    \end{frame}
+
+
+    % % % % % % %
+    % FRAME 3   %
+    % % % % % % %
+    \begin{frame}
+    \frametitle{Résolution du problème}
+    \framesubtitle{Structures de données}
+        De nombreuses structures ont été définies, à commencer 
+            par les structures de jeu, de joueurs, et d'action. \\
+        \begin{itemize}
+        \item[jeu :] plateau de jeu, liste de joueurs, pile d'actions;\\
+        \item[joueur :] id, noms, points, \textit{etc};\\
+        \item[action :] principal vecteur de communication entre modules, 
+            notamment l'affichage et le moteur. Enregistre les actions 
+            des joueurs.
+        \end{itemize}
+    \end{frame}
+
+
+    % % % % % % %
+    % FRAME 4   %
+    % % % % % % %
+    \begin{frame}
+    \frametitle{Résolution du problème}
+    \framesubtitle{Découpage fonctionnel}
+    \end{frame}
+
+
+    % % % % % % %
+    % FRAME 5   %
+    % % % % % % %
+    \begin{frame}
+    \frametitle{Résolution du problème}
+    \framesubtitle{Méthodes de programmation}
+    \end{frame}
+
+
+    % % % % % % %
+    % FRAME 6   %
+    % % % % % % %
+    \begin{frame}
+    \frametitle{Avantages et limites}
+    \framesubtitle{vers l'infini et au delà}
+    \end{frame}
+
+
+    % % % % % % %
+    % FRAME 7   %
+    % % % % % % %
+    \begin{frame}
+    \frametitle{Bilan}
+    \framesubtitle{return 0;}
+    \end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%
+% END           %
+%%%%%%%%%%%%%%%%%
+\end{document}
+
+
+
+
