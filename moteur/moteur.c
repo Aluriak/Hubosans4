@@ -630,6 +630,15 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 //  Charge la sauvegarde reçu en paramètre
 int MOTEUR_chargement()
 {
+	/*
+	int i = 0, j = 0; // Itérateur de boucle
+	// >>> PREPARATION SAUVEGARDE <<<
+	FILE * file_load;
+	char beg_save[4] = "save/";
+	strcat(beg_save, save);
+	file_load = fopen(beg_save, "r");
+	// >>> CHARGEMENT <<<
+	*/
 	return 0;
 }
 

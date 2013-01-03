@@ -51,11 +51,11 @@ int main(int argc, char* argv[]) {
 		else if(regleJeu.nbJoueurs==-2)
 		{
 			char * exit = malloc(20*sizeof(char));
-			char * save = malloc(20*sizeof(char));
+			char save[20];// = malloc(20*sizeof(char));
 			exit = "quit";
 			TERM_clear();
 			TERM_afficherHubosans4();
-			save = TERM_afficherModuleChargement();
+			save[20] = TERM_afficherModuleChargement();
 			if(strcmp(save, exit) == 0)
 			{
 				no_game = true;
@@ -66,6 +66,7 @@ int main(int argc, char* argv[]) {
 			{
 				// Traitement
 				printf("Traitement\n");
+				//MOTEUR_chargement();
 				return -1;
 			}
 		}

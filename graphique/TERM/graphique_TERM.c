@@ -463,11 +463,11 @@ void TERM_afficherScore()
  * TERM AFFICHER MODULE CHARGEMENT
  */
 // Affiche le module de chargement
-char * TERM_afficherModuleChargement()
+char TERM_afficherModuleChargement()
 {
-	char * save = malloc(20*sizeof(char));
-	char * quit = malloc(20*sizeof(char));
-	quit = "quit";
+	char save[20];//malloc(20*sizeof(char));
+	char quit[20] = "quit";//malloc(20*sizeof(char));
+	//quit = "quit";
 	printf("Chargement des sauvegardes :\n\n");
 	// Création pointeur pour le répertoire
 	DIR * rep;
@@ -488,20 +488,23 @@ char * TERM_afficherModuleChargement()
 	scanf("%s", save);
 	if(strcmp(save, quit) == 0)
 	{
-		return quit;
+		return save[20];
 	}
 	else
 	{
+		int res; // Contient resultat de comparaison de string
 		// Tant que pas tout lister
-		while((lecture = readdir(rep)))
+		DIR * test = opendir("save/");
+		struct dirent * lect;
+		while((lect = readdir(test)))
 		{
-			printf("%s\n", lecture->d_name);
+			res = strcmp(save, lect->d_name);
 			// Si lecture->d_name == save
-			if(strcmp(save, lecture->d_name) == 0)
+			if(res == 0)
 			{
 				find = true;
 				// On retourne la sauvegarde
-				return save;
+				return save[20];
 			}
 		}
 	}
@@ -509,7 +512,7 @@ char * TERM_afficherModuleChargement()
 	{
 		printf("Erreur : sauvegarde corrompue ou inexistante\n");
 		wait(2);
-		return save = "quit";
+		return quit[20]; // = "quit";
 	}
 	return EXIT_SUCCESS;
 }
