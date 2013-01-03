@@ -65,9 +65,11 @@ int main(int argc, char* argv[]) {
 			else
 			{
 				// Traitement
-				printf("Traitement\n");
+				printf("Module en construction\n");
+				wait(2);
+				no_game = true;
+				gagnant = 42;
 				//MOTEUR_chargement();
-				return -1;
 			}
 		}
 		else
