@@ -22,6 +22,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action, bool allow_last)
      * 2. LAST
      * 3. HELP
      * 4. EXIT
+     * 5. CHARGEMENT
      * <0.MODULE DE SAUVEGARDE 
      *
      * Si différent, erreur et on recommence la demande, sans changer de joueur
@@ -46,7 +47,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action, bool allow_last)
 	else if(action.colonne < 0)
 	{
 		action.colonne = action.colonne + (-action.colonne*2);
-		MOTEUR_sauvegarde(jeu, action);
+		MOTEUR_sauvegarde(jeu, action, allow_last);
 	}
 	// Si 2, alors on annule le dernier coup
 	else if(action.colonne == 2)
@@ -70,6 +71,10 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action, bool allow_last)
 	else if(action.colonne == 4)
 	{
 		return 42; // The answer ... =)
+	}
+	else if(action.colonne == 5)
+	{
+		MOTEUR_chargement();
 	}
 	// Sinon, on retourne une erreur (choix inconnu)
 	else
@@ -520,9 +525,9 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 // 			- le jeu
 // 			- une action
 // 			- la pile d'action
-int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
+int MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 {
-	//int i = 0, j =0; // Itérateur de boucle
+	int i = 0, j =0; // Itérateur de boucle
 
 	// >>> PREPARATION SAUVEGARDE <<<
 	
@@ -547,10 +552,12 @@ int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 	//	>>> Taille du plateau <<<
 	fprintf(file_save, "%i %i ", jeu->nbCaseX, jeu->nbCaseY);
 	//	>>> Nombre de joueur <<<
-	fprintf(file_save, "%i \n", jeu->nbJoueur);
+	fprintf(file_save, "%i ", jeu->nbJoueur);
+	//	>>> Autorisation dernier coup <<<
+	fprintf(file_save, "%i \n", allow_last);
 
 	// ## plateau de jeu ##
-	/*	
+		
 	for(i=0;i<jeu->nbCaseX;i++)
 	{
 		for(j=0;j<jeu->nbCaseY;j++)
@@ -591,7 +598,7 @@ int MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 		fprintf(file_save, "%s ", jeu->listeJoueur[i].nom);
 		fprintf(file_save, "\n");
 	}
-	*/
+
 	// ## Pile d'action ##
 	
 	// >>> END <<<

@@ -10,6 +10,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <assert.h>
+#include <dirent.h>
+
 //#include <SDL/SDL.h>
 
 

@@ -318,7 +318,10 @@ t_regleJeu TERM_afficherMenu() {
 	    // On retourne les regles du jeu
 	    return regleJeu;
 	case 2:
-		printf("Not availble now, sorry.\n");
+		// On met le nombre de joueurs à -2
+		regleJeu.nbJoueurs=-2;
+		// On retourne les règles du jeu
+		return regleJeu;
 	case 3:
 		printf("Not avaible now, sorry.\n");
 	case 4:
@@ -454,4 +457,76 @@ t_action TERM_afficherModuleSauvegarde(t_jeu * jeu, t_regleJeu regleJeu)
 void TERM_afficherScore()
 {
 	// TODO	
+}
+
+
+/*
+ * TERM AFFICHER MODULE CHARGEMENT
+ */
+// Affiche le module de chargement
+char * TERM_afficherModuleChargement()
+{
+	char * save = malloc(20*sizeof(char));
+	char * quit = malloc(20*sizeof(char));
+	quit = "quit";
+	bool exist = false; // Indique si le fichier existe
+	printf("\tBienvenue dans le module de Chargement.\n");
+	// Création pointeur pour le répertoire
+	DIR * rep;
+	// Création var --> SLOT = numéro du slot
+	int slot = 0;
+	// Ouverture du répetoire des sauvegarde
+	rep = opendir("save/");
+	struct dirent * lecture;
+	while(!exist)
+	{
+		// On lit tout les fichiers & on les affiches
+		while((lecture = readdir(rep)))
+		{
+			printf("slot[%i] : %s\n", slot, lecture->d_name);
+			slot ++;
+		}
+		printf("\n");
+		printf(">> Entrez le nom de la sauvegarde : ");
+		scanf("%s", save);
+		/*
+		 * DEBUG
+		 */
+		printf("%s\n", save);
+		printf("%s\n", quit);
+		/*
+		 * END DEBUG
+		 */
+		// Si l'user à tapé quit alors
+		if(strcmp(save, quit) == 1)
+		{
+			// On retour le char quit
+			return quit;
+		}
+		// Sinon on lance la procédure de recherche
+		else
+		{
+			// Tant que pas tout lister
+			while((lecture = readdir(rep)))
+			{
+				// Si rep == save
+				if(strcmp(save, lecture->d_name))
+				{
+					// On retourne la sauvegarde
+					exist = true;
+				}
+			}
+			if(!exist)
+			{
+				printf("Erreur : sauvegarde corrompue ou inexistante\n");
+			}
+		}
+	}
+	// Si le fichier existe
+	if(exist)
+	{
+		// On retourne la sauvegarde
+		return save;
+	}
+	return EXIT_SUCCESS;
 }

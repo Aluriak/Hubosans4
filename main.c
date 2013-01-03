@@ -46,6 +46,23 @@ int main(int argc, char* argv[]) {
 			quit = true;
 			break;
 		}
+		// Si -2, alors on lance le module de chargement de partie
+		else if(regleJeu.nbJoueurs==-2)
+		{
+			char * quit = malloc(20*sizeof(char));
+			char * save = malloc(20*sizeof(char));
+			quit = "quit";
+			save = TERM_afficherModuleChargement();
+			if(strcmp(save, quit) == 1)
+			{
+				break;	
+			}
+			else
+			{
+				// Traitement
+				return -1;
+			}
+		}
 		else
 		{
 			t_jeu_init(&jeu, regleJeu.nbJoueurs, 
