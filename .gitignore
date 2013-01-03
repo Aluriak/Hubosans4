@@ -5,4 +5,8 @@ hubosans4
 *.pdf
 *.aux
 *.log
+*.nav
+*.snm
+*.toc
+*.out
 erreur.txt
