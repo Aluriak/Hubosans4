@@ -15,7 +15,7 @@ t_action IA_effectuerTour(t_jeu *jeu) {
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
     //          de l'action actionPrio
     int alpha = 0, beta = 100;
-    int profondeur = jeu->listeJoueur[idIA].niveauIA * jeu->nbJoueur * 4; 
+    int profondeur = jeu->listeJoueur[idIA].niveauIA * jeu->nbJoueur; 
     int gagnant = -1; // gagnant de la partie
     // actions
     t_action action; // première action à opérer
@@ -49,6 +49,7 @@ t_action IA_effectuerTour(t_jeu *jeu) {
                     prioMax = priorite; // nouvelle prioMax
                     // l'action prioritaire est désormais égale à l'action 
                     actionPrio = action;
+                    printf("DEBUG: prioMax = %i\n", prioMax);
                 }
                 // si c'est la même priorité, ya une chance pour que ça joue plutôt là
                 else if(priorite == prioMax && randN(4) == 0) {
@@ -57,7 +58,10 @@ t_action IA_effectuerTour(t_jeu *jeu) {
             }
             //printf("ACT: colonne %d, pièce %d, priorite = %d\n", action.colonne, action.typePiece, priorite);
             // enfin, on déjoue le coups
-            MOTEUR_tourPrecedent(cpjeu);
+            if(gagnant >= -1) {
+                MOTEUR_tourPrecedent(cpjeu);
+                gagnant = -2;
+            }
         } // end for each typePiece
     } // end for each colonne
 
@@ -73,11 +77,11 @@ t_action IA_effectuerTour(t_jeu *jeu) {
 
 
 /*
- * IA MINIMAX
+ * IA ALPHA BETA
  */
 // étudie récursivement le plateau de jeu, et retourne la priorité du jeu actuel 
 //      suite à une étude sur la profondeur indiquée.
-//      Appel récursif, algorithme minimax employé
+//      Appel récursif, algorithme minimax employé avec élagage alpha-bêta.
 // arguments : le jeu, la profondeur a atteindre, l'id du joueur joué par l'IA,
 //      la prioMax calculée jusqu'ici,
 int IA_alphaBeta(t_jeu* jeu, int alpha, int beta, int profondeur, int idIA) {

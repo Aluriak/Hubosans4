@@ -19,7 +19,7 @@
  * PREDECLARATIONS
  */
 // enumération du type de pièce dans une case
-typedef enum {VIDE, CREUSE, PLEINE, BLOQUANTE, DOUBLE} e_piece;
+typedef enum {VIDE=0, CREUSE=1, PLEINE=2, BLOQUANTE=3, DOUBLE} e_piece;
 // DOUBLE = CREUSE + PLEINE
 
 
