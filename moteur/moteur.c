@@ -359,9 +359,6 @@ int MOTEUR_test_c_p4(t_jeu* jeu, int i, int j, int idJ, int c_p4)
 //	- un id de joueur
 int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 {
-        //!!!!!!!!!!!!WTF!!!!!!!!!!
-	//idJ = jeu->oya; // On prend l'id du joueur en cours 
-        //!!!!!!!!!!!!WTF!!!!!!!!!!
 	// Déclare un tableau pour récupérer les valeurs max
 	int * max;
 	max=malloc(4*sizeof(int));
