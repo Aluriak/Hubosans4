@@ -92,13 +92,12 @@ int main(int argc, char* argv[]) {
 		else {
 		    TERM_afficherJeu(&jeu);
 		    if(jeu.listeJoueur[jeu.oya].IA == true)
-			//action = IA_effectuerTour(jeu, oya);
-			action = TERM_entreeUtilisateur(&jeu); // TEMPORAIRE
+                        action = IA_effectuerTour(&jeu);
 		    else
 			action = TERM_entreeUtilisateur(&jeu);
 		}
 		// On envoie au moteur les choix entrées par l'utilisateur
-		gagnant = MOTEUR_tourSuivant(&jeu, action, allow_last);
+		gagnant = MOTEUR_tourSuivant(&jeu, action);
 		// Si -3, alors l'user demande de l'aide
 		if(gagnant == -3)
 		{
@@ -115,7 +114,7 @@ int main(int argc, char* argv[]) {
 		else if(gagnant == -4)
 		{
 			action = TERM_afficherModuleSauvegarde(&jeu);
-			gagnant = MOTEUR_tourSuivant(&jeu, action, allow_last);
+			gagnant = MOTEUR_tourSuivant(&jeu, action);
 			gagnant = -1;
 		}
 	    }

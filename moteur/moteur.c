@@ -11,7 +11,7 @@
 //	- On modifie jeu en fonction d'action
 //		- En testant si aucun conflit n'est présent
 //		- En vérifiant si !puissance4
-int MOTEUR_tourSuivant(t_jeu* jeu, t_action action, bool allow_last) 
+int MOTEUR_tourSuivant(t_jeu* jeu, t_action action) 
 {
     /*
      * Pour le moteur, si action.typePiece == VIDE, cela signifie que le joueur
@@ -53,7 +53,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action, bool allow_last)
 	else if(action.colonne == 2)
 	{
 		// TODO
-		if(allow_last)
+		if(jeu->allow_last)
 		{
 			MOTEUR_annulerDernierCoup();	
 		}
@@ -312,27 +312,26 @@ int MOTEUR_coordPieceJouee(t_jeu* jeu, e_piece piecePlacee, int colonne) {
     e_piece pieceCase; // pieces occupant la case étudiée
 
     // pour chaque case de la colonne, de bas en haut
-    for(i = jeu->nbCaseY-1; i >= 0; i--) {
+    for(i = 0; i < jeu->nbCaseY; i++) {
 	pieceCase = jeu->plateau[colonne][i].typePiece;
 	// si la pièce de la case étudiée bloque le chemin 
 	// 	(pièce bloquante, ou de même type que la pièce placée)
-	if((	pieceCase == BLOQUANTE 
+	if(pieceCase == BLOQUANTE 
 		|| pieceCase == piecePlacee 
-		|| pieceCase == DOUBLE)
-	    || // exception : cas où la pièce est bloquante
-		(piecePlacee == BLOQUANTE && pieceCase != VIDE)) {
-	    // si il n'y a pas de case au dessus, on renvois -1
-	    if(i == 0) {
-		i = -1; // arrêt de la boucle
-		ligne = -1; // colonne pleine
-	    }
-	    // sinon, la ligne prend la valeur de la case supérieure
-	    else
-		ligne = i-1; 
+		|| pieceCase == DOUBLE
+	        || (piecePlacee == BLOQUANTE && pieceCase != VIDE)) {
+	            // si il n'y a pas de case au dessus, on renvois -1
+	            if(i == 0) {
+		        i = jeu->nbCaseY; // arrêt de la boucle
+		        ligne = -1; // colonne pleine
+	            }
+	            // sinon, la ligne prend la valeur de la case supérieure
+	            else {
+		        ligne = i-1; 
+		        i = jeu->nbCaseY; // arrêt de la boucle
+                    }
 	}
-	// sinon, c'est que la case est praticable, on arrête le traitement ici
-	else 
-	    i = -1;
+	// sinon, c'est que la case est praticable, on continue la boucle
     }
     return ligne;
 }
@@ -404,7 +403,6 @@ int MOTEUR_test_c_p4(t_jeu* jeu, int i, int j, int idJ, int c_p4)
 //	- un id de joueur
 int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 {
-	idJ = jeu->oya; // On prend l'id du joueur en cours
 	// Déclare un tableau pour récupérer les valeurs max
 	int * max;
 	max=malloc(4*sizeof(int));
