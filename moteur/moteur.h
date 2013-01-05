@@ -125,7 +125,7 @@ typedef struct {
 
     t_jeu MOTEUR_chargement(t_jeu jeu, char save[20]); // Charge la sauvegarde reçu en paramètre
 
-    int MOTEUR_score(t_jeu * jeu, int idJ); // Modifie le score d'un joueur. Reçoit en paramètre :un ID de joueur, la valeur à ajouter ou modifier
+    void MOTEUR_score(t_jeu * jeu, int idJ, int i, int j); // Modifie le score d'un joueur. Reçoit en paramètre :un ID de joueur, la valeur à ajouter ou modifier
     int MOTEUR_annulerDernierCoup(); // Annule le dernier coup du joueur en cours
 
 
