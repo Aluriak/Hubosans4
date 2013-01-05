@@ -19,7 +19,7 @@
  * PREDECLARATIONS
  */
 // enumération du type de pièce dans une case
-typedef enum {VIDE, CREUSE, PLEINE, BLOQUANTE, DOUBLE} e_piece;
+typedef enum {VIDE=0, CREUSE=1, PLEINE=2, BLOQUANTE=3, DOUBLE} e_piece;
 // DOUBLE = CREUSE + PLEINE
 
 // structure d'action. Contient une action de jeu : une colonne où la pièce 
@@ -94,6 +94,7 @@ typedef struct {
     int nbPieceBloquante; // nb de pièces bloquantes possédées au début
     int nbPiecePleine; // nb de pièces pleines possédées au début
     int nbPieceCreuse; // nb de pièces creuses possédées au début
+    bool allow_last; // vrai si possible de revenir en arrière
 } t_jeu;
 
 
@@ -104,7 +105,7 @@ typedef struct {
  * PROTOTYPES
  */
 // MOTEUR
-    int MOTEUR_tourSuivant(t_jeu* jeu, t_action action, bool allow_last); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
+    int MOTEUR_tourSuivant(t_jeu* jeu, t_action action); // effectue le tour suivant du jeu, et renvois l'adresse du joueur ayant fait un puissance 4 ce tour ou NULL.
 
     bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next); //Reçois en paramètre le une action, une ligne & modifie le plateau de jeu ainsi que le joueur en question, et retourne 1 pour indiquer que la pièce à bien été placée, 0 sino
 

@@ -34,20 +34,20 @@ typedef struct {
     void TERM_clear(); // efface le contenu du terminal
     void TERM_color(int couleur); // configure la couleur de texte terminal
     void TERM_backgroundColor(int couleur); // configure la couleur de background du terminal
-    void TERM_afficherJeu(t_jeu* jeu, t_regleJeu regleJeu); // affiche le jeu dans le terminal
+    void TERM_afficherJeu(t_jeu* jeu); // affiche le jeu dans le terminal
     // procédures internes
 	void TERM_afficherEnTete(t_jeu* jeu); // Affiche l'en-tête du jeu, contenant instructions, indications, et première partie du plateau de jeu
 	void TERM_afficherPlateau(t_jeu* jeu); // Affiche le plateau de jeu
 	void TERM_afficherCase(t_jeu* jeu, int i, int j); // affiche la case du jeu aux coordonnées (i;j), avec formatage couleur
     t_action TERM_entreeUtilisateur(t_jeu *jeu); // demande à l'oya du jeu ce qu'il désire jouer, et renvois le résultat sous forme d'une action
     t_regleJeu TERM_afficherMenu(); // affiche le menu principal et gère l'entrée utilisateur pour la configuration du jeu, et retourne la structure de jeu en conséquence
-    void TERM_afficherJeuFinit(t_jeu* jeu, int gagnant, t_regleJeu regleJeu); // fait les affichage du jeu lorsqu'il se termine
+    void TERM_afficherJeuFinit(t_jeu* jeu, int gagnant); // fait les affichage du jeu lorsqu'il se termine
     void TERM_afficherHelp(); // Affiche le menu
-    void TERM_afficherJeuEgalite(t_jeu * jeu, t_regleJeu regleJeu); // Affiche la fin de jeu en cas de plateau plein && pas puissance4
+    void TERM_afficherJeuEgalite(t_jeu * jeu); // Affiche la fin de jeu en cas de plateau plein && pas puissance4
     void TERM_afficherErreur(); // Indique à l'user que le chois entrées est impossible
-    void TERM_afficherCommande(t_regleJeu regleJeu); // Affiche les commandes durant le jeu
+    void TERM_afficherCommande(t_jeu *jeu); // Affiche les commandes durant le jeu
     void TERM_afficherHubosans4(); // Affiche HUBOSANS4 en ascii
-    t_action TERM_afficherModuleSauvegarde(t_jeu * jeu, t_regleJeu regleJeu); // Affiche la demande de slot à l'user
+    t_action TERM_afficherModuleSauvegarde(t_jeu * jeu); // Affiche la demande de slot à l'user
     void TERM_afficherScore(); // Affiche le tableau des scores
     char * TERM_afficherModuleChargement(); // Affiche le module de chargement
 

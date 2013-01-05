@@ -43,6 +43,16 @@ int max(int a, int b) {
 }
 
 
+/*
+ * MIN
+ */
+// renvois a si a <= b, ou b
+int min(int a, int b) {
+    if(a <= b) 
+        return a;
+    else
+        return b;
+}
 
 
 /*
