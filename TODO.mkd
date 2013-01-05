@@ -4,15 +4,8 @@
     - pb free save & exit
 
 - Moteur
-    - Le problème des pièce ne viendrait peut-être pas du moteur mais de graphique TERM :/ ... bizarre
     - Nettoyer fonction sauvegarde
     - Nettoyer fonction chargemeng
 
 - TERM 
     - Nettoyer fonction chargement et sauvegarde
-
-- SDL
-    - faire une ébauche de représentation graphique
-    - faire les ressources
-    - implémenter les structures de données
-    - implémenter le module graphique SDL

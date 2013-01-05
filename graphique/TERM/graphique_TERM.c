@@ -75,8 +75,8 @@ void TERM_afficherEnTete(t_jeu* jeu) {
 		jeu->listeJoueur[i].nom, 
 		jeu->listeJoueur[i].points,
 		jeu->listeJoueur[i].nbPieceBloquante,
-		jeu->listeJoueur[i].nbPieceCreuse,
-		jeu->listeJoueur[i].nbPiecePleine
+		jeu->listeJoueur[i].nbPiecePleine,
+		jeu->listeJoueur[i].nbPieceCreuse
 		);
 	// si c'est une IA
 	if(jeu->listeJoueur[i].IA) 
@@ -377,7 +377,7 @@ void TERM_afficherHelp()
 	printf("\t\t Taper 1 pour SAUVEGARDER\n");
 	printf("\t\t Taper 2 pour ANNULER LE DERNIER COUP\n");
 	printf("\t\t Taper 3 pour afficher HELP\n");
-	printf("\t\t Taper 4 pour quitter\n\n");
+	printf("\t\t Taper 4 pour QUITTER\n\n");
 	printf("\t##Commandes JEU##\n");
 	printf("\t\t Entrez d'abord le numéro de la colonne, puis le type de pièce\n");
 	printf("\t\t >>> INDEX TYPES PIECES <<<\n");
@@ -463,11 +463,11 @@ void TERM_afficherScore()
  * TERM AFFICHER MODULE CHARGEMENT
  */
 // Affiche le module de chargement
-char TERM_afficherModuleChargement()
+char * TERM_afficherModuleChargement()
 {
-	char save[20];//malloc(20*sizeof(char));
-	char quit[20] = "quit";//malloc(20*sizeof(char));
-	//quit = "quit";
+	char * save = malloc(20*sizeof(char));
+	char * quit = malloc(20*sizeof(char));
+	quit = "quit";
 	printf("Chargement des sauvegardes :\n\n");
 	// Création pointeur pour le répertoire
 	DIR * rep;
@@ -486,9 +486,10 @@ char TERM_afficherModuleChargement()
 	printf("\n");
 	printf(">> Entrez le nom de la sauvegarde [quit] : ");
 	scanf("%s", save);
+	// si save == quit, alors l'user veut quitter
 	if(strcmp(save, quit) == 0)
 	{
-		return save[20];
+		return quit;
 	}
 	else
 	{
@@ -504,7 +505,8 @@ char TERM_afficherModuleChargement()
 			{
 				find = true;
 				// On retourne la sauvegarde
-				return save[20];
+				fprintf(stderr, "load, name : %s\n", save);
+				return save;
 			}
 		}
 	}
@@ -512,7 +514,7 @@ char TERM_afficherModuleChargement()
 	{
 		printf("Erreur : sauvegarde corrompue ou inexistante\n");
 		wait(2);
-		return quit[20]; // = "quit";
+		return quit;
 	}
 	return EXIT_SUCCESS;
 }

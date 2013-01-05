@@ -122,9 +122,9 @@ typedef struct {
 
     void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last); // Sauvegarde la partie en cours
 
-    int MOTEUR_chargement(); // Charge la sauvegarde reçu en paramètre
+    t_jeu MOTEUR_chargement(t_jeu jeu, char save[20]); // Charge la sauvegarde reçu en paramètre
 
-    int MOTEUR_score(); // Modifie le score d'un joueur. Reçoit en paramètre :un ID de joueur, la valeur à ajouter ou modifier
+    int MOTEUR_score(t_jeu * jeu, int idJ); // Modifie le score d'un joueur. Reçoit en paramètre :un ID de joueur, la valeur à ajouter ou modifier
     int MOTEUR_annulerDernierCoup(); // Annule le dernier coup du joueur en cours
 
 

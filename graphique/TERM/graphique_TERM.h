@@ -49,7 +49,7 @@ typedef struct {
     void TERM_afficherHubosans4(); // Affiche HUBOSANS4 en ascii
     t_action TERM_afficherModuleSauvegarde(t_jeu * jeu, t_regleJeu regleJeu); // Affiche la demande de slot à l'user
     void TERM_afficherScore(); // Affiche le tableau des scores
-    char TERM_afficherModuleChargement(); // Affiche le module de chargement
+    char * TERM_afficherModuleChargement(); // Affiche le module de chargement
 
 
 

@@ -28,7 +28,11 @@
 // énumération booléenne
 typedef enum {false, true} bool;
 
+// Autorise ou non d'annuler le dernier coup 
 bool allow_last;
+
+// Contient le nom de la sauvegarde à charger
+//char save[20];
 
 
 /*

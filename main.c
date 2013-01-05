@@ -50,13 +50,13 @@ int main(int argc, char* argv[]) {
 		// Si -2, alors on lance le module de chargement de partie
 		else if(regleJeu.nbJoueurs==-2)
 		{
-			char * exit = malloc(20*sizeof(char));
-			char save[20];// = malloc(20*sizeof(char));
-			exit = "quit";
+			char * load;
+			char exit[5] = "quit";
 			TERM_clear();
 			TERM_afficherHubosans4();
-			save[20] = TERM_afficherModuleChargement();
-			if(strcmp(save, exit) == 0)
+			load = TERM_afficherModuleChargement();
+			fprintf(stderr, "main1, name : %s\n", load);
+			if(strcmp(load, exit) == 0)
 			{
 				no_game = true;
 				quit = false;
@@ -64,12 +64,10 @@ int main(int argc, char* argv[]) {
 			}
 			else
 			{
-				// Traitement
-				printf("Module en construction\n");
-				wait(2);
-				no_game = true;
-				gagnant = 42;
-				//MOTEUR_chargement();
+				fprintf(stderr, "main, name : %s\n", load);
+				// Chargement de la sauvegarde
+				jeu = MOTEUR_chargement(jeu, load);
+				gagnant = -1;
 			}
 		}
 		else

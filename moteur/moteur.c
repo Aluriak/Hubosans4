@@ -74,7 +74,9 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action, bool allow_last)
 	}
 	else if(action.colonne == 5)
 	{
-		MOTEUR_chargement();
+		char save[20];
+		t_jeu jeu;
+		MOTEUR_chargement(jeu, save);
 	}
 	// Sinon, on retourne une erreur (choix inconnu)
 	else
@@ -142,7 +144,6 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action, bool allow_last)
 bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 {
 	int oya=jeu->oya; // On récupère l'oya
-	jeu->plateau[action.colonne][ligne].typePiece=action.typePiece; // On modifie le plateau de jeu en fonction de la piece jouée
 	// On vérifie si le joueur à joué une pièce blocante
 	if(action.typePiece==BLOQUANTE) // Si oui, on décrémente
 	{
@@ -155,13 +156,6 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
 			// On indique qu'il s'agit bien d'un piece bloquante
 			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			/*
-			 * DEBUG
-			 */
-			printf("place");
-			/*
-			 * END DEBUG
-			 */
 			return true;
 		}
 		//Sinon on retourne faux, et on redemande au joueur de placer une pièce
@@ -209,7 +203,7 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 		}
 	}
 	// On enregistre qui à joué la piece PLEINE
-	else
+	else if(action.typePiece==PLEINE)
 	{
 		// Si le joueur possede encore des pièces Pleine
 		if(jeu->listeJoueur[oya].nbPiecePleine != 0)
@@ -246,6 +240,11 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 		{
 			return false;
 		}
+	}
+	// Sinon c'est que le type de pièce est inconnue
+	else
+	{
+		return false;
 	}
 }
 
@@ -404,7 +403,6 @@ int MOTEUR_test_c_p4(t_jeu* jeu, int i, int j, int idJ, int c_p4)
 //	- un id de joueur
 int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 {
-	idJ = jeu->oya; // On prend l'id du joueur en cours
 	// Déclare un tableau pour récupérer les valeurs max
 	int * max;
 	max=malloc(4*sizeof(int));
@@ -579,8 +577,8 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 		for(j=0;j<jeu->nbCaseY;j++)
 		{
 			// Coordonnées de la case dans le jeu
-			fprintf(file_save, "%i ", jeu->plateau[i][j].crd.x);
-			fprintf(file_save, "%i ", jeu->plateau[i][j].crd.y);
+			//fprintf(file_save, "%i ", jeu->plateau[i][j].crd.x);
+			//fprintf(file_save, "%i ", jeu->plateau[i][j].crd.y);
 			// Enregistrement des pièces 
 			fprintf(file_save, "%i ", jeu->plateau[i][j].joueurPieceCreuse);
 			fprintf(file_save, "%i ", jeu->plateau[i][j].joueurPiecePleine);
@@ -592,7 +590,7 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 	// ## Données de jeu ##
 	
 	fprintf(file_save, "%i ", jeu->oya);
-	fprintf(file_save, "%i ", jeu->nbJoueur);
+	//fprintf(file_save, "%i ", jeu->nbJoueur);
 	fprintf(file_save, "%i ", jeu->nbIA);
 	fprintf(file_save, "%i ", jeu->nbPieceBloquante);
 	fprintf(file_save, "%i ", jeu->nbPiecePleine);
@@ -611,8 +609,10 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].IA);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].niveauIA);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].intrepidite);
-		fprintf(file_save, "%s ", jeu->listeJoueur[i].nom);
+		//fprintf(file_save, "%s ", jeu->listeJoueur[i].nom);
 		fprintf(file_save, "\n");
+		printf("IA : %i\n", jeu->listeJoueur[i].IA);
+		printf("creuse : %i\n", jeu->listeJoueur[i].nbPieceCreuse);
 	}
 
 	// ## Pile d'action ##
@@ -628,18 +628,168 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
  * MOTEUR CHARGEMENT
  */
 //  Charge la sauvegarde reçu en paramètre
-int MOTEUR_chargement()
+t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 {
-	/*
+	fprintf(stderr, "begin load : OK\n");
 	int i = 0, j = 0; // Itérateur de boucle
+	int creuse = 0, pleine = 0, piece = 0;
+	int IA = 0;
+	// Pour le nom
+	//char *nom;
+	//nom = malloc(8*sizeof(char));
+	//int c_nom = 0; // compteur pour le nom
+	int tmp_allow_last = 0; // tmp contenant la valeur du bool allow_last
 	// >>> PREPARATION SAUVEGARDE <<<
+	fprintf(stderr, "Creating var : OK\n");
 	FILE * file_load;
-	char beg_save[4] = "save/";
+	char beg_save[5] = "save/";
 	strcat(beg_save, save);
 	file_load = fopen(beg_save, "r");
+	fprintf(stderr, "Creating file : OK\n");
+	fprintf(stderr, "name : %s\n", save);
 	// >>> CHARGEMENT <<<
-	*/
-	return 0;
+	
+	// On commence par récupérer les données essentielles
+	// 	>> Taille du plateau
+	fscanf(file_load, "%i %i", &jeu.nbCaseX, &jeu.nbCaseY);	
+	// 	>> Nombre de joueurs
+	fprintf(stderr, "debug : 1\n");
+	fscanf(file_load, "%i", &jeu.nbJoueur);
+	fprintf(stderr, "nbJoueurs : %i\n", jeu.nbJoueur);
+	// 	>> Autorisation dernier coup
+	fprintf(stderr, "debug : 2\n");
+	fscanf(file_load, "%i", &tmp_allow_last);
+	fprintf(stderr, "debug : 3\n");
+	if(tmp_allow_last == 1)
+	{
+		allow_last = true;
+	}
+	else
+	{
+		allow_last = false;
+	}
+	fprintf(stderr, "debug : 4\n");
+
+	// >>> PLATEAU DE JEU
+	
+	fprintf(stderr, "taille jeu : [%i][%i]\n", jeu.nbCaseX, jeu.nbCaseY);
+	
+	for(i=0;i<jeu.nbCaseX;i++)
+	{
+	fprintf(stderr, "debug : 5\n");
+		for(j=0;j<jeu.nbCaseY;j++)
+		{
+			// Coordonnées de la case dans le jeu
+			fprintf(stderr, "debug : 6\n");
+
+			//fscanf(file_load, "%i", &jeu.plateau[i][j].crd.x);
+			fprintf(stderr, "debug : 6.1\n");
+
+			//fscanf(file_load, "%i", &jeu.plateau[i][j].crd.y);
+			// Enregistrement des pièces 
+			fscanf(file_load, "%i", &creuse); 		
+			fscanf(file_load, "%i", &pleine); 
+			fscanf(file_load, "%i", &piece);
+			fprintf(stderr, "c : %i p : %i b : %i\n", creuse, pleine, piece);
+			fprintf(stderr, "debug : 7\n");
+			// Si une piece creuse
+			if(creuse != -1)
+			{
+				// Si aussi une piece pleine
+				if(pleine != -1)
+				{
+					// Alors c'est une piece bloquante
+					jeu.plateau[i][j].typePiece=BLOQUANTE;
+					// On place l'id du joueur ayant placé la piece
+					jeu.plateau[i][j].joueurPieceCreuse=creuse;
+					jeu.plateau[i][j].joueurPiecePleine=pleine;
+				}
+				// Sinon il ne s'agit que d'une piece creuse
+				else
+				{
+					// On place le type piece de la case à creuse
+					jeu.plateau[i][j].typePiece=CREUSE;
+					// On ajoute l'id du joueur correspondant
+					jeu.plateau[i][j].joueurPieceCreuse=creuse;
+				}
+
+				// On remet les variables à -1 pour ne pas entrer dans les autres boucles
+				pleine = -1;
+				creuse = -1;
+			}
+			// Sinon si c'est une piece pleine
+			else if(pleine != -1)
+			{
+				// Si aussi une piece creuse
+				if(creuse != -1)
+				{
+					// Alors c'est une piece bloquante
+					jeu.plateau[i][j].typePiece=BLOQUANTE;
+					// On place l'id du joueur ayant placé la piece
+					jeu.plateau[i][j].joueurPieceCreuse=creuse;
+					jeu.plateau[i][j].joueurPiecePleine=pleine;
+				}
+				// Sinon il ne s'agit que d'une piece pleine
+				else
+				{
+					// On place le type piece de la case à pleine
+					jeu.plateau[i][j].typePiece=PLEINE;
+					// On ajoute l'id du joueur correspondant
+					jeu.plateau[i][j].joueurPieceCreuse=pleine;
+				}
+
+				// On remet les variables à -1 pour ne pas entrer dans les autres boucles
+				pleine = -1;
+				creuse = -1;
+			}
+		}
+	}
+
+			
+
+	// >>> DONNEES DE JEU
+	
+	fscanf(file_load, "%i", &jeu.oya);
+	//fscanf(file_load, "%i", &jeu.nbJoueur);
+	fscanf(file_load, "%i", &jeu.nbIA);
+	fscanf(file_load, "%i", &jeu.nbPieceBloquante);
+	fscanf(file_load, "%i", &jeu.nbPiecePleine);
+	fscanf(file_load, "%i", &jeu.nbPieceCreuse);
+	fprintf(stderr, "debug : 9\n");
+
+
+	// >>> JOUEURS
+	fprintf(stderr, "nbJoueurs : %i\n", jeu.nbJoueur);
+	fprintf(stderr, "debug : 10\n");
+	for(i=0;i<jeu.nbJoueur;i++)
+	{
+		fscanf(file_load, "%i", &jeu.listeJoueur[i].points);
+		fprintf(stderr, "debug : 11\n");
+
+		fscanf(file_load, "%i", &jeu.listeJoueur[i].idJ);
+		fprintf(stderr, "debug : 12\n");
+
+		fscanf(file_load, "%i", &jeu.listeJoueur[i].nbPieceBloquante);
+		fprintf(stderr, "debug : 13\n");
+
+		fscanf(file_load, "%i", &jeu.listeJoueur[i].nbPiecePleine);
+		fprintf(stderr, "debug : 14\n");
+
+		fscanf(file_load, "%i", &jeu.listeJoueur[i].nbPieceCreuse);
+		fprintf(stderr, "debug : 15\n");
+
+		fscanf(file_load, "%i", &IA);
+		if(IA != 0)
+		{
+			jeu.listeJoueur[i].IA = 1;
+		}
+		fscanf(file_load, "%i", &jeu.listeJoueur[i].niveauIA);
+		fscanf(file_load, "%i", &jeu.listeJoueur[i].intrepidite);
+		//fscanf(file_load, "%s", &jeu->listeJoueur[i].nom);
+	}
+	fprintf(stderr, "END LOAD : OK\n");
+	//free(nom);
+	return jeu;
 }
 
 
@@ -650,7 +800,7 @@ int MOTEUR_chargement()
 // Reçoit en paramètre :
 // 	- un ID de joueur
 // 	- la valeur à ajouter ou modifier
-int MOTEUR_score()
+int MOTEUR_score(t_jeu * jeu, int idJ)
 {
 	return 0;
 }
