@@ -305,7 +305,6 @@ t_regleJeu TERM_afficherMenu() {
 		printf("\t 2.Moyen\n");
 		printf("\t 3.Difficile\n");
 		printf("\t 4.Très difficle\n\n");
-		printf(">> Votre choix : ");
 		for(i = 0; i < regleJeu.nbIA; i++) {
 		    // tant qu'on a pas un niveau valide
 		    do {
