@@ -79,10 +79,10 @@ du temps de calcul.
         font que lire et interpréter le jeu. \\
         Ainsi, l'entrée utilisateur ou l'IA, même s'il reçoivent le jeu, ne font qu'interpréter ce dernier au mieux pour permettre à 
         l'utilisateur ou à l'ordinateur de choisir une colonne et un type de pièce. Ce choix est convertit en action, puis renvoyé à l'interface entre le moteur et le module, 
-        qui transmettra l'action au moteur. C'est ce dernier qui interprêtera l'action et effectuera les traitements nécessaires pour qu'elle soit prise en compte dans le jeu. 
+        qui transmettra l'action au moteur. C'est ce dernier qui interprètera l'action et effectuera les traitements nécessaires pour qu'elle soit prise en compte dans le jeu. 
 
         \paragraph*{} % PLATEAU DE JEU CASE
-        Le plateau de jeu est une simple matrice de case, dont la taille, définie selon le nombre total de joueurs (6*7, plus une ligne et une colonne par joueur au dessu de deux), 
+        Le plateau de jeu est une simple matrice de case, dont la taille, définie selon le nombre total de joueurs (6*7, plus une ligne et une colonne par joueur au-delà de deux), 
         est allouée dynamiquement. Les cases sont des structures fort simples, décrivant les joueurs contrôlant la case, et le type de pièce qu'elle contient.
         Ainsi, grâce à l'utilisation de l'id des joueurs, et d'une énumération explicitant le type de pièce (creuse, pleine, bloquante, double (pour creuse+pleine), ou vide), il est très
         simple de réaliser des études de la situation du plateau de jeu.
@@ -98,7 +98,8 @@ du temps de calcul.
             \item le niveau d'IA. S'il n'a aucun intérêt pour un joueur humain, le niveau d'IA est propre à chaque joueur IA et permet ainsi de faire joueur des IA de niveaux différents
                 dans une même partie.
         \end{itemize} 
-        Nota Bene : un simple booléen est utilisé pour faire la différence entre un joueur humain et une intelligence artificielle.
+        \textit{Nota Bene} : un simple booléen est utilisé pour faire la différence entre un joueur humain et une intelligence artificielle. Les humains possède un niveau d'IA 
+            positionné à la difficulté maximum.
 
         \paragraph*{} % PILE D'ACTIONS
         La pile d'action est une simple pile de structure d'action. Elle gère l'empilage, le désempilage, et sait à nimporte quel moment combien d'action elle contient. La mise en oeuvre
@@ -134,8 +135,10 @@ du temps de calcul.
 		\begin{itemize} % liste choix in_game
 			\item Soit il s'agit d'une pièce que l'utilisateur veut placer. Dans ce cas, le moteur la reçois, test si celle-ci est possible à placer. Si oui, il modifie le plateau et passe l'oya au joueur suivant. 
 			\item Soit il s'agit d'une commande inGame. Par exemple, si l'utilisateur veut quitter, sauvegarder, annuler le dernier coup effectué, ou bien afficher l'aide des commandes. En fonctions de la valeurs reçue, le moteur retourne des valeurs spécifiques de GAGNANT (int retourné par le moteur) qui seront interprétées par le main.\\
+                \end{itemize}
+        \end{itemize}
 	
-	L'indépendance du MOTEUR est donc l'un des axes principaux sur lequel T.H. à travaillé.\\
+	L'indépendance du MOTEUR est donc l'un des axes principaux sur lequel T.H. a travaillé.\\
 		
         %- jeu contre IA
         %- jeu à 6 joueurs
