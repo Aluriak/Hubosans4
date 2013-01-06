@@ -8,7 +8,7 @@
 
 
 \title{Rapport de Projet Hubosans4++} 
-\author{Lucas BOURNEUF \& Thomas HUBA}
+\author{Lucas BOURNEUF \&\& Thomas HUBA}
 
 
 % BEGIN
@@ -139,7 +139,11 @@ du temps de calcul.
         Une autre gestion d'erreurs interviendra lors des allocations dynamiques, pour éviter de grave problèmes de mémoire si jamais une allocation ne pouvait être réalisée.
 
         \paragraph*{} % entrée utilisateur
-        % TODO
+        L'entrée utilisateur est assurée par inSecure, un petit module dont le rôle principal est la capture d'un nombre et d'un mot dans une chaîne entrée par l'utilisateur, 
+            dans l'entrée standard.
+        Avec inSecure, la saisie est sécurisée (attaque par buffer overflow impossible), et efficace, puisque la méthode inSecure(int*, char*) est d'une simplicité d'utilisation
+            à toute épreuve.
+        Ainsi, les entrées utilisateurs sont protégées, si bien que ce dernier ne peut pas rendre l'execution du programme imprévisible par ce biais.
 
         \paragraph*{} % chargement des sauvegardes
         % TODO
@@ -148,31 +152,50 @@ du temps de calcul.
         Le principe de la protection des allocations dynamique est fort simple : pour chaque allocation, une vérification est opérée. S'il s'avère que l'allocation a été refusée par l'OS,
         le programme est purement et simplement arrêté.
 
+        \paragraph*{} % 
+        Enfin, il est à noter que si la gestion d'erreur faite maison ne fonctionne pas, une assertion est utilisée et intercepte l'erreur au sein de la méthode FLUX\_ERREUR(2).
+        Ainsi, même dans le cas où des erreurs se déclenchent dans le système de traitement d'erreur (notamment dans l'écriture des logs dans \textit{erreur.txt}), 
+            le programme se terminera le plus proprement possible.
 
 
 %%%%%%%%%%%%%%%%%
 % CODAGE        %
 %%%%%%%%%%%%%%%%%
 \chapter{Codage} % TODO % (3 page min)
-    %- compilation séparée (modules, makefile)
-    %- erreurs gérées pour éviter les arrêts de programmes
-        %- assertions appelées si la gestion d'erreur elle-même rencontre un problème
-        %- fichier d'erreur permettant un suivis des problèmes (log)
-    %- module system, utilisé par tous les autre smodules et renfermant de sdéclarations utilitaires, telles que des focntions ou le type booléen
-    %- notation polonaises globales : les identificateurs des fonctions renseigne leur appartenance à un module.
-    %- l'interfaçage des différents modules se fait via les action et les règles de jeu, et est assuré dans le main, qui apparaît comme un code de haut niveau.
-    %- utilisation de vim + gestion de projet faite maison (projet.vim, git intégré)
-    %- algorithmes notoires (minimax, sauvegarde)
+    \paragraph*{} % compilation séparée, makefile
+    Le projet ayant dés le début été divisé en modules, un Makefile à été tenus à jour pour permettre une compilation efficace et simple; ainsi un simple \textit{make} suffit pour 
+    compiler le projet et avoir le programme à jour, en évitant la compilation de smodules déjà à jour. \\
+    De plus, \textit{make rapport} et \textit{make presentation} permettent quant à eux de générer respectivement le rapport de projet et la présentation. 
+    Enfin, d'autres commandes ont été générées, notamment pour nettoyer le répertoire lors de mise à jour qui nécessitent la reconstrcution de l'entièreté des 
+        fichiers intermédiaires et finaux.
+    \paragraph*{} % notations
+    Au sein du programme, la notation des fonctions suit une logique globale : les identificateurs des fonctions sont préfixés d'un signe d'appartenance à leur module, ou de la structure
+        pour laquelle ces fonctions existent. Ainsi, nombreuses sont les fonctions commençant par \textit{MOTEUR\_}, ou bien \textit{t\_jeu\_}. Cela permet de bien montrer les frontères
+        entre module et de clarifier l'utilisation de modules différents au sein d'une même méthode.
+    \paragraph*{} % interfaçage TODO
 
-    \paragraph*{} % IA
-    Pour l'IA, c'est l'algorithme minimax qui entre en jeu : une fonction récursive, parcourant les noeuds de l'arbre, et une fonction d'étude de situation. 
-    Cela permet de donner à chacune des N actions possibles (3 fois le nombre de colonnes) pour l'IA une priorité. \\
-    Plus la priorité est haute, plus la situation vers laquelle cette action mène est avantageuse pour l'IA. Simplement, la priorité la plus haute est attribuée aux situation où 
-    l'IA gagne. \\
-    La profondeur d'exploration de l'arbre détermine le niveau de l'IA : plus une IA étudiera loin dans l'arbre, mieux elle saura éviter les pièges de ses adversaires, et préparer
-    les siens. De fait, l'IA est disponible en plusieurs difficultés, de la plus simple (profondeur de 2 tours de jeu) à la plus difficile (10 tours de jeu). \\
-    L'IA n'explore pas nécessairement toutes les branches : grâce à l'élagage alpha-bêta, elle peut éviter des calculs inutiles (ce qui deviens nécessaire lorsqu'il y a plus 
-    de 2 joueurs, ou que la difficulté dépasse la profondeur de trois tours de jeu) et donc économise un temps précieux pour le confort de l'utilisateur.
+    \paragraph*{} % gestion de projet sous vim
+    vim est l'éditeur de texte préféré des deux développeurs du projet, aussi a-t-il été utilisé massivement, à grand renforts de modules et bidouillages simplifiant la vie du projet.
+        \subparagraph*{} % modules
+        Parmi les modules utilisé, on notera l'intégration de git au sein de vim (plus besoin de sortir de vim pour gérer les commit), quelques modules NERD, notamment NERDcommenter et
+        NERDtree, et le module tetris, pour les pauses. \\
+        Avec l'utilisation de la commande \textit{vim -c so\ projet.vim}, il est possible d'ouvrir tous les fichiers importants du projet, permettant en une commande d'avoir les 
+            parties du projet les plus importante à portée de clavier.\\
+        Enfin, l'interfaçage très simple avec github au sein du terminal permettait d'être totalement indépendant de tout IDE.
+    \paragraph*{} % algo notoires 
+    Parmis les algorithmes notoires, on citera l'étude du jeu pour connaître la viabilité d'un puissance 4, ainsi que l'algorithme minimax mis en oeuvre pour l'IA.
+    Ces deux algorithme sont choisis parce qu'il sont importants et utilisés souvent, ou, dans le cas de minimax, parce qu'il s'agit de l'algorithme le plus complexe du programme.
+        \subparagraph*{} % puissance 4 TODO
+
+        \subparagraph*{} % IA
+        Pour l'IA, c'est l'algorithme minimax qui entre en jeu : une fonction récursive, parcourant les noeuds de l'arbre, et une fonction d'étude de situation. 
+        Cela permet de donner à chacune des N actions possibles (3 fois le nombre de colonnes) pour l'IA une priorité. \\
+        Plus la priorité est haute, plus la situation vers laquelle cette action mène est avantageuse pour l'IA. Simplement, la priorité la plus haute est attribuée aux situation où 
+        l'IA gagne. \\
+        La profondeur d'exploration de l'arbre détermine le niveau de l'IA : plus une IA étudiera loin dans l'arbre, mieux elle saura éviter les pièges de ses adversaires, et préparer
+        les siens. De fait, l'IA est disponible en plusieurs difficultés, de la plus simple (profondeur de 2 tours de jeu) à la plus difficile (10 tours de jeu). \\
+        L'IA n'explore pas nécessairement toutes les branches : grâce à l'élagage alpha-bêta, elle peut éviter des calculs inutiles (ce qui deviens nécessaire lorsqu'il y a plus 
+        de 2 joueurs, ou que la difficulté dépasse la profondeur de trois tours de jeu) et donc économise un temps précieux pour le confort de l'utilisateur.
 
 
 %%%%%%%%%%%%%%%%%
