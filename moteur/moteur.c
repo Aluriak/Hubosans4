@@ -142,7 +142,6 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
 {
 	int oya=jeu->oya; // On récupère l'oya
-	jeu->plateau[action.colonne][ligne].typePiece=action.typePiece; // On modifie le plateau de jeu en fonction de la piece jouée
 	// On vérifie si le joueur à joué une pièce blocante
 	if(action.typePiece==BLOQUANTE) // Si oui, on décrémente
 	{
