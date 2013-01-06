@@ -121,6 +121,7 @@ du temps de calcul.
     % % % % % % % % %
     \section*{Fonctionnalités}
         \paragraph*{}
+        % TODO
         %- entrée utilisateur
         %- jeu contre IA
         %- jeu à 6 joueurs
@@ -133,6 +134,19 @@ du temps de calcul.
     % % % % % % % % % %
     \section*{Gestion d'erreurs}
         \paragraph*{}
+        Les principales sources d'erreur sont concentrées dans deux aspects du programme, tout deux liés intimement à l'utilisateur.\\
+        Tout d'abord, l'entrée utilisateur, (navigations dans les menus, choix d'une pièce à mettre), et ensuite le chargement des sauvegardes.
+        Une autre gestion d'erreurs interviendra lors des allocations dynamiques, pour éviter de grave problèmes de mémoire si jamais une allocation ne pouvait être réalisée.
+
+        \paragraph*{} % entrée utilisateur
+        % TODO
+
+        \paragraph*{} % chargement des sauvegardes
+        % TODO
+
+        \paragraph*{} % allocations dynamique
+        Le principe de la protection des allocations dynamique est fort simple : pour chaque allocation, une vérification est opérée. S'il s'avère que l'allocation a été refusée par l'OS,
+        le programme est purement et simplement arrêté.
         %- protection de l'entrée utilisateur et chargement de sauvegardes
         %- protections erreurs mémoires, allocations dynamiques
         %=====> au moins 1 page <========
