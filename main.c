@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
 				   regleJeu.nbPieceBloquante, 
 				   regleJeu.nbPiecePleine, 
 				   regleJeu.nbPieceCreuse); 
-				   allow_last = regleJeu.allow_last;
+				   allow_last = regleJeu.allow_last;  
 		}
 	    }
 	    // jeu

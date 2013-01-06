@@ -121,11 +121,14 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 			// >>> On empile l'action en cours <<<
 			t_pileAction_emp(&jeu->pileAction, action);
 		}
-    		// TEST PUISSANCE 4
+    		// TEST PUISSANCE 4 && CALCUL DES POINTS
 		// >>> On déclare les variables et structures dont on a besoin <<<
 		coord coordCase;
 		coordCase.x=action.colonne;
 		coordCase.y=ligne;
+		// On commence par calculer les points
+		MOTEUR_score(jeu, oya, action.colonne, ligne);
+		// Puis le puissance 4
 		// On lance la fonction de calcul
 		int c_p4 = MOTEUR_test_puissance4(jeu, coordCase, oya);
 		// Si c_p4 est égal ou supérieur à 4, alors puissance 4
@@ -490,6 +493,9 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 	// à 4, alors il y a puissance 4
 	if(c_p4>=4)
 	{
+		// On ajoute 200 points au gagnant
+		jeu->listeJoueur[oya].points+=200;
+		// On retourne le gagnant
 		return oya;
 	}
 	// 
@@ -744,8 +750,6 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 		}
 	}
 
-			
-
 	// >>> DONNEES DE JEU
 	
 	fscanf(file_load, "%i", &jeu.oya);
@@ -756,8 +760,8 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 	fscanf(file_load, "%i", &jeu.nbPieceCreuse);
 	fprintf(stderr, "debug : 9\n");
 
-
 	// >>> JOUEURS
+	
 	fprintf(stderr, "nbJoueurs : %i\n", jeu.nbJoueur);
 	fprintf(stderr, "debug : 10\n");
 	for(i=0;i<jeu.nbJoueur;i++)
@@ -778,9 +782,13 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 		fprintf(stderr, "debug : 15\n");
 
 		fscanf(file_load, "%i", &IA);
-		if(IA != 0)
+		if(IA == 1)
 		{
-			jeu.listeJoueur[i].IA = 1;
+			jeu.listeJoueur[i].IA = true;
+		}
+		else
+		{
+			jeu.listeJoueur[i].IA = false;
 		}
 		fscanf(file_load, "%i", &jeu.listeJoueur[i].niveauIA);
 		fscanf(file_load, "%i", &jeu.listeJoueur[i].intrepidite);
@@ -799,9 +807,55 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 // Reçoit en paramètre :
 // 	- un ID de joueur
 // 	- la valeur à ajouter ou modifier
-int MOTEUR_score(t_jeu * jeu, int idJ)
+void MOTEUR_score(t_jeu * jeu, int idJ, int i, int j)
 {
-	return 0;
+	// Si le joueur à posé une pièce bloquante
+	//  --> -200
+	if(jeu->plateau[i][j].typePiece==BLOQUANTE &&
+	   jeu->plateau[i][j].joueurPieceCreuse==idJ &&
+	   jeu->plateau[i][j].joueurPiecePleine==idJ)
+	{
+		// On retire 200 points au joueur
+		jeu->listeJoueur[idJ].points-=200;
+	}
+	// Sinon si le joueur à posé une piece CREUSE ou PLEINE sur une case VIDE
+	//  --> -70
+	else if((jeu->plateau[i][j].typePiece==CREUSE ||
+	    jeu->plateau[i][j].typePiece==PLEINE) &&
+	   (jeu->plateau[i][j].joueurPieceCreuse==-1 ||
+	    jeu->plateau[i][j].joueurPiecePleine==-1) &&
+	   (jeu->plateau[i][j].joueurPieceCreuse==idJ ||
+	    jeu->plateau[i][j].joueurPiecePleine==idJ))
+	{
+		// On retire 70 points au joueurs
+		jeu->listeJoueur[idJ].points-=70;
+	}
+	
+	// Sinon si le joueur à posé une pièce CREUSE ou PLEINE sur une case occupé
+	//  --> -30
+	else if((jeu->plateau[i][j].typePiece==CREUSE ||
+	    jeu->plateau[i][j].typePiece==PLEINE) &&
+	   (jeu->plateau[i][j].joueurPieceCreuse!=-1 &&
+	    jeu->plateau[i][j].joueurPiecePleine!=-1) &&
+	   (jeu->plateau[i][j].joueurPieceCreuse==idJ ||
+	    jeu->plateau[i][j].joueurPiecePleine==idJ))
+	{
+		// On retire 30 points au joueur
+		jeu->listeJoueur[idJ].points-=30;
+	}
+	/*
+	 * La pièce posé par le joueur et le calcul du
+	 * bloque des combo adversaire est fait
+	 * séparement
+	 */
+	// Contient le nombre de pièce à la suite posée
+	// par une joueur adverse & bloquées par le 
+	// joueurs en cours
+	//int combo=0;
+	// Si le joueur contre une suite adverse de 2 ou 3 piece
+	// TODO
+	//  --> + 200 pour 2 pièce
+	//  --> + 300 pour 3 pièce
 }
 
 
