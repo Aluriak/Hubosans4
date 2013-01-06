@@ -23,7 +23,7 @@
             en intégrant notamment les gestions de N joueurs 
             et de trois types de pièces. \\     
         Langage : C, compilé par gcc. \\
-        \includegraphics{ressources/presentation/img1.png}
+        %\includegraphics{ressources/presentation/img1.bitmap}
     \end{frame}
 
 
@@ -36,9 +36,11 @@
         L'organisation s'est faite autour d'un dépôt git, 
             hébergé par github. \\ 
         Le programme est divisé en modules, en essayant 
-            de respecter au mieux une architecture MVC.
+            de respecter au mieux une architecture MVC. \\
             % une image, c'est cool, surtout si on peut 
             %   montrer l'archi globale du programme
+        Autour du programme, plusieurs fichiers d'intérêt.
+            (doc, todo list)
     \end{frame}
 
 
@@ -46,17 +48,16 @@
     % FRAME 3   %
     % % % % % % %
     \begin{frame}
-    \frametitle{Structures de données}
+    \frametitle{Les structures de données}
     \framesubtitle{... sont nos amies}
         De nombreuses structures ont été définies, à commencer 
-            par les structures de jeu, de joueur, et d'action. \\
-        \begin{itemize}
-        \item[jeu :] plateau de jeu, liste de joueurs, pile d'actions;\\
-        \item[joueur :] id, noms, points, \textit{etc};\\
-        \item[action :] principal vecteur de communication entre modules, 
-            notamment l'affichage et le moteur. Enregistre les actions 
-            des joueurs.
-        \end{itemize}
+            par les structures de jeu, de joueur, et d'action, 
+            les plus importante et utilisées.\\
+        \begin{description}
+            \item[jeu :] plateau de jeu, liste de joueurs, pile d'actions;\\
+            \item[joueur :] id, noms, points, \textit{etc};\\
+            \item[action :] enregistre les actions des joueurs. Communication.\\
+        \end{description}
     \end{frame}
 
 
@@ -65,7 +66,8 @@
     % % % % % % %
     \begin{frame}
     \frametitle{Quelques algorithmes parmi les plus notoires}
-    \framesubtitle{}
+    \framesubtitle{Détection de puissance 4}
+        % TODO
     \end{frame}
 
 
@@ -73,8 +75,15 @@
     % FRAME 5   %
     % % % % % % %
     \begin{frame}
-    \frametitle{Méthodes de programmation}
-    \framesubtitle{}
+    \frametitle{Quelques algorithmes parmi les plus notoires}
+    \framesubtitle{Minimax, alpha-bêta}
+        \begin{block}{Minimax}
+            Parcours de l'arbre des possibilités jusqu'à une certaine profondeur pour trouver la meilleure action possible.
+        \end{block}
+        \begin{block}{Alpha-Bêta}
+            Elagage permettant de ne pas parcourir les branches de l'arbre qui ne sont de toute façon pas plus intéressantes que les autres.\\
+            Économie de calcul visible, voir nécessaire.
+        \end{block}
     \end{frame}
 
 
@@ -82,13 +91,56 @@
     % FRAME 6   %
     % % % % % % %
     \begin{frame}
-    \frametitle{Avantages et limites}
-    \framesubtitle{vers l'infini et au delà}
+    \frametitle{Méthodes de programmation}
+    \framesubtitle{vim, NERD* et bidouillages}
+        \begin{columns}[c] % structure en colonne
+            \begin{column}{5cm} % colonne de gauche
+                \begin{block}{vim}
+                    Un standard des temps jadis, puissant et personnalisable.
+                \end{block}
+            \end{column}
+            \begin{column}{5cm} % colonne de droite
+                \includegraphics[width=5cm, height=3cm]{ressources/presentation/vim.png}
+            \end{column}
+        \end{columns}
+        \begin{exampleblock}{Couplé à des modules d'intérêt}
+            fugitive, NERDcommenter, NERDtree, vundle, TeTrIs, taglist... 
+        \end{exampleblock}
     \end{frame}
 
 
     % % % % % % %
     % FRAME 7   %
+    % % % % % % %
+    \begin{frame}
+    \frametitle{Avantages et limites}
+    \framesubtitle{vers l'infini et au delà}
+        \begin{columns}[c] % structure en colonne
+            \begin{column}{5.5cm} % colonne de gauche
+                \begin{exampleblock}{Avantage}
+                    % LISTE
+                    \begin{itemize}
+                        \item modulable, car modulaire;
+                        \item code principal de haut niveau;
+                    \end{itemize}
+                \end{exampleblock}
+            \end{column}
+            \begin{column}{5.5cm} % colonne de droite
+                \begin{alertblock}{Limites}
+                    % LISTE
+                    \begin{itemize}
+                        \item modules trop liés;
+                        \item interface grahique pas au top; 
+                        \item peu ou pas d'uniformisation générale;
+                    \end{itemize}
+                \end{alertblock}
+            \end{column}
+        \end{columns}
+    \end{frame}
+
+
+    % % % % % % %
+    % FRAME 8   %
     % % % % % % %
     \begin{frame}
     \frametitle{Bilan}
