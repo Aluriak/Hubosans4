@@ -3,6 +3,7 @@
 \usepackage[frenchb]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}           % insertion d'images
 
 \usetheme{Warsaw}
 
@@ -21,7 +22,8 @@
         Objectif : réaliser un puissance 4 "amélioré", 
             en intégrant notamment les gestions de N joueurs 
             et de trois types de pièces. \\     
-        Langage : C, compilé par gcc.
+        Langage : C, compilé par gcc. \\
+        \includegraphics{ressources/presentation/img1.png}
     \end{frame}
 
 
@@ -47,7 +49,7 @@
     \frametitle{Résolution du problème}
     \framesubtitle{Structures de données}
         De nombreuses structures ont été définies, à commencer 
-            par les structures de jeu, de joueurs, et d'action. \\
+            par les structures de jeu, de joueur, et d'action. \\
         \begin{itemize}
         \item[jeu :] plateau de jeu, liste de joueurs, pile d'actions;\\
         \item[joueur :] id, noms, points, \textit{etc};\\
