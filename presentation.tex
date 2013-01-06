@@ -6,6 +6,7 @@
 \usepackage{graphicx}           % insertion d'images
 
 \usetheme{Warsaw}
+\setbeamertemplate{headline}{}  % pas de haut de page avec le sommaire intégré
 
 
 %%%%%%%%%%%%%%%%%
@@ -13,7 +14,7 @@
 %%%%%%%%%%%%%%%%%
 \title{Hubosans4++}
 \subtitle{Soutenance de projet}
-\author{Lucas Bourneuf \&\& Thomas Huba}
+\author{}
 \date{L2 SPI TP5\\ Janvier 2013}
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
@@ -42,12 +43,14 @@
     % % % % % % %
     % FRAME 1   %
     % % % % % % %
+    \section{Le projet}
     \begin{frame}
     \frametitle{Hubosans4++}
     \framesubtitle{Le puissance 4++}
         Objectif : réaliser un puissance 4 "amélioré", 
             en intégrant notamment les gestions de N joueurs 
             et de trois types de pièces. \\     
+        \vspace{2cm} % espace vertical
         Langage : C, compilé par gcc. \\
         %\includegraphics{ressources/presentation/img1.bitmap}
     \end{frame}
@@ -56,15 +59,18 @@
     % % % % % % %
     % FRAME 2   %
     % % % % % % %
+    \section{Organisation}
     \begin{frame}
     \frametitle{Organisation}
     \framesubtitle{du git, du module et du MVC}
         L'organisation s'est faite autour d'un dépôt git, 
             hébergé par github. \\ 
+        \vspace{1cm} % espace vertical
         Le programme est divisé en modules, en essayant 
             de respecter au mieux une architecture MVC. \\
             % une image, c'est cool, surtout si on peut 
             %   montrer l'archi globale du programme
+        \vspace{1cm} % espace vertical
         Autour du programme, plusieurs fichiers d'intérêt.
             (doc, todo list)
     \end{frame}
@@ -73,6 +79,7 @@
     % % % % % % %
     % FRAME 3   %
     % % % % % % %
+    \section{Les structures de données}
     \begin{frame}
     \frametitle{Les structures de données}
     \framesubtitle{... sont nos amies}
@@ -90,6 +97,7 @@
     % % % % % % %
     % FRAME 4   %
     % % % % % % %
+    \section{Quelques algorithmes parmi les plus notoires}
     \begin{frame}
     \frametitle{Quelques algorithmes parmi les plus notoires}
     \framesubtitle{Détection de puissance 4}
@@ -97,38 +105,26 @@
     \end{frame}
 
 
+
+
     % % % % % % %
     % FRAME 5   %
     % % % % % % %
-    \begin{frame}
-    \frametitle{Quelques algorithmes parmi les plus notoires}
-    \framesubtitle{Minimax, alpha-bêta}
-        \begin{block}{Minimax}
-            Parcours de l'arbre des possibilités jusqu'à une certaine profondeur pour trouver la meilleure action possible.
-        \end{block}
-        \begin{block}{Alpha-Bêta}
-            Elagage permettant de ne pas parcourir les branches de l'arbre qui ne sont de toute façon pas plus intéressantes que les autres.\\
-            Économie de calcul visible, voir nécessaire.
-        \end{block}
-    \end{frame}
-
-
-    % % % % % % %
-    % FRAME 6   %
-    % % % % % % %
+    \section{Méthodes de programmation}
     \begin{frame}
     \frametitle{Méthodes de programmation}
     \framesubtitle{vim, NERD* et bidouillages}
         \begin{columns}[c] % structure en colonne
-            \begin{column}{5cm} % colonne de gauche
+            \begin{column}{6cm} % colonne de gauche
                 \begin{block}{vim}
-                    Un standard des temps jadis, puissant et personnalisable.
+                    Un standard depuis les temps jadis, puissant et personnalisable.
                 \end{block}
             \end{column}
             \begin{column}{5cm} % colonne de droite
                 \includegraphics[width=5cm, height=3cm]{ressources/presentation/vim.png}
             \end{column}
         \end{columns}
+        \vspace{1cm} % espace vertical
         \begin{exampleblock}{Couplé à des modules d'intérêt}
             fugitive, NERDcommenter, NERDtree, vundle, TeTrIs, taglist... 
         \end{exampleblock}
@@ -136,8 +132,9 @@
 
 
     % % % % % % %
-    % FRAME 7   %
+    % FRAME 6   %
     % % % % % % %
+    \section{Avantages et limites}
     \begin{frame}
     \frametitle{Avantages et limites}
     \framesubtitle{vers l'infini et au delà}
@@ -168,8 +165,26 @@
 
 
     % % % % % % %
+    % FRAME 7   %
+    % % % % % % %
+    \begin{frame}
+    \frametitle{Quelques algorithmes parmi les plus notoires}
+    \framesubtitle{Minimax, alpha-bêta}
+        \begin{block}{Minimax}
+            Parcours de l'arbre des possibilités jusqu'à une certaine profondeur pour trouver la meilleure action possible.
+        \end{block}
+        \begin{block}{Alpha-Bêta}
+            Elagage permettant de ne pas parcourir les branches de l'arbre qui ne sont de toute façon pas plus intéressantes que les autres.\\
+            Économie de calcul visible, voir nécessaire.
+        \end{block}
+    \end{frame}
+
+
+
+    % % % % % % %
     % FRAME 8   %
     % % % % % % %
+    \section{Bilan}
     \begin{frame}
     \frametitle{Bilan}
     \framesubtitle{return 0;}
