@@ -6,8 +6,6 @@
 - Moteur
     - Nettoyer fonction sauvegarde
     - Nettoyer fonction chargemeng
-    - Quant oya pose pièce sur case non vide, pas de calcul des points
-    - les points des joueurs doivents être initialisé à 1000
 
 - TERM 
     - Nettoyer fonction chargement et sauvegarde

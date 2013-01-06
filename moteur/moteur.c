@@ -815,11 +815,11 @@ void MOTEUR_score(t_jeu * jeu, int idJ, int i, int j)
 	   jeu->plateau[i][j].joueurPieceCreuse==idJ &&
 	   jeu->plateau[i][j].joueurPiecePleine==idJ)
 	{
-		// On retire 200 points au joueur
-		jeu->listeJoueur[idJ].points-=200;
+		// On ajoute 10 points au joueur
+		jeu->listeJoueur[idJ].points+=10;
 	}
 	// Sinon si le joueur à posé une piece CREUSE ou PLEINE sur une case VIDE
-	//  --> -70
+	//  --> +30
 	else if((jeu->plateau[i][j].typePiece==CREUSE ||
 	    jeu->plateau[i][j].typePiece==PLEINE) &&
 	   (jeu->plateau[i][j].joueurPieceCreuse==-1 ||
@@ -827,21 +827,20 @@ void MOTEUR_score(t_jeu * jeu, int idJ, int i, int j)
 	   (jeu->plateau[i][j].joueurPieceCreuse==idJ ||
 	    jeu->plateau[i][j].joueurPiecePleine==idJ))
 	{
-		// On retire 70 points au joueurs
-		jeu->listeJoueur[idJ].points-=70;
+		// On ajoute 30 points au joueurs
+		jeu->listeJoueur[idJ].points+=30;
 	}
 	
 	// Sinon si le joueur à posé une pièce CREUSE ou PLEINE sur une case occupé
-	//  --> -30
-	else if((jeu->plateau[i][j].typePiece==CREUSE ||
-	    jeu->plateau[i][j].typePiece==PLEINE) &&
+	//  --> +70
+	else if((jeu->plateau[i][j].typePiece==DOUBLE) &&
+	   ((jeu->plateau[i][j].joueurPieceCreuse==idJ &&
+	    jeu->plateau[i][j].joueurPiecePleine!=-1) ||
 	   (jeu->plateau[i][j].joueurPieceCreuse!=-1 &&
-	    jeu->plateau[i][j].joueurPiecePleine!=-1) &&
-	   (jeu->plateau[i][j].joueurPieceCreuse==idJ ||
-	    jeu->plateau[i][j].joueurPiecePleine==idJ))
+	    jeu->plateau[i][j].joueurPiecePleine==idJ)))
 	{
 		// On retire 30 points au joueur
-		jeu->listeJoueur[idJ].points-=30;
+		jeu->listeJoueur[idJ].points+=70;
 	}
 	/*
 	 * La pièce posé par le joueur et le calcul du
