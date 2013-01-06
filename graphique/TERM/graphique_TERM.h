@@ -51,6 +51,9 @@ typedef struct {
     t_action TERM_afficherModuleSauvegarde(t_jeu * jeu); // Affiche la demande de slot à l'user
     void TERM_afficherScore(); // Affiche le tableau des scores
     char * TERM_afficherModuleChargement(); // Affiche le module de chargement
+    char * TERM_afficherNomScore(); // Demande au gagnant d'entrer son nom pour enregistrement du score
+
+
 
 
 

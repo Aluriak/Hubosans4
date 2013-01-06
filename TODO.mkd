@@ -4,10 +4,10 @@
     - pb free save & exit
 
 - Moteur
+    - Faire fonctione annuler coup
     - Nettoyer fonction sauvegarde
     - Nettoyer fonction chargemeng
 
 - TERM 
     - Nettoyer fonction chargement et sauvegarde
-    - Ecrire fonction TERM afficher Tableau Scores
     - utiliser inSecure pour la saisie utilisateur
