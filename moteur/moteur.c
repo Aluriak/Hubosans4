@@ -55,7 +55,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 		// TODO
 		if(jeu->allow_last)
 		{
-			MOTEUR_annulerDernierCoup();	
+			MOTEUR_annulerDernierCoup(jeu);	
 		}
 		else
 		{
@@ -85,6 +85,10 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	}
     }
     // sinon, c'est une pièce à jouer
+    else if(!t_jeu_oyaPossedePiece(jeu, action.typePiece)) {
+        return -2; // action non valide ca rl'oya ne possède pas la pièce qu'il veut jouer
+    }
+    // sinon, c'est une pièce à jouer
     else 
     {
     	// On récupère la valeur de la ligne ou il est possible de placer la pièce
@@ -93,32 +97,39 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	// Si la valeur de ligne est égal à -1, c'est qu'il est impossible de placer la pièce ici
     	if(ligne == -1)
 	{
-		return -2;
+	        // peut-être le plateau de jeu est-il plein...
+                // on teste alors chaque colonne. Si aucune pièce ne peut être placée, 
+                //      alors le plateau est plein
+                t_action inter; // action intermédiaire de calcul
+                bool plateauPlein = true; // vrai tant que plateau supposé remplis
+                for(inter.colonne = 0; inter.colonne < jeu->nbCaseX && plateauPlein; 
+                                inter.colonne++) {
+                    for(inter.typePiece = 1; inter.typePiece < 4 && plateauPlein; 
+                                    inter.typePiece++) {
+                        // si la pièce peut-être mise
+                        if(MOTEUR_coordPieceJouee(jeu, 
+                                    inter.colonne, inter.typePiece) > -1)
+                            plateauPlein = false; // plateau non remplis !
+                    }
+                }
+                // retour code d'erreur
+                if(plateauPlein)
+                    return -43;
+                else
+		    return -2;
     	}
     	else
 	{
-		/*
-		 * On test si le plateau de jeu est plein
-		 */
-		// On crée une variable contenant la taille du plateau
-		int taille = (jeu->nbCaseX * jeu->nbCaseY);
-		// On test si le nombres pièces posées est égal à la taille du plateau
-		if(taille == jeu->pileAction.nbElem)
-		{
-			// Si oui, on retourne code:erreur 43
-			return 43;
-		}
 		// On lance la procédure de modification du plateau de jeu
-		bool next = false;
-		next = MOTEUR_pieceJouee(jeu, action, ligne, next);
-		if(!next)
+		bool next = MOTEUR_pieceJouee(jeu, action, ligne);
+                printf("DEBUG: ligne = %i\n", ligne);
+		if(!next) // si la pièce n'a pas été placée
 		{
-			return -2;
+			return -2; // coup impossible
 		}
-		// ENREGISTREMENT DU COUP
-		if(next == true)
+                else // ENREGISTREMENT DU COUP
 		{
-			// >>> On empile l'action en cours <<<
+			// On empile l'action en cours
 			t_pileAction_emp(&jeu->pileAction, action);
 		}
     		// TEST PUISSANCE 4 && CALCUL DES POINTS
@@ -144,120 +155,79 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 //Reçois en paramètre une action, une ligne & modifie le plateau de jeu ainsi 
 //que le joueur en question, et retourne 1 pour indiquer que la pièce à bien 
 //été placée, O sinon
-bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne, bool next)
+bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 {
 	int oya=jeu->oya; // On récupère l'oya
 	// On vérifie si le joueur à joué une pièce blocante
 	if(action.typePiece==BLOQUANTE) // Si oui, on décrémente
 	{
-		//Si le nombre de piece bloquante n'est pas égal à zéro, alors on peut en placer une
-		if(jeu->listeJoueur[oya].nbPieceBloquante!=0)
-		{
-			jeu->listeJoueur[oya].nbPieceBloquante--; // On décrémente le nombre de piece bloquante de l'oya
-			// On place l'id de l'oya dans pieceCreuse & piecePleine, car il s'agit d'un piece bloquante
-			jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya; 
-			jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
-			// On indique qu'il s'agit bien d'un piece bloquante
-			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-			return true;
-		}
-		//Sinon on retourne faux, et on redemande au joueur de placer une pièce
-		else
-		{
-			return false;
-		}
+		jeu->listeJoueur[oya].nbPieceBloquante--; // On décrémente le nombre de piece bloquante de l'oya
+		// On place l'id de l'oya dans pieceCreuse & piecePleine, car il s'agit d'un piece bloquante
+		jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya; 
+		jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
+		// On indique qu'il s'agit bien d'un piece bloquante
+		jeu->plateau[action.colonne][ligne].typePiece = BLOQUANTE;
 	}
 	// On enregistre qui à joué la piece CREUSE
 	else if(action.typePiece==CREUSE)
 	{
-		// Si le joueur possede encore des piece de type CREUSE
-		if(jeu->listeJoueur[oya].nbPieceCreuse != 0)
+		/*
+		 * Si la case en question à déja une piece (c'est-à-dire que l'un de ses
+		 * id est différent de -1, alors on met le type de pièce à double
+		 */
+		if(jeu->plateau[action.colonne][ligne].joueurPiecePleine !=-1)
 		{
-			/*
-			 * Si la case en question à déja une piece (c'est-à-dire que l'un de ses
-			 * id est différent de -1, alors on met le type de pièce à double
-			 */
-			if(jeu->plateau[action.colonne][ligne].joueurPieceCreuse !=-1 ||
-			   jeu->plateau[action.colonne][ligne].joueurPiecePleine !=-1)
-			{
-				jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
-				jeu->plateau[action.colonne][ligne].joueurPieceCreuse=DOUBLE;
-				// On décrémente le nombre de pièce Creuse du joueur
-				jeu->listeJoueur[oya].nbPieceCreuse--;
-				return true;
-
-			}
-			// Sinon on c'est que la case en question est totalement vide, on peut 
-			// donc y mettre n'importe quel type de piece sans problème
-			else
-			{
-				jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
-				jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-				// On décrémente le nombre de piece Creuse du joueur
-				jeu->listeJoueur[oya].nbPieceCreuse--;
-
-				return true;
-			}
+			jeu->plateau[action.colonne][ligne].typePiece = DOUBLE;
 		}
-		// Sinon on retourne false
+		// Sinon on c'est que la case en question est totalement vide, on peut 
+		// donc y mettre n'importe quel type de piece sans problème
 		else
 		{
-			return false;
+			jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
 		}
+                // l'oya contôle la pièce creuse de cette case
+		jeu->plateau[action.colonne][ligne].joueurPieceCreuse=oya;
+		// On décrémente le nombre de piece Creuse du joueur
+		jeu->listeJoueur[oya].nbPieceCreuse--;
 	}
 	// On enregistre qui à joué la piece PLEINE
-	else if(action.typePiece==PLEINE)
+	else if(action.typePiece == PLEINE)
 	{
-		// Si le joueur possede encore des pièces Pleine
-		if(jeu->listeJoueur[oya].nbPiecePleine != 0)
+		/*
+		 * Si la case en question à déja une piece (c'est-à-dire que l'un de ses
+		 * id est différent de -1, alors on met le type de pièce à double
+		 */
+		if(jeu->plateau[action.colonne][ligne].joueurPieceCreuse !=-1)
 		{
-			/*
-			 * Si la case en question à déja une piece (c'est-à-dire que l'un de ses
-			 * id est différent de -1, alors on met le type de pièce à double
-			 */
-			if(jeu->plateau[action.colonne][ligne].joueurPieceCreuse !=-1 ||
-			   jeu->plateau[action.colonne][ligne].joueurPiecePleine !=-1)
-
-			{
-				jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
-				jeu->plateau[action.colonne][ligne].typePiece=DOUBLE;
-				// On décrémente le nombre de piece Pleine possedé par le joueur
-				jeu->listeJoueur[oya].nbPiecePleine--;
-
-				return true;
-			}
-			// Sinon on c'est que la case en question est totalement vide, on peut 
-			// donc y mettre n'importe quel type de piece sans problème
-			else
-			{
-				jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
-				jeu->plateau[action.colonne][ligne].typePiece=action.typePiece;
-				// On décrémente le nombre de piece Pleine possedé par le joueur
-				jeu->listeJoueur[oya].nbPiecePleine--;
-
-				return true;
-			}
+			jeu->plateau[action.colonne][ligne].typePiece=DOUBLE;
 		}
-		// Sinon c'est que le joueur n'a plus ce type de pièce, on retourne faux
+		// Sinon on c'est que la case en question est totalement vide, on peut 
+		// donc y mettre n'importe quel type de piece sans problème
 		else
 		{
-			return false;
+			jeu->plateau[action.colonne][ligne].typePiece=PLEINE;
 		}
+                // l'oya contôle la pièce pleine de cette case
+		jeu->plateau[action.colonne][ligne].joueurPiecePleine=oya;
+		// On décrémente le nombre de piece Pleine possedé par le joueur
+		jeu->listeJoueur[oya].nbPiecePleine--;
 	}
 	// Sinon c'est que le type de pièce est inconnue
 	else
 	{
 		return false;
 	}
+        // et on retourne vrai, si la pièce à bien été jouée
+        return true;
 }
 
 
 /*
- * MOTEUR TOUR PRECEDENT
+ * MOTEUR ANNULER DERNIER COUP
  */
 // retire l'action précédente du jeu, retourne vrai. Si pas de denrière action,
 //      retourne faux.
-bool MOTEUR_tourPrecedent(t_jeu* jeu) {
+bool MOTEUR_annulerDernierCoup(t_jeu* jeu) {
     // initialisations
     int y = 0; // itérateur de boucle
     t_case* caseAModifier = NULL; // pointeur de case
@@ -294,7 +264,11 @@ bool MOTEUR_tourPrecedent(t_jeu* jeu) {
                 y = jeu->nbCaseY; // fin de la boucle
             }
         }
-
+        // l'oya deviens le joueur précédent
+        if(jeu->oya == 0)
+            jeu->oya = jeu->nbJoueur-1;
+        else
+            jeu->oya--;
         return true;
     }
 }
@@ -858,11 +832,17 @@ void MOTEUR_score(t_jeu * jeu, int idJ, int i, int j)
 }
 
 
+
+
 /*
- * MOTEUR ANNULER DERNIER COUP
+ * MOTEUR TOUR PRECEDENT
  */
-// Annule le dernier coup du joueur en cours
-int MOTEUR_annulerDernierCoup()
+// Annule le dernier coup du joueur en cours, et retourne l'oya
+int MOTEUR_tourPrecedent(t_jeu* jeu)
 {
-	return -2;
+	int i = 0;
+        // on annule un coup pour chaque joueur
+        for(i = 0; i < jeu->nbJoueur; i++) 
+            MOTEUR_annulerDernierCoup(jeu);
+        return jeu->oya;
 }

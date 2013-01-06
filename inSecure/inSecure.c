@@ -8,8 +8,10 @@
  */
 // renvois un int envoyé par l'utilisateur
 int inSecure_int() {
-    char chaine[INSECURE_N_MAX] = inSecure_entree();
-    return atoi(chaine);
+    char *chaine = inSecure_entree();
+    int result = atoi(chaine);
+    free(chaine);
+    return result;
 }
 
 

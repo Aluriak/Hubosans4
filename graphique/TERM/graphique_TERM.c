@@ -42,11 +42,11 @@ void TERM_backgroundColor(int couleur) {
 // affiche le jeu dans le terminal
 void TERM_afficherJeu(t_jeu* jeu) {
     // on efface l'écran
-    TERM_clear();
-    // Nom jeu
-    TERM_afficherHubosans4(); 
-    // Commande
-    TERM_afficherCommande(jeu);
+    /*TERM_clear();*/
+    /*// Nom jeu*/
+    /*TERM_afficherHubosans4(); */
+    /*// Commande*/
+    /*TERM_afficherCommande(jeu);*/
     // EN-TETE
     TERM_afficherEnTete(jeu);
     // PLATEAU
@@ -195,15 +195,19 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
     t_action action;
     action.colonne=-1;
     action.typePiece=VIDE;
-    char pieceUser;
+    char entreeUser[INSECURE_N_MAX]; // inSecure revoit un tableau de INSECURE_N_MAX cases
+    char pieceUser; // pièce de l'utilisateur
     while((action.colonne<0 || action.colonne >= jeu-> nbCaseX) &&
 	  (action.typePiece != BLOQUANTE ||
 	   action.typePiece != CREUSE ||
 	   action.typePiece != PLEINE))
     {
 	printf(">> Entrez Coordonnées & Type de piece : ");
-	// Modifier le scanf pour gérer les erreurs de user
-	scanf("%i%c",&action.colonne, &pieceUser);
+        // inSecure gère tout : il renvois le 1er chiffre et la 1ère chaine de lettres
+        inSecure(&action.colonne, entreeUser);
+        // la pièce de l'utilisateur est la première lettre qu'il envois
+        pieceUser = entreeUser[0];
+
 	if(tolower(pieceUser) == 'b')
 	{
 	       action.typePiece = BLOQUANTE;
@@ -257,7 +261,7 @@ t_regleJeu TERM_afficherMenu() {
     do
     {
     	printf(">> Que voulez-vous faire ? ");
-    	scanf("%i", &choice);
+    	choice = inSecure_int();
     } while(choice != 1 &&
             choice != 2 &&
 	    choice != 3 &&
@@ -270,22 +274,23 @@ t_regleJeu TERM_afficherMenu() {
 	    // nombre de joueurs
 	    while(regleJeu.nbJoueurs < 2 || regleJeu.nbJoueurs > 6) {
 		printf(">> Nombre de joueurs total (2 à 6) : ");
-		scanf("%d", &regleJeu.nbJoueurs);
+		regleJeu.nbJoueurs = inSecure_int();
 	    }
 	    // nombre d'IA
 	    while(regleJeu.nbIA < 0 || regleJeu.nbIA > regleJeu.nbJoueurs) {
 		printf(">> Nombre d'ia parmis les %i joueurs (max %i) : ", 
 			regleJeu.nbJoueurs, regleJeu.nbJoueurs);
-		scanf("%d", &regleJeu.nbIA);
+		regleJeu.nbIA = inSecure_int();
 	    }
-	    // autauriser annuler dernier coup
-	    char tmp;
-	    printf(">> Autoriser annuler dernier coup ? [y - n] ");
-	    while(tmp != 'y' && tmp != 'n')
+	    // autoriser annuler dernier coup
+	    int tmp;
+            char entreeUser[INSECURE_N_MAX];
+	    while(entreeUser[0] != 'y' && entreeUser[0] != 'n')
 	    {
-		scanf("%c", &tmp);
+	        printf(">> Autoriser annuler dernier coup ? [y - n] ");
+		inSecure(&tmp, entreeUser);
 	    }
-	    if(tmp == 'y')
+	    if(entreeUser[0] == 'y')
 	    {
 	    	regleJeu.allow_last = true;
 	    }
@@ -305,7 +310,7 @@ t_regleJeu TERM_afficherMenu() {
 		    // tant qu'on a pas un niveau valide
 		    do {
 			printf(">> Niveau de l'IA %d : ", i+1);
-			scanf("%i", &niveauIA);
+		        niveauIA = inSecure_int();
 		    } while(niveauIA < 0 || niveauIA > 4);
 		    // on donne le niveau au joueur étudié
 		    regleJeu.tab_nivIA[i] = niveauIA;

@@ -49,7 +49,7 @@ t_action IA_effectuerTour(t_jeu *jeu) {
                     prioMax = priorite; // nouvelle prioMax
                     // l'action prioritaire est désormais égale à l'action 
                     actionPrio = action;
-                    printf("DEBUG: prioMax = %i\n", prioMax);
+                    printf("DEBUG: prioMax = %i pour colonne %i\n", prioMax, action.colonne);
                 }
                 // si c'est la même priorité, ya une chance pour que ça joue plutôt là
                 else if(priorite == prioMax && randN(4) == 0) {
@@ -59,7 +59,7 @@ t_action IA_effectuerTour(t_jeu *jeu) {
             //printf("ACT: colonne %d, pièce %d, priorite = %d\n", action.colonne, action.typePiece, priorite);
             // enfin, on déjoue le coups
             if(gagnant >= -1) {
-                MOTEUR_tourPrecedent(cpjeu);
+                MOTEUR_annulerDernierCoup(cpjeu);
                 gagnant = -2;
             }
         } // end for each typePiece
@@ -154,7 +154,7 @@ int IA_alphaBeta(t_jeu* jeu, int alpha, int beta, int profondeur, int idIA) {
                         alpha = max(alpha, priorite);
                     }
                     // enfin, on déjoue le coups
-                    MOTEUR_tourPrecedent(jeu);
+                    MOTEUR_annulerDernierCoup(jeu);
                 } // fin bouclage sur action.typePiece
             } // fin bouclage sur action.colonne
         }
