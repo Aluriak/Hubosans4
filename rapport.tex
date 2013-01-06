@@ -173,7 +173,9 @@ du temps de calcul.
         pour laquelle ces fonctions existent. Ainsi, nombreuses sont les fonctions commençant par \textit{MOTEUR\_}, ou bien \textit{t\_jeu\_}. Cela permet de bien montrer les frontères
         entre module et de clarifier l'utilisation de modules différents au sein d'une même méthode.
     \paragraph*{} % interfaçage TODO
-
+    Les modules sont interfaçés notamment dans le main, qui s'établis ainsi en code de haut niveau. On peut considérer que le projet à été réalisé en suivant une architecture 
+        Modèle-Vue-Contrôleur, dans le sens où les différentes focntionnalités sont bien découpées les une des autres, et que les programmeurs ont tenté de les rendre les plus 
+        indépendantes les unes des autres.
     \paragraph*{} % gestion de projet sous vim
     vim est l'éditeur de texte préféré des deux développeurs du projet, aussi a-t-il été utilisé massivement, à grand renforts de modules et bidouillages simplifiant la vie du projet.
         \subparagraph*{} % modules
@@ -203,12 +205,26 @@ du temps de calcul.
 %%%%%%%%%%%%%%%%%
 \chapter{Résultats}
     \paragraph*{} % bilan des objectifs TODO
-    %- objectifs nécessaires remplis, objectifs secondaires atteints et non atteints
-        %- module réseau inexistant
-        %- architecture plus modulable
-    \paragraph*{} % planning TODO
-    %- planning
-        %- manque de temps dû à des retards sur le moteur
+    Les objectifs principaux ont été remplis, mais d'autres, secondaires, n'ont pas bénéficié de suffisemment de temps pour être implémentés. De plus, certains aspects du programme 
+        auraient gagnés à être travaillé plus avant, telle que l'architecture MVC.
+        \subparagraph*{} % objectifs principaux
+        Le jeu est jouable, avec quelques fonctionnalités intéressantes. Il correspond au cahier des charges, en incluant quelques suppléments, tels que le scoring ou l'IA.
+        \subparagraph*{} % objectifs secondaires
+        Néanmoins, l'équipe aurait apprécié le développement de certains modules, dont le module graphique utilisant la SDL, ainsi que pour le son, et le réseau. Ces modules n'ont 
+            pourtant pas été développés, suite à un manque de temps en fin de projet (voir paragraphe suivant). Ils seront peut-être développés plus tard, en dehors du projet, 
+            pour le plaisir des développeurs désireux de découvrir (ou de redécouvrir) la SDL et ses nombreux modules.
+        \subparagraph*{} % architecture MVC
+        L'architecture MVC n'est pas parfaite : en effet, le module graphique est directement dépendant du module moteur (notamment pour les structures de données jeu, joueur et action).
+        Il eu fallut créer une structure propre au module graphique, ne possédant que les valeurs nécessaires, et que le main saurais créer à partir de la strcuture de jeu, auquel le
+        module graphique n'aurais jamais accès. \\
+        Cela aurais également permis d'améliorer l'encapsulation des données, puisqu'actuellement rien n'empêche les modules recevant la structure de jeu de la modifier.
+    \paragraph*{} % planning 
+    Dans l'ensemble, le projet à suivis une évolution habituelle pour un projet : les premières semaines ont été très rythmées, puis l'évolution a ralentit, 
+        pour réaugmenter significativement dans les dernières semaines. Suite à des retards sur le moteur, qui aurais dû être finit rapidement, le programme n'est opérationnel que depuis
+        quelques semaines. Certains modules n'ont pu être testés qu'à ce moment, d'où de grosses révisions de code qui ont ralentit le développement des autres modules. \\
+        Néanmoins, le projet s'est terminé, même si certains objectifs secondaires n'ont pas été remplis, faut de temps. En effet, celui-ci a manqué en fin de projet. \\
+        Le planning n'était pas réellement explicité. Une \textit{todo list} a été mise en place, mais aucune notion du temps ne fût explicitement utilisée; personne n'en a eu besoin, 
+        le prjet avançais sans avoir besoin de \textit{deadlines}. 
     \paragraph*{} % améliorations TODO
     %- améliorations
         %- gérer N joueurs, avec N > 6 (donc s'affranchir des limites du terminal)
