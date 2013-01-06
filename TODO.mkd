@@ -12,3 +12,4 @@
 - TERM 
     - Nettoyer fonction chargement et sauvegarde
     - Ecrire fonction TERM afficher Tableau Scores
+    - utiliser inSecure pour la saisie utilisateur
