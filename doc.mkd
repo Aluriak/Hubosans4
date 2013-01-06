@@ -203,4 +203,6 @@ Module permettant une saisie sécurisée dans l'entrée standard
         * Lucas
 
 
+* int inSecure\_int();
+        * renvois un int envoyé par l'utilisateur par l'entrée standard
 
