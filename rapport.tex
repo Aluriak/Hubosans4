@@ -119,7 +119,7 @@ du temps de calcul.
     % % % % % % % % %
     % Fonctionnalités
     % % % % % % % % %
-    \section*{Fonctionnalités}
+    \section*{Fonctionnalités} % (3 page min)
         \paragraph*{}
         % TODO
         %- entrée utilisateur
@@ -132,7 +132,7 @@ du temps de calcul.
     % % % % % % % % % %
     % Gestion d'erreurs
     % % % % % % % % % %
-    \section*{Gestion d'erreurs}
+    \section*{Gestion d'erreurs} % (1 page min)
         \paragraph*{}
         Les principales sources d'erreur sont concentrées dans deux aspects du programme, tout deux liés intimement à l'utilisateur.\\
         Tout d'abord, l'entrée utilisateur, (navigations dans les menus, choix d'une pièce à mettre), et ensuite le chargement des sauvegardes.
@@ -147,16 +147,13 @@ du temps de calcul.
         \paragraph*{} % allocations dynamique
         Le principe de la protection des allocations dynamique est fort simple : pour chaque allocation, une vérification est opérée. S'il s'avère que l'allocation a été refusée par l'OS,
         le programme est purement et simplement arrêté.
-        %- protection de l'entrée utilisateur et chargement de sauvegardes
-        %- protections erreurs mémoires, allocations dynamiques
-        %=====> au moins 1 page <========
 
 
 
 %%%%%%%%%%%%%%%%%
 % CODAGE        %
 %%%%%%%%%%%%%%%%%
-\chapter{Codage}
+\chapter{Codage} % TODO % (3 page min)
     %- compilation séparée (modules, makefile)
     %- erreurs gérées pour éviter les arrêts de programmes
         %- assertions appelées si la gestion d'erreur elle-même rencontre un problème
@@ -166,9 +163,8 @@ du temps de calcul.
     %- l'interfaçage des différents modules se fait via les action et les règles de jeu, et est assuré dans le main, qui apparaît comme un code de haut niveau.
     %- utilisation de vim + gestion de projet faite maison (projet.vim, git intégré)
     %- algorithmes notoires (minimax, sauvegarde)
-    %=====> au moins 3 pages <========
 
-    \paragraph*{}
+    \paragraph*{} % IA
     Pour l'IA, c'est l'algorithme minimax qui entre en jeu : une fonction récursive, parcourant les noeuds de l'arbre, et une fonction d'étude de situation. 
     Cela permet de donner à chacune des N actions possibles (3 fois le nombre de colonnes) pour l'IA une priorité. \\
     Plus la priorité est haute, plus la situation vers laquelle cette action mène est avantageuse pour l'IA. Simplement, la priorité la plus haute est attribuée aux situation où 
@@ -183,14 +179,17 @@ du temps de calcul.
 % RÉSULTATS     %
 %%%%%%%%%%%%%%%%%
 \chapter{Résultats}
-    \paragraph*{}
+    \paragraph*{} % bilan des objectifs TODO
     %- objectifs nécessaires remplis, objectifs secondaires atteints et non atteints
         %- module réseau inexistant
         %- architecture plus modulable
+    \paragraph*{} % planning TODO
     %- planning
         %- manque de temps dû à des retards sur le moteur
+    \paragraph*{} % améliorations TODO
     %- améliorations
         %- gérer N joueurs, avec N > 6 (donc s'affranchir des limites du terminal)
+    \paragraph*{} % apport du projet TODO
     %- apport du projet au niveau personnel
     %=====> au moins 3 pages <========
 
