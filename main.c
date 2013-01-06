@@ -70,6 +70,19 @@ int main(int argc, char* argv[]) {
 				gagnant = -1;
 			}
 		}
+		// Sinon si -3, affichage tableau des scores
+		else if(regleJeu.nbJoueurs==-3)
+		{
+			// Affichage score
+			TERM_afficherScore();
+			// Attente de 10 seconde
+			wait(10);
+			// Pas de jeu init donc pas de free
+			no_game=true;
+			// Retour au menu standard
+			quit=false;
+			gagnant = 42;
+		}
 		else
 		{
 			t_jeu_init(&jeu, regleJeu.nbJoueurs, 
@@ -126,8 +139,13 @@ int main(int argc, char* argv[]) {
 	    {
 	    	if(gagnant >= 0 && gagnant <= 5)
 		{
+			// On affiche le plateau de jeu gagnant
 			TERM_afficherJeuFinit(&jeu, gagnant);
+			// On attend 5 secondes
 			wait(5);
+			// On enregistre le score du gagant
+			char * score = TERM_afficherNomScore();
+			MOTEUR_enregistrerScore(&jeu, gagnant, score);
 		}
 		else if(gagnant == 43)
 		{

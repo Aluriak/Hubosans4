@@ -122,10 +122,27 @@ du temps de calcul.
     \section*{Fonctionnalités} % (3 page min)
         \paragraph*{}
         % TODO
-        %- entrée utilisateur
+        \paragraph*{} %  entrée utilisateur
+	Nous dissocierons 2 choses : 
+	\begin{itemize} % liste entrée menu & in_game
+		\item Les entrées menus\\
+		Dans ce premier cas, c'est le main qui appel les procédures de graphique TERM. Celles-ci retourneront les valeurs entrées par l'utilisateur, le tout via regleJeu.nbJoueurs. En fonction de sa valeur, le main lancera les différentes procédures.\\
+		Ainsi, la totalité des modules restent indépendant, l'un peut être modifié sans que l'on ait à changer quoique ce soit dans les autres modules. Ce principe est encore plus utile lors des parties en cours. 
+		\item Les entrées utilisateurs dans une partie en cours\\
+		C'est la que la séparations des modules est la plus intéressante. En effet, le moteur est totalement indépendant du reste du programme. Celui-ci ne fait que reçevoir les données de graphique TERM. 
+		Une fois les données reçues, le moteur les traite les données. Deux choix sont alors possible :
+		\begin{itemize} % liste choix in_game
+			\item Soit il s'agit d'une pièce que l'utilisateur veut placer. Dans ce cas, le moteur la reçois, test si celle-ci est possible à placer. Si oui, il modifie le plateau et passe l'oya au joueur suivant. 
+			\item Soit il s'agit d'une commande inGame. Par exemple, si l'utilisateur veut quitter, sauvegarder, annuler le dernier coup effectué, ou bien afficher l'aide des commandes. En fonctions de la valeurs reçue, le moteur retourne des valeurs spécifiques de GAGNANT (int retourné par le moteur) qui seront interprétées par le main.\\
+	
+	L'indépendance du MOTEUR est donc l'un des axes principaux sur lequel T.H. à travaillé.\\
+		
         %- jeu contre IA
         %- jeu à 6 joueurs
-        %- sauvegarde
+        \paragraph*{} % sauvegarde
+	En ce qui concerne la sauvegarde, rien de vraiment spéciale. L'utilisateur ne peut sauvegarder qu'une partie en cours d'éxécution. Il s'agit donc d'un commande inGame, c'est-à-dire que le moteur retour cette valeur au main, qui lancera lemodule de demande de slot à l'utilisateur. 
+	Une fois cette valeur entrée, elle est retournée au main, qui rappellera le module sauvegarde du MOTEUR.\\
+	
         %- gestion des scores
         %=====> au moins 3 pages <========
 

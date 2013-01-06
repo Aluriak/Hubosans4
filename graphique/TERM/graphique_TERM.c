@@ -327,8 +327,11 @@ t_regleJeu TERM_afficherMenu() {
 		regleJeu.nbJoueurs=-2;
 		// On retourne les règles du jeu
 		return regleJeu;
+	// Affichage tableau des scores
 	case 3:
-		printf("Not avaible now, sorry.\n");
+		// On met le nombre de joueurs à -3
+		regleJeu.nbJoueurs=-3;
+		return regleJeu;
 	case 4:
 		printf("Bye-Bye !\n");
 		// On met le nombre de joueur à -1
@@ -455,13 +458,39 @@ t_action TERM_afficherModuleSauvegarde(t_jeu * jeu)
 	return action;
 }
 
+
+
 /*
  * TERM AFFICHER SCORE
  */
 // Affiche le tableau des scores
 void TERM_afficherScore()
 {
-	// TODO	
+	// Création variable
+	int points = 0; // Contiendra les points
+	char * nom = malloc(20*sizeof(char));
+	// Ouverture du fichiers des scores
+	FILE * score = fopen("score.txt", "r");
+	// Nettoyage & affichage logo
+	TERM_clear();
+	TERM_afficherHubosans4();
+	// Affichage données tableau
+	printf("\t NAME\t\tSCORE\n\n");
+	// Récupération première ligne
+	fscanf(score, "%s%i", nom, &points);
+	// Tant que pas fin de fichier
+	while(!feof(score))
+	{
+		// Affichage données
+		fprintf(stderr, "\t %s", nom);
+		fprintf(stderr, "\t\t%i\n", points);
+		// Récupération nouvelles données
+		fscanf(score, "%s %i", nom, &points);
+	}
+	// Fermeture fichier
+	fclose(score);
+	// Libération nom
+	free(nom);
 }
 
 
@@ -523,4 +552,19 @@ char * TERM_afficherModuleChargement()
 		return quit;
 	}
 	return EXIT_SUCCESS;
+}
+
+/*
+ * TERM AFFICHER NOM SCORE
+ */
+// Demande au gagnant d'entrer son nom pour
+// enregistrement du score
+char * TERM_afficherNomScore()
+{
+	char * score_name = malloc(20*sizeof(char));
+	TERM_clear();
+	TERM_afficherHubosans4();
+	printf(">> Gagnant, entrez votre nom : ");
+	scanf("%s", score_name);
+	return score_name;
 }

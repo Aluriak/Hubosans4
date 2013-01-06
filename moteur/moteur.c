@@ -813,7 +813,7 @@ void MOTEUR_score(t_jeu * jeu, int idJ, int i, int j)
 	   (jeu->plateau[i][j].joueurPieceCreuse!=-1 &&
 	    jeu->plateau[i][j].joueurPiecePleine==idJ)))
 	{
-		// On retire 30 points au joueur
+		// On ajoute 70 points au joueur
 		jeu->listeJoueur[idJ].points+=70;
 	}
 	/*
@@ -835,7 +835,38 @@ void MOTEUR_score(t_jeu * jeu, int idJ, int i, int j)
 
 
 /*
+<<<<<<< HEAD
  * MOTEUR TOUR PRECEDENT
+=======
+ * MOTEUR ENREGISTER SCORE
+ */
+// Enregistre le score du joueur
+void MOTEUR_enregistrerScore(t_jeu * jeu, int idJ, char * name)
+{
+	// Ouverture du fichier
+	FILE * file_score = fopen("score.txt", "r+");
+	// On se positionne à la fin du fichier
+	fseek(file_score, 0, SEEK_END);
+	// Enregistrement des données
+	fprintf(file_score, "%s %i\n", name, jeu->listeJoueur[idJ].points);
+	fprintf(file_score, "\n");
+	// Fermeture des données
+	fclose(file_score);
+}
+
+
+/*
+ * MOTEUR VIDER SCORE
+ */
+// Vide le fichier des scores
+void MOTEUR_viderScore()
+{
+	// TODO
+}
+
+
+/*
+ * MOTEUR ANNULER DERNIER COUP
  */
 // Annule le dernier coup du joueur en cours, et retourne l'oya
 int MOTEUR_tourPrecedent(t_jeu* jeu)
