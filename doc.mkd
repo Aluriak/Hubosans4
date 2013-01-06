@@ -191,3 +191,16 @@ Ce module permet d'utiliser une IA déterministe, basée sur une étude ponctuel
 
 
 
+## INSECURE
+Module permettant une saisie sécurisée dans l'entrée standard
+
+* void inSecure(int\* nb, char\* mot);
+        * Place dans les espaces mémoires dont l'adresse est envoyée 
+            le premier nombre et le premier mot donnée par l'entrée standard
+        * Elle prend en paramètre
+                * l'adresse d'un int
+                * l'adresse d'une chaine de INSECURE_N_MAX cases char
+        * Lucas
+
+
+

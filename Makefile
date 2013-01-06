@@ -27,7 +27,7 @@ systeme.o: systeme/*
 	$(CC) $(FLAGS) -c systeme/*.c
 graphique_SDL.o: graphique/SDL/* systeme.o
 	$(CC) $(FLAGS) -c graphique/SDL/*.c -o graphique_SDL.o
-graphique_TERM.o: graphique/TERM/* systeme.o moteur.o
+graphique_TERM.o: graphique/TERM/* systeme.o moteur.o inSecure.o
 	$(CC) $(FLAGS) -c graphique/TERM/*.c -o graphique_TERM.o
 IA.o: IA/* systeme.o moteur.o
 	$(CC) $(FLAGS) -c IA/*.c
@@ -37,6 +37,8 @@ sonore.o: sonore/* systeme.o moteur.o
 	$(CC) $(FLAGS) -c sonore/*.c
 moteur.o: moteur/*  systeme.o 
 	$(CC) $(FLAGS) -c moteur/*.c
+inSecure.o: inSecure/*  systeme.o
+	$(CC) $(FLAGS) -c inSecure/*.c
 
 
 
