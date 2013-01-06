@@ -10,4 +10,6 @@ tabnew IA/IA.h
 vsplit IA/IA.c
 tabnew systeme/systeme.h
 vsplit systeme/systeme.c
+tabnew inSecure/inSecure.h
+vsplit inSecure/inSecure.c
 tabnew TODO.mkd
