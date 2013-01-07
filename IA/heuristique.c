@@ -59,10 +59,13 @@ int IA_h(t_jeu* jeu, int idIA) {
             for(k = jeu->nbJoueur-1; k >= 0; k--) {
                 // on prend le nombre de case alignées par rapport à cette case
                 nb_pieceMax = MOTEUR_test_puissance4(jeu, coordCase, k);
+                printf("%i", nb_pieceMax); // DEBUG
                 // on prend le nombre max de pièces alignées par le joueur
                 nb_pieceAligneeMax[k] = max(nb_pieceAligneeMax[k], nb_pieceMax);
             }
+            printf("|"); // DEBUG
         }
+            printf("\n"); // DEBUG
     }
             
 
@@ -70,6 +73,7 @@ int IA_h(t_jeu* jeu, int idIA) {
     // on parcours les joueurs, et on prend le nombre de pièces max alignées
     // pour chaque joueur
     nb_pieceMax = tab_max(nb_pieceAligneeMax, jeu->nbJoueur);
+    printf("nb_pieceMax = %i\n", nb_pieceMax);
     // maintenant, on regarde si l'IA jouée a ce nombre de pièces alignées
     if(nb_pieceAligneeMax[idIA] == nb_pieceMax) {
         // on définit la priorité renvoyée

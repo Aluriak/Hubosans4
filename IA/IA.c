@@ -19,8 +19,8 @@ t_action IA_effectuerTour(t_jeu *jeu) {
     int gagnant = -1; // gagnant de la partie
     // actions
     t_action action; // première action à opérer
-    t_action actionPrio; // première action ayant la meilleure priorité
-    // on créé un jeu, copié-collé du précédent.
+    t_action actionPrio; // action ayant la meilleure priorité
+    // on créer un jeu, copié-collé du précédent.
     // on travaillera sur cette copie pour éviter de toucher au jeu lui-même
     t_jeu* cpjeu = t_jeu_copie(jeu);
 
