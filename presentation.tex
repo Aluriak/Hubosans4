@@ -56,6 +56,7 @@
     \end{frame}
 
 
+
     % % % % % % %
     % FRAME 2   %
     % % % % % % %
@@ -64,12 +65,17 @@
     \frametitle{Organisation}
     \framesubtitle{du git, du module et du MVC}
         L'organisation s'est faite autour d'un dépôt git, 
-            hébergé par github. \\ 
+            hébergé par github.  
         \vspace{1cm} % espace vertical
-        Le programme est divisé en modules, en essayant 
-            de respecter au mieux une architecture MVC. \\
-            % une image, c'est cool, surtout si on peut 
-            %   montrer l'archi globale du programme
+        \begin{columns}[c] % structure en colonne
+            \begin{column}{5cm} % colonne de gauche
+                Le programme est divisé en modules, en essayant 
+                    de respecter au mieux une architecture MVC. 
+            \end{column}
+            \begin{column}{7cm} % colonne de droite
+                \includegraphics[width=6cm, height=4cm]{ressources/presentation/archi_projet.jpeg}
+            \end{column}
+        \end{columns}
         \vspace{1cm} % espace vertical
         Autour du programme, plusieurs fichiers d'intérêt.
             (doc, todo list)
