@@ -10,4 +10,3 @@
 
 - TERM 
     - Nettoyer fonction chargement et sauvegarde
-    - utiliser inSecure pour la saisie utilisateur

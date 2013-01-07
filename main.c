@@ -17,68 +17,58 @@ int main(int argc, char* argv[]) {
     int gagnant = -1;
     t_action action;
     // On crée un bool pour savoir quand l'user demande à quitter le jeu
-    bool quit = false; // quitte le jeu
+    bool quit_prgm = false, quit_jeu = false, quit_menu = false; // quitte si vrai
 
 
-    while(quit == false)
-    {	
-    	    bool no_game = false;
-	    // Menu principal
-	    regleJeu = TERM_afficherMenu();
-	    if(regleJeu.nbJoueurs==-1)
-	    {
-		    quit = true;
-		    break;
+
+    while(quit_prgm == false) {
+        while(quit_menu == false) {
+            regleJeu = TERM_afficherMenu();
+            // si le jeu n'est pas correctement intialisé
+	    if(regleJeu.nbJoueurs==-1) {
+                // on arrête tout
+		quit_menu = quit_jeu = quit_prgm = true; // arrêt
 	    }
 	    // Si -2, alors on lance le module de chargement de partie
-	    else if(regleJeu.nbJoueurs==-2)
-	    {
-		    char * load;
-		    char exit[5] = "quit";
-		    TERM_clear();
-		    TERM_afficherHubosans4();
-		    load = TERM_afficherModuleChargement();
-		    fprintf(stderr, "main1, name : %s\n", load);
-		    if(strcmp(load, exit) == 0)
-		    {
-			    no_game = true;
-			    quit = false;
-			    gagnant = 42;
-		    }
-		    else
-		    {
-			    fprintf(stderr, "main, name : %s\n", load);
-			    // Chargement de la sauvegarde
-			    jeu = MOTEUR_chargement(jeu, load);
-			    gagnant = -1;
-		    }
+	    else if(regleJeu.nbJoueurs==-2) {
+		char * load;
+		TERM_clear(); // nettoyage du TERM
+		TERM_afficherHubosans4(); // affichage esthétique
+		load = TERM_afficherModuleChargement(); 
+		fprintf(stderr, "main1, name : %s\n", load);
+		if(strcmp(load, "quit") != 0) {
+		    fprintf(stderr, "main, name : %s\n", load);
+		    // Chargement de la sauvegarde
+		    jeu = MOTEUR_chargement(jeu, load);
+		}
 	    }
 	    // Sinon si -3, affichage tableau des scores
-	    else if(regleJeu.nbJoueurs==-3)
-	    {
-		    // Affichage score
-		    TERM_afficherScore();
-		    // Attente de 10 seconde
-		    wait(10);
-		    // Pas de jeu init donc pas de free
-		    no_game=true;
-		    // Retour au menu standard
-		    quit=false;
-		    gagnant = 42;
+	    else if(regleJeu.nbJoueurs==-3) {
+		// Affichage score
+		TERM_afficherScore();
+		// Attente de 10 seconde
+		wait(10);
 	    }
-	    else
-	    {
-		    t_jeu_init(&jeu, regleJeu.nbJoueurs, 
-			       regleJeu.nbIA, 
-			       regleJeu.tab_nivIA, 
-			       regleJeu.nbPieceBloquante, 
-			       regleJeu.nbPiecePleine, 
-			       regleJeu.nbPieceCreuse); 
-			       allow_last = regleJeu.allow_last;  
+	    else {
+                // création du jeu selon les règles demandées
+		t_jeu_init(&jeu, regleJeu.nbJoueurs, 
+			   regleJeu.nbIA, 
+			   regleJeu.tab_nivIA, 
+			   regleJeu.nbPieceBloquante, 
+			   regleJeu.nbPiecePleine, 
+			   regleJeu.nbPieceCreuse); 
+			   allow_last = regleJeu.allow_last;  
+                // on peut démarrer le jeu !
+                quit_menu = true;
+                quit_jeu = false;
 	    }
-	    // jeu
+        }
+        // boucle de jeu
+        while(quit_jeu == false) {
+            // gestion du jeu
 	    while(gagnant < 0) {
 		TERM_afficherJeu(&jeu);
+                // on fait jouer le joueur par l'IA ou l'utilisateur, c'est selon.
 		if(jeu.listeJoueur[jeu.oya].IA == true)
                     action = IA_effectuerTour(&jeu);
 		else
@@ -101,12 +91,10 @@ int main(int argc, char* argv[]) {
 		else if(gagnant == -4)
 		{
 			action = TERM_afficherModuleSauvegarde(&jeu);
-			gagnant = MOTEUR_tourSuivant(&jeu, action);
-			gagnant = -1;
 		}
 	    }
+
 	    // arrivé ici, il y a puissance 4 ou bien égalité
-	    
 	    if(gagnant >= 0 && gagnant <= 5)
 	    {
 		    // On affiche le plateau de jeu gagnant
@@ -130,14 +118,15 @@ int main(int argc, char* argv[]) {
 		    // On remet la valeur de gagnant à -1
 		    gagnant = -1;	
 	    }
+            // on arrête le jeu
+            quit_jeu = true;
+            // on démarre le menu
+            quit_menu = false;
+        }
+    }
 
-	    // Si une partie à été lancée
-	    if(!no_game)
-	    {
-	    	 // Alors on free
-	    	 t_jeu_free(&jeu);
-	    }
-      }
+
+    // END
     return EXIT_SUCCESS;
 }
 
