@@ -51,6 +51,7 @@ void TERM_afficherJeu(t_jeu* jeu) {
     TERM_afficherEnTete(jeu);
     // PLATEAU
     TERM_afficherPlateau(jeu);
+    printf("IA_h > %i\n", IA_h(jeu, jeu->oya));
     /*
     printf("id = (%d;%d), type = %d", 
             jeu->plateau[3][jeu->nbCaseY-1].joueurPieceCreuse,

@@ -15,7 +15,7 @@ t_action IA_effectuerTour(t_jeu *jeu) {
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
     //          de l'action actionPrio
     int alpha = 0, beta = 100;
-    int profondeur = jeu->listeJoueur[idIA].niveauIA * jeu->nbJoueur; 
+    int profondeur = jeu->listeJoueur[idIA].niveauIA * jeu->nbJoueur * 3; 
     int gagnant = -1; // gagnant de la partie
     // actions
     t_action action; // première action à opérer
