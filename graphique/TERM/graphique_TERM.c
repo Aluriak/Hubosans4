@@ -469,7 +469,7 @@ void TERM_afficherScore()
 	int points = 0; // Contiendra les points
 	char * nom = malloc(20*sizeof(char));
 	// Ouverture du fichiers des scores
-	FILE * score = fopen("score.txt", "r");
+	FILE * score = fopen("save/score.txt", "r");
 	// Nettoyage & affichage logo
 	TERM_clear();
 	TERM_afficherHubosans4();

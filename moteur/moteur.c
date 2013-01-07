@@ -825,7 +825,7 @@ void MOTEUR_score(t_jeu * jeu, int idJ, int i, int j)
 void MOTEUR_enregistrerScore(t_jeu * jeu, int idJ, char * name)
 {
 	// Ouverture du fichier, en mode ajout
-	FILE * file_score = fopen("score.txt", "wa");
+	FILE * file_score = fopen("save/score.txt", "wa");
 	// Enregistrement des données
 	fprintf(file_score, "%s %i\n", name, jeu->listeJoueur[idJ].points);
 	fprintf(file_score, "\n");
