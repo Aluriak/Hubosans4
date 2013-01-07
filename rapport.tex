@@ -114,7 +114,7 @@ du temps de calcul.
         \paragraph*{} % INTELLIGENCE ARTIFICELLE
         Pour l'IA, les même structures de données sont mises en oeuvre, puisqu'elles suffisent à l'exploration de l'arbre des possibilités. Néanmoins, le jeu est intégralement recopié
         dans la mémoire; il est en effet hors de question de laisser un autre module que le moteur modifier le véritable jeu. C'est sur cette copie du jeu que seront effectués 
-        tous les traitements de parcours de l'arbre et de calcul de priorité d'une situation. \\
+        tous les traitements de parcours de l'arbre et de calcul de priorité d'une situation. \\ \\ \\ \\ \\ \\
 
 
     % % % % % % % % %
@@ -122,16 +122,15 @@ du temps de calcul.
     % % % % % % % % %
     \section*{Fonctionnalités} % (3 page min)
         \paragraph*{}
-        % TODO
         \paragraph*{} %  entrée utilisateur
-	Nous dissocierons 2 choses : 
+	Nous dissocierons 2 choses : \\
 	\begin{itemize} % liste entrée menu & in_game
-		\item Les entrées menus\\
+		\item Les entrées menus.
 		Dans ce premier cas, c'est le main qui appel les procédures de graphique TERM. Celles-ci retourneront les valeurs entrées par l'utilisateur, le tout via regleJeu.nbJoueurs. En fonction de sa valeur, le main lancera les différentes procédures.\\
 		Ainsi, la totalité des modules restent indépendant, l'un peut être modifié sans que l'on ait à changer quoique ce soit dans les autres modules. Ce principe est encore plus utile lors des parties en cours. 
-		\item Les entrées utilisateurs dans une partie en cours\\
+		\item Les entrées utilisateurs dans une partie en cours.
 		C'est la que la séparations des modules est la plus intéressante. En effet, le moteur est totalement indépendant du reste du programme. Celui-ci ne fait que reçevoir les données de graphique TERM. 
-		Une fois les données reçues, le moteur les traite les données. Deux choix sont alors possible :
+		Une fois les données reçues, le moteur les traite les données. Deux choix sont alors possible : \\
 		\begin{itemize} % liste choix in_game
 			\item Soit il s'agit d'une pièce que l'utilisateur veut placer. Dans ce cas, le moteur la reçois, test si celle-ci est possible à placer. Si oui, il modifie le plateau et passe l'oya au joueur suivant. 
 			\item Soit il s'agit d'une commande dans le jeu. Par exemple, si l'utilisateur veut quitter, sauvegarder, annuler le dernier coup effectué, ou bien afficher l'aide des commandes. En fonctions de la valeurs reçue, le moteur retourne des valeurs spécifiques de GAGNANT (int retourné par le moteur) qui seront interprétées par le main.\\
@@ -140,27 +139,41 @@ du temps de calcul.
 	
 	L'indépendance du MOTEUR est donc l'un des axes principaux sur lequel T.H. a travaillé.\\
 		
-        %- jeu contre IA
-        %- jeu à 6 joueurs
+        \paragraph*{} %- jeu contre IA
+	Il est possible de jouer une partie contre une ou plusieur IA. Il est aussi possible de jouer uniquement contre des IAet de regarder la partie. 
+	Plusieur niveau de difficulté sont présent : \\
+	\begin{itemize}
+		\item Facile : La profondeur de l'IA est faible (1 ou 2 coups d'avance) 
+		\item Moyen : La profondeur de l'IA est un peu plus prononcer (3 coups d'avance) 
+		\item Difficile : La profondeur de l'IA est grande (4 ou 5 coup d'avance) 
+		\item Très Difficile : La profondeur de l'IA est maximale (l'IA voit jusqu'à la fin de la partie) \\
+	\end{itemize}
+
+        \paragraph*{} %- jeu à 6 joueurs
+	Une des contraites imposées était de permettre un nombre de joueurs supérieur à 2.
+	C'est ce que nous avons fait. Il est possible de jouer jusqu'à 6 joueur dans une même partie, IA ou HUMAIN confondu. 
+	En principe il nous est possible de jouer jusqu'à 126 en même, mais le terminal à ses limites en taille et en couleur.
+	En effet la taille est un problème évident, les proportions du plateau augmentant en fonction du nombre de joueur.
+	Mais le nombre de couleurs disponible et reconnaissable par un humains sont limitées : nous avons jugé que seul 6 couleur pouvaient être suffisement reconnaissable.\\ 
+
         \paragraph*{} % sauvegarde
 	En ce qui concerne la sauvegarde, aucun algorithme complexe n'était nécessaire. L'utilisateur ne peut sauvegarder qu'une partie en cours d'éxécution. Il s'agit donc d'une commande dans le jeu, c'est-à-dire que le moteur retour cette valeur au main, qui lancera le module de demande de slot à l'utilisateur. 
-	Une fois cette valeur entrée, elle est retournée au main, qui rappellera le module sauvegarde du MOTEUR.\\
+	Une fois cette valeur entrée, elle est retournée au main, qui rappellera le module sauvegarde du MOTEUR.
 	C'est à ce moment là que le fichier de sauvegarde est crée (dans le répertoire SAVE), et que les données de jeu y sont enregistrées.\\
 	
         \paragraph*{} % gestion des scores
-	A chaque tour, la fonction de gestion des scores est lancée. En fonction de la dernière pièce jouée et de son id, les points du joueurs en cours sont modifié de la sorte : 
+	A chaque tour, la fonction de gestion des scores est lancée. En fonction de la dernière pièce jouée et de son id, les points du joueurs en cours sont modifié de la sorte : \\
 	\begin{itemize}
-		\item Si le joueur place une pièce PLEINE ou CREUSE sur une case VIDE = +30 points
-		\item Si le joueur place une pièce PLEINE ou CREUSE sur une case déjà occupée : +70 points
-		\item Si le joueur place une pièce BLOQUANTE : +20 points
-		\item Si le joueur bloque une suite de pièces adverse :
+		\item Si le joueur place une pièce PLEINE ou CREUSE sur une case VIDE = +30 points 
+		\item Si le joueur place une pièce PLEINE ou CREUSE sur une case déjà occupée : +70 points 
+		\item Si le joueur place une pièce BLOQUANTE : +20 points 
+		\item Si le joueur bloque une suite de pièces adverse : \\
 		\begin{itemize}
-			\item Si la suite est de 2 pièces : +200 points
-			\item Si la suite est de 3 pièces : +300 points
+			\item Si la suite est de 2 pièces : +200 points 
+			\item Si la suite est de 3 pièces : +300 points \\
 		\end{itemize}
 	\end{itemize}
-	Afin de sécuriser les scores de toutes tentatives de modification volontaire et malhonnête, nous avons décidé de crypter le fichier des scores, et d'écrire plusieurs fois chaque données. Comme cela, on peut facilement déterminer si quelqu'un à voulu modifier au hasard (les données étant cryptées) les points ou les noms des joueurs.
-        %=====> au moins 3 pages <========
+	Afin de sécuriser les scores de toutes tentatives de modification volontaire et malhonnête, nous avons décidé de crypter le fichier des scores, et d'écrire plusieurs fois chaque données. Comme cela, on peut facilement déterminer si quelqu'un à voulu modifier au hasard (les données étant cryptées) les points ou les noms des joueurs. \\
 
     % % % % % % % % % %
     % Gestion d'erreurs
@@ -220,13 +233,23 @@ du temps de calcul.
     \paragraph*{} % algo notoires 
     Parmis les algorithmes notoires, on citera l'étude du jeu pour connaître la viabilité d'un puissance 4, ainsi que l'algorithme minimax mis en oeuvre pour l'IA.
     Ces deux algorithme sont choisis parce qu'il sont importants et utilisés souvent, ou, dans le cas de minimax, parce qu'il s'agit de l'algorithme le plus complexe du programme.
-        \subparagraph*{} % puissance 4 TODO
+        \subparagraph*{} % puissance 4
+	Afin de ne pas tester tout le plateau à chaque tour (solutions la plus facile mais la coûteuse en mémoire et en processeur), nous avons décidé de tester le puissance 4 juste après que la pièce est été posée par le joueur, et ce de la façon suivante : \\
+	\begin{itemize}
+		\item Test BAS - HAUT 
+		\item Test GAUCHE - DROITE 
+		\item Test Diag BAS DROIT - HAUT GAUCHE 
+		\item Test Diag BAS GAUCHE - HAUT DROIT \\
+	\end{itemize}
+	
+	Chaque test commence de (caseDépart - 3) à (caseDépart + 3), en adaptant évidement cela en fonction des directions à prendre. Un compteur est incrémenté à chaque fois qu'il rencontre une pièce appartenant au joueur en cours. Ce même compteur est remis à zéro si il rencontre une pendant le test, une pièce de joueur adverse. En effet cela indique qu'il y a une séparation entre deux pièces du même joueur : il ne peut donc pas y avoir puissance 4 dans cette direction. 
+	Si à la fin d'un test, le compteur n'est pas égal à 4, alors celui-ci est remis à zéro avant le passage au joueurs suivant.\\
 
         \subparagraph*{} % IA
         Pour l'IA, c'est l'algorithme minimax qui entre en jeu : une fonction récursive, parcourant les noeuds de l'arbre, et une fonction d'étude de situation. 
         Cela permet de donner à chacune des N actions possibles (3 fois le nombre de colonnes) pour l'IA une priorité. \\
         Plus la priorité est haute, plus la situation vers laquelle cette action mène est avantageuse pour l'IA. Simplement, la priorité la plus haute est attribuée aux situation où 
-        l'IA gagne. \\
+        l'IA gagne. \
         La profondeur d'exploration de l'arbre détermine le niveau de l'IA : plus une IA étudiera loin dans l'arbre, mieux elle saura éviter les pièges de ses adversaires, et préparer
         les siens. De fait, l'IA est disponible en plusieurs difficultés, de la plus simple (profondeur de 2 tours de jeu) à la plus difficile (10 tours de jeu). \\
         L'IA n'explore pas nécessairement toutes les branches : grâce à l'élagage alpha-bêta, elle peut éviter des calculs inutiles (ce qui deviens nécessaire lorsqu'il y a plus 
@@ -257,11 +280,20 @@ du temps de calcul.
         quelques semaines. Certains modules n'ont pu être testés qu'à ce moment, d'où de grosses révisions de code qui ont ralentit le développement des autres modules. \\
         Néanmoins, le projet s'est terminé, même si certains objectifs secondaires n'ont pas été remplis, faut de temps. En effet, celui-ci a manqué en fin de projet. \\
         Le planning n'était pas réellement explicité. Une \textit{todo list} a été mise en place, mais aucune notion du temps ne fût explicitement utilisée; personne n'en a eu besoin, 
-        le prjet avançais sans avoir besoin de \textit{deadlines}. 
-    \paragraph*{} % améliorations TODO
-    %- améliorations
-        %- gérer N joueurs, avec N > 6 (donc s'affranchir des limites du terminal)
+        le projet avançais sans avoir besoin de \textit{deadlines}. 
+    \paragraph*{} % améliorations 
+     Pour se projet, nous aurions aimé ajouter un module réseaux car il n'est pas très pratique de jouer à 6 devant le même ordinateur. Le Terminal à ses limites, le bureau aussi !\\
+     Nous aurions aussi aumé ajouter une interface graphique SDL. Cela nous aurait notament permis de nous affranchir de la limite des 6 joueurs grâce à beaucoup d'autre procédé : \\
+     \begin{itemize}
+     	\item Plus de couleurs disponible
+	\item Plus de formes pour les pièces
+	\item Superposition moins simpliste des pièces CREUSE et PLEINE\\
+     \end{itemize}
     \paragraph*{} % apport du projet TODO
+    Pour ma part, ce projet a été l'occasion d'approfondir mes connaissances en programmation, d'utiliser pleinement des outils comme vim, git. 
+    Le fait de devoir travailler en binôme m'a montré que le celui-ci requiert une certaine rigueur, mais qu'il est plaisant de pourvoir partager ses connaissances et de reçevoir en retour. De plus nous étions tout deux de fervant utilisateurs de LINUX, ce qui nous permis de partager plus facilement nos outils. 
+    Ce que je retiendrais du projet en terme de programmation sera bien evidement la programmation modulaire. Séparer chaque traitement en une fonction, et les imbriquer ensemble afin d'obtenir un ensemble cohérent. Je pense qu'un projet de ce type manquera au prochain semestre. \\ \\
+    Thomas HUBA. \\
     %- apport du projet au niveau personnel
     %=====> au moins 3 pages <========
 
