@@ -52,7 +52,7 @@ inSecure.o: inSecure/*  systeme.o
 
 # suppression de tous les fichiers
 clean:
-	rm *.o $(FINALNAME) rapport.aux rapport.log presentation.nav presentation.snm presentation.toc presentation.out presentation.log
+	rm *.o rapport.aux rapport.log presentation.nav presentation.snm presentation.toc presentation.out presentation.log presentation.aux
 
 # suppression de tous les fichiers objets
 cleanO:
@@ -62,5 +62,6 @@ cleanO:
 rapport:
 	pdflatex rapport.tex
 	pdflatex presentation.tex 
+	rm rapport.aux rapport.log presentation.nav presentation.snm presentation.toc presentation.out presentation.log presentation.aux
 
 

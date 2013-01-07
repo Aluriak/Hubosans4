@@ -43,6 +43,7 @@ bool allow_last;
     int max(int a, int b); // renvois a si a >= b, ou b
     int min(int a, int b); // renvois a si a <= b, ou b
     int tab_max(int* tab, int T); // renvois la valeur maximum contenue dans le tableau de taille T
+    int tab_count(int* tab, int T, int A); // renvois le nombre de valeur A contenue dans le tableau T
     int apowb(int a, int b); // retourne a^b, si b >= 0
     int str2int(char * str, int nb_carac); // renvois un entier positif à partir d'une chaine de caractère ne contenant que des entiers positifs
     void wait(float time); // Fige le programme pendant un temps en seconde reçu en paramètre

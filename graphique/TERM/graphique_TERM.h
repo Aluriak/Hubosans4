@@ -7,6 +7,7 @@
 // modules
 #include "../../systeme/systeme.h"
 #include "../../moteur/moteur.h"
+#include "../../IA/IA.h"
 #include "../../inSecure/inSecure.h"
 
 

@@ -122,7 +122,6 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	{
 		// On lance la procédure de modification du plateau de jeu
 		bool next = MOTEUR_pieceJouee(jeu, action, ligne);
-                printf("DEBUG: ligne = %i\n", ligne);
 		if(!next) // si la pièce n'a pas été placée
 		{
 			return -2; // coup impossible
@@ -369,6 +368,9 @@ int MOTEUR_test_c_p4(t_jeu* jeu, int i, int j, int idJ, int c_p4)
 	return c_p4;
 }
 
+
+
+
 /*
  * MOTEUR TEST PUISSANCE 4
  */
@@ -380,13 +382,14 @@ int MOTEUR_test_c_p4(t_jeu* jeu, int i, int j, int idJ, int c_p4)
 int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 {
 	// Déclare un tableau pour récupérer les valeurs max
-	int * max;
-	max=malloc(4*sizeof(int));
-	max=MOTEUR_borne_MAX(jeu, coordCase);
+	int * maxi;
+	maxi=malloc(4*sizeof(int));
+	maxi=MOTEUR_borne_MAX(jeu, coordCase);
 	// On trie les valeurs au bon endroit
-	int max_h=max[1], max_b=max[2]; // Borne haute et basse du plateau
-	int max_g=max[3], max_d=max[4]; // Borne gauche et droite du plateau
+	int max_h=maxi[1], max_b=maxi[2]; // Borne haute et basse du plateau
+	int max_g=maxi[3], max_d=maxi[4]; // Borne gauche et droite du plateau
 	int i,j; // Itérateur de boucle
+        int maxPiece = 0; // contient le nombre maximum de pièces alignées
 	int c_p4=0; // Compteur pour le puissance 4, si c_p4 >= 4, alors il y a puissance 4
 	i=coordCase.x; // Pour un traitement correct des conditions
 	/*
@@ -398,6 +401,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	for(j=coordCase.y+max_b;j>coordCase.y-max_h;j--)
 	{
 		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
+                maxPiece = c_p4; // on enregistre le max de pièces alignées
 		if(c_p4>=4)
 		{
 			return c_p4;
@@ -411,6 +415,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	for(i=coordCase.x-max_g, j=coordCase.y;i<=coordCase.x+max_d;i++)
 	{
 		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
+                maxPiece = max(maxPiece, c_p4); // on enregistre le max de pièces alignées
 		if(c_p4>=4)
 		{
 			return c_p4;
@@ -426,6 +431,7 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	    i--, j--) // On décrémente i & j
 	{
 		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
+                maxPiece = max(maxPiece,c_p4); // on enregistre le max de pièces alignées
 		if(c_p4>=4)
 		{
 			return c_p4;
@@ -441,13 +447,15 @@ int MOTEUR_test_puissance4(t_jeu* jeu, coord coordCase, int idJ)
 	    i++, j--) // On décrémente i & j
 	{
 		c_p4=MOTEUR_test_c_p4(jeu, i, j, idJ, c_p4); // c_p4 est égal à la valeur de retour de la fonction test_c_p4
+                maxPiece = max(maxPiece,c_p4); // on enregistre le max de pièces alignées
 		if(c_p4>=4)
 		{
 			return c_p4;
 		}
 
 	}
-	free(max);
+	free(maxi);
+        c_p4 = maxPiece; // on rend c_p4 égal au maximum de pièces rencontrées
 	return c_p4; // On retourne la valeur de c_p4 pour post-traitement
 }
 
