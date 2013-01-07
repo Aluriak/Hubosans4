@@ -310,6 +310,11 @@ t_regleJeu TERM_afficherMenu() {
 	    regleJeu.nbPieceBloquante = regleJeu.nbJoueurs;
 	    regleJeu.nbPiecePleine = regleJeu.nbJoueurs*20;
 	    regleJeu.nbPieceCreuse = regleJeu.nbJoueurs*20;
+            // DEBUG
+	    /*regleJeu.nbPieceBloquante = 100;*/
+	    /*regleJeu.nbPiecePleine = 0;*/
+	    /*regleJeu.nbPieceCreuse = 0;*/
+            // /DEBUG
 	    // On retourne les regles du jeu
 	    return regleJeu;
 	case 2:
