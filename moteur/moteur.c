@@ -509,26 +509,16 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 	// >>> PREPARATION SAUVEGARDE <<<
 	
 	// Création des variables 
-	char * sauvegarde = malloc(20*sizeof(char));
-	sauvegarde = "save/save";
-	char * slot = malloc(3*sizeof(char));
-	char * end_save = malloc(4*sizeof(char));
-	end_save = ".sv";
+	char sauvegarde[15] = "save/save";
+	char slot[2];
+	char end_save[3] = ".sv";
 	
-	fprintf(stderr, "debug : 1\n");
-
 	// On convertie action.colonne en string
 	sprintf(slot, "%i", action.colonne); // Convertion int en string 
-
-	fprintf(stderr, "convert : OK\n");
-	fprintf(stderr, "slot : %s\n", slot);
-	fprintf(stderr, "save : %s\n", sauvegarde);
 	
 	// Fusion des chaines de caractères
 	strcat(sauvegarde, slot);
 	strcat(sauvegarde, end_save);
-
-	fprintf(stderr, "name : %s", sauvegarde);
 
 	// Ouveerture du fichier
 	FILE * file_save = fopen(sauvegarde, "w");
@@ -591,11 +581,6 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 	// >>> END <<<
 	
 	fprintf(file_save, "\n\n");
-
-	// Libréation mémoire
-	free(sauvegarde);
-	free(slot);
-	free(end_save);
 
 	// Fermeture du fichier
 	fclose(file_save);
