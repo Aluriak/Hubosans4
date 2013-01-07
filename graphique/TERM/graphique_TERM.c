@@ -262,10 +262,7 @@ t_regleJeu TERM_afficherMenu() {
     {
     	printf(">> Que voulez-vous faire ? ");
     	choice = inSecure_int();
-    } while(choice != 1 &&
-            choice != 2 &&
-	    choice != 3 &&
-	    choice != 4);
+    } while(choice < 1 && choice > 4);
 
     // On attend le choix de l'user
     switch(choice)
