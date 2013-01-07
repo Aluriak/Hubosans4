@@ -114,7 +114,7 @@ du temps de calcul.
         \paragraph*{} % INTELLIGENCE ARTIFICELLE
         Pour l'IA, les même structures de données sont mises en oeuvre, puisqu'elles suffisent à l'exploration de l'arbre des possibilités. Néanmoins, le jeu est intégralement recopié
         dans la mémoire; il est en effet hors de question de laisser un autre module que le moteur modifier le véritable jeu. C'est sur cette copie du jeu que seront effectués 
-        tous les traitements de parcours de l'arbre et de calcul de priorité d'une situation. \\
+        tous les traitements de parcours de l'arbre et de calcul de priorité d'une situation. \\ \\ \\ \\ \\ \\
 
 
     % % % % % % % % %
@@ -123,7 +123,7 @@ du temps de calcul.
     \section*{Fonctionnalités} % (3 page min)
         \paragraph*{}
         \paragraph*{} %  entrée utilisateur
-	Nous dissocierons 2 choses : 
+	Nous dissocierons 2 choses : \\
 	\begin{itemize} % liste entrée menu & in_game
 		\item Les entrées menus.
 		Dans ce premier cas, c'est le main qui appel les procédures de graphique TERM. Celles-ci retourneront les valeurs entrées par l'utilisateur, le tout via regleJeu.nbJoueurs. En fonction de sa valeur, le main lancera les différentes procédures.\\
@@ -239,7 +239,7 @@ du temps de calcul.
 		\item Test BAS - HAUT 
 		\item Test GAUCHE - DROITE 
 		\item Test Diag BAS DROIT - HAUT GAUCHE 
-		\item Test Diag BAS GAUCHE - HAUT DROIT 
+		\item Test Diag BAS GAUCHE - HAUT DROIT \\
 	\end{itemize}
 	
 	Chaque test commence de (caseDépart - 3) à (caseDépart + 3), en adaptant évidement cela en fonction des directions à prendre. Un compteur est incrémenté à chaque fois qu'il rencontre une pièce appartenant au joueur en cours. Ce même compteur est remis à zéro si il rencontre une pendant le test, une pièce de joueur adverse. En effet cela indique qu'il y a une séparation entre deux pièces du même joueur : il ne peut donc pas y avoir puissance 4 dans cette direction. 
@@ -283,7 +283,7 @@ du temps de calcul.
         le projet avançais sans avoir besoin de \textit{deadlines}. 
     \paragraph*{} % améliorations 
      Pour se projet, nous aurions aimé ajouter un module réseaux car il n'est pas très pratique de jouer à 6 devant le même ordinateur. Le Terminal à ses limites, le bureau aussi !\\
-     Nous aurions aussi aumé ajouter une interface graphique SDL. Cela nous aurait notament permis de nous affranchir de la limite des 6 joueurs grâce à beaucoup d'autre procédé : 
+     Nous aurions aussi aumé ajouter une interface graphique SDL. Cela nous aurait notament permis de nous affranchir de la limite des 6 joueurs grâce à beaucoup d'autre procédé : \\
      \begin{itemize}
      	\item Plus de couleurs disponible
 	\item Plus de formes pour les pièces
@@ -292,7 +292,7 @@ du temps de calcul.
     \paragraph*{} % apport du projet TODO
     Pour ma part, ce projet a été l'occasion d'approfondir mes connaissances en programmation, d'utiliser pleinement des outils comme vim, git. 
     Le fait de devoir travailler en binôme m'a montré que le celui-ci requiert une certaine rigueur, mais qu'il est plaisant de pourvoir partager ses connaissances et de reçevoir en retour. De plus nous étions tout deux de fervant utilisateurs de LINUX, ce qui nous permis de partager plus facilement nos outils. 
-    Ce que je retiendrais du projet en terme de programmation sera bien evidement la programmation modulaire. Séparer chaque traitement en une fonction, et les imbriquer ensemble afin d'obtenir un ensemble cohérent. Je pense qu'un projet de ce type manquera au prochain semestre. \\
+    Ce que je retiendrais du projet en terme de programmation sera bien evidement la programmation modulaire. Séparer chaque traitement en une fonction, et les imbriquer ensemble afin d'obtenir un ensemble cohérent. Je pense qu'un projet de ce type manquera au prochain semestre. \\ \\
     Thomas HUBA. \\
     %- apport du projet au niveau personnel
     %=====> au moins 3 pages <========
