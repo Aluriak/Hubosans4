@@ -504,39 +504,34 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 // 			- la pile d'action
 void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 {
-	fprintf(stderr, "begin function : OK\n");
 	int i = 0, j =0; // Itérateur de boucle
 
 	// >>> PREPARATION SAUVEGARDE <<<
-	char tmp_save[14] = "save/save";
-	char tmp_slot_num[3];
-	char tmp_end_save[3] = ".sv";
-	char *slot_num = tmp_slot_num;
+	
+	// Création des variables 
+	char * sauvegarde = malloc(20*sizeof(char));
+	sauvegarde = "save/save";
+	char * slot = malloc(3*sizeof(char));
+	char * end_save = malloc(4*sizeof(char));
+	end_save = ".sv";
+	
+	fprintf(stderr, "debug : 1\n");
 
-	//nom d'un slot : saveN.sv (avec N le numéro de slot)
-	//char * slot_num = malloc(3*sizeof(char));
 	// On convertie action.colonne en string
-	sprintf(slot_num, "%i", action.colonne); // Convertion int en string 
-	// Création de la chaine de caractère pour le nom final
-	//char * end_save = malloc(3*sizeof(char));
-	//char * save = malloc(20*sizeof(char));
-	// Création contenu
-	//save = "save/save";
-	//end_save = ".sv";
-	// Creation tmp var
-	// Addressage
-	//char *end_save = tmp_end_save;
+	sprintf(slot, "%i", action.colonne); // Convertion int en string 
+
+	fprintf(stderr, "convert : OK\n");
+	fprintf(stderr, "slot : %s\n", slot);
+	fprintf(stderr, "save : %s\n", sauvegarde);
+	
 	// Fusion des chaines de caractères
-	strcat(tmp_save, tmp_slot_num);
-	strcat(tmp_save, tmp_end_save);
-	char *save = malloc(sizeof(strlen(tmp_save)));
-	save = tmp_save;
-	slot_num = tmp_slot_num;
-	//end_save = tmp_end_save;
+	strcat(sauvegarde, slot);
+	strcat(sauvegarde, end_save);
+
+	fprintf(stderr, "name : %s", sauvegarde);
 
 	// Ouveerture du fichier
-	FILE * file_save;
-	file_save = fopen(save, "w");
+	FILE * file_save = fopen(sauvegarde, "w");
 	    	
 	//>>> SAUVEGARDE <<<
 	
@@ -555,9 +550,6 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 	{
 		for(j=0;j<jeu->nbCaseY;j++)
 		{
-			// Coordonnées de la case dans le jeu
-			//fprintf(file_save, "%i ", jeu->plateau[i][j].crd.x);
-			//fprintf(file_save, "%i ", jeu->plateau[i][j].crd.y);
 			// Enregistrement des pièces 
 			fprintf(file_save, "%i ", jeu->plateau[i][j].joueurPieceCreuse);
 			fprintf(file_save, "%i ", jeu->plateau[i][j].joueurPiecePleine);
@@ -599,6 +591,13 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 	// >>> END <<<
 	
 	fprintf(file_save, "\n\n");
+
+	// Libréation mémoire
+	free(sauvegarde);
+	free(slot);
+	free(end_save);
+
+	// Fermeture du fichier
 	fclose(file_save);
 }
 
@@ -835,9 +834,6 @@ void MOTEUR_score(t_jeu * jeu, int idJ, int i, int j)
 
 
 /*
-<<<<<<< HEAD
- * MOTEUR TOUR PRECEDENT
-=======
  * MOTEUR ENREGISTER SCORE
  */
 // Enregistre le score du joueur
