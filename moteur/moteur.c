@@ -122,7 +122,6 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	{
 		// On lance la procédure de modification du plateau de jeu
 		bool next = MOTEUR_pieceJouee(jeu, action, ligne);
-                printf("DEBUG: ligne = %i\n", ligne);
 		if(!next) // si la pièce n'a pas été placée
 		{
 			return -2; // coup impossible
