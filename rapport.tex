@@ -134,7 +134,7 @@ du temps de calcul.
 		Une fois les données reçues, le moteur les traite les données. Deux choix sont alors possible :
 		\begin{itemize} % liste choix in_game
 			\item Soit il s'agit d'une pièce que l'utilisateur veut placer. Dans ce cas, le moteur la reçois, test si celle-ci est possible à placer. Si oui, il modifie le plateau et passe l'oya au joueur suivant. 
-			\item Soit il s'agit d'une commande inGame. Par exemple, si l'utilisateur veut quitter, sauvegarder, annuler le dernier coup effectué, ou bien afficher l'aide des commandes. En fonctions de la valeurs reçue, le moteur retourne des valeurs spécifiques de GAGNANT (int retourné par le moteur) qui seront interprétées par le main.\\
+			\item Soit il s'agit d'une commande dans le jeu. Par exemple, si l'utilisateur veut quitter, sauvegarder, annuler le dernier coup effectué, ou bien afficher l'aide des commandes. En fonctions de la valeurs reçue, le moteur retourne des valeurs spécifiques de GAGNANT (int retourné par le moteur) qui seront interprétées par le main.\\
                 \end{itemize}
         \end{itemize}
 	
@@ -143,10 +143,23 @@ du temps de calcul.
         %- jeu contre IA
         %- jeu à 6 joueurs
         \paragraph*{} % sauvegarde
-	En ce qui concerne la sauvegarde, rien de vraiment spéciale. L'utilisateur ne peut sauvegarder qu'une partie en cours d'éxécution. Il s'agit donc d'un commande inGame, c'est-à-dire que le moteur retour cette valeur au main, qui lancera lemodule de demande de slot à l'utilisateur. 
+	En ce qui concerne la sauvegarde, aucun algorithme complexe n'était nécessaire. L'utilisateur ne peut sauvegarder qu'une partie en cours d'éxécution. Il s'agit donc d'une commande dans le jeu, c'est-à-dire que le moteur retour cette valeur au main, qui lancera le module de demande de slot à l'utilisateur. 
 	Une fois cette valeur entrée, elle est retournée au main, qui rappellera le module sauvegarde du MOTEUR.\\
+	C'est à ce moment là que le fichier de sauvegarde est crée (dans le répertoire SAVE), et que les données de jeu y sont enregistrées.\\
 	
-        %- gestion des scores
+        \paragraph*{} % gestion des scores
+	A chaque tour, la fonction de gestion des scores est lancée. En fonction de la dernière pièce jouée et de son id, les points du joueurs en cours sont modifié de la sorte : 
+	\begin{itemize}
+		\item Si le joueur place une pièce PLEINE ou CREUSE sur une case VIDE = +30 points
+		\item Si le joueur place une pièce PLEINE ou CREUSE sur une case déjà occupée : +70 points
+		\item Si le joueur place une pièce BLOQUANTE : +20 points
+		\item Si le joueur bloque une suite de pièces adverse :
+		\begin{itemize}
+			\item Si la suite est de 2 pièces : +200 points
+			\item Si la suite est de 3 pièces : +300 points
+		\end{itemize}
+	\end{itemize}
+	Afin de sécuriser les scores de toutes tentatives de modification volontaire et malhonnête, nous avons décidé de crypter le fichier des scores, et d'écrire plusieurs fois chaque données. Comme cela, on peut facilement déterminer si quelqu'un à voulu modifier au hasard (les données étant cryptées) les points ou les noms des joueurs.
         %=====> au moins 3 pages <========
 
     % % % % % % % % % %
@@ -166,7 +179,7 @@ du temps de calcul.
         Ainsi, les entrées utilisateurs sont protégées, si bien que ce dernier ne peut pas rendre l'execution du programme imprévisible par ce biais.
 
         \paragraph*{} % chargement des sauvegardes
-        % TODO
+        Le chargement des sauvegardes doit faire preuve d'une certaine rigeur. En effet, le MOTEUR doit à tout prix vérifier chaque valeur chargées, afin de ne pas dépasser la taille du plateau ou encore le nombre de joueurs autorisé. Nous pouvons ainsi vérifier en même temps si la sauvegarde n'est pas corrompue (on est vraiment jamais à l'abri d'une corruption de fichier).
 
         \paragraph*{} % allocations dynamique
         Le principe de la protection des allocations dynamique est fort simple : pour chaque allocation, une vérification est opérée. S'il s'avère que l'allocation a été refusée par l'OS,

@@ -116,7 +116,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
                 if(plateauPlein)
                     return -43;
                 else
-		    return -2;
+		    return -2; // Erreur action impossible
     	}
     	else
 	{
