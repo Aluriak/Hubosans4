@@ -42,7 +42,7 @@ void TERM_backgroundColor(int couleur) {
 // affiche le jeu dans le terminal
 void TERM_afficherJeu(t_jeu* jeu) {
     // on efface l'écran
-    TERM_clear();
+    /*TERM_clear();*/
     // Nom jeu
     TERM_afficherHubosans4(); 
     // Commande

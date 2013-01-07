@@ -15,7 +15,7 @@ t_action IA_effectuerTour(t_jeu *jeu) {
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
     //          de l'action actionPrio
     int alpha = 0, beta = 100;
-    int profondeur = jeu->listeJoueur[idIA].niveauIA * jeu->nbJoueur *10; 
+    int profondeur = jeu->listeJoueur[idIA].niveauIA * jeu->nbJoueur * 100; 
     int gagnant = -1; // gagnant de la partie
     // actions
     t_action action; // première action à opérer
@@ -33,7 +33,8 @@ t_action IA_effectuerTour(t_jeu *jeu) {
                 // on joue le coups, et on récupère le gagnant, ou le code de retour
                 gagnant = MOTEUR_tourSuivant(cpjeu, action);
                 if(gagnant >= -1) { // si action valide
-                        // s'il y aun gagant, différent de l'IA
+                    printf("%i\t", gagnant);
+                        // s'il y a un gagnant, différent de l'IA
                         if(gagnant >= 0 && gagnant != idIA)
                             priorite = 0; // situation absolument non désirée !
                         else if(gagnant == idIA) {
@@ -48,16 +49,17 @@ t_action IA_effectuerTour(t_jeu *jeu) {
                         // si il n'y a aucun gagnant, on appelle minimax
                         else {
                             // appel de alpha-bêta, avec alpha et beta négatifs et inversés
-                            priorite = IA_alphaBeta(cpjeu, alpha, beta, 
+                            priorite = IA_alphaBeta(cpjeu, alpha, beta,
                                     profondeur, idIA);
                             if(priorite > prioMax) {
                                 prioMax = priorite;
                                 actionPrio = action;
+                                printf("prioMax = %i\n", prioMax);
                             }
                             // si prio égales, des chances existent pour que l'IA joue
                             //  à ce nouvel endroit
-                            else if(priorite == prioMax && randN(3) == 0)
-                                actionPrio = action;
+                            /*else if(priorite == prioMax && randN(3) == 0)*/
+                                /*actionPrio = action;*/
                         }
                         // enfin, on déjoue le coups
                         MOTEUR_annulerDernierCoup(cpjeu);
@@ -108,27 +110,34 @@ int IA_alphaBeta(t_jeu* jeu, int alpha, int beta, int profondeur, int idIA) {
                     // on joue le coups, et on récupère le gagnant, ou le code de retour
                     gagnant = MOTEUR_tourSuivant(jeu, action);
                     if(gagnant >= -1) { // si action valide
-                        if(gagnant >= 0 && gagnant != idIA)
-                            return 0; // situation absolument non désirée !
-                        else if(gagnant == idIA)
-                            return 100; // situation absolument désirée !
-                        // si il n'y a aucun gagnant, on appelle alpha-bêta
-                        else {
-                            // appel de alpha-bêta, avec alpha et beta négatifs et inversés
-                            priorite = -IA_alphaBeta(jeu, -beta, -alpha, 
-                                        profondeur-1, idIA);
-                            if(priorite > prioMax) {
-                                prioMax = priorite;
-                                if(prioMax > alpha) {
-                                    alpha = prioMax;
-                                    if(alpha >= beta) {
-                                        return prioMax;
+                            if(gagnant >= 0 && gagnant != idIA) {
+                                MOTEUR_annulerDernierCoup(jeu);
+                                return 0; // situation absolument non désirée !
+                            }
+                            else if(gagnant == idIA) {
+                                MOTEUR_annulerDernierCoup(jeu);
+                                return 91+profondeur; // situation absolument 
+                                //      désirée, pondérée par la distance au noeud actuel
+                            }
+                            // si il n'y a aucun gagnant, on appelle alpha-bêta
+                            else {
+                                // appel de alpha-bêta, 
+                                //      avec alpha et beta négatifs et inversés
+                                priorite = -IA_alphaBeta(jeu, -beta, -alpha, 
+                                            profondeur-1, idIA);
+                                if(priorite > prioMax) {
+                                    prioMax = priorite;
+                                    if(prioMax > alpha) {
+                                        alpha = prioMax;
+                                        if(alpha >= beta) {
+                                            MOTEUR_annulerDernierCoup(jeu);
+                                            return prioMax;
+                                        }
                                     }
                                 }
                             }
-                        }
-                        // on enlève le coup joué
-                        MOTEUR_annulerDernierCoup(jeu);
+                            // on enlève le coup joué
+                            MOTEUR_annulerDernierCoup(jeu);
                     } // action valide
                 } // possède piece
             } // parcours typepiece
@@ -136,4 +145,8 @@ int IA_alphaBeta(t_jeu* jeu, int alpha, int beta, int profondeur, int idIA) {
         return prioMax;
     }
 }
+
+
+
+
 
