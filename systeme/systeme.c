@@ -71,6 +71,20 @@ int tab_max(int* tab, int T) {
 }
 
 
+/*
+ * TAB COUNT
+ */
+// renvois le nombre de valeur A contenue dans le tableau T
+int tab_count(int* tab, int T, int A) {
+    int count = 0;
+    if(T <= 0) return 0;
+    int i = 0;
+    for(; i < T; i++) {
+	if(tab[i] == A)
+	    count++;
+    }
+    return count;
+}
 
 
 /*

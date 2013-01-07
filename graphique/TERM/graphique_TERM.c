@@ -42,23 +42,15 @@ void TERM_backgroundColor(int couleur) {
 // affiche le jeu dans le terminal
 void TERM_afficherJeu(t_jeu* jeu) {
     // on efface l'écran
-    /*TERM_clear();*/
-    /*// Nom jeu*/
-    /*TERM_afficherHubosans4(); */
-    /*// Commande*/
-    /*TERM_afficherCommande(jeu);*/
+    TERM_clear();
+    // Nom jeu
+    TERM_afficherHubosans4(); 
+    // Commande
+    TERM_afficherCommande(jeu);
     // EN-TETE
     TERM_afficherEnTete(jeu);
     // PLATEAU
     TERM_afficherPlateau(jeu);
-    printf("IA_h > %i\n", IA_h(jeu, jeu->oya));
-    /*
-    printf("id = (%d;%d), type = %d", 
-            jeu->plateau[3][jeu->nbCaseY-1].joueurPieceCreuse,
-            jeu->plateau[3][jeu->nbCaseY-1].joueurPiecePleine,
-            jeu->plateau[3][jeu->nbCaseY-1].typePiece
-            );
-    // */
 }
 
 
@@ -92,6 +84,7 @@ void TERM_afficherEnTete(t_jeu* jeu) {
     TERM_color(0);
     printf("\n");
 }
+
 
 
 
