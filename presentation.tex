@@ -32,15 +32,6 @@
 
 
     % % % % % % %
-    % SOMMAIRE  %
-    % % % % % % %
-    \begin{frame}
-        \tableofcontents[]
-    \end{frame}      
-
-
-
-    % % % % % % %
     % FRAME 1   %
     % % % % % % %
     \section{Le projet}
@@ -189,12 +180,11 @@
     \begin{frame}
     \frametitle{Quelques algorithmes parmi les plus notoires}
     \framesubtitle{Minimax, alpha-bêta}
-        \begin{block}{Minimax}
-            Parcours de l'arbre des possibilités jusqu'à une certaine profondeur pour trouver la meilleure action possible.
+        \begin{block}{Minimax et alpha-bêta}
+            Parcours de l'arbre des possibilités jusqu'à une certaine profondeur pour trouver la meilleure action possible, avec élagage des branches inutiles.
         \end{block}
-        \begin{block}{Alpha-Bêta}
-            Elagage permettant de ne pas parcourir les branches de l'arbre qui ne sont de toute façon pas plus intéressantes que les autres.\\
-            Économie de calcul visible, voir nécessaire.
+        \begin{block}{Estimation de la priorité d'une situation de jeu}
+            Une fonction retourne une priorité associée à un jeu, en exploitant le nombre de pièces alignées par chaque joueurs.
         \end{block}
     \end{frame}
 
