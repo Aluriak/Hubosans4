@@ -561,7 +561,7 @@ char * TERM_afficherModuleChargement()
 		if(find == false)
 		{
 			printf("Erreur : sauvegarde corrompue ou inexistante\n");
-			wait(2);
+			TERM_wait(2);
 			return NULL;
 		}
 	}
@@ -585,3 +585,21 @@ char * TERM_afficherNomScore()
 	scanf("%s", score_name);
 	return score_name;
 }
+
+
+
+
+
+/*
+ * WAIT
+ */
+// Fige le programme jusqu'à frappe d'une touche
+void TERM_wait() {
+    // l'utilisateur doit taper une touche pour que la fonctions se termine
+    printf("Frappez une touche pour continuer...\n");
+    getOneChar();
+}
+
+
+
+

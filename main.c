@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 		// Affichage score
 		TERM_afficherScore();
 		// Attente de 10 seconde
-		wait(10);
+		TERM_wait(10);
 	    }
 	    else {
                 // création du jeu selon les règles demandées
@@ -82,13 +82,13 @@ int main(int argc, char* argv[]) {
 		if(gagnant == -3)
 		{
 			TERM_afficherHelp();
-			wait(10);
+			TERM_wait(10);
 		}
 		// Si -2, alors c'est une erreur
 		else if(gagnant == -2)
 		{
 			TERM_afficherErreur();
-			wait(2);
+			TERM_wait(2);
 		}
 		// Si -4, alors l'user veut sauvegarder
 		else if(gagnant == -4)
@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
 		    // On affiche le plateau de jeu gagnant
 		    TERM_afficherJeuFinit(&jeu, gagnant);
 		    // On attend 5 secondes
-		    wait(5);
+		    TERM_wait(5);
 		    // On enregistre le score du gagant
 		    char * score = TERM_afficherNomScore();
 		    MOTEUR_enregistrerScore(&jeu, gagnant, score);

@@ -11,6 +11,8 @@
 #include <ctype.h>
 #include <assert.h>
 #include <dirent.h>
+#include <termios.h>
+#include <unistd.h>
 
 //#include <SDL/SDL.h>
 
@@ -46,7 +48,7 @@ bool allow_last;
     int tab_count(int* tab, int T, int A); // renvois le nombre de valeur A contenue dans le tableau T
     int apowb(int a, int b); // retourne a^b, si b >= 0
     int str2int(char * str, int nb_carac); // renvois un entier positif à partir d'une chaine de caractère ne contenant que des entiers positifs
-    void wait(float time); // Fige le programme pendant un temps en seconde reçu en paramètre
+    char getOneChar(); // retourne le char correspondant à la touche tapée par l'utilisateur
 
 
 

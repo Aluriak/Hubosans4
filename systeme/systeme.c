@@ -132,13 +132,26 @@ int str2int(char * str, int nb_carac) {
 
 
 
-/*
- * WAIT
- */
-// Fige le programme pendant un temps en seconde reçu en paramètre
-void wait(float time)
-{
-	clock_t end=clock()+(time*CLOCKS_PER_SEC); // On calcule le moment où l'attente devra s'arrêter
 
-	while(clock()<end);
+
+
+
+/*
+ * GET ONE CHAR
+ */
+// retourne le char correspondant à la touche tapée par l'utilisateur
+// fonction trouvée sur le regretté site geek-moutarde.com, aujourd'hui 
+//      inaccessible.
+char getOneChar() {
+    char c;
+    struct termios termModeRaw, termOriginal;
+    tcgetattr(STDIN_FILENO, &termOriginal);
+    termModeRaw = termOriginal;
+    cfmakeraw(&termModeRaw);
+    tcsetattr(STDIN_FILENO, TCSANOW, &termModeRaw);
+    c = getchar();
+    tcsetattr(STDIN_FILENO, TCSANOW, &termOriginal);
+    return c;
 }
+
+

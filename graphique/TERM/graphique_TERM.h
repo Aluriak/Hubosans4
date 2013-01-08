@@ -54,6 +54,7 @@ typedef struct {
     void TERM_afficherScore(); // Affiche le tableau des scores
     char * TERM_afficherModuleChargement(); // Affiche le module de chargement
     char * TERM_afficherNomScore(); // Demande au gagnant d'entrer son nom pour enregistrement du score
+    void TERM_wait(); // Fige le programme pendant un temps en seconde reçu en paramètre
 
 
 
