@@ -271,7 +271,9 @@
             \textbf{Figure 2 :} exemple d'arbre des possibilités, avec élagage alpha-bêta.
         \end{center}
         \vspace{1cm}
-        La fonction d'évaluation d'un jeu pour l'IA se base sur 
+        La fonction d'évaluation d'un jeu pour l'IA se base sur un algorithme simple : pour chaque ligne, pour chaque colonne et pour chaque diagonale, on regarde si trois pions sont 
+            alignés avec un espace libre, et ce pour chaque joueur. On retourne ensuite une priorité associée, haute si c'est l'IA qui aligne trois pions, basse sinon. Si aucun joueur 
+            n'aligne trois pions, on recommence avec deux.
 
 
 %%%%%%%%%%%%%%%%%
