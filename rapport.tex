@@ -44,8 +44,8 @@ du temps de calcul.
     \paragraph*{}
     Le projet étant divisés en modules les plus indépendants possible (architecture vue-contrôleur), les tâches ont été réparties selon un découpage logique.
     \paragraph*{}
-    Ainsi, L. B. s'est occupé de l'IA, de l'affichage dans la sortie standard, de la gestion mémoire et de l'interfaçage entre les modules. 
-    T. H. s'est occupé des traitements du moteur et des sauvegardes.
+    Ainsi, Lucas BOURNEUF s'est occupé de l'IA, de l'affichage dans la sortie standard, de la gestion mémoire et de l'interfaçage entre les modules. 
+    Thomas HUBA s'est occupé des traitements du moteur et des sauvegardes.
     \paragraph*{}
     Un serveur git, hébergé sur github (https://github.com/Aluriak/Hubosans4), a été utilisé tout au long du projet (et ce fût la première chose proposée et mise en place dans ce projet) 
     pour assurer une gestion des version la plus efficace possible.\\
@@ -114,12 +114,13 @@ du temps de calcul.
         \paragraph*{} % INTELLIGENCE ARTIFICELLE
         Pour l'IA, les même structures de données sont mises en oeuvre, puisqu'elles suffisent à l'exploration de l'arbre des possibilités. Néanmoins, le jeu est intégralement recopié
         dans la mémoire; il est en effet hors de question de laisser un autre module que le moteur modifier le véritable jeu. C'est sur cette copie du jeu que seront effectués 
-        tous les traitements de parcours de l'arbre et de calcul de priorité d'une situation. \\ \\ \\ \\ \\ \\
+        tous les traitements de parcours de l'arbre et de calcul de priorité d'une situation. 
 
 
     % % % % % % % % %
     % Fonctionnalités
     % % % % % % % % %
+    \newpage
     \section*{Fonctionnalités} % (3 page min)
         \paragraph*{}
         \paragraph*{} %  entrée utilisateur
@@ -175,9 +176,12 @@ du temps de calcul.
 	\end{itemize}
 	Afin de sécuriser les scores de toutes tentatives de modification volontaire et malhonnête, nous avons décidé de crypter le fichier des scores, et d'écrire plusieurs fois chaque données. Comme cela, on peut facilement déterminer si quelqu'un à voulu modifier au hasard (les données étant cryptées) les points ou les noms des joueurs. \\
 
+
+
     % % % % % % % % % %
     % Gestion d'erreurs
     % % % % % % % % % %
+    \newpage
     \section*{Gestion d'erreurs} % (1 page min)
         \paragraph*{}
         Les principales sources d'erreur sont concentrées dans deux aspects du programme, tout deux liés intimement à l'utilisateur.\\
@@ -218,17 +222,18 @@ du temps de calcul.
     Au sein du programme, la notation des fonctions suit une logique globale : les identificateurs des fonctions sont préfixés d'un signe d'appartenance à leur module, ou de la structure
         pour laquelle ces fonctions existent. Ainsi, nombreuses sont les fonctions commençant par \textit{MOTEUR\_}, ou bien \textit{t\_jeu\_}. Cela permet de bien montrer les frontères
         entre module et de clarifier l'utilisation de modules différents au sein d'une même méthode.
-    \paragraph*{} % interfaçage TODO
+    \paragraph*{} % interfaçage
     Les modules sont interfaçés notamment dans le main, qui s'établis ainsi en code de haut niveau. On peut considérer que le projet à été réalisé en suivant une architecture 
         Modèle-Vue-Contrôleur, dans le sens où les différentes focntionnalités sont bien découpées les une des autres, et que les programmeurs ont tenté de les rendre les plus 
         indépendantes les unes des autres.
     \paragraph*{} % gestion de projet sous vim
-    vim est l'éditeur de texte préféré des deux développeurs du projet, aussi a-t-il été utilisé massivement, à grand renforts de modules et bidouillages simplifiant la vie du projet.
+    vim est l'éditeur de texte préféré des deux développeurs du projet, aussi a-t-il été utilisé massivement, à grand renforts de modules et bidouillages simplifiant la vie du projet, et
+        faisant de vim un éditeur à part entière.
         \subparagraph*{} % modules
-        Parmi les modules utilisé, on notera l'intégration de git au sein de vim (plus besoin de sortir de vim pour gérer les commit), quelques modules NERD, notamment NERDcommenter et
-        NERDtree, et le module tetris, pour les pauses. \\
+        Parmi les modules utilisé, on notera l'intégration de git au sein de vim (plus besoin de sortir de vim pour gérer les commit) avec \textit{fugitive}, quelques modules NERD, 
+            notamment \textit{NERDcommenter} et \textit{NERDtree}, ou encore \textit{TeTrIs}, pour les pauses. \\
         Avec l'utilisation de la commande \textit{vim -c so\ projet.vim}, il est possible d'ouvrir tous les fichiers importants du projet, permettant en une commande d'avoir les 
-            parties du projet les plus importante à portée de clavier.\\
+            parties du projet les plus importantes à portée de clavier.\\
         Enfin, l'interfaçage très simple avec github au sein du terminal permettait d'être totalement indépendant de tout IDE.
     \paragraph*{} % algo notoires 
     Parmis les algorithmes notoires, on citera l'étude du jeu pour connaître la viabilité d'un puissance 4, ainsi que l'algorithme minimax mis en oeuvre pour l'IA.
@@ -249,11 +254,13 @@ du temps de calcul.
         Pour l'IA, c'est l'algorithme minimax qui entre en jeu : une fonction récursive, parcourant les noeuds de l'arbre, et une fonction d'étude de situation. 
         Cela permet de donner à chacune des N actions possibles (3 fois le nombre de colonnes) pour l'IA une priorité. \\
         Plus la priorité est haute, plus la situation vers laquelle cette action mène est avantageuse pour l'IA. Simplement, la priorité la plus haute est attribuée aux situation où 
-        l'IA gagne. \
+        l'IA gagne. \\
         La profondeur d'exploration de l'arbre détermine le niveau de l'IA : plus une IA étudiera loin dans l'arbre, mieux elle saura éviter les pièges de ses adversaires, et préparer
         les siens. De fait, l'IA est disponible en plusieurs difficultés, de la plus simple (profondeur de 2 tours de jeu) à la plus difficile (10 tours de jeu). \\
         L'IA n'explore pas nécessairement toutes les branches : grâce à l'élagage alpha-bêta, elle peut éviter des calculs inutiles (ce qui deviens nécessaire lorsqu'il y a plus 
-        de 2 joueurs, ou que la difficulté dépasse la profondeur de trois tours de jeu) et donc économise un temps précieux pour le confort de l'utilisateur.
+        de 2 joueurs, ou que la difficulté dépasse la profondeur de trois tours de jeu) et donc économise un temps précieux pour le confort de l'utilisateur.\\
+        % TODO
+        La fonction d'évaluation d'un jeu se base sur % TODO
 
 
 %%%%%%%%%%%%%%%%%
@@ -265,6 +272,7 @@ du temps de calcul.
         auraient gagnés à être travaillé plus avant, telle que l'architecture MVC.
         \subparagraph*{} % objectifs principaux
         Le jeu est jouable, avec quelques fonctionnalités intéressantes. Il correspond au cahier des charges, en incluant quelques suppléments, tels que le scoring ou l'IA.
+        Ainsi, le programme propose la sauvegarde et le jeu du puissance 4 amélioré, deux fonctionnalités obligatoires pour la réussite du projet.
         \subparagraph*{} % objectifs secondaires
         Néanmoins, l'équipe aurait apprécié le développement de certains modules, dont le module graphique utilisant la SDL, ainsi que pour le son, et le réseau. Ces modules n'ont 
             pourtant pas été développés, suite à un manque de temps en fin de projet (voir paragraphe suivant). Ils seront peut-être développés plus tard, en dehors du projet, 
@@ -272,30 +280,49 @@ du temps de calcul.
         \subparagraph*{} % architecture MVC
         L'architecture MVC n'est pas parfaite : en effet, le module graphique est directement dépendant du module moteur (notamment pour les structures de données jeu, joueur et action).
         Il eu fallut créer une structure propre au module graphique, ne possédant que les valeurs nécessaires, et que le main saurais créer à partir de la strcuture de jeu, auquel le
-        module graphique n'aurais jamais accès. \\
+            module graphique n'aurais jamais accès. \\
         Cela aurais également permis d'améliorer l'encapsulation des données, puisqu'actuellement rien n'empêche les modules recevant la structure de jeu de la modifier.
+    \newpage
     \paragraph*{} % planning 
     Dans l'ensemble, le projet à suivis une évolution habituelle pour un projet : les premières semaines ont été très rythmées, puis l'évolution a ralentit, 
         pour réaugmenter significativement dans les dernières semaines. Suite à des retards sur le moteur, qui aurais dû être finit rapidement, le programme n'est opérationnel que depuis
         quelques semaines. Certains modules n'ont pu être testés qu'à ce moment, d'où de grosses révisions de code qui ont ralentit le développement des autres modules. \\
-        Néanmoins, le projet s'est terminé, même si certains objectifs secondaires n'ont pas été remplis, faut de temps. En effet, celui-ci a manqué en fin de projet. \\
+        Néanmoins, le projet s'est terminé, même si certains objectifs secondaires n'ont pas été remplis, faute de temps. En effet, celui-ci a manqué en fin de projet. \\
         Le planning n'était pas réellement explicité. Une \textit{todo list} a été mise en place, mais aucune notion du temps ne fût explicitement utilisée; personne n'en a eu besoin, 
         le projet avançais sans avoir besoin de \textit{deadlines}. 
     \paragraph*{} % améliorations 
-     Pour se projet, nous aurions aimé ajouter un module réseaux car il n'est pas très pratique de jouer à 6 devant le même ordinateur. Le Terminal à ses limites, le bureau aussi !\\
+     Pour ce projet, nous aurions aimé ajouter un module réseaux car il n'est pas très pratique de jouer à 6 devant le même ordinateur. Si le Terminal à ses limites, le bureau aussi !\\
      Nous aurions aussi aumé ajouter une interface graphique SDL. Cela nous aurait notament permis de nous affranchir de la limite des 6 joueurs grâce à beaucoup d'autre procédé : \\
      \begin{itemize}
-     	\item Plus de couleurs disponible
-	\item Plus de formes pour les pièces
-	\item Superposition moins simpliste des pièces CREUSE et PLEINE\\
+     	\item plus de couleurs disponible;
+	\item plus de formes pour les pièces;
+	\item superposition moins simpliste des pièces CREUSE et PLEINE;
      \end{itemize}
-    \paragraph*{} % apport du projet TODO
-    Pour ma part, ce projet a été l'occasion d'approfondir mes connaissances en programmation, d'utiliser pleinement des outils comme vim, git. 
-    Le fait de devoir travailler en binôme m'a montré que le celui-ci requiert une certaine rigueur, mais qu'il est plaisant de pourvoir partager ses connaissances et de reçevoir en retour. De plus nous étions tout deux de fervant utilisateurs de LINUX, ce qui nous permis de partager plus facilement nos outils. 
-    Ce que je retiendrais du projet en terme de programmation sera bien evidement la programmation modulaire. Séparer chaque traitement en une fonction, et les imbriquer ensemble afin d'obtenir un ensemble cohérent. Je pense qu'un projet de ce type manquera au prochain semestre. \\ \\
-    Thomas HUBA. \\
-    %- apport du projet au niveau personnel
-    %=====> au moins 3 pages <========
+     Un autre regret : nous n'avons pas profité de ce projet pour apprendre à utiliser \textit{gdb}, bien que tout se prêtait à son utilisation, et intégration dans vim. 
+        Le debuggage "à la main" était visiblement suffisant, mais se forcer à utiliser un debuggeur eût été formateur et productif.
+    \newpage
+    \paragraph*{} % apport du projet 
+    \begin{quotation}
+        Pour ma part, ce projet a été l'occasion d'approfondir mes connaissances en programmation, d'utiliser pleinement des outils comme vim, git. 
+        Le fait de devoir travailler en binôme m'a montré que le celui-ci requiert une certaine rigueur, mais qu'il est plaisant de pourvoir partager ses connaissances et de reçevoir en retour. De plus nous étions tout deux de fervant utilisateurs de LINUX, ce qui nous permis de partager plus facilement nos outils. 
+        Ce que je retiendrais du projet en terme de programmation sera bien evidement la programmation modulaire. Séparer chaque traitement en une fonction, et les imbriquer ensemble afin d'obtenir un ensemble cohérent. Je pense qu'un projet de ce type manquera au prochain semestre. \\ \\
+        Thomas HUBA.
+    \end{quotation}
+    \vspace{2cm}
+    \begin{quotation}
+            Le projet fût assez simple dans l'ensemble, ce qui permettait de se concentrer sur un aspect résolument nouveau : le travail en binôme. Rien d'évident au début, 
+            entre autre à cause d'habitudes différentes, il deviens néanmoins très productif après un temps d'adaptation. 
+            Plus que jamais, le gestionnaire de version est utile, ce n'est plus un simple dépôt à backup ! \\
+            Certains outils sont (parfois volontairement) passés à la trappe, (debuggeur, redmine) au profit d'autres qui ont été utilisés pour le plaisir de les découvrir 
+                (notamment \LaTeX). \\
+            Le projet a été l'occasion d'apprendre des choses, non nécessairement en lien avec le C, comme la programmation système, la maîtrise d'environnement, 
+            voir même le changement de distribution Linux pour ma part, mais participant à l'impression de réussite globale d'un projet que l'on regrette 
+                de ne pas prolonger officiellement. \\
+            Néanmoins, ce projet terminé, cela me laisse le champs libre pour travailler sur des projets personnels chronophages, et pourquoi pas, cette fois-ci, 
+                inviter d'autres personnes à me rejoindre pour réitérer l'expérience de développement en groupe. \\
+            \\ \\
+        Lucas BOURNEUF.
+    \end{quotation}
 
 
 
