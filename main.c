@@ -56,8 +56,8 @@ int main(int argc, char* argv[]) {
 			   regleJeu.tab_nivIA, 
 			   regleJeu.nbPieceBloquante, 
 			   regleJeu.nbPiecePleine, 
-			   regleJeu.nbPieceCreuse); 
-			   allow_last = regleJeu.allow_last;  
+			   regleJeu.nbPieceCreuse,
+			   regleJeu.allow_last);
                 // on peut démarrer le jeu !
                 quit_menu = true;
                 quit_jeu = false;

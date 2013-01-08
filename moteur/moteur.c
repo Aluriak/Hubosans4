@@ -55,7 +55,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 		// TODO
 		if(jeu->allow_last)
 		{
-			MOTEUR_annulerDernierCoup(jeu);	
+			MOTEUR_tourPrecedent(jeu);	
 		}
 		else
 		{

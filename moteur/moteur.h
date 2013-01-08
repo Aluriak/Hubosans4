@@ -149,7 +149,7 @@ typedef struct {
 
 
 // STRUCT T_JEU (dans struct_jeu.c)
-    void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA, int nbPieceBloquante, int nbPiecePleine, int nbPieceCreuse); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
+    void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA, int nbPieceBloquante, int nbPiecePleine, int nbPieceCreuse, bool allow_last); // allocation et initialisation de la structure. Le pointeur est NULL en cas d'erreur
     void t_jeu_free(t_jeu* jeu); // libère le t_jeu alloué dynamiquement
     
     // SOUS-PROCÉDURES

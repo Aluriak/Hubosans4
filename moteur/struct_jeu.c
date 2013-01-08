@@ -18,7 +18,7 @@ Les prototypes sont décris dans le header inclus précédemment
  */
 // Allocation et initialisation de la structure. 
 void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA, 
-        int nbPieceBloquante, int nbPiecePleine, int nbPieceCreuse) {
+        int nbPieceBloquante, int nbPiecePleine, int nbPieceCreuse, bool allow_last) {
     if(jeu == NULL) {
 	FLUX_ERREUR("MODULE MOTEUR", "Structure de jeu inattendue");
 	return;
@@ -29,6 +29,7 @@ void t_jeu_init(t_jeu* jeu, int nbjoueurs, int nbIA, int *tab_nivIA,
     jeu->nbPieceBloquante = nbPieceBloquante;
     jeu->nbPiecePleine = nbPiecePleine;
     jeu->nbPieceCreuse = nbPieceCreuse;
+    jeu->allow_last = allow_last;
     if(!t_jeu_init_listeJoueur(jeu, nbIA, tab_nivIA))
 	return; // erreur déjà envoyée dans le flux stderr
     // allocation du plateau de jeu
@@ -245,7 +246,8 @@ t_jeu* t_jeu_copie(t_jeu* jeu) {
     }
     // INITIALISATIONS DU JEU
     t_jeu_init(copie, jeu->nbJoueur, jeu->nbIA, tab_nivIA, 
-            jeu->nbPieceBloquante, jeu->nbPiecePleine, jeu->nbPieceCreuse);
+            jeu->nbPieceBloquante, jeu->nbPiecePleine, 
+            jeu->nbPieceCreuse, jeu->allow_last);
     // TRAITEMENT DES JOUEURS
     // on parcours les joueurs pour avoir les bonnes valeurs (nivIA, IA, réserves pièces)
     for(i = 0; i < jeu->nbJoueur; i++) {
