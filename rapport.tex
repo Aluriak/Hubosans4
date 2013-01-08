@@ -9,6 +9,7 @@
 
 \title{Rapport de Projet Hubosans4++} 
 \author{Lucas BOURNEUF \&\& Thomas HUBA}
+\date{9 janvier 2013}
 
 
 % BEGIN
@@ -20,20 +21,20 @@
 % INTRODUCTION  %
 %%%%%%%%%%%%%%%%%
 \chapter*{Introduction}
-\paragraph*{}
-Le projet Hubosans4++ consiste en la réalisation d'un programme compilé avec gcc, permettant à un ou plusieurs utilisateurs de jouer à une variante du puissance 4, nommée le hubosans4++,
-apportant notamment le support de 2 à 6 joueurs et 3 types de pièces. 
-\paragraph*{}
-Les règles du jeu sont comparable à un puissance 4, si ce n'est que les pièces alignées ne doivent pas nécessairement être de même type, et qu'à chaque tour le joueur choisis, 
-en plus de la colonne, quel type de pièce lâcher. Les trois types de pièces ont chacune leur utilité : les pièces creuses et pleines se supperposent, 
-n'interfèrent pas les unes aux autres sinon pour réaliser un puissance 4 et ainsi gagner la partie. 
-Le troisième type, les pièces bloquantes, bloque littéralement une colonne en empêchant toute pièce de passer. La pièce bloquante est en fait la pièce du puissance 4 originel.
-\paragraph*{}
-Le jeu exploite la sortie et l'entrée standard : le couple écran/clavier, avec affichage dans le terminal d'où le jeu est lancé.
-Le jeu peut être sauvegardé pour être repris plus tard.
-\paragraph*{}
-Il est possible de faire jouer des IA, selon des niveaux de difficulté différents. Ces IA se basent sur un algorithme minimax pour résoudre le jeu, avec élagage alpha bêta pour économiser
-du temps de calcul.
+    \paragraph*{}
+        Le projet Hubosans4++ consiste en la réalisation d'un programme compilé avec gcc, permettant à un ou plusieurs utilisateurs de jouer à une variante du puissance 4, nommée le hubosans4++,
+        apportant notamment le support de 2 à 6 joueurs et 3 types de pièces. 
+    \paragraph*{}
+        Les règles du jeu sont comparable à un puissance 4, si ce n'est que les pièces alignées ne doivent pas nécessairement être de même type, et qu'à chaque tour le joueur choisis, 
+        en plus de la colonne, quel type de pièce lâcher. Les trois types de pièces ont chacune leur utilité : les pièces creuses et pleines se supperposent, 
+        n'interfèrent pas les unes aux autres sinon pour réaliser un puissance 4 et ainsi gagner la partie. 
+        Le troisième type, les pièces bloquantes, bloque littéralement une colonne en empêchant toute pièce de passer. La pièce bloquante est en fait la pièce du puissance 4 originel.
+    \paragraph*{}
+        Le jeu exploite la sortie et l'entrée standard : le couple écran/clavier, avec affichage dans le terminal d'où le jeu est lancé.
+        Le jeu peut être sauvegardé pour être repris plus tard.
+    \paragraph*{}
+        Il est possible de faire jouer des IA, selon des niveaux de difficulté différents. Ces IA se basent sur un algorithme minimax pour résoudre le jeu, avec élagage alpha bêta pour économiser
+        du temps de calcul.
 
 
 
@@ -51,6 +52,11 @@ du temps de calcul.
     pour assurer une gestion des version la plus efficace possible.\\
     Au fur et à mesure du projet, une documentation des fonctions principales de chaque modules a été écrite, dans le but de centraliser les primitives d'accès de chacun d'entre eux.
 
+        \vspace{1cm}
+        \begin{center}
+            \includegraphics[width=10cm, height=6cm]{ressources/presentation/archi_projet.jpeg} \\
+            \textbf{Figure 1 :} Architecture globale du projet, avec les principaux modules entrant en jeu.
+        \end{center}
 
 %%%%%%%%%%%%%%%%%
 % ANALYSE       %
@@ -141,7 +147,7 @@ du temps de calcul.
 	L'indépendance du MOTEUR est donc l'un des axes principaux sur lequel T.H. a travaillé.\\
 		
         \paragraph*{} %- jeu contre IA
-	Il est possible de jouer une partie contre une ou plusieur IA. Il est aussi possible de jouer uniquement contre des IAet de regarder la partie. 
+	Il est possible de jouer une partie contre une ou plusieur IA. Il est aussi possible de jouer uniquement contre des IA et de regarder la partie. 
 	Plusieur niveau de difficulté sont présent : \\
 	\begin{itemize}
 		\item Facile : La profondeur de l'IA est faible (1 ou 2 coups d'avance) 
@@ -259,8 +265,13 @@ du temps de calcul.
         les siens. De fait, l'IA est disponible en plusieurs difficultés, de la plus simple (profondeur de 2 tours de jeu) à la plus difficile (10 tours de jeu). \\
         L'IA n'explore pas nécessairement toutes les branches : grâce à l'élagage alpha-bêta, elle peut éviter des calculs inutiles (ce qui deviens nécessaire lorsqu'il y a plus 
         de 2 joueurs, ou que la difficulté dépasse la profondeur de trois tours de jeu) et donc économise un temps précieux pour le confort de l'utilisateur.\\
-        % TODO
-        La fonction d'évaluation d'un jeu se base sur % TODO
+
+        \begin{center}
+            \includegraphics[width=16cm, height=8cm]{ressources/rapport/arbre_IA.jpeg} \\
+            \textbf{Figure 2 :} exemple d'arbre des possibilités, avec élagage alpha-bêta.
+        \end{center}
+        \vspace{1cm}
+        La fonction d'évaluation d'un jeu pour l'IA se base sur 
 
 
 %%%%%%%%%%%%%%%%%
@@ -290,6 +301,12 @@ du temps de calcul.
         Néanmoins, le projet s'est terminé, même si certains objectifs secondaires n'ont pas été remplis, faute de temps. En effet, celui-ci a manqué en fin de projet. \\
         Le planning n'était pas réellement explicité. Une \textit{todo list} a été mise en place, mais aucune notion du temps ne fût explicitement utilisée; personne n'en a eu besoin, 
         le projet avançais sans avoir besoin de \textit{deadlines}. 
+    \paragraph*{} % image
+        \begin{center}
+            \includegraphics[width=15cm, height=11cm]{ressources/rapport/commit.png} \\
+            \textbf{Figure 3 :} graphique des insertions/délétions fournit par github.
+        \end{center}
+        \newpage
     \paragraph*{} % améliorations 
      Pour ce projet, nous aurions aimé ajouter un module réseaux car il n'est pas très pratique de jouer à 6 devant le même ordinateur. Si le Terminal à ses limites, le bureau aussi !\\
      Nous aurions aussi aumé ajouter une interface graphique SDL. Cela nous aurait notament permis de nous affranchir de la limite des 6 joueurs grâce à beaucoup d'autre procédé : \\
