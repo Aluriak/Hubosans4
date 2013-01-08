@@ -517,9 +517,9 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 	// >>> PREPARATION SAUVEGARDE <<<
 	
 	// Création des variables 
-	char sauvegarde[15] = "save/save";
-	char slot[2];
-	char end_save[3] = ".sv";
+	char sauvegarde[20] = "save/save";
+	char slot[3];
+	char end_save[4] = ".sv";
 	
 	// On convertie action.colonne en string
 	sprintf(slot, "%i", action.colonne); // Convertion int en string 
@@ -528,8 +528,12 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 	strcat(sauvegarde, slot);
 	strcat(sauvegarde, end_save);
 
-	// Ouveerture du fichier
+	// Ouverture du fichier
 	FILE * file_save = fopen(sauvegarde, "w");
+	if(!file_save) {
+	    FLUX_ERREUR("Sauvegarde", "file_save non ouvert");
+	    return; // arrêt de la sauvegarde
+	}
 	    	
 	//>>> SAUVEGARDE <<<
 	
@@ -578,7 +582,7 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].IA);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].niveauIA);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].intrepidite);
-		//fprintf(file_save, "%s ", jeu->listeJoueur[i].nom);
+		fprintf(file_save, "%s", jeu->listeJoueur[i].nom);
 		fprintf(file_save, "\n");
 		printf("IA : %i\n", jeu->listeJoueur[i].IA);
 		printf("creuse : %i\n", jeu->listeJoueur[i].nbPieceCreuse);
@@ -605,15 +609,11 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 	int i = 0, j = 0; // Itérateur de boucle
 	int creuse = 0, pleine = 0, piece = 0;
 	int IA = 0;
-	// Pour le nom
-	//char *nom;
-	//nom = malloc(8*sizeof(char));
-	//int c_nom = 0; // compteur pour le nom
 	int tmp_allow_last = 0; // tmp contenant la valeur du bool allow_last
 	// >>> PREPARATION SAUVEGARDE <<<
 	fprintf(stderr, "Creating var : OK\n");
 	FILE * file_load;
-	char beg_save[5] = "save/";
+	char beg_save[20] = "save/"; // suffisement grand pour accueillir le nom entier
 	strcat(beg_save, save);
 	file_load = fopen(beg_save, "r");
 	fprintf(stderr, "Creating file : OK\n");
@@ -758,7 +758,8 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 		}
 		fscanf(file_load, "%i", &jeu.listeJoueur[i].niveauIA);
 		fscanf(file_load, "%i", &jeu.listeJoueur[i].intrepidite);
-		//fscanf(file_load, "%s", &jeu->listeJoueur[i].nom);
+		// lectrue des dix derniers caractères de la ligne
+		fscanf(file_load, "%10[^\n]\n", jeu.listeJoueur[i].nom);
 	}
 	fprintf(stderr, "END LOAD : OK\n");
 	//free(nom);

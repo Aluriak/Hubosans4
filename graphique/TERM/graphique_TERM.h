@@ -49,6 +49,7 @@ typedef struct {
     void TERM_afficherErreur(); // Indique à l'user que le chois entrées est impossible
     void TERM_afficherCommande(t_jeu *jeu); // Affiche les commandes durant le jeu
     void TERM_afficherHubosans4(); // Affiche HUBOSANS4 en ascii
+    int TERM_afficherSlotSauvegarde(); // affiche les slots de sauvegarde
     t_action TERM_afficherModuleSauvegarde(t_jeu * jeu); // Affiche la demande de slot à l'user
     void TERM_afficherScore(); // Affiche le tableau des scores
     char * TERM_afficherModuleChargement(); // Affiche le module de chargement

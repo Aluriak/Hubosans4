@@ -13,6 +13,7 @@
  */
 #define NB_JOUEUR_MIN 2
 #define NB_JOUEUR_MAX 6
+#define FILE_SCORE "score.txt"
 
 
 /*

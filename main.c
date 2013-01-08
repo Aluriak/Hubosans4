@@ -31,15 +31,18 @@ int main(int argc, char* argv[]) {
 	    }
 	    // Si -2, alors on lance le module de chargement de partie
 	    else if(regleJeu.nbJoueurs==-2) {
-		char * load;
 		TERM_clear(); // nettoyage du TERM
 		TERM_afficherHubosans4(); // affichage esthétique
-		load = TERM_afficherModuleChargement(); 
-		fprintf(stderr, "main1, name : %s\n", load);
-		if(strcmp(load, "quit") != 0) {
-		    fprintf(stderr, "main, name : %s\n", load);
-		    // Chargement de la sauvegarde
-		    jeu = MOTEUR_chargement(jeu, load);
+		char * load = TERM_afficherModuleChargement();
+		if(load != NULL) {
+		    fprintf(stderr, "main1, name : %s\n", load);
+		    if(strcmp(load, "quit") != 0) {
+			fprintf(stderr, "main, name : %s\n", load);
+			// Chargement de la sauvegarde
+			jeu = MOTEUR_chargement(jeu, load);
+			// libération de load
+			free(load);
+		    }
 		}
 	    }
 	    // Sinon si -3, affichage tableau des scores

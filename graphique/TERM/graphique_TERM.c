@@ -445,7 +445,7 @@ void TERM_afficherHubosans4()
 t_action TERM_afficherModuleSauvegarde(t_jeu * jeu)
 {
 	t_action action;
-	TERM_afficherJeu(jeu);
+	TERM_afficherSlotSauvegarde();
 	printf(">> Entrez le numéro du slot : ");
 	scanf("%i", &action.colonne);
 	// On modifie la valeur de action.colonne pour le moteur
@@ -489,65 +489,87 @@ void TERM_afficherScore()
 }
 
 
+
 /*
- * TERM AFFICHER MODULE CHARGEMENT
+ * TERM AFFICHER SLOT SAUVEGARDE
  */
-// Affiche le module de chargement
-char * TERM_afficherModuleChargement()
-{
-	char * save = malloc(20*sizeof(char));
-	char * quit = malloc(20*sizeof(char));
-	quit = "quit";
-	printf("Chargement des sauvegardes :\n\n");
+// affiche les slots de sauvegarde
+int TERM_afficherSlotSauvegarde() {
+	int compteur = 0;
 	// Création pointeur pour le répertoire
 	DIR * rep;
 	// Création var --> SLOT = numéro du slot
 	int slot = 1;
-	bool find = false; // Indique si le fichier existe
 	// Ouverture du répetoire des sauvegarde
 	rep = opendir("save/");
 	struct dirent * lecture;
 	// On lit tout les fichiers & on les affiches
 	while((lecture = readdir(rep)))
 	{
-		printf("slot[%i] : %s\n", slot, lecture->d_name);
-		slot ++;
-	}
-	printf("\n");
-	printf(">> Entrez le nom de la sauvegarde [quit] : ");
-	scanf("%s", save);
-	// si save == quit, alors l'user veut quitter
-	if(strcmp(save, quit) == 0)
-	{
-		return quit;
-	}
-	else
-	{
-		int res; // Contient resultat de comparaison de string
-		// Tant que pas tout lister
-		DIR * test = opendir("save/");
-		struct dirent * lect;
-		while((lect = readdir(test)))
-		{
-			res = strcmp(save, lect->d_name);
-			// Si lecture->d_name == save
-			if(res == 0)
-			{
-				find = true;
-				// On retourne la sauvegarde
-				fprintf(stderr, "load, name : %s\n", save);
-				return save;
-			}
+		// si le répertoire n'est pas ./ ou ../, ou le fichier de score
+		if(strcmp(lecture->d_name, ".") != 0 && 
+		    strcmp(lecture->d_name, "..") != 0 &&
+		    strcmp(lecture->d_name, FILE_SCORE) != 0) {
+			printf("slot[%i] : %s\n", slot, lecture->d_name);
+			slot ++;
+			compteur++;
 		}
 	}
-	if(find == false)
-	{
-		printf("Erreur : sauvegarde corrompue ou inexistante\n");
-		wait(2);
-		return quit;
-	}
-	return EXIT_SUCCESS;
+	printf("\n");
+	return compteur;
 }
+
+
+
+/*
+ * TERM AFFICHER MODULE CHARGEMENT
+ */
+// Affiche le module de chargement et retourne le nom de la  sauvegarde
+char * TERM_afficherModuleChargement()
+{
+	char * save = malloc(20*sizeof(char));
+	bool find = false; // Indique si le fichier existe
+	printf("Chargement des sauvegardes :\n\n");
+	// si il y a au moins un slot
+	if(TERM_afficherSlotSauvegarde() > 0) {
+		printf(">> Entrez le nom de la sauvegarde [quit] : ");
+		scanf("%10s%*[\n]\n", save);
+		// si save == quit, alors l'user veut quitter
+		if(strcmp(save, "") == 0)
+		{
+			return NULL;
+		}
+		else
+		{
+			int res; // Contient resultat de comparaison de string
+			// Tant que pas tout lister
+			DIR * test = opendir("save/");
+			struct dirent * lect;
+			while((lect = readdir(test)))
+			{
+				res = strcmp(save, lect->d_name);
+				// Si lecture->d_name == save
+				if(res == 0)
+				{
+					find = true;
+					// On retourne la sauvegarde
+					fprintf(stderr, "load, name : %s\n", save);
+					return save;
+				}
+			}
+		}
+		if(find == false)
+		{
+			printf("Erreur : sauvegarde corrompue ou inexistante\n");
+			wait(2);
+			return NULL;
+		}
+	}
+	// dans tous les cas, arrivé ici on renvois NULL
+	return NULL;
+}
+
+
 
 /*
  * TERM AFFICHER NOM SCORE
