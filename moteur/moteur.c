@@ -75,7 +75,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	else if(action.colonne == 5)
 	{
 		char save[20];
-		t_jeu jeu;
+		//t_jeu jeu;
 		MOTEUR_chargement(jeu, save);
 	}
 	// Sinon, on retourne une erreur (choix inconnu)
@@ -229,7 +229,6 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 bool MOTEUR_annulerDernierCoup(t_jeu* jeu) {
     // initialisations
     int y = 0; // itérateur de boucle
-    int idJ; // id du joueur qui regagne une pièce
     t_case* caseAModifier = NULL; // pointeur de case
     // on dépile la dernière action, et on l'enregistre
     t_action action = t_pileAction_dep(&(jeu->pileAction));
@@ -247,33 +246,23 @@ bool MOTEUR_annulerDernierCoup(t_jeu* jeu) {
             // si on a trouvé la pièce
             if(caseAModifier->typePiece == action.typePiece) {
                 caseAModifier->typePiece = VIDE;
-                idJ = caseAModifier->joueurPieceCreuse;
                 caseAModifier->joueurPieceCreuse = -1;
                 caseAModifier->joueurPiecePleine = -1;
                 y = jeu->nbCaseY; // fin de la boucle
             }
             else if(caseAModifier->typePiece == DOUBLE && 
-                    action.typePiece != BLOQUANTE) {
+                action.typePiece != BLOQUANTE) {
                 if(action.typePiece == CREUSE) {
                     caseAModifier->typePiece = PLEINE;
-                    idJ = caseAModifier->joueurPieceCreuse;
                     caseAModifier->joueurPieceCreuse = -1;
                 }
                 else if(action.typePiece == PLEINE) {
                     caseAModifier->typePiece = CREUSE;
-                    idJ = caseAModifier->joueurPiecePleine;
                     caseAModifier->joueurPiecePleine = -1;
                 }
                 y = jeu->nbCaseY; // fin de la boucle
             }
         }
-        // le joueur ayant la joué la pièce rétiré la regagne
-        if(action.typePiece == BLOQUANTE)
-            jeu->listeJoueur[idJ].nbPieceBloquante++;
-        else if(action.typePiece == PLEINE)
-            jeu->listeJoueur[idJ].nbPiecePleine++;
-        else if(action.typePiece == CREUSE)
-            jeu->listeJoueur[idJ].nbPieceCreuse++;
         // l'oya deviens le joueur précédent
         if(jeu->oya == 0)
             jeu->oya = jeu->nbJoueur-1;
@@ -557,7 +546,7 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 	fprintf(file_save, "%i ", jeu->nbIA);
 
 	//	>>> niveau IA <<<
-	for(i=0;i<jeu->nbIA;i++)
+	for(i=0;i<jeu->nbIA-1;i++)
 	{
 		if(jeu->listeJoueur[i].IA == true)
 		{
@@ -603,7 +592,7 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 
 	// ## Joueurs ##
 	
-	for(i=0;i<jeu->nbJoueur;i++);
+	for(i=1;i<jeu->nbJoueur;i++);
 	{
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].points);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].idJ);
@@ -687,7 +676,7 @@ t_regleJeu MOTEUR_ChargementBase(char * load)
  * MOTEUR CHARGEMENT
  */
 //  Charge la sauvegarde reçu en paramètre
-t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
+t_jeu * MOTEUR_chargement(t_jeu * jeu, char * save)
 {
 	int i = 0, j = 0; // Itérateur de boucle
 	int creuse = 0, pleine = 0, piece = 0;
@@ -712,9 +701,9 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 
 	// >>> PLATEAU DE JEU
 	
-	for(i=0;i<jeu.nbCaseX;i++)
+	for(i=0;i<jeu->nbCaseX;i++)
 	{
-		for(j=0;j<jeu.nbCaseY;j++)
+		for(j=0;j<jeu->nbCaseY;j++)
 		{
 			// Enregistrement des pièces 
 			fscanf(file_load, "%i", &creuse); 		
@@ -727,18 +716,18 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 				if(pleine == creuse)
 				{
 					// Alors c'est une piece bloquante
-					jeu.plateau[i][j].typePiece=BLOQUANTE;
+					jeu->plateau[i][j].typePiece=BLOQUANTE;
 					// On place l'id du joueur ayant placé la piece
-					jeu.plateau[i][j].joueurPieceCreuse=creuse;
-					jeu.plateau[i][j].joueurPiecePleine=pleine;
+					jeu->plateau[i][j].joueurPieceCreuse=creuse;
+					jeu->plateau[i][j].joueurPiecePleine=pleine;
 				}
 				// Sinon il ne s'agit que d'une piece creuse
 				else
 				{
 					// On place le type piece de la case à creuse
-					jeu.plateau[i][j].typePiece=CREUSE;
+					jeu->plateau[i][j].typePiece=CREUSE;
 					// On ajoute l'id du joueur correspondant
-					jeu.plateau[i][j].joueurPieceCreuse=creuse;
+					jeu->plateau[i][j].joueurPieceCreuse=creuse;
 				}
 
 				// On remet les variables à -1 pour ne pas entrer dans les autres boucles
@@ -752,18 +741,18 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 				if(creuse == pleine)
 				{
 					// Alors c'est une piece bloquante
-					jeu.plateau[i][j].typePiece=BLOQUANTE;
+					jeu->plateau[i][j].typePiece=BLOQUANTE;
 					// On place l'id du joueur ayant placé la piece
-					jeu.plateau[i][j].joueurPieceCreuse=creuse;
-					jeu.plateau[i][j].joueurPiecePleine=pleine;
+					jeu->plateau[i][j].joueurPieceCreuse=creuse;
+					jeu->plateau[i][j].joueurPiecePleine=pleine;
 				}
 				// Sinon il ne s'agit que d'une piece pleine
 				else
 				{
 					// On place le type piece de la case à pleine
-					jeu.plateau[i][j].typePiece=PLEINE;
+					jeu->plateau[i][j].typePiece=PLEINE;
 					// On ajoute l'id du joueur correspondant
-					jeu.plateau[i][j].joueurPieceCreuse=pleine;
+					jeu->plateau[i][j].joueurPieceCreuse=pleine;
 				}
 
 				// On remet les variables à -1 pour ne pas entrer dans les autres boucles
@@ -775,33 +764,33 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 
 	// >>> DONNEES DE JEU
 	
-	fscanf(file_load, "%i", &jeu.oya);
+	fscanf(file_load, "%i", &jeu->oya);
 
 	// >>> JOUEURS
 	
-	for(i=0;i<jeu.nbJoueur;i++)
+	for(i=0;i<jeu->nbJoueur-1;i++)
 	{
-		fscanf(file_load, "%i", &jeu.listeJoueur[i].points);
+		fscanf(file_load, "%i", &jeu->listeJoueur[i].points);
 
-		fscanf(file_load, "%i", &jeu.listeJoueur[i].idJ);
+		fscanf(file_load, "%i", &jeu->listeJoueur[i].idJ);
 
-		fscanf(file_load, "%i", &jeu.listeJoueur[i].nbPieceBloquante);
+		fscanf(file_load, "%i", &jeu->listeJoueur[i].nbPieceBloquante);
 
-		fscanf(file_load, "%i", &jeu.listeJoueur[i].nbPiecePleine);
+		fscanf(file_load, "%i", &jeu->listeJoueur[i].nbPiecePleine);
 
-		fscanf(file_load, "%i", &jeu.listeJoueur[i].nbPieceCreuse);
+		fscanf(file_load, "%i", &jeu->listeJoueur[i].nbPieceCreuse);
 
 		fscanf(file_load, "%i", &IA);
 		if(IA == 1)
 		{
-			jeu.listeJoueur[i].IA = true;
+			jeu->listeJoueur[i].IA = true;
 		}
 		else
 		{
-			jeu.listeJoueur[i].IA = false;
+			jeu->listeJoueur[i].IA = false;
 		}
-		fscanf(file_load, "%i", &jeu.listeJoueur[i].niveauIA);
-		fscanf(file_load, "%i", &jeu.listeJoueur[i].intrepidite);
+		fscanf(file_load, "%i", &jeu->listeJoueur[i].niveauIA);
+		fscanf(file_load, "%i", &jeu->listeJoueur[i].intrepidite);
 		// lectrue des dix derniers caractères de la ligne
 		//fscanf(file_load, "%10[^\n]\n", jeu.listeJoueur[i].nom);
 	}
