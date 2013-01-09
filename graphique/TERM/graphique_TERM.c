@@ -504,10 +504,14 @@ int TERM_afficherSlotSauvegarde() {
 	// On lit tout les fichiers & on les affiches
 	while((lecture = readdir(rep)))
 	{
-		// si le répertoire n'est pas ./ ou ../, ou le fichier de score
+                int len = strlen(lecture->d_name);
+                // si c'est une sauvegarde, il finit par .sv, et la chaîne de doit 
+		// pas être ./ ou ../, ou le fichier de score
 		if(strcmp(lecture->d_name, ".") != 0 && 
 		    strcmp(lecture->d_name, "..") != 0 &&
-		    strcmp(lecture->d_name, FILE_SCORE) != 0) {
+		    strcmp(lecture->d_name, FILE_SCORE) != 0 &&
+                    lecture->d_name[len-1] == 'v' && lecture->d_name[len-2] == 's' &&
+                    lecture->d_name[len-3] == '.') {
 			printf("slot[%i] : %s\n", slot, lecture->d_name);
 			slot ++;
 			compteur++;
