@@ -7,7 +7,6 @@
 // modules
 #include "../systeme/systeme.h"
 
-
 /*
  * DEFINES
  */
@@ -60,10 +59,6 @@ typedef struct {
     // les id vont de 1 (premier joueur) à 6 (dernier)
     bool IA; // vrai si IA, faux si humain
     int niveauIA; // niveau de l'IA (entre 1 (facile) et 4(difficile))
-    int intrepidite; // intrépidité du joueur lorsque jouée par l'IA. 
-    // Chiffre oscillant entre 0 et 10, avec 10 intrépidité maximum 
-    // 	(pièces bloquantes utilisées dés que possible) et 0 
-    // 		(pièces bloquantes utilisées rarement)
     char* nom; // nom du joueur
 } t_joueur;
 
@@ -178,6 +173,16 @@ typedef struct {
     t_pileAction* t_pileAction_inverser(t_pileAction* p); // retourne la pile inversée et libère la pile envoyée
     t_pileAction* t_pileAction_copie(t_pileAction* p); // retourne une copie de la pile
 
+
+
+// SAUVEGARDE
+    bool modSave(char* slot, t_jeu* jeu); // renvois vrai si enregistrement de jeu 
+	// dans le slot indiqué à réussis
+    t_jeu* modLoad(char*); // charge le jeu à partir de save
+
+
+    void pileActionLoad(t_jeu* jeu, FILE* fsave); // charge la pile d'action à partir defsave
+    void pileActionSave(t_jeu* jeu, FILE* fsave); // enregistre la pile d'action dans fsave
 
 
 #endif

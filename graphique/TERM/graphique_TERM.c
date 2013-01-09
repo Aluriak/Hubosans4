@@ -398,7 +398,7 @@ void TERM_afficherHelp()
 	printf("\t##Commandes HORS JEU##\n");
 	printf("\t\t Taper s pour SAUVEGARDER\n");
 	printf("\t\t Taper a pour ANNULER LE DERNIER COUP\n");
-	printf("\t\t Taper h pour afficher HELP\n");
+	printf("\t\t Taper h pour afficher l'AIDE\n");
 	printf("\t\t Taper q pour QUITTER\n\n");
 	printf("\t##Commandes JEU##\n");
 	printf("\t\t Entrez d'abord le numéro de la colonne, puis le type de pièce\n");
@@ -517,9 +517,8 @@ void TERM_afficherScore()
 /*
  * TERM AFFICHER SLOT SAUVEGARDE
  */
-// affiche les slots de sauvegarde
+// affiche les slots de sauvegarde, et renvois le nombre de slot
 int TERM_afficherSlotSauvegarde() {
-	int compteur = 0;
 	// Création pointeur pour le répertoire
 	DIR * rep;
 	// Création var --> SLOT = numéro du slot
@@ -535,16 +534,14 @@ int TERM_afficherSlotSauvegarde() {
 		// pas être ./ ou ../, ou le fichier de score
 		if(strcmp(lecture->d_name, ".") != 0 && 
 		    strcmp(lecture->d_name, "..") != 0 &&
-		    strcmp(lecture->d_name, FILE_SCORE) != 0 &&
+		    strcmp(lecture->d_name, "score.txt") != 0 &&
                     lecture->d_name[len-1] == 'v' && lecture->d_name[len-2] == 's' &&
                     lecture->d_name[len-3] == '.') {
 			printf("slot[%i] : %s\n", slot, lecture->d_name);
-			slot ++;
-			compteur++;
+			slot++;
 		}
 	}
-	printf("\n");
-	return compteur;
+	return --slot;
 }
 
 

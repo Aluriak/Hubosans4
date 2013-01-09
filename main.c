@@ -12,7 +12,8 @@ int main(int argc, char* argv[]) {
     main_init();
 
     // initialisations
-    t_jeu jeu; // initialisé plus bas, après dialogue avec l'interface graphique
+    // initialisé plus bas, après dialogue avec l'interface graphique
+    t_jeu *jeu = malloc(sizeof(t_jeu)); 
     t_regleJeu regleJeu; // valeurs déterminant l'intialisation du jeu
     int gagnant = -1;
     t_action action;
@@ -36,21 +37,8 @@ int main(int argc, char* argv[]) {
 		char * load = TERM_afficherModuleChargement();
 		if(load != NULL) {
 		    if(strcmp(load, "quit") != 0) {
-			// Chargement module de base
-			t_regleJeu init_load;
-			init_load = MOTEUR_ChargementBase(load);
-			// Initialisation du jeu
-			t_jeu_init(&jeu, 
-			           init_load.nbJoueurs,
-				   init_load.nbIA,
-				   init_load.tab_nivIA,
-				   init_load.nbPieceBloquante,
-				   init_load.nbPiecePleine,
-				   init_load.nbPieceCreuse,
-				   init_load.allow_last);
-
 			// Chargement de la sauvegarde
-			MOTEUR_chargement(&jeu, load);
+			jeu = modLoad(load);
 			// libération de load
 			free(load);
 
@@ -58,6 +46,11 @@ int main(int argc, char* argv[]) {
 			quit_menu = true;
 			quit_jeu = false;
 			gagnant = -1;
+    fprintf(stderr, "OBJ 1\n");
+    fprintf(stderr, "%i:\n", jeu->nbJoueur);
+
+		TERM_afficherJeu(jeu);
+    fprintf(stderr, "OBJ 2\n");
 		    }
 		}
 	    }
@@ -70,7 +63,7 @@ int main(int argc, char* argv[]) {
 	    }
 	    else {
                 // création du jeu selon les règles demandées
-		t_jeu_init(&jeu, regleJeu.nbJoueurs, 
+		t_jeu_init(jeu, regleJeu.nbJoueurs, 
 			   regleJeu.nbIA, 
 			   regleJeu.tab_nivIA, 
 			   regleJeu.nbPieceBloquante, 
@@ -86,14 +79,14 @@ int main(int argc, char* argv[]) {
         while(quit_jeu == false) {
             // gestion du jeu
 	    while(gagnant < 0) {
-		TERM_afficherJeu(&jeu);
+		TERM_afficherJeu(jeu);
                 // on fait jouer le joueur par l'IA ou l'utilisateur, c'est selon.
-		if(jeu.listeJoueur[jeu.oya].IA == true)
-                    action = IA_effectuerTour(&jeu);
+		if(jeu->listeJoueur[jeu->oya].IA == true)
+                    action = IA_effectuerTour(jeu);
 		else
-		    action = TERM_entreeUtilisateur(&jeu);
+		    action = TERM_entreeUtilisateur(jeu);
 		// On envoie au moteur les choix entrées par l'utilisateur
-		gagnant = MOTEUR_tourSuivant(&jeu, action);
+		gagnant = MOTEUR_tourSuivant(jeu, action);
 		// Si -3, alors l'user demande de l'aide
 		if(gagnant == -3)
 		{
@@ -109,8 +102,8 @@ int main(int argc, char* argv[]) {
 		// Si -4, alors l'user veut sauvegarder
 		else if(gagnant == -4)
 		{
-			action = TERM_afficherModuleSauvegarde(&jeu);
-			MOTEUR_sauvegarde(&jeu, action);
+			action = TERM_afficherModuleSauvegarde(jeu);
+			MOTEUR_sauvegarde(jeu, action);
 		}
 	    }
 
@@ -118,16 +111,16 @@ int main(int argc, char* argv[]) {
 	    if(gagnant >= 0 && gagnant <= 5)
 	    {
 		    // On affiche le plateau de jeu gagnant
-		    TERM_afficherJeuFinit(&jeu, gagnant);
+		    TERM_afficherJeuFinit(jeu, gagnant);
 		    // On attend 5 secondes
 		    TERM_wait(5);
 		    // On enregistre le score du gagant
 		    char * score = TERM_afficherNomScore();
-		    MOTEUR_enregistrerScore(&jeu, gagnant, score);
+		    MOTEUR_enregistrerScore(jeu, gagnant, score);
 	    }
 	    else if(gagnant == 43)
 	    {
-		    TERM_afficherJeuEgalite(&jeu);
+		    TERM_afficherJeuEgalite(jeu);
 	    }
 	    /*
 	     * Dans tout les autres cas, on considère que l'user veut
@@ -137,13 +130,15 @@ int main(int argc, char* argv[]) {
 	    {
 		    // On remet la valeur de gagnant à -1
 		    gagnant = -1;	
+		    // on continue le jeu
+		    quit_prgm = false;
 	    }
             // on arrête le jeu
             quit_jeu = true;
             // on démarre le menu
             quit_menu = false;
             // on libère la structure de jeu
-	    t_jeu_free(&jeu);
+	    t_jeu_free(jeu);
         }
     }
 

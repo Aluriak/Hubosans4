@@ -39,8 +39,6 @@ void t_joueur_init(t_joueur *j, int nbPieceBloquante, int nbPiecePleine,
     j->IA = ia;
     // niveau en tant qu'IA
     j->niveauIA = nivIA;
-    // intrépidité du joueur, définie aléatoirement.
-    j->intrepidite = 1+randN(10);
     j->nom = nom;
     j->nbPieceBloquante = nbPieceBloquante;
     j->nbPiecePleine = nbPiecePleine;

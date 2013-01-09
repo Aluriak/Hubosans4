@@ -19,7 +19,7 @@ $(FINALNAME) : main.o
 # FICHIERS OBJETS #
 
 # le fichier objet main est créé
-main.o: *.c graphique_TERM.o moteur.o systeme.o IA.o
+main.o: *.c graphique_TERM.o moteur.o systeme.o IA.o 
 	$(CC) $(FLAGS) -c *.c
 
 # pour chaque module, on créé un fichier .o dans le répertoire courant
@@ -35,10 +35,11 @@ reseau.o: reseau/* systeme.o moteur.o
 	$(CC) $(FLAGS) -c reseau/*.c
 sonore.o: sonore/* systeme.o moteur.o
 	$(CC) $(FLAGS) -c sonore/*.c
-moteur.o: moteur/*  systeme.o 
+moteur.o: moteur/*  systeme.o
 	$(CC) $(FLAGS) -c moteur/*.c
 inSecure.o: inSecure/*  systeme.o
 	$(CC) $(FLAGS) -c inSecure/*.c
+
 
 
 

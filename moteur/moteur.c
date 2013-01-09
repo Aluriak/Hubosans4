@@ -512,12 +512,10 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 // 			- la pile d'action
 void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 {
-	int i = 0; // Itérateur de boucle
-
 	// >>> PREPARATION SAUVEGARDE <<<
 	
 	// Création des variables 
-	char sauvegarde[] = "save/save";
+	char sauvegarde[20] = "save/save";
 	char slot[3];
 	char end_save[] = ".sv";
 	
@@ -535,6 +533,8 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 	    return; // arrêt de la sauvegarde
 	}
 	    	
+	modSave(sauvegarde, jeu);
+	/*
 	//>>> SAUVEGARDE <<<
 	
 	// ## élément important pour le chargement ##
@@ -587,7 +587,6 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].nbPiecePleine);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].nbPieceCreuse);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].IA);
-		fprintf(file_save, "%i ", jeu->listeJoueur[i].intrepidite);
 		//fprintf(file_save, "%s ", jeu->listeJoueur[i].nom);
 		fprintf(file_save, "\n");
 	}
@@ -613,7 +612,7 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 
 	// >>> END <<<
 	
-
+	// */
 	// Fermeture du fichier
 	fclose(file_save);
 }
@@ -681,6 +680,8 @@ t_regleJeu MOTEUR_ChargementBase(char * load)
 //  Charge la sauvegarde reçu en paramètre
 t_jeu * MOTEUR_chargement(t_jeu * jeu, char * save)
 {
+    return modLoad(save);
+    /*
 	int i = 0; // Itérateur de boucle
 	int IA = 0;
 	// >>> PREPARATION CHARGEMENT <<<
@@ -688,15 +689,22 @@ t_jeu * MOTEUR_chargement(t_jeu * jeu, char * save)
 	char beg_save[20] = "save/"; // suffisement grand pour accueillir le nom entier
 	strcat(beg_save, save);
 	file_load = fopen(beg_save, "r");
+	if(!file_load) {
+	    FLUX_ERREUR("Moteur", "Chargement échouée, nom de sauvegarde erroné");
+	    return NULL;
+	}
 	
 	char balise[] = "balise";
-	char tmp[7];
+	char tmp[] = "balise";
 
 	// On lit le fichier sans rien faire jusqu'à ce que l'on trouve le mot 'balise'
-	fscanf(file_load, "%s", tmp);
+	fscanf(file_load, "%6s", tmp);
+	tmp[7] = '\0';
+	fprintf(stderr, "OBJ1\n");
 	while(strcmp(balise, tmp)!=0)
 	{
-		fscanf(file_load, "%s", tmp);
+		fscanf(file_load, "%6s", tmp);
+		tmp[7] = '\0';
 	}
 
 	// >>> CHARGEMENT <<<
@@ -730,7 +738,6 @@ t_jeu * MOTEUR_chargement(t_jeu * jeu, char * save)
 			jeu->listeJoueur[i].IA = false;
 		}
 		fscanf(file_load, "%i", &jeu->listeJoueur[i].niveauIA);
-		fscanf(file_load, "%i", &jeu->listeJoueur[i].intrepidite);
 		// lecture des dix premiers caractères de la ligne
 		//fscanf(file_load, "%10[^\n]\n", jeu.listeJoueur[i].nom);
 	}
@@ -756,7 +763,7 @@ t_jeu * MOTEUR_chargement(t_jeu * jeu, char * save)
 
 
 	//free(nom);
-	return jeu;
+    // */
 }
 
 
@@ -863,3 +870,161 @@ int MOTEUR_tourPrecedent(t_jeu* jeu)
             MOTEUR_annulerDernierCoup(jeu);
         return jeu->oya;
 }
+
+
+
+
+
+
+
+
+
+/*
+ * modSave
+ */
+// renvois vrai si enregistrement de jeu dans le slot indiqué à réussis
+bool modSave(char* slot, t_jeu* jeu) {
+    int i = 0;
+    // ouverture du fichier
+    FILE* fsave = fopen(slot, "w");
+    if(!fsave)
+	return false;
+
+    // ENREGISTREMENT
+    // format:
+    //   nbJoueur:nbIA:nbPieceBloquante:nbPieceCreuse:nbPiecePleine:allow_last:oya:
+    // 	 nomJoueur:points:pieceBloquante:pieceCreuse:piecePleine:IA:nivIA:
+    // 	 [...]
+    // 	 taillePileAction:
+    //	 action:
+    //	 [...]
+    // joueurs placés à la suite, dans l'ordre de l'idJ
+    
+    // valeurs du jeu
+    fprintf(fsave, 
+	    "%i:%i:%i:%i:%i:%i:%i:\n",
+	    jeu->nbJoueur, jeu->nbIA, jeu->nbPieceBloquante, jeu->nbPieceCreuse, 
+		jeu->nbPiecePleine, jeu->allow_last, jeu->oya);
+    // joueurs
+    for(i = 0; i < jeu->nbJoueur; i++) {
+	fprintf(fsave, 
+		"%s:%i:%i:%i:\n",
+		jeu->listeJoueur[i].nom, jeu->listeJoueur[i].points, 
+		jeu->listeJoueur[i].IA, jeu->listeJoueur[i].niveauIA);
+    }
+	    
+    // pile d'action
+    pileActionSave(jeu, fsave);
+    // fermeture
+    fclose(fsave);
+    return true;
+}
+
+
+
+/*
+ * modLoad
+ */
+// charge le jeu à partir de save
+t_jeu* modLoad(char* save) {
+    int i = 0, oya = 0, allow_last, IA;
+    // ouverture fichier
+    char slot[20] = "save/";
+    strcat(slot, save);
+    FILE* fload = fopen(slot, "r");
+    if(!fload)
+	return NULL;
+    // création jeu
+    t_jeu* jeu = malloc(sizeof(t_jeu));
+    // valeurs importantes
+    fscanf(fload, 
+	    "%i:%i:%i:%i:%i:%i:%i:\n",
+	    &jeu->nbJoueur, &jeu->nbIA, &jeu->nbPieceBloquante, &jeu->nbPieceCreuse, 
+		&jeu->nbPiecePleine, &allow_last, &oya);
+
+    // initialisation
+    int *tab_nivIA = malloc(jeu->nbIA*sizeof(int));
+    t_jeu_init(jeu, jeu->nbJoueur, jeu->nbIA, tab_nivIA, jeu->nbPieceBloquante, 
+		jeu->nbPieceCreuse, jeu->nbPiecePleine, allow_last);
+    free(tab_nivIA);
+
+    // joueurs
+    for(i = 0; i < jeu->nbJoueur; i++) {
+	fscanf(fload, 
+		"%[^:]:%i:%i:%i:\n",
+		jeu->listeJoueur[i].nom, 
+		&jeu->listeJoueur[i].points, 
+		&IA, 
+		&jeu->listeJoueur[i].niveauIA);
+	if(IA==1)
+	    jeu->listeJoueur[i].IA = true;
+	else
+	    jeu->listeJoueur[i].IA = false;
+    }
+
+    jeu->oya = oya;
+    jeu->allow_last = allow_last;
+
+
+    // pile d'action
+    pileActionLoad(jeu, fload);
+    // fermeture
+    fclose(fload);
+    return jeu;
+}
+
+
+
+
+
+
+/*
+ * PILEACTION LOAD
+ */
+// charge la pile d'action à partir de fload
+void pileActionLoad(t_jeu* jeu, FILE* fload) {
+    // on récupère la taille de la pile
+    int taillePile;
+    fscanf(fload, "%i", &taillePile);
+    // lecture des éléments de la pile
+    while(taillePile > 0) {
+	int colonne, piece;
+	fscanf(fload, "%i:%i", &colonne, &piece);
+	t_action action = {colonne, piece};
+	// on empile l'action
+	t_pileAction_emp(&jeu->pileAction, action);
+	// et on la joue sur le jeu
+	MOTEUR_tourSuivant(jeu, action);
+	taillePile--;
+    }
+}
+
+
+/*
+ * PILEACTION SAVE
+ */
+// enregistre la pile d'action dans fsave
+void pileActionSave(t_jeu* jeu, FILE* fsave) {
+    // sauvegarde du nombre d'éléments dans la pile
+    fprintf(fsave, "%i\n", jeu->pileAction.nbElem);
+    // création d'une pile de substitution
+    t_pileAction * inter = t_pileAction_copie(&jeu->pileAction);
+    // inversion de la pile
+    inter = t_pileAction_inverser(inter);
+    // écriture dans le fichier
+    while(inter->nbElem > 0) {
+	    t_action action = t_pileAction_dep(inter); // on dépile
+	    // on écris sur une ligne
+	    fprintf(fsave, "%i %i", action.colonne, action.typePiece);
+	    fprintf(fsave, "\n");
+    }
+
+    t_pileAction_free(inter);
+    free(inter);
+}
+
+
+
+
+
+
