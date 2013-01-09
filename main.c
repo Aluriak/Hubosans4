@@ -124,6 +124,7 @@ int main(int argc, char* argv[]) {
 		    // On enregistre le score du gagant
 		    char * score = TERM_afficherNomScore();
 		    MOTEUR_enregistrerScore(&jeu, gagnant, score);
+		    gagnant = -1;
 	    }
 	    else if(gagnant == 43)
 	    {
@@ -136,7 +137,7 @@ int main(int argc, char* argv[]) {
 	    else
 	    {
 		    // On remet la valeur de gagnant à -1
-		    gagnant = -1;	
+		    gagnant = -1;
 	    }
             // on arrête le jeu
             quit_jeu = true;

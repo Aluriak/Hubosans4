@@ -1,7 +1,7 @@
 # TODO LIST
 
 - Main
-    - pb free save & exit
+    - Le jeu quitte tout seul quand une partie est gagnée, au lieu de retourner au menu
 
 - Moteur
     - Corriger fonction chargement
