@@ -512,7 +512,7 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 // 			- la pile d'action
 void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 {
-	int i = 0, j =0; // Itérateur de boucle
+	int i = 0; // Itérateur de boucle
 
 	// >>> PREPARATION SAUVEGARDE <<<
 	
@@ -571,19 +571,6 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 
 	// >>> END <<<
 
-	// ## plateau de jeu ##
-		
-	for(i=0;i<=jeu->nbCaseX-1;i++)
-	{
-		for(j=0;j<=jeu->nbCaseY-1;j++)
-		{
-			// Enregistrement des pièces 
-			fprintf(file_save, "%i ", jeu->plateau[i][j].joueurPieceCreuse);
-			fprintf(file_save, "%i ", jeu->plateau[i][j].joueurPiecePleine);
-			fprintf(file_save, "%i ", jeu->plateau[i][j].typePiece);
-			fprintf(file_save, "\n");
-		}
-	}
 
 	// ## Données de jeu ##
 	
@@ -607,9 +594,25 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 
 	// ## Pile d'action ##
 	
+        // sauvegarde du nombre d'éléments dans la pile
+	fprintf(file_save, "%i\n", jeu->pileAction.nbElem);
+        // création d'une pile de substitution
+        t_pileAction * inter = t_pileAction_copie(&jeu->pileAction);
+        // inversion de la pile
+        inter = t_pileAction_inverser(inter);
+        // écriture dans le fichier
+        while(inter->nbElem > 0) {
+                t_action action = t_pileAction_dep(inter); // on dépile
+                // on écris sur une ligne
+		fprintf(file_save, "%i %i", action.colonne, action.typePiece);
+		fprintf(file_save, "\n");
+        }
+
+        t_pileAction_free(inter);
+        free(inter);
+
 	// >>> END <<<
 	
-	fprintf(file_save, "\n\n");
 
 	// Fermeture du fichier
 	fclose(file_save);
@@ -678,8 +681,7 @@ t_regleJeu MOTEUR_ChargementBase(char * load)
 //  Charge la sauvegarde reçu en paramètre
 t_jeu * MOTEUR_chargement(t_jeu * jeu, char * save)
 {
-	int i = 0, j = 0; // Itérateur de boucle
-	int creuse = 0, pleine = 0, piece = 0;
+	int i = 0; // Itérateur de boucle
 	int IA = 0;
 	// >>> PREPARATION CHARGEMENT <<<
 	FILE * file_load;
@@ -699,68 +701,6 @@ t_jeu * MOTEUR_chargement(t_jeu * jeu, char * save)
 
 	// >>> CHARGEMENT <<<
 
-	// >>> PLATEAU DE JEU
-	
-	for(i=0;i<=jeu->nbCaseX-1;i++)
-	{
-		for(j=0;j<=jeu->nbCaseY-1;j++)
-		{
-			// Enregistrement des pièces 
-			fscanf(file_load, "%i", &creuse); 		
-			fscanf(file_load, "%i", &pleine); 
-			fscanf(file_load, "%i", &piece);
-			// Si une piece creuse
-			if(creuse != -1)
-			{
-				// Si aussi une piece pleine
-				if(pleine == creuse)
-				{
-					// Alors c'est une piece bloquante
-					jeu->plateau[i][j].typePiece=BLOQUANTE;
-					// On place l'id du joueur ayant placé la piece
-					jeu->plateau[i][j].joueurPieceCreuse=creuse;
-					jeu->plateau[i][j].joueurPiecePleine=pleine;
-				}
-				// Sinon il ne s'agit que d'une piece creuse
-				else
-				{
-					// On place le type piece de la case à creuse
-					jeu->plateau[i][j].typePiece=CREUSE;
-					// On ajoute l'id du joueur correspondant
-					jeu->plateau[i][j].joueurPieceCreuse=creuse;
-				}
-
-				// On remet les variables à -1 pour ne pas entrer dans les autres boucles
-				pleine = -1;
-				creuse = -1;
-			}
-			// Sinon si c'est une piece pleine
-			else if(pleine != -1)
-			{
-				// Si aussi une piece creuse
-				if(creuse == pleine)
-				{
-					// Alors c'est une piece bloquante
-					jeu->plateau[i][j].typePiece=BLOQUANTE;
-					// On place l'id du joueur ayant placé la piece
-					jeu->plateau[i][j].joueurPieceCreuse=creuse;
-					jeu->plateau[i][j].joueurPiecePleine=pleine;
-				}
-				// Sinon il ne s'agit que d'une piece pleine
-				else
-				{
-					// On place le type piece de la case à pleine
-					jeu->plateau[i][j].typePiece=PLEINE;
-					// On ajoute l'id du joueur correspondant
-					jeu->plateau[i][j].joueurPieceCreuse=pleine;
-				}
-
-				// On remet les variables à -1 pour ne pas entrer dans les autres boucles
-				pleine = -1;
-				creuse = -1;
-			}
-		}
-	}
 
 	// >>> DONNEES DE JEU
 	
@@ -791,9 +731,30 @@ t_jeu * MOTEUR_chargement(t_jeu * jeu, char * save)
 		}
 		fscanf(file_load, "%i", &jeu->listeJoueur[i].niveauIA);
 		fscanf(file_load, "%i", &jeu->listeJoueur[i].intrepidite);
-		// lectrue des dix derniers caractères de la ligne
+		// lecture des dix premiers caractères de la ligne
 		//fscanf(file_load, "%10[^\n]\n", jeu.listeJoueur[i].nom);
 	}
+
+
+
+	// >>> PILE D'ACTIONS
+        
+        // on récupère la taille de la pile
+        int taillePile;
+        fscanf(file_load, "%i", &taillePile);
+        // lecture des éléments de la pile
+        while(taillePile > 0) {
+            int colonne, piece;
+            fscanf(file_load, "%i %i", &colonne, &piece);
+            t_action action = {colonne, piece};
+            // on empile l'action
+            t_pileAction_emp(&jeu->pileAction, action);
+            // et on la joue sur le jeu
+            MOTEUR_tourSuivant(jeu, action);
+            taillePile--;
+        }
+
+
 	//free(nom);
 	return jeu;
 }

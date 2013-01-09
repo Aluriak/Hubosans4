@@ -80,3 +80,47 @@ void t_pileAction_vider(t_pileAction* p) {
 	t_pileAction_dep(p);
     }
 }
+
+
+
+
+/*
+ * T_PILE ACTION INVERSER
+ */
+// renvoit la pile inversée et libère la pile envoyée
+t_pileAction* t_pileAction_inverser(t_pileAction* p) {
+    // pile intermédiaire
+    t_pileAction *inter = malloc(sizeof(t_pileAction));
+    t_pileAction_init(inter);
+    // traitement
+    while(p->nbElem > 0)
+	t_pileAction_emp(inter, t_pileAction_dep(p));
+    // retour
+    return inter;
+}
+
+
+
+/*
+ * T_PILE ACTION COPIE
+ */
+// retourne une copie de la pile
+t_pileAction* t_pileAction_copie(t_pileAction* p) {
+    t_pileAction* copie = malloc(sizeof(t_pileAction));
+    t_pileAction_init(copie);
+    t_pile_elem * it = p->sommet; // itérateur de pile
+    // on insère chaque élément de la pile rencontrée dans la copie
+    while(it != NULL) {
+        t_pileAction_emp( copie, it->action ); // empilage de l'action
+        it = it->nxt; // passe au suivant
+    }
+    // maintenant, la copie étant inversée, on l'inverse pour qu'elle soit copie carbone
+    copie = t_pileAction_inverser(copie);
+    // copie carbone renvoyée
+    return copie;
+}
+
+
+
+
+

@@ -175,6 +175,8 @@ typedef struct {
     t_action t_pileAction_dep(t_pileAction *p); // Retourne l'action du sommet de la pile, qui est dépilée. action nulle si pile vide
     t_action t_pileAction_val(t_pileAction *p); // retourne l'action du sommet de la pile, sans y toucher
     void t_pileAction_vider(t_pileAction* p); // Vide la pile
+    t_pileAction* t_pileAction_inverser(t_pileAction* p); // retourne la pile inversée et libère la pile envoyée
+    t_pileAction* t_pileAction_copie(t_pileAction* p); // retourne une copie de la pile
 
 
 
