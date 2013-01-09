@@ -215,6 +215,26 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
 	{
 	       action.typePiece = PLEINE;
 	}
+	else if(tolower(pieceUser) == 'h') // appel de l'aide
+	{
+	       action.typePiece = VIDE;
+               action.colonne = 4;
+	}
+	else if(tolower(pieceUser) == 's') // appel de la sauvegarde
+	{
+	       action.typePiece = VIDE;
+               action.colonne = 2;
+	}
+	else if(tolower(pieceUser) == 'a') // appel à l'annulation de coup
+	{
+	       action.typePiece = VIDE;
+               action.colonne = 3;
+	}
+	else if(tolower(pieceUser) == 'q') // appel de quit
+	{
+	       action.typePiece = VIDE;
+               action.colonne = 5;
+	}
 	else
 	{
 		return action;
@@ -376,10 +396,10 @@ void TERM_afficherHelp()
 	printf("\t==HELP MENU==\n\n");
 	printf("Bienvenue dans le menu d'aide du Puissance 4 !\n\n");
 	printf("\t##Commandes HORS JEU##\n");
-	printf("\t\t Taper 1 pour SAUVEGARDER\n");
-	printf("\t\t Taper 2 pour ANNULER LE DERNIER COUP\n");
-	printf("\t\t Taper 3 pour afficher HELP\n");
-	printf("\t\t Taper 4 pour QUITTER\n\n");
+	printf("\t\t Taper s pour SAUVEGARDER\n");
+	printf("\t\t Taper a pour ANNULER LE DERNIER COUP\n");
+	printf("\t\t Taper h pour afficher HELP\n");
+	printf("\t\t Taper q pour QUITTER\n\n");
 	printf("\t##Commandes JEU##\n");
 	printf("\t\t Entrez d'abord le numéro de la colonne, puis le type de pièce\n");
 	printf("\t\t >>> INDEX TYPES PIECES <<<\n");
@@ -442,7 +462,7 @@ void TERM_afficherHubosans4()
 // Affiche la demande de slot à l'user
 t_action TERM_afficherModuleSauvegarde(t_jeu * jeu)
 {
-	t_action action;
+	t_action action  ={-1,0};
 	TERM_afficherSlotSauvegarde();
 	printf(">> Entrez le numéro du slot : ");
 	scanf("%i", &action.colonne);
@@ -504,10 +524,14 @@ int TERM_afficherSlotSauvegarde() {
 	// On lit tout les fichiers & on les affiches
 	while((lecture = readdir(rep)))
 	{
-		// si le répertoire n'est pas ./ ou ../, ou le fichier de score
+                int len = strlen(lecture->d_name);
+                // si c'est une sauvegarde, il finit par .sv, et la chaîne de doit 
+		// pas être ./ ou ../, ou le fichier de score
 		if(strcmp(lecture->d_name, ".") != 0 && 
 		    strcmp(lecture->d_name, "..") != 0 &&
-		    strcmp(lecture->d_name, FILE_SCORE) != 0) {
+		    strcmp(lecture->d_name, FILE_SCORE) != 0 &&
+                    lecture->d_name[len-1] == 'v' && lecture->d_name[len-2] == 's' &&
+                    lecture->d_name[len-3] == '.') {
 			printf("slot[%i] : %s\n", slot, lecture->d_name);
 			slot ++;
 			compteur++;

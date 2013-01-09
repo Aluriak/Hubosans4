@@ -98,13 +98,13 @@ int main(int argc, char* argv[]) {
 		if(gagnant == -3)
 		{
 			TERM_afficherHelp();
-			TERM_wait(10);
+			TERM_wait();
 		}
 		// Si -2, alors c'est une erreur
 		else if(gagnant == -2)
 		{
 			TERM_afficherErreur();
-			TERM_wait(2);
+			TERM_wait();
 		}
 		// Si -4, alors l'user veut sauvegarder
 		else if(gagnant == -4)
@@ -142,10 +142,8 @@ int main(int argc, char* argv[]) {
             quit_jeu = true;
             // on démarre le menu
             quit_menu = false;
-	    if(quit_jeu == true)
-	    {
-	    	t_jeu_free(&jeu);
-	    }
+            // on libère la structure de jeu
+	    t_jeu_free(&jeu);
         }
     }
 
