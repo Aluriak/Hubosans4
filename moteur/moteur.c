@@ -229,6 +229,7 @@ bool MOTEUR_pieceJouee(t_jeu * jeu, t_action action, int ligne)
 bool MOTEUR_annulerDernierCoup(t_jeu* jeu) {
     // initialisations
     int y = 0; // itérateur de boucle
+    int idJ; // id du joueur qui regagne une pièce
     t_case* caseAModifier = NULL; // pointeur de case
     // on dépile la dernière action, et on l'enregistre
     t_action action = t_pileAction_dep(&(jeu->pileAction));
@@ -246,23 +247,33 @@ bool MOTEUR_annulerDernierCoup(t_jeu* jeu) {
             // si on a trouvé la pièce
             if(caseAModifier->typePiece == action.typePiece) {
                 caseAModifier->typePiece = VIDE;
+                idJ = caseAModifier->joueurPieceCreuse;
                 caseAModifier->joueurPieceCreuse = -1;
                 caseAModifier->joueurPiecePleine = -1;
                 y = jeu->nbCaseY; // fin de la boucle
             }
             else if(caseAModifier->typePiece == DOUBLE && 
-                action.typePiece != BLOQUANTE) {
+                    action.typePiece != BLOQUANTE) {
                 if(action.typePiece == CREUSE) {
                     caseAModifier->typePiece = PLEINE;
+                    idJ = caseAModifier->joueurPieceCreuse;
                     caseAModifier->joueurPieceCreuse = -1;
                 }
                 else if(action.typePiece == PLEINE) {
                     caseAModifier->typePiece = CREUSE;
+                    idJ = caseAModifier->joueurPiecePleine;
                     caseAModifier->joueurPiecePleine = -1;
                 }
                 y = jeu->nbCaseY; // fin de la boucle
             }
         }
+        // le joueur ayant la joué la pièce rétiré la regagne
+        if(action.typePiece == BLOQUANTE)
+            jeu->listeJoueur[idJ].nbPieceBloquante++;
+        else if(action.typePiece == PLEINE)
+            jeu->listeJoueur[idJ].nbPiecePleine++;
+        else if(action.typePiece == CREUSE)
+            jeu->listeJoueur[idJ].nbPieceCreuse++;
         // l'oya deviens le joueur précédent
         if(jeu->oya == 0)
             jeu->oya = jeu->nbJoueur-1;
