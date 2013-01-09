@@ -546,7 +546,7 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 	fprintf(file_save, "%i ", jeu->nbIA);
 
 	//	>>> niveau IA <<<
-	for(i=0;i<jeu->nbIA;i++)
+	for(i=0;i<jeu->nbIA-1;i++)
 	{
 		if(jeu->listeJoueur[i].IA == true)
 		{
@@ -592,7 +592,7 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 
 	// ## Joueurs ##
 	
-	for(i=0;i<jeu->nbJoueur;i++);
+	for(i=1;i<jeu->nbJoueur;i++);
 	{
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].points);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].idJ);
