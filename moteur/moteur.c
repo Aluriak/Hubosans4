@@ -47,7 +47,7 @@ int MOTEUR_tourSuivant(t_jeu* jeu, t_action action)
 	else if(action.colonne < 0)
 	{
 		action.colonne = action.colonne + (-action.colonne*2);
-		MOTEUR_sauvegarde(jeu, action, allow_last);
+		MOTEUR_sauvegarde(jeu, action);
 	}
 	// Si 2, alors on annule le dernier coup
 	else if(action.colonne == 2)
@@ -521,16 +521,16 @@ int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next)
 // 			- le jeu
 // 			- une action
 // 			- la pile d'action
-void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
+void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 {
 	int i = 0, j =0; // Itérateur de boucle
 
 	// >>> PREPARATION SAUVEGARDE <<<
 	
 	// Création des variables 
-	char sauvegarde[20] = "save/save";
+	char sauvegarde[] = "save/save";
 	char slot[3];
-	char end_save[4] = ".sv";
+	char end_save[] = ".sv";
 	
 	// On convertie action.colonne en string
 	sprintf(slot, "%i", action.colonne); // Convertion int en string 
@@ -550,12 +550,37 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 	
 	// ## élément important pour le chargement ##
 	
-	//	>>> Taille du plateau <<<
-	fprintf(file_save, "%i %i ", jeu->nbCaseX, jeu->nbCaseY);
 	//	>>> Nombre de joueur <<<
 	fprintf(file_save, "%i ", jeu->nbJoueur);
+	
+	//	>>> Nombre d'IA <<<
+	fprintf(file_save, "%i ", jeu->nbIA);
+
+	//	>>> niveau IA <<<
+	for(i=0;i<jeu->nbIA;i++)
+	{
+		if(jeu->listeJoueur[i].IA == true)
+		{
+			fprintf(file_save, "%i ", jeu->listeJoueur[i].niveauIA);
+		}
+	}
+	
+	//	>>> Nombre de Pièce Bloquante <<<
+	fprintf(file_save, "%i ", jeu->nbPieceBloquante);
+
+	//	>>> Nombre de Pièce Pleine <<<
+	fprintf(file_save, "%i ", jeu->nbPiecePleine);
+
+	//	>>> Nombre de Pièce Creuse
+	fprintf(file_save, "%i ", jeu->nbPieceCreuse);
+
 	//	>>> Autorisation dernier coup <<<
-	fprintf(file_save, "%i \n", allow_last);
+	fprintf(file_save, "%i ", jeu->allow_last);
+
+	//	>>> Ecriture balise <<<
+	fprintf(file_save, "balise \n");
+
+	// >>> END <<<
 
 	// ## plateau de jeu ##
 		
@@ -574,11 +599,6 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 	// ## Données de jeu ##
 	
 	fprintf(file_save, "%i ", jeu->oya);
-	//fprintf(file_save, "%i ", jeu->nbJoueur);
-	fprintf(file_save, "%i ", jeu->nbIA);
-	fprintf(file_save, "%i ", jeu->nbPieceBloquante);
-	fprintf(file_save, "%i ", jeu->nbPiecePleine);
-	fprintf(file_save, "%i ", jeu->nbPieceCreuse);
 	fprintf(file_save, "\n");
 
 	// ## Joueurs ##
@@ -591,12 +611,9 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].nbPiecePleine);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].nbPieceCreuse);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].IA);
-		fprintf(file_save, "%i ", jeu->listeJoueur[i].niveauIA);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].intrepidite);
-		fprintf(file_save, "%s", jeu->listeJoueur[i].nom);
+		//fprintf(file_save, "%s ", jeu->listeJoueur[i].nom);
 		fprintf(file_save, "\n");
-		printf("IA : %i\n", jeu->listeJoueur[i].IA);
-		printf("creuse : %i\n", jeu->listeJoueur[i].nbPieceCreuse);
 	}
 
 	// ## Pile d'action ##
@@ -611,74 +628,103 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last)
 
 
 /*
+ * MOTEUR CHARGEMENT BASE
+ */
+// charge les éléments les plus important pour l'initialisation du jeu
+t_regleJeu MOTEUR_ChargementBase(char * load)
+{
+	// Création des règles du jeu
+	t_regleJeu regleJeu;
+	// Création nom fichier
+	char beg[] = "save/";
+	
+	strcat(beg, load);
+
+	// Ouverture du fichier
+	FILE * file = fopen(beg, "r");
+
+	// Création var
+	int tmp_allow_last; // 0 si non, 1 si oui
+	int i = 0; // Itérateur de boucle
+	int niveauIA; // Contient le niveau de l'IA
+	// Chargemement des données
+	
+	// >> Nombre de joueurs
+	fscanf(file, "%i", &regleJeu.nbJoueurs);
+	// >> Nombre d'IA
+	fscanf(file, "%i", &regleJeu.nbIA);
+	// >> Tableau des niveaus des IA
+	for(i=0; i<regleJeu.nbIA;i++)
+	{
+		fscanf(file, "%i", &niveauIA);
+		regleJeu.tab_nivIA[i]=niveauIA;
+	}
+	// >> Nombre de pièces Bloquante
+	fscanf(file, "%i", &regleJeu.nbPieceBloquante);
+	// >> Nombre de pièces Pleine
+	fscanf(file, "%i", &regleJeu.nbPiecePleine);
+	// >> Nombre de pièce Creuse
+	fscanf(file, "%i", &regleJeu.nbPieceCreuse);
+	// >> Autorisation dernier coup
+	fscanf(file, "%i", &tmp_allow_last);
+	if(tmp_allow_last==0)
+	{
+		regleJeu.allow_last=false;
+	}
+	else
+	{
+		regleJeu.allow_last=true;
+	}
+	// >> END
+
+	// Fermeture fichier
+	fclose(file);
+	return regleJeu;
+}
+
+
+/*
  * MOTEUR CHARGEMENT
  */
 //  Charge la sauvegarde reçu en paramètre
 t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 {
-	fprintf(stderr, "begin load : OK\n");
 	int i = 0, j = 0; // Itérateur de boucle
 	int creuse = 0, pleine = 0, piece = 0;
 	int IA = 0;
-	int tmp_allow_last = 0; // tmp contenant la valeur du bool allow_last
-	// >>> PREPARATION SAUVEGARDE <<<
-	fprintf(stderr, "Creating var : OK\n");
+	// >>> PREPARATION CHARGEMENT <<<
 	FILE * file_load;
 	char beg_save[20] = "save/"; // suffisement grand pour accueillir le nom entier
 	strcat(beg_save, save);
 	file_load = fopen(beg_save, "r");
-	fprintf(stderr, "Creating file : OK\n");
-	fprintf(stderr, "name : %s\n", save);
-	// >>> CHARGEMENT <<<
 	
-	// On commence par récupérer les données essentielles
-	// 	>> Taille du plateau
-	fscanf(file_load, "%i %i", &jeu.nbCaseX, &jeu.nbCaseY);	
-	// 	>> Nombre de joueurs
-	fprintf(stderr, "debug : 1\n");
-	fscanf(file_load, "%i", &jeu.nbJoueur);
-	fprintf(stderr, "nbJoueurs : %i\n", jeu.nbJoueur);
-	// 	>> Autorisation dernier coup
-	fprintf(stderr, "debug : 2\n");
-	fscanf(file_load, "%i", &tmp_allow_last);
-	fprintf(stderr, "debug : 3\n");
-	if(tmp_allow_last == 1)
+	char balise[] = "balise";
+	char tmp[7];
+
+	// On lit le fichier sans rien faire jusqu'à ce que l'on trouve le mot 'balise'
+	fscanf(file_load, "%s", tmp);
+	while(strcmp(balise, tmp)!=0)
 	{
-		allow_last = true;
+		fscanf(file_load, "%s", tmp);
 	}
-	else
-	{
-		allow_last = false;
-	}
-	fprintf(stderr, "debug : 4\n");
+
+	// >>> CHARGEMENT <<<
 
 	// >>> PLATEAU DE JEU
 	
-	fprintf(stderr, "taille jeu : [%i][%i]\n", jeu.nbCaseX, jeu.nbCaseY);
-	
 	for(i=0;i<jeu.nbCaseX;i++)
 	{
-	fprintf(stderr, "debug : 5\n");
 		for(j=0;j<jeu.nbCaseY;j++)
 		{
-			// Coordonnées de la case dans le jeu
-			fprintf(stderr, "debug : 6\n");
-
-			//fscanf(file_load, "%i", &jeu.plateau[i][j].crd.x);
-			fprintf(stderr, "debug : 6.1\n");
-
-			//fscanf(file_load, "%i", &jeu.plateau[i][j].crd.y);
 			// Enregistrement des pièces 
 			fscanf(file_load, "%i", &creuse); 		
 			fscanf(file_load, "%i", &pleine); 
 			fscanf(file_load, "%i", &piece);
-			fprintf(stderr, "c : %i p : %i b : %i\n", creuse, pleine, piece);
-			fprintf(stderr, "debug : 7\n");
 			// Si une piece creuse
 			if(creuse != -1)
 			{
 				// Si aussi une piece pleine
-				if(pleine != -1)
+				if(pleine == creuse)
 				{
 					// Alors c'est une piece bloquante
 					jeu.plateau[i][j].typePiece=BLOQUANTE;
@@ -703,7 +749,7 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 			else if(pleine != -1)
 			{
 				// Si aussi une piece creuse
-				if(creuse != -1)
+				if(creuse == pleine)
 				{
 					// Alors c'est une piece bloquante
 					jeu.plateau[i][j].typePiece=BLOQUANTE;
@@ -730,33 +776,20 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 	// >>> DONNEES DE JEU
 	
 	fscanf(file_load, "%i", &jeu.oya);
-	//fscanf(file_load, "%i", &jeu.nbJoueur);
-	fscanf(file_load, "%i", &jeu.nbIA);
-	fscanf(file_load, "%i", &jeu.nbPieceBloquante);
-	fscanf(file_load, "%i", &jeu.nbPiecePleine);
-	fscanf(file_load, "%i", &jeu.nbPieceCreuse);
-	fprintf(stderr, "debug : 9\n");
 
 	// >>> JOUEURS
 	
-	fprintf(stderr, "nbJoueurs : %i\n", jeu.nbJoueur);
-	fprintf(stderr, "debug : 10\n");
 	for(i=0;i<jeu.nbJoueur;i++)
 	{
 		fscanf(file_load, "%i", &jeu.listeJoueur[i].points);
-		fprintf(stderr, "debug : 11\n");
 
 		fscanf(file_load, "%i", &jeu.listeJoueur[i].idJ);
-		fprintf(stderr, "debug : 12\n");
 
 		fscanf(file_load, "%i", &jeu.listeJoueur[i].nbPieceBloquante);
-		fprintf(stderr, "debug : 13\n");
 
 		fscanf(file_load, "%i", &jeu.listeJoueur[i].nbPiecePleine);
-		fprintf(stderr, "debug : 14\n");
 
 		fscanf(file_load, "%i", &jeu.listeJoueur[i].nbPieceCreuse);
-		fprintf(stderr, "debug : 15\n");
 
 		fscanf(file_load, "%i", &IA);
 		if(IA == 1)
@@ -770,9 +803,8 @@ t_jeu MOTEUR_chargement(t_jeu jeu, char * save)
 		fscanf(file_load, "%i", &jeu.listeJoueur[i].niveauIA);
 		fscanf(file_load, "%i", &jeu.listeJoueur[i].intrepidite);
 		// lectrue des dix derniers caractères de la ligne
-		fscanf(file_load, "%10[^\n]\n", jeu.listeJoueur[i].nom);
+		//fscanf(file_load, "%10[^\n]\n", jeu.listeJoueur[i].nom);
 	}
-	fprintf(stderr, "END LOAD : OK\n");
 	//free(nom);
 	return jeu;
 }

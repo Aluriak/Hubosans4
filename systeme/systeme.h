@@ -22,6 +22,7 @@
  * DEFINES
  */
 #define FILE_ERR "erreur.txt"
+#define NB_JOUEUR_MAX 6 // limite dûe au nombre de couleurs du terminal
 
 
 /*
@@ -33,8 +34,17 @@ typedef enum {false, true} bool;
 // Autorise ou non d'annuler le dernier coup 
 bool allow_last;
 
-// Contient le nom de la sauvegarde à charger
-//char save[20];
+// Contient les règles du jeu pour l'initialisation
+typedef struct {
+    int nbJoueurs;
+    int nbIA;
+    int tab_nivIA[NB_JOUEUR_MAX];
+    int nbPieceBloquante;
+    int nbPiecePleine;
+    int nbPieceCreuse;
+    bool allow_last;
+} t_regleJeu;
+
 
 
 /*

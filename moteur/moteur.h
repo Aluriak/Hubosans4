@@ -19,6 +19,8 @@
 /*
  * PREDECLARATIONS
  */
+
+
 // enumération du type de pièce dans une case
 typedef enum {VIDE=0, CREUSE=1, PLEINE=2, BLOQUANTE=3, DOUBLE} e_piece;
 // DOUBLE = CREUSE + PLEINE
@@ -122,7 +124,7 @@ typedef struct {
 
     int MOTEUR_test_cond_puissance4(t_jeu * jeu, int c_p4, bool next); // test si il y a puissance 4
 
-    void MOTEUR_sauvegarde(t_jeu * jeu, t_action action, bool allow_last); // Sauvegarde la partie en cours
+    void MOTEUR_sauvegarde(t_jeu * jeu, t_action action); // Sauvegarde la partie en cours
 
     t_jeu MOTEUR_chargement(t_jeu jeu, char save[20]); // Charge la sauvegarde reçu en paramètre
 
@@ -132,6 +134,10 @@ typedef struct {
     void MOTEUR_viderScore(); // Vide les scores
 
     int MOTEUR_tourPrecedent(t_jeu*); // Annule le dernier tour de jeu et retourne l'oya
+
+    t_regleJeu MOTEUR_ChargementBase(char * load_file); // charge les éléments les plus important pour l'initialisation du jeu
+
+
 
 
 

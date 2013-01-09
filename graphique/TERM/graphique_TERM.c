@@ -64,8 +64,8 @@ void TERM_afficherEnTete(t_jeu* jeu) {
     // pour chaque joueur
     for(i = 0; i < jeu->nbJoueur; i++) {
 	TERM_color(jeu->listeJoueur[i].idJ+31);
-	printf("%s : %i points - pieces : %i B - %i P - %i C", 
-		jeu->listeJoueur[i].nom, 
+	printf(/*"%s :*/" %i points - pieces : %i B - %i P - %i C", 
+		//jeu->listeJoueur[i].nom, 
 		jeu->listeJoueur[i].points,
 		jeu->listeJoueur[i].nbPieceBloquante,
 		jeu->listeJoueur[i].nbPiecePleine,
@@ -139,6 +139,7 @@ void TERM_afficherCase(t_jeu* jeu, int i, int j) {
     val1 = jeu->plateau[i][j].joueurPieceCreuse;
     val2 = jeu->plateau[i][j].joueurPiecePleine;
     typePiece = jeu->plateau[i][j].typePiece; // type de la pièce
+
     // affichage des pièces
     if(typePiece == BLOQUANTE) {
 	TERM_backgroundColor(val1+31); // couleur de fond du joueur
@@ -532,8 +533,9 @@ char * TERM_afficherModuleChargement()
 	printf("Chargement des sauvegardes :\n\n");
 	// si il y a au moins un slot
 	if(TERM_afficherSlotSauvegarde() > 0) {
-		printf(">> Entrez le nom de la sauvegarde [quit] : ");
-		scanf("%10s%*[\n]\n", save);
+		printf(">> Entrez le numero de la sauvegarde [quit] : ");
+		scanf("%s", save);
+		//scanf("%10s%*[\n]\n", save);
 		// si save == quit, alors l'user veut quitter
 		if(strcmp(save, "") == 0)
 		{

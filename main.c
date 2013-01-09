@@ -35,13 +35,29 @@ int main(int argc, char* argv[]) {
 		TERM_afficherHubosans4(); // affichage esthétique
 		char * load = TERM_afficherModuleChargement();
 		if(load != NULL) {
-		    fprintf(stderr, "main1, name : %s\n", load);
 		    if(strcmp(load, "quit") != 0) {
-			fprintf(stderr, "main, name : %s\n", load);
+			// Chargement module de base
+			t_regleJeu init_load;
+			init_load = MOTEUR_ChargementBase(load);
+			// Initialisation du jeu
+			t_jeu_init(&jeu, 
+			           init_load.nbJoueurs,
+				   init_load.nbIA,
+				   init_load.tab_nivIA,
+				   init_load.nbPieceBloquante,
+				   init_load.nbPiecePleine,
+				   init_load.nbPieceCreuse,
+				   init_load.allow_last);
+
 			// Chargement de la sauvegarde
 			jeu = MOTEUR_chargement(jeu, load);
 			// libération de load
 			free(load);
+
+			// On peut démarrer le jeu !
+			quit_menu = true;
+			quit_jeu = false;
+			gagnant = -1;
 		    }
 		}
 	    }
@@ -94,6 +110,7 @@ int main(int argc, char* argv[]) {
 		else if(gagnant == -4)
 		{
 			action = TERM_afficherModuleSauvegarde(&jeu);
+			MOTEUR_sauvegarde(&jeu, action);
 		}
 	    }
 
@@ -125,6 +142,10 @@ int main(int argc, char* argv[]) {
             quit_jeu = true;
             // on démarre le menu
             quit_menu = false;
+	    if(quit_jeu == true)
+	    {
+	    	t_jeu_free(&jeu);
+	    }
         }
     }
 
