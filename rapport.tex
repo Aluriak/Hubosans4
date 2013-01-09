@@ -33,8 +33,8 @@
         Le jeu exploite la sortie et l'entrée standard : le couple écran/clavier, avec affichage dans le terminal d'où le jeu est lancé.
         Le jeu peut être sauvegardé pour être repris plus tard.
     \paragraph*{}
-        Il est possible de faire jouer des IA, selon des niveaux de difficulté différents. Ces IA se basent sur un algorithme minimax pour résoudre le jeu, avec élagage alpha bêta pour économiser
-        du temps de calcul.
+        Le jeu propose également le jeu contre une IA se contentant de cups au hasard. Une version plus élaborée, et bien plus intéressante, n'a n"anmoins pas été développée
+            suffisemment rapidement pour intégrer le produit final du projet.
 
 
 
@@ -257,7 +257,12 @@
 	Si à la fin d'un test, le compteur n'est pas égal à 4, alors celui-ci est remis à zéro avant le passage au joueurs suivant.\\
 
         \subparagraph*{} % IA
-        Pour l'IA, c'est l'algorithme minimax qui entre en jeu : une fonction récursive, parcourant les noeuds de l'arbre, et une fonction d'étude de situation. 
+        L'IA devait faire partie des focntionnalité du programme final. Suite à de lourds problèmes restés sans réponse (du moins pour le moment, il serais dommage de ne pas continuer 
+            à chercher la source d e l'erreur, plus tard, après la fin officielle du projet), l'IA s'est finalement limité à un choix aléatoire. Minimaliste, pour ne pas dire ridicule,
+            mais le temps manquais, après de longues soirées de recherches.
+
+        Pour l'IA qui devait être présent dans le projet, c'est l'algorithme minimax qui entre en jeu : une fonction récursive, parcourant les noeuds de l'arbre, 
+            et une fonction d'étude de situation. 
         Cela permet de donner à chacune des N actions possibles (3 fois le nombre de colonnes) pour l'IA une priorité. \\
         Plus la priorité est haute, plus la situation vers laquelle cette action mène est avantageuse pour l'IA. Simplement, la priorité la plus haute est attribuée aux situation où 
         l'IA gagne. \\
@@ -284,12 +289,15 @@
     Les objectifs principaux ont été remplis, mais d'autres, secondaires, n'ont pas bénéficié de suffisemment de temps pour être implémentés. De plus, certains aspects du programme 
         auraient gagnés à être travaillé plus avant, telle que l'architecture MVC.
         \subparagraph*{} % objectifs principaux
-        Le jeu est jouable, avec quelques fonctionnalités intéressantes. Il correspond au cahier des charges, en incluant quelques suppléments, tels que le scoring ou l'IA.
+        Le jeu est jouable, avec quelques fonctionnalités intéressantes. Il correspond au cahier des charges, en incluant quelques suppléments, tels que le scoring.
         Ainsi, le programme propose la sauvegarde et le jeu du puissance 4 amélioré, deux fonctionnalités obligatoires pour la réussite du projet.
         \subparagraph*{} % objectifs secondaires
         Néanmoins, l'équipe aurait apprécié le développement de certains modules, dont le module graphique utilisant la SDL, ainsi que pour le son, et le réseau. Ces modules n'ont 
             pourtant pas été développés, suite à un manque de temps en fin de projet (voir paragraphe suivant). Ils seront peut-être développés plus tard, en dehors du projet, 
             pour le plaisir des développeurs désireux de découvrir (ou de redécouvrir) la SDL et ses nombreux modules.
+        En outre, beaucoup de modules n'ont pas été suffisemment travaillé. le oteur, notamment, avec une sauvegarde non protégée contre la corruption.
+        L'Intelliegcne Artificielle à été un grand échec du projet. Elle devait être présente, mais des problèmes incompréhensibles et restés sans solutions pendant des heures de 
+            recherche n'ont pas permis l'élaborationde  ce qui aurais pu être un point notoire du projet.
         \subparagraph*{} % architecture MVC
         L'architecture MVC n'est pas parfaite : en effet, le module graphique est directement dépendant du module moteur (notamment pour les structures de données jeu, joueur et action).
         Il eu fallut créer une structure propre au module graphique, ne possédant que les valeurs nécessaires, et que le main saurais créer à partir de la strcuture de jeu, auquel le
@@ -302,7 +310,8 @@
         quelques semaines. Certains modules n'ont pu être testés qu'à ce moment, d'où de grosses révisions de code qui ont ralentit le développement des autres modules. \\
         Néanmoins, le projet s'est terminé, même si certains objectifs secondaires n'ont pas été remplis, faute de temps. En effet, celui-ci a manqué en fin de projet. \\
         Le planning n'était pas réellement explicité. Une \textit{todo list} a été mise en place, mais aucune notion du temps ne fût explicitement utilisée; personne n'en a eu besoin, 
-        le projet avançais sans avoir besoin de \textit{deadlines}. 
+        le projet avançais sans avoir besoin de \textit{deadlines}. Du moins jsuqu'aux derniers jours où il s'avérait que beaucoup de détails de dernière minutes nécessitait bien
+            plus de temps que prévu.
     \paragraph*{} % image
         \begin{center}
             \includegraphics[width=15cm, height=11cm]{ressources/rapport/commit.png} \\
@@ -317,6 +326,7 @@
 	\item plus de formes pour les pièces;
 	\item superposition moins simpliste des pièces CREUSE et PLEINE;
      \end{itemize}
+     Evidemment, ne pas avoir su finir le module IA suffisemment tôt est un échec assez désagréable.
      Un autre regret : nous n'avons pas profité de ce projet pour apprendre à utiliser \textit{gdb}, bien que tout se prêtait à son utilisation, et intégration dans vim. 
         Le debuggage "à la main" était visiblement suffisant, mais se forcer à utiliser un debuggeur eût été formateur et productif.
     \newpage
@@ -329,14 +339,13 @@
     \end{quotation}
     \vspace{2cm}
     \begin{quotation}
-            Le projet fût assez simple dans l'ensemble, ce qui permettait de se concentrer sur un aspect résolument nouveau : le travail en binôme. Rien d'évident au début, 
-            entre autre à cause d'habitudes différentes, il deviens néanmoins très productif après un temps d'adaptation. 
+        Le projet fût assez simple dans l'ensemble, ce qui permettait de se concentrer sur un aspect résolument nouveau : le travail en binôme. 
+        Rien d'évident, cela prend beaucoup de temps, pour s'y faire, entre autre à cause d'habitudes différentes, il deviens néanmoins très productif après un temps d'adaptation. 
             Plus que jamais, le gestionnaire de version est utile, ce n'est plus un simple dépôt à backup ! \\
             Certains outils sont (parfois volontairement) passés à la trappe, (debuggeur, redmine) au profit d'autres qui ont été utilisés pour le plaisir de les découvrir 
                 (notamment \LaTeX). \\
             Le projet a été l'occasion d'apprendre des choses, non nécessairement en lien avec le C, comme la programmation système, la maîtrise d'environnement, 
-            voir même le changement de distribution Linux pour ma part, mais participant à l'impression de réussite globale d'un projet que l'on regrette 
-                de ne pas prolonger officiellement. \\
+            voir même le changement de distribution Linux pour ma part, mais participant au projet en touchant à son environnement.
             Néanmoins, ce projet terminé, cela me laisse le champs libre pour travailler sur des projets personnels chronophages, et pourquoi pas, cette fois-ci, 
                 inviter d'autres personnes à me rejoindre pour réitérer l'expérience de développement en groupe. \\
             \\ \\
