@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 				   init_load.allow_last);
 
 			// Chargement de la sauvegarde
-			jeu = MOTEUR_chargement(jeu, load);
+			MOTEUR_chargement(&jeu, load);
 			// libération de load
 			free(load);
 
