@@ -484,6 +484,11 @@ void TERM_afficherScore()
 	char * nom = malloc(20*sizeof(char));
 	// Ouverture du fichiers des scores
 	FILE * score = fopen("save/score.txt", "r");
+	if(!fopen("save/score.txt", "r"))
+	{
+		printf("Aucun score !\n");
+		return; 
+	}
 	// Nettoyage & affichage logo
 	TERM_clear();
 	TERM_afficherHubosans4();
