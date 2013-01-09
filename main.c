@@ -65,8 +65,8 @@ int main(int argc, char* argv[]) {
 	    else if(regleJeu.nbJoueurs==-3) {
 		// Affichage score
 		TERM_afficherScore();
-		// Attente de 10 seconde
-		TERM_wait(10);
+		// Attente de l'utilisateur
+		TERM_wait();
 	    }
 	    else {
                 // création du jeu selon les règles demandées
