@@ -768,7 +768,7 @@ t_jeu * MOTEUR_chargement(t_jeu * jeu, char * save)
 
 	// >>> JOUEURS
 	
-	for(i=0;i<jeu->nbJoueur;i++)
+	for(i=0;i<jeu->nbJoueur-1;i++)
 	{
 		fscanf(file_load, "%i", &jeu->listeJoueur[i].points);
 
