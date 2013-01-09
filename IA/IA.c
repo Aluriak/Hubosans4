@@ -9,18 +9,12 @@
 // effectue le tour de jeu de l'oya selon le fonctionnement de l'IA
 // s'appuie sur un algorithme minimax, et une heuristique
 t_action IA_effectuerTour(t_jeu *jeu) {
-    int alpha = -1000, beta = 1000; // alpha et bêta initialisés à - inf et +inf
-    int score = IA_alphaBeta(jeu, alpha, beta, 1, jeu->oya);
-    printf("score = %i", score);
-    t_action plouf = {randN(jeu->nbCaseX), randN(3)+1};
-    return plouf;
     // INITIALISATIONS
     int idIA = jeu->oya; // id du joueur joué par l'IA
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
     //          de l'action actionPrio
     int profondeur = jeu->listeJoueur[idIA].niveauIA * jeu->nbJoueur; 
-    profondeur = 0 ; // DEBUG
-    printf("profondeur = %i\n", profondeur);
+    int alpha = -1000, beta = 1000; // alpha et bêta initialisés à - inf et +inf
     int gagnant = -1; // gagnant de la partie
     // actions
     t_action action; // première action à opérer
