@@ -4,9 +4,9 @@
     - pb free save & exit
 
 - Moteur
-    - Faire fonctione annuler coup
-    - Nettoyer fonction sauvegarde
-    - Nettoyer fonction chargemeng
+    - Corriger fonction chargement
 
 - TERM 
-    - Nettoyer fonction chargement et sauvegarde
+
+    - Faire un clear à chaque tour
+    - quand sauvegarde, affichage d'un message d'erreur (mais sauvegarde OK)

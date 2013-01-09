@@ -546,7 +546,7 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 	fprintf(file_save, "%i ", jeu->nbIA);
 
 	//	>>> niveau IA <<<
-	for(i=0;i<jeu->nbIA-1;i++)
+	for(i=0;i<=jeu->nbIA-1;i++)
 	{
 		if(jeu->listeJoueur[i].IA == true)
 		{
@@ -573,9 +573,9 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 
 	// ## plateau de jeu ##
 		
-	for(i=0;i<jeu->nbCaseX;i++)
+	for(i=0;i<=jeu->nbCaseX-1;i++)
 	{
-		for(j=0;j<jeu->nbCaseY;j++)
+		for(j=0;j<=jeu->nbCaseY-1;j++)
 		{
 			// Enregistrement des pièces 
 			fprintf(file_save, "%i ", jeu->plateau[i][j].joueurPieceCreuse);
@@ -592,7 +592,7 @@ void MOTEUR_sauvegarde(t_jeu * jeu, t_action action)
 
 	// ## Joueurs ##
 	
-	for(i=1;i<jeu->nbJoueur;i++);
+	for(i=0;i<jeu->nbJoueur-1;i++);
 	{
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].points);
 		fprintf(file_save, "%i ", jeu->listeJoueur[i].idJ);
@@ -643,7 +643,7 @@ t_regleJeu MOTEUR_ChargementBase(char * load)
 	// >> Nombre d'IA
 	fscanf(file, "%i", &regleJeu.nbIA);
 	// >> Tableau des niveaus des IA
-	for(i=0; i<regleJeu.nbIA;i++)
+	for(i=0; i<=regleJeu.nbIA-1;i++)
 	{
 		fscanf(file, "%i", &niveauIA);
 		regleJeu.tab_nivIA[i]=niveauIA;
@@ -701,9 +701,9 @@ t_jeu * MOTEUR_chargement(t_jeu * jeu, char * save)
 
 	// >>> PLATEAU DE JEU
 	
-	for(i=0;i<jeu->nbCaseX;i++)
+	for(i=0;i<=jeu->nbCaseX-1;i++)
 	{
-		for(j=0;j<jeu->nbCaseY;j++)
+		for(j=0;j<=jeu->nbCaseY-1;j++)
 		{
 			// Enregistrement des pièces 
 			fscanf(file_load, "%i", &creuse); 		
@@ -768,7 +768,7 @@ t_jeu * MOTEUR_chargement(t_jeu * jeu, char * save)
 
 	// >>> JOUEURS
 	
-	for(i=0;i<jeu->nbJoueur-1;i++)
+	for(i=0;i<jeu->nbJoueur;i++)
 	{
 		fscanf(file_load, "%i", &jeu->listeJoueur[i].points);
 
