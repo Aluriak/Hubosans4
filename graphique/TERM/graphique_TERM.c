@@ -215,6 +215,26 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
 	{
 	       action.typePiece = PLEINE;
 	}
+	else if(tolower(pieceUser) == 'h') // appel de l'aide
+	{
+	       action.typePiece = VIDE;
+               action.colonne = 4;
+	}
+	else if(tolower(pieceUser) == 's') // appel de la sauvegarde
+	{
+	       action.typePiece = VIDE;
+               action.colonne = 2;
+	}
+	else if(tolower(pieceUser) == 'a') // appel à l'annulation de coup
+	{
+	       action.typePiece = VIDE;
+               action.colonne = 3;
+	}
+	else if(tolower(pieceUser) == 'q') // appel de quit
+	{
+	       action.typePiece = VIDE;
+               action.colonne = 5;
+	}
 	else
 	{
 		return action;
@@ -376,10 +396,10 @@ void TERM_afficherHelp()
 	printf("\t==HELP MENU==\n\n");
 	printf("Bienvenue dans le menu d'aide du Puissance 4 !\n\n");
 	printf("\t##Commandes HORS JEU##\n");
-	printf("\t\t Taper 1 pour SAUVEGARDER\n");
-	printf("\t\t Taper 2 pour ANNULER LE DERNIER COUP\n");
-	printf("\t\t Taper 3 pour afficher HELP\n");
-	printf("\t\t Taper 4 pour QUITTER\n\n");
+	printf("\t\t Taper s pour SAUVEGARDER\n");
+	printf("\t\t Taper a pour ANNULER LE DERNIER COUP\n");
+	printf("\t\t Taper h pour afficher HELP\n");
+	printf("\t\t Taper q pour QUITTER\n\n");
 	printf("\t##Commandes JEU##\n");
 	printf("\t\t Entrez d'abord le numéro de la colonne, puis le type de pièce\n");
 	printf("\t\t >>> INDEX TYPES PIECES <<<\n");
