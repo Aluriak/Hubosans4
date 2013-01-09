@@ -84,7 +84,6 @@ int IA_h(t_jeu* jeu, int idIA) {
 
 
 
-printf("alignMax = %i\n", alignMax);
     if(joueur_max == idIA) {
         if(alignMax >= 3)
             return 90;

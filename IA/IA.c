@@ -7,8 +7,21 @@
  * IA EFFECTUER TOUR
  */
 // effectue le tour de jeu de l'oya selon le fonctionnement de l'IA
-// s'appuie sur un algorithme minimax, et une heuristique
 t_action IA_effectuerTour(t_jeu *jeu) {
+    // action choisie au hasard...
+    t_action action = {randN(jeu->nbCaseX), randN(3)+1};
+    while(!t_jeu_oyaPossedePiece(jeu, action.typePiece)) {
+        action.typePiece++;
+        if(action.typePiece > 3)
+            action.typePiece = 1;
+    }
+    return action;
+}
+
+/*
+ * Echec de création de l'IA, malgré les heures passées à chercher l'origine des problèmes
+ *
+// s'appuie sur un algorithme minimax, et une heuristique
     // INITIALISATIONS
     int idIA = jeu->oya; // id du joueur joué par l'IA
     int prioMax = -1; // priorite maximum trouvée, correspondant à la priorité 
@@ -21,7 +34,7 @@ t_action IA_effectuerTour(t_jeu *jeu) {
     t_action actionPrio = {4, 1}; // action ayant la meilleure priorité
     // on créer un jeu, copié-collé du précédent.
     // on travaillera sur cette copie pour éviter de toucher au jeu lui-même
-    //jeu = t_jeu_copie(jeu); // on perd le pointeur vers le jeu originel, dont on n'a plus
+    jeu = t_jeu_copie(jeu); // on perd le pointeur vers le jeu originel, dont on n'a plus
         // besoin
 
     // PARCOURS DES BRANCHES DU PREMIER NOEUD, et appel à minimax pour chacune
@@ -68,16 +81,17 @@ t_action IA_effectuerTour(t_jeu *jeu) {
     } // end for each colonne
 
     // LIBÉRATIONS
-    //t_jeu_free(jeu); // plus besoin du jeu
+    t_jeu_free(jeu); // plus besoin du jeu
     // renvoit de l'action
     return actionPrio;
 }
+// */
 
 
 
 /*
  * IA ALPHA BETA
- */
+ *
 // étudie récursivement le plateau de jeu, et retourne la priorité du jeu actuel 
 //      suite à une étude sur la profondeur indiquée.
 //      Appel récursif, algorithme minimax employé avec élagage alpha-bêta.
@@ -87,13 +101,14 @@ int IA_alphaBeta(t_jeu* jeu, int alpha, int beta, int profondeur, int idIA) {
     // INITIALISATIONS
     t_action action; // action utilisée dans les boucles
     int score, gagnant; // score renvoyé récursivement et valeur de retour du moteur
+    int inter; // valeur intermédiarie de traitement
     // TRAITEMENTS
     if(profondeur <= 0)
         return IA_h(jeu, idIA);
     else {
         // si noeud min
         if(jeu->oya != idIA) {
-            score = 1000; // score infini
+            inter = alpha;
             // pour chaque coup possible
             // pour chaque colonne
             for(action.colonne=0; action.colonne < jeu->nbCaseX; action.colonne++) {
@@ -105,16 +120,16 @@ int IA_alphaBeta(t_jeu* jeu, int alpha, int beta, int profondeur, int idIA) {
                         // on joue le coups et récupère le gagnant, ou le code de retour
                         gagnant = MOTEUR_tourSuivant(jeu, action);
                         // si jeu continu normalement
-                        if(gagnant >= -1 && gagnant < jeu->nbJoueur) { 
-                            score = min(score, IA_alphaBeta(jeu, alpha, beta, 
-                                            profondeur-1, idIA));
+                        if(gagnant == -1) { 
+                            score = IA_alphaBeta(jeu, inter, beta, profondeur-1, idIA);
                             // annulation du coup précédent
                             MOTEUR_annulerDernierCoup(jeu); 
-		            if(alpha >= score) // coupure alpha
-                                return score;
-                            beta = min(beta, score);
+                            if(score > inter)
+                                inter = score;
+		            if(inter >= beta) // coupure alpha
+                                return inter;
                         }
-                        // sinon, si ya un gagnant (qui est forcément l'adversaire
+                        // sinon, si ya un gagnant (qui est forcément l'adversaire)
                         else if(gagnant >= 0 && gagnant < jeu->nbJoueur) {
                             MOTEUR_annulerDernierCoup(jeu); // annulation du coup précédent
                             return 0; // situation non désirée !
@@ -126,7 +141,7 @@ int IA_alphaBeta(t_jeu* jeu, int alpha, int beta, int profondeur, int idIA) {
         }
         // si noeud max
         else if(jeu->oya == idIA) {
-            score = -1000; // score -infini
+            inter = beta; // score -infini
             // pour chaque coup possible
             // pour chaque colonne
             for(action.colonne=0; action.colonne < jeu->nbCaseX; action.colonne++) {
@@ -138,30 +153,31 @@ int IA_alphaBeta(t_jeu* jeu, int alpha, int beta, int profondeur, int idIA) {
                         // on joue le coups et récupère le gagnant, ou le code de retour
                         gagnant = MOTEUR_tourSuivant(jeu, action);
                         // si jeu continu normalement
-                        if(gagnant >= -1 && gagnant < jeu->nbJoueur) { 
-                            score = max(score, IA_alphaBeta(jeu, alpha, beta, 
-                                            profondeur-1, idIA));
+                        if(gagnant == -1) { 
+                            score = IA_alphaBeta(jeu, alpha, inter, profondeur-1, idIA);
                             // annulation du coup précédent
                             MOTEUR_annulerDernierCoup(jeu); 
-		            if(score >= beta) // coupure beta
-                                return score;
-                            alpha = max(alpha, score);
+		            if(score < inter) // coupure beta
+                                inter = score;
+                            if(inter <= alpha)
+                                return inter;
                         }
                         // sinon, si ya un gagnant (qui est forcément l'IA)
                         else if(gagnant >= 0 && gagnant < jeu->nbJoueur) {
                             MOTEUR_annulerDernierCoup(jeu); // annulation du coup précédent
-                            return 90; // situation désirée !
+                            return 90+profondeur; // situation désirée !
                         }// sinon, ya eu un problème, on passe à la suite sans traitement
                     } // pas de pièce dispo, on arrêta là pour cette pièce
 
                 } // end boucle piece
             } // end boucle colonne
         }
-        return score;
+        return inter;
     } // fin si jeu pas une feuille
 } // end alpha-bêta
 
 
+// */
 
 
 

@@ -241,8 +241,8 @@ t_action TERM_entreeUtilisateur(t_jeu *jeu) {
 //
 t_regleJeu TERM_afficherMenu() {
     int choice = 0; // Contient le choix de l'user
-    int niveauIA = 4; // niveau des IA
-    int i = 0; // itérateur de boucle
+    //int niveauIA = 4; // niveau des IA INUTILISE car par d'IA
+    //int i = 0; // itérateur de boucle INUTILISE car pas d'IA
     t_regleJeu regleJeu = {-1,-1};
     // Menu
     TERM_clear();
@@ -290,6 +290,7 @@ t_regleJeu TERM_afficherMenu() {
 	    {
 	    	regleJeu.allow_last = false;
 	    }
+            /* INUTILE:  les IA ne fonctionnent pas...
 	    // niveau des IA (entre 1 et 4)
 	    if(regleJeu.nbIA > 0) {
 		printf("Niveau des IA :\n\n");
@@ -307,15 +308,11 @@ t_regleJeu TERM_afficherMenu() {
 		    regleJeu.tab_nivIA[i] = niveauIA;
 		}
 	    }
+            // */  
 	    // nombre de pièces
 	    regleJeu.nbPieceBloquante = regleJeu.nbJoueurs;
 	    regleJeu.nbPiecePleine = regleJeu.nbJoueurs*20;
 	    regleJeu.nbPieceCreuse = regleJeu.nbJoueurs*20;
-            // DEBUG
-	    /*regleJeu.nbPieceBloquante = 100;*/
-	    /*regleJeu.nbPiecePleine = 0;*/
-	    /*regleJeu.nbPieceCreuse = 0;*/
-            // /DEBUG
 	    // On retourne les regles du jeu
 	    return regleJeu;
 	case 2:
