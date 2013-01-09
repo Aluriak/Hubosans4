@@ -442,7 +442,7 @@ void TERM_afficherHubosans4()
 // Affiche la demande de slot à l'user
 t_action TERM_afficherModuleSauvegarde(t_jeu * jeu)
 {
-	t_action action;
+	t_action action  ={-1,0};
 	TERM_afficherSlotSauvegarde();
 	printf(">> Entrez le numéro du slot : ");
 	scanf("%i", &action.colonne);
