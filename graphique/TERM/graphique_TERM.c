@@ -483,32 +483,33 @@ void TERM_afficherScore()
 	int points = 0; // Contiendra les points
 	char * nom = malloc(20*sizeof(char));
 	// Ouverture du fichiers des scores
-	FILE * score = fopen("save/score.txt", "r");
-	if(!fopen("save/score.txt", "r"))
-	{
-		printf("Aucun score !\n");
-		return; 
-	}
-	// Nettoyage & affichage logo
-	TERM_clear();
-	TERM_afficherHubosans4();
-	// Affichage données tableau
-	printf("\t NAME\t\tSCORE\n\n");
-	// Récupération première ligne
-	fscanf(score, "%s%i", nom, &points);
-	// Tant que pas fin de fichier
-	while(!feof(score))
-	{
-		// Affichage données
-		fprintf(stderr, "\t %s", nom);
-		fprintf(stderr, "\t\t%i\n", points);
-		// Récupération nouvelles données
-		fscanf(score, "%s %i", nom, &points);
-	}
-	// Fermeture fichier
-	fclose(score);
-	// Libération nom
-	free(nom);
+	FILE * score = fopen(FILE_SCORE, "r");
+        if(!score) {
+            printf("Pas de fichier Score; jouez pour le créer, et le remplir !\n");
+            FLUX_ERREUR("TERM","FILE_SCORE non ouvert");
+        }
+        else {
+	    // Nettoyage & affichage logo
+	    TERM_clear();
+	    TERM_afficherHubosans4();
+	    // Affichage données tableau
+	    printf("\t NAME\t\tSCORE\n\n");
+	    // Récupération première ligne
+	    fscanf(score, "%s%i", nom, &points);
+	    // Tant que pas fin de fichier
+	    while(!feof(score))
+	    {
+		    // Affichage données
+		    fprintf(stderr, "\t %s", nom);
+		    fprintf(stderr, "\t\t%i\n", points);
+		    // Récupération nouvelles données
+		    fscanf(score, "%s %i", nom, &points);
+	    }
+	    // Fermeture fichier
+	    fclose(score);
+	    // Libération nom
+	    free(nom);
+        }
 }
 
 
