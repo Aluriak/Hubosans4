@@ -60,8 +60,6 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int tab_nivIA[]) {
     jeu->listeJoueur = malloc(jeu->nbJoueur * sizeof(t_joueur));
     if(jeu->listeJoueur == NULL) {
 	FLUX_ERREUR("MODULE MOTEUR", "Allocation mémoire échouée à l'initialisation de la table de joueur");
-	// libérations mémoires allouées
-	free(jeu);
 	return false;
     }
     // initialisation des joueurs
@@ -73,7 +71,7 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int tab_nivIA[]) {
             nivIA = tab_nivIA[j];
         else
             nivIA = randN(4)+1; // valeur au hasard pour les joueurs
-        nom = malloc(8*sizeof(char));
+        nom = malloc(10*sizeof(char));
             nom[0] = 'J';
             nom[1] = 'o';
             nom[2] = 'u';
@@ -82,6 +80,7 @@ bool t_jeu_init_listeJoueur(t_jeu* jeu, int nbIA, int tab_nivIA[]) {
             nom[5] = 'r';
             nom[6] = ' ';
             nom[7] = i+49;
+            nom[8] = '\0';
 	t_joueur_init(&jeu->listeJoueur[i], 
                     jeu->nbPieceBloquante,
                     jeu->nbPiecePleine,
@@ -123,12 +122,8 @@ bool t_jeu_init_plateau(t_jeu* jeu) {
     // 	(colonnes du plateau de jeu)
     jeu->plateau = malloc(jeu->nbCaseX * sizeof(t_case*));
     if(jeu->plateau == NULL) {
-	FLUX_ERREUR("MODULE MOTEUR", "Allocation mémoire échouée à l'initialisation du plateau de jeu");
-	// libérations mémoires allouées
-        for(i = 0; i < jeu->nbJoueur; i++)
-            t_joueur_free(&jeu->listeJoueur[i]);
-	free(jeu->listeJoueur);
-	free(jeu);
+	FLUX_ERREUR("MODULE MOTEUR", 
+                "Allocation mémoire échouée à l'initialisation du plateau de jeu");
 	return false;
     }
     // pour chaque case de premier tableau
@@ -136,12 +131,8 @@ bool t_jeu_init_plateau(t_jeu* jeu) {
 	// on alloue une colonne
 	jeu->plateau[i] = malloc(jeu->nbCaseY * sizeof(t_case));
 	if(jeu->plateau[i] == NULL) {
-	    FLUX_ERREUR("MODULE MOTEUR", "Allocation mémoire échouée à l'initialisation d'une colonne du plateau de jeu");
-	    // libérations mémoires allouées
-	    free(jeu->plateau);
-            for(i = 0; i < jeu->nbJoueur; i++)
-                t_joueur_free(&jeu->listeJoueur[i]);
-	    free(jeu->listeJoueur);
+	    FLUX_ERREUR("MODULE MOTEUR", 
+        "Allocation mémoire échouée à l'initialisation d'une colonne du plateau de jeu");
 	    return false;
 	}
 	// Et on initialise chacune des cases créées
